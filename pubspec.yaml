@@ -66,13 +66,13 @@ flutter:
   fonts:
     - family: Amiri
       fonts:
-        - asset: assets/fonts/Amiri-Regular.ttf
-        - asset: assets/fonts/Amiri-Bold.ttf
+        - asset: assets/fonts/Amiri/Amiri-Bold.ttf
+        - asset: assets/fonts/Amiri/Amiri-Bold.ttf
           weight: 700
-    - family: Tajwal
+    - family: Tajawal
       fonts:
-        - asset: assets/fonts/Tajwal-Regular.ttf
-        - asset: assets/fonts/Tajwal-Bold.ttf
+        - asset: assets/fonts/Tajawal/Tajawal-Regular.ttf
+        - asset: assets/fonts/Tajawal/Tajawal-Bold.ttf
           weight: 700
 
 flutter_gen:
