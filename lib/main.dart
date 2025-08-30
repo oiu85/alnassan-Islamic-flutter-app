@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nassan_app/features/home/presintaion/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,13 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Column(
-          children: [
-            Row(children: [Text("Home")]),
-          ],
-        ),
-      ),
+      home: HomePage()
     );
   }
 }
