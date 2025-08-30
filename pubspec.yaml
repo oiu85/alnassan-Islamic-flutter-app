@@ -1,6 +1,6 @@
 name: nassan_app
 description: "Alnassan App Islamic App"
-publish_to: 'none' # لا تنشر على pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
