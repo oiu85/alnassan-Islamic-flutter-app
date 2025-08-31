@@ -4,10 +4,16 @@ import 'package:injectable/injectable.dart';
 @singleton
 class NetworkClient {
   final Dio _dio;
+  static const String baseUrl = 'https://dev-backend-alnasaanapi.daira.website/api/v1';
 
   NetworkClient() : _dio = Dio(BaseOptions(
+    baseUrl: baseUrl,
     connectTimeout: const Duration(seconds: 20),
     receiveTimeout: const Duration(seconds: 15),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
   ));
 
   /// Performs a GET request
@@ -73,7 +79,32 @@ class NetworkClient {
   }
 
   void _handleDioError(DioException error) {
-    // Custom error handling logic, e.g., logging
-    // For now, just rethrow
+    switch (error.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
+        throw DioException(
+          requestOptions: error.requestOptions,
+          error: 'Connection timeout. Please check your internet connection.',
+          type: error.type,
+        );
+      case DioExceptionType.connectionError:
+        throw DioException(
+          requestOptions: error.requestOptions,
+          error: 'No internet connection available.',
+          type: error.type,
+        );
+      case DioExceptionType.badResponse:
+        final statusCode = error.response?.statusCode;
+        final responseData = error.response?.data;
+        throw DioException(
+          requestOptions: error.requestOptions,
+          response: error.response,
+          error: 'Server error: $statusCode - ${responseData?['message'] ?? 'Unknown error'}',
+          type: error.type,
+        );
+      default:
+        throw error;
+    }
   }
 }

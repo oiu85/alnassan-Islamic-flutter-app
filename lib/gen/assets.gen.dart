@@ -38,6 +38,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/helal.png
   AssetGenImage get helal => const AssetGenImage('assets/images/helal.png');
 
+  /// File path: assets/images/img.png
+  AssetGenImage get img => const AssetGenImage('assets/images/img.png');
+
   /// File path: assets/images/mohhamed.png
   AssetGenImage get mohhamed => const AssetGenImage('assets/images/mohhamed.png');
 
@@ -65,6 +68,7 @@ class $AssetsImagesGen {
     circulerZh,
     headphone,
     helal,
+    img,
     mohhamed,
     mousqe,
     nassanName,
@@ -88,6 +92,15 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/candleBig.svg
   SvgGenImage get candleBig => const SvgGenImage('assets/svg/candleBig.svg');
+
+  /// File path: assets/svg/card_background.svg
+  SvgGenImage get cardBackground => const SvgGenImage('assets/svg/card_background.svg');
+
+  /// File path: assets/svg/carosell.svg
+  SvgGenImage get carosell => const SvgGenImage('assets/svg/carosell.svg');
+
+  /// File path: assets/svg/carosell_resverse.svg
+  SvgGenImage get carosellResverse => const SvgGenImage('assets/svg/carosell_resverse.svg');
 
   /// File path: assets/svg/ceirculer_zh.svg
   SvgGenImage get ceirculerZh => const SvgGenImage('assets/svg/ceirculer_zh.svg');
@@ -119,6 +132,9 @@ class $AssetsSvgGen {
     backgroundCandlesZh,
     backgroundZh,
     candleBig,
+    cardBackground,
+    carosell,
+    carosellResverse,
     ceirculerZh,
     headphone,
     helal,
