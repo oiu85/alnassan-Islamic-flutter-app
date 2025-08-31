@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nassan_app/features/splash_screen/presintaion/pages/splash_screen.dart';
-import 'package:nassan_app/features/home/presintaion/pages/home_page.dart';
-
+import '../features/home/presentation/pages/home_page.dart';
+import '../features/splash_screen/presentation/pages/splash_screen.dart';
 class AppRoutes {
   static const String splash = '/';
   static const String home = '/home';

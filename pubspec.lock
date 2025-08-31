@@ -483,6 +483,19 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
+  flutter_localization:
+    dependency: "direct main"
+    description:
+      name: flutter_localization
+      sha256: "578a73455a0deffc4169ef9372ba0562a3e2cff563e5c524ea87bc96daa519c0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.3"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -1290,6 +1303,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.1"
+  staggered_grid_view:
+    dependency: "direct main"
+    description:
+      name: staggered_grid_view
+      sha256: f8f5d5a6ca4bb07778fcbe556969ba79a16893fd97813260045a9c76a5ab9136
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   stream_channel:
     dependency: transitive
     description:
