@@ -50,6 +50,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/qurane.png
   AssetGenImage get qurane => const AssetGenImage('assets/images/qurane.png');
 
+  /// File path: assets/images/splash-screeen.png
+  AssetGenImage get splashScreeen => const AssetGenImage('assets/images/splash-screeen.png');
+
   /// File path: assets/images/tablet.png
   AssetGenImage get tablet => const AssetGenImage('assets/images/tablet.png');
 
@@ -66,6 +69,7 @@ class $AssetsImagesGen {
     mousqe,
     nassanName,
     qurane,
+    splashScreeen,
     tablet,
   ];
 }
