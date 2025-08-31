@@ -26,27 +26,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Card(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 2),
-              width: double.infinity,
-              child: Stack(
-                textDirection: TextDirection.rtl,
-              children: [
-                Positioned(
-                  top: -30,
-                  left: -30,
-                  child: Image.asset(Assets.images.circulerZh.path),
-                ),
-
-              ],
-              )
-            ),
-          ),
-        ],
-      ),
+      body: Center(child: Text("hello")),
     );
   }
 }

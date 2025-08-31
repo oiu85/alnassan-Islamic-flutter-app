@@ -14,6 +14,6 @@ class FontFamily {
   /// Font family: Amiri
   static const String amiri = 'Amiri';
 
-  /// Font family: Tajwal
-  static const String tajwal = 'Tajwal';
+  /// Font family: Tajawal
+  static const String tajawal = 'Tajawal';
 }

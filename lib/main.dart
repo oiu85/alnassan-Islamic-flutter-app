@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nassan_app/features/home/presintaion/pages/home_page.dart';
+import 'package:nassan_app/features/splash_screen/presintaion/pages/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage()
+      title: 'Nassan App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const SplashScreen(),
     );
   }
 }
