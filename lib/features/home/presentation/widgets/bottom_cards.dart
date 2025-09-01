@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
@@ -7,12 +8,16 @@ import '../../../../gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import '../../../../gen/fonts.gen.dart';
+
 class ContentCard extends StatelessWidget {
   final String title;
   final String imagePath;
-
+  final Image cardMainImage;
   final Color waveColor;
   final Color cardColor;
+  final double  paddingTop;
+  final double paddingRight;
 
   const ContentCard({
     super.key,
@@ -20,6 +25,9 @@ class ContentCard extends StatelessWidget {
     required this.imagePath,
     required this.waveColor,
     required this.cardColor,
+    required this.cardMainImage,
+    required this.paddingTop,
+    required this.paddingRight,
   });
 
   @override
@@ -37,18 +45,21 @@ class ContentCard extends StatelessWidget {
             color: waveColor,
             fit: BoxFit.cover,
           ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: FontFamily.tajawal,
+                fontSize: 18,
               ),
             ),
+          ),
+          Positioned(
+            top: paddingTop,
+            right: paddingRight,
+            child: cardMainImage,
           ),
         ],
       ),
@@ -70,50 +81,66 @@ class BottomCards extends StatelessWidget {
           crossAxisCellCount: 1,
           mainAxisExtent: 180,
           child: ContentCard(
-            title: "الخطب والدروس",
-            imagePath: Assets.images.mousqe.path,
+            paddingRight: 54,
+            paddingTop: 40,
+            cardMainImage: Image.asset(Assets.images.qurane.path,width: 90,height: 90,),
+            title: "الفتاوى الشرعية",
+            imagePath: Assets.images.qurane.path,
             cardColor: AppColors.secondaryLight,
-            waveColor: AppColors.homeCard,
+            waveColor: Color(0xFFFAF066),
           ),
         ),
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: 220,
           child: ContentCard(
-            title: "الفتاوى الشرعية",
-            imagePath: Assets.images.qurane.path,
-            cardColor: AppColors.secondaryLight,
+            paddingRight: 54,
+            paddingTop: 40,
+            title: "الخطب والدروس",
+            imagePath: Assets.images.mousqe.path,
+            cardColor: Color(0xFFF9F5E3).withOpacity(0.8),
             waveColor: Color(0xE8DCCC66),
+            cardMainImage: Image.asset(Assets.images.mousqe.path,width: 90,height: 90,),
           ),
         ),
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
-          mainAxisExtent: 150,
+          mainAxisExtent: 220,
           child: ContentCard(
-            title: "المكتبة الصوتية",
-            imagePath: Assets.images.headphone.path,
-            cardColor: AppColors.secondaryLight,
-            waveColor: Color(0xFFFAF066),
-          ),
-        ),
-        StaggeredGridTile.extent(
-          crossAxisCellCount: 1,
-          mainAxisExtent: 200,
-          child: ContentCard(
+            paddingRight: 54,
+            paddingTop: 40,
             title: "المكتبة المرئية",
             imagePath: Assets.images.tablet.path,
-            cardColor: AppColors.secondaryLight,
+            cardColor: Color(0xFFF9F5E3).withOpacity(0.8),
             waveColor: Color(0xE8DCCC66),
+            cardMainImage: Image.asset(Assets.images.tablet.path,width: 90,height: 90,),
           ),
         ),
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: 180,
           child: ContentCard(
+            paddingRight: 60,
+            paddingTop: 55,
+            title: "المكتبة الصوتية",
+            imagePath: Assets.images.headphone.path,
+            cardColor: AppColors.secondaryLight,
+            waveColor: Color(0xFFFAF066),
+            cardMainImage: Image.asset(Assets.images.headphone.path,width: 70,height: 70,),
+          ),
+        ),
+
+        StaggeredGridTile.extent(
+          crossAxisCellCount: 1,
+          mainAxisExtent: 180,
+          child: ContentCard(
+            paddingRight: 54,
+            paddingTop: 40,
             title: "كلمات في مناسبات",
             imagePath: Assets.images.helal.path,
             cardColor: AppColors.secondaryLight,
             waveColor: Color(0xFFFAF066),
+            cardMainImage: Image.asset(Assets.images.helal.path,width: 90,height: 90),
           ),
         ),
       ],
