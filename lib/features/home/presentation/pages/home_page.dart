@@ -86,7 +86,6 @@ class HomePage extends StatelessWidget {
               children: [
                 Center(
                   child: Container(
-                  color: Colors.red,
                   height: 10,
                   ),
                 ),

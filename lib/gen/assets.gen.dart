@@ -23,6 +23,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/background_zh.png
   AssetGenImage get backgroundZh => const AssetGenImage('assets/images/background_zh.png');
 
+  /// File path: assets/images/book.png
+  AssetGenImage get book => const AssetGenImage('assets/images/book.png');
+
   /// File path: assets/images/candleBig.png
   AssetGenImage get candleBig => const AssetGenImage('assets/images/candleBig.png');
 
@@ -38,8 +41,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/helal.png
   AssetGenImage get helal => const AssetGenImage('assets/images/helal.png');
 
+  /// File path: assets/images/home-2.png
+  AssetGenImage get home2 => const AssetGenImage('assets/images/home-2.png');
+
   /// File path: assets/images/img.png
   AssetGenImage get img => const AssetGenImage('assets/images/img.png');
+
+  /// File path: assets/images/message-add.png
+  AssetGenImage get messageAdd => const AssetGenImage('assets/images/message-add.png');
 
   /// File path: assets/images/mohhamed.png
   AssetGenImage get mohhamed => const AssetGenImage('assets/images/mohhamed.png');
@@ -53,6 +62,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/qurane.png
   AssetGenImage get qurane => const AssetGenImage('assets/images/qurane.png');
 
+  /// File path: assets/images/search.png
+  AssetGenImage get search => const AssetGenImage('assets/images/search.png');
+
   /// File path: assets/images/splash-screeen.png
   AssetGenImage get splashScreeen => const AssetGenImage('assets/images/splash-screeen.png');
 
@@ -63,16 +75,20 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
     backgroundCandlesZh,
     backgroundZh,
+    book,
     candleBig,
     candleSmall,
     circulerZh,
     headphone,
     helal,
+    home2,
     img,
+    messageAdd,
     mohhamed,
     mousqe,
     nassanName,
     qurane,
+    search,
     splashScreeen,
     tablet,
   ];
