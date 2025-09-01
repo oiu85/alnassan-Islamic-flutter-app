@@ -94,6 +94,19 @@ class $AssetsImagesGen {
   ];
 }
 
+class $AssetsLottieGen {
+  const $AssetsLottieGen();
+
+  /// File path: assets/lottie/NoData.json
+  String get noData => 'assets/lottie/NoData.json';
+
+  /// File path: assets/lottie/NoInternet.json
+  String get noInternet => 'assets/lottie/NoInternet.json';
+
+  /// List of all assets
+  List<String> get values => [noData, noInternet];
+}
+
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
@@ -166,6 +179,7 @@ class Assets {
   const Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLottieGen lottie = $AssetsLottieGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
 }
 

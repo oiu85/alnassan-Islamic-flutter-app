@@ -1,26 +1,38 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import '../config/api_config.dart';
+import 'utils/logger_util.dart';
 
 @singleton
 class NetworkClient {
   final Dio _dio;
-  static const String baseUrl = 'https://dev-backend-alnasaanapi.daira.website/api/v1';
+  static const String baseUrl = ApiConfig.baseUrl;
+  static const String homeUrl = ApiConfig.homeUrl;
 
-  NetworkClient() : _dio = Dio(BaseOptions(
-    baseUrl: baseUrl,
-    connectTimeout: const Duration(seconds: 20),
-    receiveTimeout: const Duration(seconds: 15),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-  ));
+  NetworkClient()
+    : _dio = Dio(
+        BaseOptions(
+          baseUrl: baseUrl,
+          connectTimeout: const Duration(seconds: 20),
+          receiveTimeout: const Duration(seconds: 15),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
 
   /// Performs a GET request
-  Future<Response> get(String url, {Map<String, dynamic>? queryParameters}) async {
+  Future<Response> get(
+    String url, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     _validateUrl(url);
     try {
-      return await _dio.get(url, queryParameters: queryParameters);
+      LoggerUtil.logStep('GET Request', details: 'URL: $url${queryParameters != null ? '\nParams: $queryParameters' : ''}');
+      final response = await _dio.get(url, queryParameters: queryParameters);
+      LoggerUtil.logApiResponse('GET Response', response.data);
+      return response;
     } on DioException catch (e) {
       _handleDioError(e);
       rethrow;
@@ -28,10 +40,17 @@ class NetworkClient {
   }
 
   /// Performs a POST request
-  Future<Response> post(String url, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<Response> post(
+    String url, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     _validateUrl(url);
     try {
-      return await _dio.post(url, data: data, queryParameters: queryParameters);
+      LoggerUtil.logStep('POST Request', details: 'URL: $url${data != null ? '\nData: $data' : ''}${queryParameters != null ? '\nParams: $queryParameters' : ''}');
+      final response = await _dio.post(url, data: data, queryParameters: queryParameters);
+      LoggerUtil.logApiResponse('POST Response', response.data);
+      return response;
     } on DioException catch (e) {
       _handleDioError(e);
       rethrow;
@@ -39,10 +58,17 @@ class NetworkClient {
   }
 
   /// Performs a PUT request
-  Future<Response> put(String url, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<Response> put(
+    String url, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     _validateUrl(url);
     try {
-      return await _dio.put(url, data: data, queryParameters: queryParameters);
+      LoggerUtil.logStep('PUT Request', details: 'URL: $url${data != null ? '\nData: $data' : ''}${queryParameters != null ? '\nParams: $queryParameters' : ''}');
+      final response = await _dio.put(url, data: data, queryParameters: queryParameters);
+      LoggerUtil.logApiResponse('PUT Response', response.data);
+      return response;
     } on DioException catch (e) {
       _handleDioError(e);
       rethrow;
@@ -50,10 +76,21 @@ class NetworkClient {
   }
 
   /// Performs a PATCH request
-  Future<Response> patch(String url, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<Response> patch(
+    String url, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     _validateUrl(url);
     try {
-      return await _dio.patch(url, data: data, queryParameters: queryParameters);
+      LoggerUtil.logStep('PATCH Request', details: 'URL: $url${data != null ? '\nData: $data' : ''}${queryParameters != null ? '\nParams: $queryParameters' : ''}');
+      final response = await _dio.patch(
+        url,
+        data: data,
+        queryParameters: queryParameters,
+      );
+      LoggerUtil.logApiResponse('PATCH Response', response.data);
+      return response;
     } on DioException catch (e) {
       _handleDioError(e);
       rethrow;
@@ -61,10 +98,21 @@ class NetworkClient {
   }
 
   /// Performs a DELETE request
-  Future<Response> delete(String url, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<Response> delete(
+    String url, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     _validateUrl(url);
     try {
-      return await _dio.delete(url, data: data, queryParameters: queryParameters);
+      LoggerUtil.logStep('DELETE Request', details: 'URL: $url${data != null ? '\nData: $data' : ''}${queryParameters != null ? '\nParams: $queryParameters' : ''}');
+      final response = await _dio.delete(
+        url,
+        data: data,
+        queryParameters: queryParameters,
+      );
+      LoggerUtil.logApiResponse('DELETE Response', response.data);
+      return response;
     } on DioException catch (e) {
       _handleDioError(e);
       rethrow;
@@ -79,6 +127,12 @@ class NetworkClient {
   }
 
   void _handleDioError(DioException error) {
+    LoggerUtil.logError(
+      'Network Error',
+      stackTrace: '''Type: ${error.type}
+Request: ${error.requestOptions.uri}
+Error: ${error.error}''',
+    );
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
@@ -100,7 +154,8 @@ class NetworkClient {
         throw DioException(
           requestOptions: error.requestOptions,
           response: error.response,
-          error: 'Server error: $statusCode - ${responseData?['message'] ?? 'Unknown error'}',
+          error:
+              'Server error: $statusCode - ${responseData?['message'] ?? 'Unknown error'}',
           type: error.type,
         );
       default:
