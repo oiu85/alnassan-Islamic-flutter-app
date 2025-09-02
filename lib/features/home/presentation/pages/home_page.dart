@@ -4,13 +4,13 @@ import 'package:lottie/lottie.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
-
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
 import '../../domain/reprositers_imp.dart';
 import '../../../../core/network_client.dart';
 
+import '../widgets/articl_view_html.dart';
 import '../widgets/bottom_cards.dart';
 import '../widgets/home_carosell.dart';
 
@@ -37,8 +37,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          HomeBloc(HomeRepositoryImpl(NetworkClient()))
-            ..add(const FetchHomeDataEvent()),
+      HomeBloc(HomeRepositoryImpl(NetworkClient()))
+        ..add(const FetchHomeDataEvent()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state.status.isFail()) {
@@ -88,6 +88,7 @@ class HomePage extends StatelessWidget {
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: ListView(
+                shrinkWrap: true,  // Ensure ListView takes only necessary space
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5),
@@ -127,7 +128,6 @@ class HomePage extends StatelessWidget {
                   ),
                   SizedBox(height: 12),
                   Container(
-                    // padding: EdgeInsets.all(4),
                     height: 200,
                     decoration: BoxDecoration(
                       color: AppColors.secondary,
@@ -168,10 +168,9 @@ class HomePage extends StatelessWidget {
                               SizedBox(height: 10),
                               GestureDetector(
                                 onTap: () {
-                                  // TODO: Implement article details navigation
                                   final articleId = state.homeData?.data?.recentArticles?.first.articleId;
                                   if (articleId != null) {
-                                    // Navigate to article details
+                                    // Navigate to article details page
                                   }
                                 },
                                 child: Text(
@@ -187,7 +186,6 @@ class HomePage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        //* topRight
                         Positioned(
                           top: -16,
                           right: -14,
@@ -202,43 +200,12 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        //*TopLeft
                         Positioned(
                           top: -16,
                           left: -14,
                           child: ClipRRect(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(180),
-                            ),
-                            child: Image.asset(
-                              Assets.images.circulerZh.path,
-                              width: 76,
-                              height: 76,
-                            ),
-                          ),
-                        ),
-                        //* ButtomLeft
-                        Positioned(
-                          bottom: -16,
-                          left: -14,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(180),
-                            ),
-                            child: Image.asset(
-                              Assets.images.circulerZh.path,
-                              width: 76,
-                              height: 76,
-                            ),
-                          ),
-                        ),
-                        //*BottomRight
-                        Positioned(
-                          bottom: -16,
-                          right: -14,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(180),
                             ),
                             child: Image.asset(
                               Assets.images.circulerZh.path,
@@ -277,6 +244,9 @@ class HomePage extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   BottomCards(),
+                  HtmlExtractorPage(
+                    htmlResponse: '<p dir=\"RTL\">Your HTML content here</p>',
+                  ),
                 ],
               ),
             ),

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import '../config/api_config.dart';
-import 'utils/logger_util.dart';
+import 'utils/logger/log_helper.dart';
 
 @singleton
 class NetworkClient {
@@ -29,9 +29,9 @@ class NetworkClient {
   }) async {
     _validateUrl(url);
     try {
-      LoggerUtil.logStep('GET Request', details: 'URL: $url${queryParameters != null ? '\nParams: $queryParameters' : ''}');
+      LogHelper.logGetRequest(url, queryParams: queryParameters);
       final response = await _dio.get(url, queryParameters: queryParameters);
-      LoggerUtil.logApiResponse('GET Response', response.data);
+      LogHelper.logGetResponse(response.data);
       return response;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -47,9 +47,9 @@ class NetworkClient {
   }) async {
     _validateUrl(url);
     try {
-      LoggerUtil.logStep('POST Request', details: 'URL: $url${data != null ? '\nData: $data' : ''}${queryParameters != null ? '\nParams: $queryParameters' : ''}');
+      LogHelper.logPostRequest(url, data: data, queryParams: queryParameters);
       final response = await _dio.post(url, data: data, queryParameters: queryParameters);
-      LoggerUtil.logApiResponse('POST Response', response.data);
+      LogHelper.logPostResponse(response.data);
       return response;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -65,9 +65,9 @@ class NetworkClient {
   }) async {
     _validateUrl(url);
     try {
-      LoggerUtil.logStep('PUT Request', details: 'URL: $url${data != null ? '\nData: $data' : ''}${queryParameters != null ? '\nParams: $queryParameters' : ''}');
+      LogHelper.logPutRequest(url, data: data, queryParams: queryParameters);
       final response = await _dio.put(url, data: data, queryParameters: queryParameters);
-      LoggerUtil.logApiResponse('PUT Response', response.data);
+      LogHelper.logPutResponse(response.data);
       return response;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -83,13 +83,13 @@ class NetworkClient {
   }) async {
     _validateUrl(url);
     try {
-      LoggerUtil.logStep('PATCH Request', details: 'URL: $url${data != null ? '\nData: $data' : ''}${queryParameters != null ? '\nParams: $queryParameters' : ''}');
+      LogHelper.logPatchRequest(url, data: data, queryParams: queryParameters);
       final response = await _dio.patch(
         url,
         data: data,
         queryParameters: queryParameters,
       );
-      LoggerUtil.logApiResponse('PATCH Response', response.data);
+      LogHelper.logPatchResponse(response.data);
       return response;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -105,13 +105,13 @@ class NetworkClient {
   }) async {
     _validateUrl(url);
     try {
-      LoggerUtil.logStep('DELETE Request', details: 'URL: $url${data != null ? '\nData: $data' : ''}${queryParameters != null ? '\nParams: $queryParameters' : ''}');
+      LogHelper.logDeleteRequest(url, data: data, queryParams: queryParameters);
       final response = await _dio.delete(
         url,
         data: data,
         queryParameters: queryParameters,
       );
-      LoggerUtil.logApiResponse('DELETE Response', response.data);
+      LogHelper.logDeleteResponse(response.data);
       return response;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -127,12 +127,7 @@ class NetworkClient {
   }
 
   void _handleDioError(DioException error) {
-    LoggerUtil.logError(
-      'Network Error',
-      stackTrace: '''Type: ${error.type}
-Request: ${error.requestOptions.uri}
-Error: ${error.error}''',
-    );
+    LogHelper.logNetworkError(error);
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:

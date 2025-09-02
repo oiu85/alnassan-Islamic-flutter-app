@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../core/network_client.dart';
-import '../../../core/utils/logger_util.dart';
+import '../../../core/utils/logger/log_helper.dart';
 import '../data/model/home_model.dart';
 import '../data/repositories/home_repository.dart';
 
@@ -15,16 +15,16 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<HomeModel> getHomeData() async {
     try {
-      LoggerUtil.logStep('Fetching home data');
+      LogHelper.logFetchingHomeData();
       final response = await _networkClient.get(NetworkClient.homeUrl);
 
-      LoggerUtil.logApiResponse(
+      LogHelper.logApiResponse(
         'HomeRepository',
         'Response Status: ${response.statusCode}\nResponse Data: ${response.data}',
       );
 
       if (response.data == null || (response.data as Map).isEmpty) {
-        LoggerUtil.logError('No data received from server');
+        LogHelper.logNoDataReceived();
         throw DioException(
           requestOptions: RequestOptions(path: NetworkClient.homeUrl),
           error: 'No data received from server',
@@ -32,23 +32,14 @@ class HomeRepositoryImpl implements HomeRepository {
       }
 
       final homeModel = HomeModel.fromJson(response.data);
-      LoggerUtil.logStep(
-        'Data mapped to HomeModel successfully',
-        details: 'Model: $homeModel',
-      );
+      LogHelper.logDataMapped(homeModel);
 
       return homeModel;
     } on DioException catch (e) {
-      LoggerUtil.logError(
-        'Failed to fetch home data: ${e.message}',
-        stackTrace: e.stackTrace?.toString(),
-      );
+      LogHelper.logFetchErrorWithDetails(e);
       rethrow;
     } catch (e) {
-      LoggerUtil.logError(
-        'Error mapping data to HomeModel: $e',
-        stackTrace: (e as Error).stackTrace.toString(),
-      );
+      LogHelper.logMappingError(e);
       throw DioException(
         requestOptions: RequestOptions(path: NetworkClient.homeUrl),
         error: 'Error processing server response',

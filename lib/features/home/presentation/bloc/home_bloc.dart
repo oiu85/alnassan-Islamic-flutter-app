@@ -1,18 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 
-import '../../../../core/utils/logger_util.dart';
+import '../../../../core/utils/logger/log_helper.dart';
 
 import '../../../../core/models/page_state/bloc_status.dart';
-import '../../data/model/home_model.dart';
 import '../../domain/reprositers_imp.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final HomeRepositoryImpl _homeRepository;
+  final HomeRepositoryImpl _homeRepositoryImp;
 
-  HomeBloc(this._homeRepository) : super(const HomeState()) {
+  HomeBloc(this._homeRepositoryImp) : super(const HomeState()) {
     on<FetchHomeDataEvent>(_onFetchHomeData);
   }
 
@@ -21,14 +20,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     try {
-      LoggerUtil.logStep('Initiating home data fetch', details: 'Current state: ${state.status}');
+      LogHelper.logInitiatingHomeDataFetch(state.status);
       emit(state.copyWith(status: const BlocStatus.loading()));
 
-      final homeModel = await _homeRepository.getHomeData();
+      final homeModel = await _homeRepositoryImp.getHomeData();
 
       if (homeModel.data?.recentArticles == null || 
           homeModel.data!.recentArticles!.isEmpty) {
-        LoggerUtil.logError('No articles found in response', stackTrace: 'HomeModel data exists but recentArticles is null or empty');
+        LogHelper.logNoArticlesFound();
         emit(
           state.copyWith(
             status: const BlocStatus.fail(
@@ -39,7 +38,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         return;
       }
 
-      LoggerUtil.logStep('Home data fetch successful', details: 'Articles count: ${homeModel.data?.recentArticles?.length}');
+      LogHelper.logHomeDataFetchSuccess(homeModel.data?.recentArticles?.length);
       emit(
         state.copyWith(
           status: const BlocStatus.success(),
@@ -47,7 +46,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
     } on DioException catch (e) {
-      LoggerUtil.logError('Failed to fetch home data', stackTrace: e.stackTrace?.toString());
+      LogHelper.logFetchError(e);
       emit(
         state.copyWith(
           status: BlocStatus.fail(
@@ -56,10 +55,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
     } catch (e) {
-      LoggerUtil.logError(
-        'Unexpected error while fetching home data',
-        stackTrace: (e as Error).stackTrace.toString(),
-      );
+      LogHelper.logError('Unexpected error while fetching home data', stackTrace: (e as Error).stackTrace.toString(),);
       emit(
         state.copyWith(
           status: BlocStatus.fail(error: 'Unexpected error occurred'),
