@@ -71,6 +71,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/tablet.png
   AssetGenImage get tablet => const AssetGenImage('assets/images/tablet.png');
 
+  /// File path: assets/images/viewer_background.png
+  AssetGenImage get viewerBackground => const AssetGenImage('assets/images/viewer_background.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     backgroundCandlesZh,
@@ -91,6 +94,7 @@ class $AssetsImagesGen {
     search,
     splashScreeen,
     tablet,
+    viewerBackground,
   ];
 }
 

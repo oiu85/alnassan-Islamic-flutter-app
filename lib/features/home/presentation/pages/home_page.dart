@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
+import 'package:nassan_app/features/html_viewer/presentation/pages/store_html.dart';
+import 'package:nassan_app/features/html_viewer/presentation/adapters/home_to_html_viewer_adapter.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../bloc/home_bloc.dart';
@@ -9,8 +11,6 @@ import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
 import '../../domain/reprositers_imp.dart';
 import '../../../../core/network_client.dart';
-
-import '../widgets/articl_view_html.dart';
 import '../widgets/bottom_cards.dart';
 import '../widgets/home_carosell.dart';
 
@@ -152,16 +152,18 @@ class HomePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Text(
-                                  state.homeData?.data?.recentArticles?.first.articleSummary?.split('\n').take(5).join('\n') ?? '',
-                                  textAlign: TextAlign.center,
-                                  maxLines: 5,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: FontFamily.tajawal,
-                                    height: 1.5,
+                                padding: EdgeInsets.symmetric(horizontal: 25),
+                                child: Center(
+                                  child: Text(
+                                    state.homeData?.data?.recentArticles?.first.articleSummary?.split('\n').take(5).join('\n') ?? '',
+                                    textAlign: TextAlign.center,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: FontFamily.tajawal,
+                                      height: 1.5,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -170,7 +172,11 @@ class HomePage extends StatelessWidget {
                                 onTap: () {
                                   final articleId = state.homeData?.data?.recentArticles?.first.articleId;
                                   if (articleId != null) {
-                                    // Navigate to article details page
+                                    // Use the new HTML viewer adapter
+                                    HomeToHtmlViewerAdapter.navigateToHtmlViewerFromArticle(
+                                      context, 
+                                      state.homeData?.data?.recentArticles?.first
+                                    );
                                   }
                                 },
                                 child: Text(
@@ -214,6 +220,34 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Positioned(
+                          bottom: -16,
+                          right: -14,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(180),
+                            ),
+                            child: Image.asset(
+                              Assets.images.circulerZh.path,
+                              width: 76,
+                              height: 76,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: -16,
+                          left: -14,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(180),
+                            ),
+                            child: Image.asset(
+                              Assets.images.circulerZh.path,
+                              width: 76,
+                              height: 76,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -244,9 +278,6 @@ class HomePage extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   BottomCards(),
-                  HtmlExtractorPage(
-                    htmlResponse: '<p dir=\"RTL\">Your HTML content here</p>',
-                  ),
                 ],
               ),
             ),
