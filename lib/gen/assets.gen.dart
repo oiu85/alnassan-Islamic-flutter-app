@@ -35,6 +35,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/circuler_zh.png
   AssetGenImage get circulerZh => const AssetGenImage('assets/images/circuler_zh.png');
 
+  /// File path: assets/images/contact_us.png
+  AssetGenImage get contactUs => const AssetGenImage('assets/images/contact_us.png');
+
+  /// File path: assets/images/drawer_image.png
+  AssetGenImage get drawerImage => const AssetGenImage('assets/images/drawer_image.png');
+
   /// File path: assets/images/headphone.png
   AssetGenImage get headphone => const AssetGenImage('assets/images/headphone.png');
 
@@ -44,11 +50,17 @@ class $AssetsImagesGen {
   /// File path: assets/images/home-2.png
   AssetGenImage get home2 => const AssetGenImage('assets/images/home-2.png');
 
+  /// File path: assets/images/home.png
+  AssetGenImage get home => const AssetGenImage('assets/images/home.png');
+
   /// File path: assets/images/img.png
   AssetGenImage get img => const AssetGenImage('assets/images/img.png');
 
   /// File path: assets/images/message-add.png
   AssetGenImage get messageAdd => const AssetGenImage('assets/images/message-add.png');
+
+  /// File path: assets/images/message.png
+  AssetGenImage get message => const AssetGenImage('assets/images/message.png');
 
   /// File path: assets/images/mohhamed.png
   AssetGenImage get mohhamed => const AssetGenImage('assets/images/mohhamed.png');
@@ -65,14 +77,26 @@ class $AssetsImagesGen {
   /// File path: assets/images/search.png
   AssetGenImage get search => const AssetGenImage('assets/images/search.png');
 
+  /// File path: assets/images/settings.png
+  AssetGenImage get settings => const AssetGenImage('assets/images/settings.png');
+
   /// File path: assets/images/splash-screeen.png
   AssetGenImage get splashScreeen => const AssetGenImage('assets/images/splash-screeen.png');
 
   /// File path: assets/images/tablet.png
   AssetGenImage get tablet => const AssetGenImage('assets/images/tablet.png');
 
+  /// File path: assets/images/telegram.png
+  AssetGenImage get telegram => const AssetGenImage('assets/images/telegram.png');
+
   /// File path: assets/images/viewer_background.png
   AssetGenImage get viewerBackground => const AssetGenImage('assets/images/viewer_background.png');
+
+  /// File path: assets/images/wave_image1.png
+  AssetGenImage get waveImage1 => const AssetGenImage('assets/images/wave_image1.png');
+
+  /// File path: assets/images/wave_image2.png
+  AssetGenImage get waveImage2 => const AssetGenImage('assets/images/wave_image2.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
@@ -82,19 +106,27 @@ class $AssetsImagesGen {
     candleBig,
     candleSmall,
     circulerZh,
+    contactUs,
+    drawerImage,
     headphone,
     helal,
     home2,
+    home,
     img,
     messageAdd,
+    message,
     mohhamed,
     mousqe,
     nassanName,
     qurane,
     search,
+    settings,
     splashScreeen,
     tablet,
+    telegram,
     viewerBackground,
+    waveImage1,
+    waveImage2,
   ];
 }
 

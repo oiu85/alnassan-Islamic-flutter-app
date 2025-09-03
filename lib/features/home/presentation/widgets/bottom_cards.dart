@@ -33,10 +33,10 @@ class ContentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: cardColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 4,
-      clipBehavior: Clip.antiAlias, //! for the wave image has the same Card radius
+      elevation: 3,
+      clipBehavior: Clip.antiAlias, //? for the wave image has the same Card radius
+      color: cardColor,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -74,9 +74,16 @@ class BottomCards extends StatelessWidget {
   Widget build(BuildContext context) {
     return StaggeredGrid.count(
       crossAxisCount: 2,
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
       children: [
+
+
+
+
+
+
+
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: 180,
@@ -86,10 +93,19 @@ class BottomCards extends StatelessWidget {
             cardMainImage: Image.asset(Assets.images.qurane.path,width: 80,height: 80,),
             title: "الفتاوى الشرعية",
             imagePath: Assets.images.qurane.path,
-            cardColor: AppColors.secondaryLight,
-            waveColor: Color(0xFFFAF066),
+            cardColor: AppColors.primary.withOpacity(0.3),
+            waveColor: Color(0xFAF066).withOpacity(0.4),
           ),
         ),
+        // cardColor: Color(0xFFE3B260).withOpacity(0.3),
+
+
+
+
+
+
+
+
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: 220,
@@ -98,11 +114,24 @@ class BottomCards extends StatelessWidget {
             paddingTop: 65,
             title: "الخطب والدروس",
             imagePath: Assets.images.mousqe.path,
-            cardColor: Color(0xFFF9F5E3).withOpacity(0.8),
-            waveColor: Color(0xE8DCCC66),
+            cardColor: Color(0xE8DCCC80).withOpacity(0.4),
+            waveColor: Color(0xE8DCCC66).withOpacity(0.4),
             cardMainImage: Image.asset(Assets.images.mousqe.path,width: 90,height: 90,),
           ),
         ),
+
+
+
+
+
+
+
+
+
+
+
+
+
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: 220,

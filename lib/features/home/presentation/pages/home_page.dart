@@ -11,6 +11,8 @@ import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
 import '../../domain/reprositers_imp.dart';
 import '../../../../core/network_client.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/bottom_bar.dart';
 import '../widgets/bottom_cards.dart';
 import '../widgets/home_carosell.dart';
 
@@ -81,205 +83,215 @@ class HomePage extends StatelessWidget {
               ],
             ),
             drawer: Drawer(
-              child: ListView(
-                children: <Widget>[DrawerHeader(child: Text("Menu"))],
-              ),
+              child: AppDrawer(),
             ),
-            body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: ListView(
-                shrinkWrap: true,  // Ensure ListView takes only necessary space
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "أهلا بكم",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontFamily: FontFamily.tajawal,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+            // bottomNavigationBar: BottomNavBarWidget(),
+            body: Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: ListView(
+                    shrinkWrap: true,  // Ensure ListView takes only necessary space
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "فضيلة الشيخ ",
+                              "أهلا بكم",
                               style: TextStyle(
+                                fontSize: 25,
                                 fontFamily: FontFamily.tajawal,
-                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
-                              "أحمد شريف النعسان",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontFamily: FontFamily.tajawal,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "فضيلة الشيخ ",
+                                  style: TextStyle(
+                                    fontFamily: FontFamily.tajawal,
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "أحمد شريف النعسان",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: FontFamily.tajawal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: AppColors.secondary,
+                          gradient: LinearGradient(
+                            colors: [AppColors.white, AppColors.secondary],
+                            stops: [0.02, 0.5],
+                            begin: Alignment.topLeft,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 25),
+                                    child: Center(
+                                      child: Text(
+                                        state.homeData?.data?.recentArticles?.first.articleSummary?.split('\n').take(5).join('\n') ?? '',
+                                        textAlign: TextAlign.center,
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: FontFamily.tajawal,
+                                          height: 1.5,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  GestureDetector(
+                                    onTap: () {
+                                      final articleId = state.homeData?.data?.recentArticles?.first.articleId;
+                                      if (articleId != null) {
+                                        // Use the new HTML viewer adapter
+                                        HomeToHtmlViewerAdapter.navigateToHtmlViewerFromArticle(
+                                          context,
+                                          state.homeData?.data?.recentArticles?.first
+                                        );
+                                      }
+                                    },
+                                    child: Text(
+                                      'المزيد',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: FontFamily.tajawal,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              top: -16,
+                              right: -14,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(180),
+                                ),
+                                child: Image.asset(
+                                  Assets.images.circulerZh.path,
+                                  width: 76,
+                                  height: 76,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: -16,
+                              left: -14,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(180),
+                                ),
+                                child: Image.asset(
+                                  Assets.images.circulerZh.path,
+                                  width: 76,
+                                  height: 76,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: -16,
+                              right: -14,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(180),
+                                ),
+                                child: Image.asset(
+                                  Assets.images.circulerZh.path,
+                                  width: 76,
+                                  height: 76,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: -16,
+                              left: -14,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(180),
+                                ),
+                                child: Image.asset(
+                                  Assets.images.circulerZh.path,
+                                  width: 76,
+                                  height: 76,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: AppColors.secondary,
-                      gradient: LinearGradient(
-                        colors: [AppColors.white, AppColors.secondary],
-                        stops: [0.02, 0.5],
-                        begin: Alignment.topLeft,
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                        ),
-                      ],
-                    ),
-                    child: Stack(
-                      children: [
-                        Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 25),
-                                child: Center(
-                                  child: Text(
-                                    state.homeData?.data?.recentArticles?.first.articleSummary?.split('\n').take(5).join('\n') ?? '',
-                                    textAlign: TextAlign.center,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: FontFamily.tajawal,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              GestureDetector(
-                                onTap: () {
-                                  final articleId = state.homeData?.data?.recentArticles?.first.articleId;
-                                  if (articleId != null) {
-                                    // Use the new HTML viewer adapter
-                                    HomeToHtmlViewerAdapter.navigateToHtmlViewerFromArticle(
-                                      context, 
-                                      state.homeData?.data?.recentArticles?.first
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  'المزيد',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: FontFamily.tajawal,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primary,
-                                  ),
-                                ),
-                              ),
-                            ],
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Text(
+                          "مواضيع هامة:",
+                          style: TextStyle(
+                            fontFamily: FontFamily.tajawal,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Positioned(
-                          top: -16,
-                          right: -14,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(180),
-                            ),
-                            child: Image.asset(
-                              Assets.images.circulerZh.path,
-                              width: 76,
-                              height: 76,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: -16,
-                          left: -14,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(180),
-                            ),
-                            child: Image.asset(
-                              Assets.images.circulerZh.path,
-                              width: 76,
-                              height: 76,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: -16,
-                          right: -14,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(180),
-                            ),
-                            child: Image.asset(
-                              Assets.images.circulerZh.path,
-                              width: 76,
-                              height: 76,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: -16,
-                          left: -14,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(180),
-                            ),
-                            child: Image.asset(
-                              Assets.images.circulerZh.path,
-                              width: 76,
-                              height: 76,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Text(
-                      "مواضيع هامة:",
-                      style: TextStyle(
-                        fontFamily: FontFamily.tajawal,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
                       ),
-                    ),
-                  ),
-                  HomeCarousel(),
-                  SizedBox(height: 15),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Text(
-                      "المحتوى",
-                      style: TextStyle(
-                        fontFamily: FontFamily.tajawal,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                      HomeCarousel(),
+                      SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Text(
+                          "المحتوى",
+                          style: TextStyle(
+                            fontFamily: FontFamily.tajawal,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(height: 20),
+                      BottomCards(),
+                    ],
                   ),
-                  SizedBox(height: 20),
-                  BottomCards(),
-                ],
-              ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                    child: BottomNavBarWidget(
+                      index: true,
+                    )
+                ),
+              ],
+
             ),
           );
         },
