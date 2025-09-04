@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/responsive/screen_utils.dart';
 import 'package:nassan_app/features/splash_screen/presentation/bloc/splash_bloc.dart';
 import 'package:nassan_app/features/splash_screen/presentation/bloc/splash_event.dart';
 import 'package:nassan_app/features/splash_screen/presentation/bloc/splash_state.dart';
@@ -25,7 +28,17 @@ class SplashScreen extends StatelessWidget {
         },
         child: Scaffold(
           body: Center(
-            child: Image.asset(Assets.images.splashScreeen.path),
+            child: FractionallySizedBox(
+              widthFactor: context.deviceValue(
+                mobile: 1,
+                tablet: 0.8,
+                desktop: 0.8,
+              ),
+              child: Image.asset(
+                Assets.images.splashScreeen.path,
+                fit: BoxFit.fill,
+              ),
+            ),
           ),
         ),
       ),

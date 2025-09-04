@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 
 import 'device_type.dart';
 
-/// A responsive layout widget that displays different layouts based on screen size
+/// A responsive layout widgets that displays different layouts based on screen size
 ///
-/// This widget will show different child widgets based on the device type
+/// This widgets will show different child widgets based on the device type
 /// (mobile, tablet, desktop). If a specific device type is not provided,
 /// it will fallback to the smaller device layout.
 class ResponsiveLayout extends StatelessWidget {
-  /// Child widget to display on mobile devices
+  /// Child widgets to display on mobile devices
   final Widget mobile;
 
-  /// Child widget to display on tablet devices
+  /// Child widgets to display on tablet devices
   final Widget? tablet;
 
-  /// Child widget to display on desktop devices
+  /// Child widgets to display on desktop devices
   final Widget? desktop;
 
-  /// Create a responsive layout widget
+  /// Create a responsive layout widgets
   ///
   /// The [mobile] parameter is required, while [tablet] and [desktop] are optional.
   /// If [tablet] is null, [mobile] will be used for tablet devices.
@@ -45,9 +45,9 @@ class ResponsiveLayout extends StatelessWidget {
   }
 }
 
-/// A widget that shows content with responsive padding based on screen size
+/// A widgets that shows content with responsive padding based on screen size
 class ResponsiveContainer extends StatelessWidget {
-  /// Child widget to display
+  /// Child widgets to display
   final Widget child;
 
   /// Additional padding to add (will be combined with responsive padding)
@@ -121,10 +121,10 @@ class ResponsiveContainer extends StatelessWidget {
 /// A builder function for creating responsive layouts
 typedef ResponsiveWidgetBuilder = Widget Function(BuildContext context, BoxConstraints constraints);
 
-/// A widget that provides a responsive layout based on constraints
+/// A widgets that provides a responsive layout based on constraints
 ///
 /// This is useful for creating responsive layouts using a builder pattern
-/// where you need access to the actual constraints of the parent widget.
+/// where you need access to the actual constraints of the parent widgets.
 class ResponsiveConstrainedBox extends StatelessWidget {
   /// Builder function for creating the responsive layout
   final ResponsiveWidgetBuilder builder;

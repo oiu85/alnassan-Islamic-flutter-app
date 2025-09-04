@@ -27,3 +27,5 @@ class PageContent extends Equatable {
   @override
   List<Object> get props => [pageNumber, content, totalPages];
 }
+
+

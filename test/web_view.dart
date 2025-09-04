@@ -55,7 +55,7 @@
 //           Expanded(
 //             child: WebView(
 //               initialUrl: Uri.dataFromString(
-//                 widget.htmlContent,
+//                 widgets.htmlContent,
 //                 mimeType: 'text/html',
 //                 encoding: Encoding.getByName('utf-8'),
 //               ).toString(),
@@ -63,7 +63,7 @@
 //                 _controller = webViewController;
 //               },
 //               onPageFinished: (String url) {
-//                 extractAndLoadHtml(widget.htmlContent);
+//                 extractAndLoadHtml(widgets.htmlContent);
 //               },
 //             ),
 //           ),

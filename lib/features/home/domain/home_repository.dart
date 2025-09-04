@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../model/home_model.dart';
+import '../data/model/home_model.dart';
 
 abstract class HomeRepository {
   /// Fetches home page data from the API

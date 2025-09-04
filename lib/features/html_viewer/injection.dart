@@ -16,3 +16,5 @@ void registerHtmlViewerDependencies(GetIt getIt) {
     () => HtmlViewerBloc(getIt<HtmlViewerRepository>()),
   );
 }
+
+

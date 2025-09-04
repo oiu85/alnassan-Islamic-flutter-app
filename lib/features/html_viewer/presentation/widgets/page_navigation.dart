@@ -7,7 +7,7 @@ import '../bloc/html_viewer_bloc.dart';
 import '../bloc/html_viewer_event.dart';
 import '../bloc/html_viewer_state.dart';
 
-/// A widget for book page navigation controls
+/// A widgets for book page navigation controls
 class PageNavigation extends StatelessWidget {
   /// Constructor
   const PageNavigation({Key? key}) : super(key: key);

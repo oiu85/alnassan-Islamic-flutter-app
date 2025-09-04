@@ -73,3 +73,4 @@ class HtmlViewerState extends Equatable {
     extractedText,
   ];
 }
+

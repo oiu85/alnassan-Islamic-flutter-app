@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../../gen/fonts.gen.dart';
-import '../services/responsive_text_service.dart';
 import '../bloc/html_viewer_bloc.dart';
 import '../bloc/html_viewer_event.dart';
 import '../bloc/html_viewer_state.dart';
@@ -34,13 +31,12 @@ class HtmlBookViewerPage extends StatelessWidget {
 
 class _HtmlBookViewerContent extends StatelessWidget {
   const _HtmlBookViewerContent({Key? key}) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HtmlViewerBloc, HtmlViewerState>(
       builder: (context, state) {
-        final EdgeInsets padding = ResponsiveTextService.calculatePagePadding(context);
-        final bool isDarkMode = state.isDarkMode;
 
         return Scaffold(
           body: Container(
@@ -71,38 +67,4 @@ class _HtmlBookViewerContent extends StatelessWidget {
   }
 }
 
-Widget _buildToolbarButton({
-  required BuildContext context,
-  required IconData icon,
-  required String label,
-  required VoidCallback onPressed,
-  required HtmlViewerState state,
-}) {
-  return InkWell(
-    onTap: onPressed,
-    borderRadius: BorderRadius.circular(8),
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            color: state.isDarkMode ? AppColors.primary : AppColors.primary,
-            size: 24,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontFamily: FontFamily.tajawal,
-              fontSize: 12,
-              color: state.isDarkMode ? Colors.white : AppColors.textPrimary,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
 

@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import '../../../../core/utils/logger/log_helper.dart';
 
 import '../../../../core/models/page_state/bloc_status.dart';
-import '../../domain/reprositers_imp.dart';
+import '../../data/repositories/reprositers_imp.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
@@ -24,6 +24,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(state.copyWith(status: const BlocStatus.loading()));
 
       final homeModel = await _homeRepositoryImp.getHomeData();
+      
+      // Log the response for debugging
+      LogHelper.logApiResponse(
+        'HomeBloc',
+        'Processed Model: ${homeModel.toString()}',
+      );
+
+      // Check if we have valid data
+      if (homeModel.data == null) {
+        LogHelper.logError('No data in response');
+        emit(
+          state.copyWith(
+            status: const BlocStatus.fail(
+              error: 'Invalid response format',
+            ),
+          ),
+        );
+        return;
+      }
 
       if (homeModel.data?.recentArticles == null || 
           homeModel.data!.recentArticles!.isEmpty) {
@@ -38,7 +57,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         return;
       }
 
-      LogHelper.logHomeDataFetchSuccess(homeModel.data?.recentArticles?.length);
+      LogHelper.logHomeDataFetchSuccess(1); // Single article
       emit(
         state.copyWith(
           status: const BlocStatus.success(),

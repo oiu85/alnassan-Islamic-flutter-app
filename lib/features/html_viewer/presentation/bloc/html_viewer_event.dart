@@ -59,3 +59,5 @@ class ExtractTextEvent extends HtmlViewerEvent {}
 
 
 class ShareContentEvent extends HtmlViewerEvent {}
+
+

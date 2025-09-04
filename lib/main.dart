@@ -1,30 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../config/appconfig/theme.dart';
+import 'core/di/app_dependencies.dart';
+import 'core/responsive/device_type.dart';
+import 'features/drawer_features/biography/presentation/bloc/biography_bloc.dart';
 import 'features/splash_screen/presentation/pages/splash_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupAppDependencies();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widgets is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Nassan App',
-      home: const SplashScreen(),
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('ar')],
-      locale: const Locale('ar'),
+    // Design size is set for standard mobile size, will scale for other devices
+    return ScreenUtilInit(
+      designSize: const Size(375, 812), // iPhone X design size as reference
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<BiographyBloc>(
+              create: (context) => getIt<BiographyBloc>(),
+            ),
+          ],
+          child: MaterialApp(
+            title: 'Nassan App',
+            home: const SplashScreen(),
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('ar')],
+          locale: const Locale('ar'),
+          // Add builder to handle responsive sizing based on device width
+          builder: (context, widget) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaler: TextScaler.linear(DeviceTypeUtil.getValue(
+                  context: context,
+                  mobile: 1.0,
+                  tablet: 1.15,
+                  desktop: 1.3,
+                )),
+              ),
+              child: widget!,
+            );
+          },
+          ),
+        );
+      },
     );
   }
 }

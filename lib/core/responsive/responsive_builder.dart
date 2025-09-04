@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nassan_app/core/responsive/responsive_context.dart';
 
-/// A widget that provides a [ResponsiveContext] to its children.
-/// This makes it easy to access responsive values throughout the widget tree.
+/// A widgets that provides a [ResponsiveContext] to its children.
+/// This makes it easy to access responsive values throughout the widgets tree.
 class ResponsiveBuilder extends StatelessWidget {
   /// The builder function that receives the [ResponsiveContext].
   final Widget Function(BuildContext context, ResponsiveContext responsive) builder;
@@ -19,10 +19,10 @@ class ResponsiveBuilder extends StatelessWidget {
   }
 }
 
-/// A widget that provides a [ResponsiveContext] to its children and applies
+/// A widgets that provides a [ResponsiveContext] to its children and applies
 /// responsive padding based on the device type.
 class ResponsiveContainer extends StatelessWidget {
-  /// The child widget.
+  /// The child widgets.
   final Widget child;
 
   /// The padding to apply based on the device type.
