@@ -44,6 +44,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/headphone.png
   AssetGenImage get headphone => const AssetGenImage('assets/images/headphone.png');
 
+  /// File path: assets/images/headphone2.png
+  AssetGenImage get headphone2 => const AssetGenImage('assets/images/headphone2.png');
+
   /// File path: assets/images/helal.png
   AssetGenImage get helal => const AssetGenImage('assets/images/helal.png');
 
@@ -109,6 +112,7 @@ class $AssetsImagesGen {
     contactUs,
     drawerImage,
     headphone,
+    headphone2,
     helal,
     home2,
     home,

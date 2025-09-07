@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/features/lesson/presentation/pages/lessons_page.dart';
+import 'package:nassan_app/features/sound_library/presentation/pages/sounds_page.dart';
 
 import '../../../../gen/assets.gen.dart';
 
@@ -214,17 +215,22 @@ class BottomCards extends StatelessWidget {
             tablet: _height(220),
             desktop: _height(260),
           ),
-          child: ContentCard(
-            paddingRight: ScreenUtil().setWidth(70),
-            paddingTop: ScreenUtil().setHeight(55),
-            title: "المكتبة الصوتية",
-            imagePath: Assets.images.headphone.path,
-            cardColor: AppColors.secondaryLight,
-            waveColor: Color(0xFFFAF066),
-            cardMainImage: Image.asset(
-              Assets.images.headphone.path,
-              width: ScreenUtil().setWidth(70),
-              height: ScreenUtil().setHeight(70),
+          child: InkWell(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (_)=> SoundsPage()));
+            },
+            child: ContentCard(
+              paddingRight: ScreenUtil().setWidth(70),
+              paddingTop: ScreenUtil().setHeight(55),
+              title: "المكتبة الصوتية",
+              imagePath: Assets.images.headphone.path,
+              cardColor: AppColors.secondaryLight,
+              waveColor: Color(0xFFFAF066),
+              cardMainImage: Image.asset(
+                Assets.images.headphone.path,
+                width: ScreenUtil().setWidth(70),
+                height: ScreenUtil().setHeight(70),
+              ),
             ),
           ),
         ),

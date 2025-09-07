@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import '../config/api_config.dart';
-import 'utils/logger/log_helper.dart';
+import '../../config/api_config.dart';
+import '../utils/logger/log_helper.dart';
 
 @singleton
 class NetworkClient {

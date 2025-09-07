@@ -1,8 +1,9 @@
 import 'package:get_it/get_it.dart';
 
-import '../../features/drawer_features/injection.dart';
 import '../../features/html_viewer/injection.dart';
-import '../network_client.dart';
+import '../network/network_client.dart';
+import '../../features/biography/injection.dart';
+import '../../features/biographies_and_hadiths/injection.dart';
 
 /// Global GetIt instance
 final GetIt getIt = GetIt.instance;
@@ -15,4 +16,5 @@ void setupAppDependencies() {
   // Register feature dependencies
   registerHtmlViewerDependencies(getIt);
   registerDrawerFeaturesDependencies(getIt);
+  registerBiographiesDependencies(getIt);
 }

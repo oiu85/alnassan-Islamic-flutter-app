@@ -6,6 +6,14 @@ import 'domain/repository/biography_repository.dart';
 import 'domain/use_case/get_biography_use_case.dart';
 import 'presentation/bloc/biography_bloc.dart';
 
+
+/// Register dependencies for all drawer features
+void registerDrawerFeaturesDependencies(GetIt getIt) {
+  // Register biography dependencies
+  setupBiographyDependencies(getIt);
+
+  // Add other drawer features registration here as needed
+}
 @module
 abstract class BiographyModule {
   @injectable

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -5,12 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/di/app_dependencies.dart';
 import 'core/responsive/device_type.dart';
-import 'features/drawer_features/biography/presentation/bloc/biography_bloc.dart';
+import 'features/biography/presentation/bloc/biography_bloc.dart';
 import 'features/splash_screen/presentation/pages/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupAppDependencies();
+  GestureBinding.instance.resamplingEnabled = true;  //? this is for prevent mouse from throw errors in flutter stack tree
   runApp(const MyApp());
 }
 

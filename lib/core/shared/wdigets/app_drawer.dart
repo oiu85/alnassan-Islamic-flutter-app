@@ -3,13 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../features/drawer_features/biography/presentation/adapters/drawer_to_biography_adapter.dart';
-import '../../../../features/drawer_features/biography/presentation/bloc/biography_bloc.dart';
+import '../../../features/biographies_and_hadiths/presentation/pages/hadith_page.dart';
+import '../../../features/biographies_and_hadiths/presentation/bloc/biographies_bloc.dart';
+import '../../../features/hadith_almawduea/presentation/pages/almawduea_page.dart';
+import '../../../gen/assets.gen.dart';
+
+import '../../../features/biography/presentation/adapters/drawer_to_biography_adapter.dart';
+import '../../../features/biography/presentation/bloc/biography_bloc.dart';
+import '../../di/app_dependencies.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
-  
+
   // Helper method for responsive sizing
   double _height(double size) => ScreenUtil().setHeight(size);
 
@@ -54,6 +59,15 @@ class AppDrawer extends StatelessWidget {
                 "باب التراجم والأحاديث",
                 Assets.images.drawerImage.path,
                 () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                        create: (context) => getIt<BiographiesBloc>(),
+                        child: const HadithPage(),
+                      ),
+                    ),
+                  );
                 },
               ),
               SizedBox(height: _height(25)),
@@ -62,6 +76,12 @@ class AppDrawer extends StatelessWidget {
                 "الأحاديث الموضوعة",
                 Assets.images.drawerImage.path,
                 () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AlmawdueaPage(),
+                    ),
+                  );
                 },
               ),
               SizedBox(height: _height(25)),
@@ -112,13 +132,13 @@ Widget buildDrawerItem(BuildContext context, String title, String imagePath, Voi
     tablet: 38.0,
     desktop: 45.0,
   );
-  
+
   final fontSize = context.deviceValue(
     mobile: 18.0,
     tablet: 22.0,
     desktop: 26.0,
   );
-  
+
   return Padding(
     padding: EdgeInsets.symmetric(
       vertical: ScreenUtil().setHeight(12),

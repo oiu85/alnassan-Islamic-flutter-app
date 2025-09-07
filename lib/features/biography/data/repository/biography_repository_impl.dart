@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../core/network_client.dart';
+import '../../../../core/network/network_client.dart';
 import '../../../../../core/utils/logger/log_helper.dart';
 import '../../domain/model/biography_article.dart';
 import '../../domain/repository/biography_repository.dart';
