@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/network_client.dart';
 import '../../../../../core/utils/logger/app_logger.dart';
+import '../../../../config/api_config.dart';
 import '../../domain/model/biography_article.dart';
 import '../../domain/repository/biography_repository.dart';
 import '../mapper/biography_mapper.dart';
@@ -19,7 +20,7 @@ class BiographyRepositoryImpl implements BiographyRepository {
   Future<BiographyArticle> getBiographyArticle() async {
     try {
       AppLogger.business('Fetching Biography Article data from API');
-      final endpoint = '/public/articles/$BIOGRAPHY_ARTICLE_ID';
+      final endpoint = ApiConfig.biographyArticleUrl;
       final response = await _networkClient.get(endpoint);
       
       AppLogger.apiResponse('BiographyRepository - getBiographyArticle', {
@@ -45,10 +46,10 @@ class BiographyRepositoryImpl implements BiographyRepository {
       rethrow;
     } catch (e) {
       AppLogger.error('Data mapping error', e);
-      throw DioException(
-        requestOptions: RequestOptions(path: '/public/articles/$BIOGRAPHY_ARTICLE_ID'),
-        error: 'Error processing server response',
-      );
+        throw DioException(
+          requestOptions: RequestOptions(path: ApiConfig.biographyArticleUrl),
+          error: 'Error processing server response',
+        );
     }
   }
 }

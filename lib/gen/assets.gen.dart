@@ -137,14 +137,20 @@ class $AssetsImagesGen {
 class $AssetsLottieGen {
   const $AssetsLottieGen();
 
+  /// File path: assets/lottie/Loading.json
+  String get loading => 'assets/lottie/Loading.json';
+
   /// File path: assets/lottie/NoData.json
   String get noData => 'assets/lottie/NoData.json';
 
   /// File path: assets/lottie/NoInternet.json
   String get noInternet => 'assets/lottie/NoInternet.json';
 
+  /// File path: assets/lottie/NotFound.json
+  String get notFound => 'assets/lottie/NotFound.json';
+
   /// List of all assets
-  List<String> get values => [noData, noInternet];
+  List<String> get values => [loading, noData, noInternet, notFound];
 }
 
 class $AssetsSvgGen {

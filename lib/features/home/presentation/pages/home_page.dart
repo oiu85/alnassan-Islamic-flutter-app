@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/gen/assets.gen.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
+import '../../../../core/widgets/ui_status_handling.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../html_viewer/presentation/adapters/home_to_html_viewer_adapter.dart';
 import '../../data/repositories/reprositers_imp.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
@@ -19,69 +20,36 @@ import '../widgets/home_main_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-  
-  // Helper method for font sizes
-  // Helper methods for responsive sizing
+
   double _fontSize(double size) => ScreenUtil().setSp(size);
   double _width(double size) => ScreenUtil().setWidth(size);
   double _height(double size) => ScreenUtil().setHeight(size);
   double _radius(double size) => ScreenUtil().radius(size);
 
-  Widget _buildErrorWidget(String message) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (message.contains('internet') || message.contains('connection'))
-            Lottie.asset(Assets.lottie.noInternet)
-          else
-            Lottie.asset(Assets.lottie.noData),
-          SizedBox(height: _height(20)),
-          Text(
-            message,
-            style: TextStyle(fontSize: _fontSize(16)),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-      HomeBloc(HomeRepositoryImpl(NetworkClient()))
-        ..add(const FetchHomeDataEvent()),
-      child: BlocConsumer<HomeBloc, HomeState>(
-        listener: (context, state) {
-          if (state.status.isFail()) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error ?? 'An error occurred')),
-            );
-          }
-        },
+      HomeBloc(HomeRepositoryImpl(NetworkClient()))..add(const FetchHomeDataEvent()),
+      child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          if (state.status.isLoading()) {
-            return const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            );
-          }
+          return SimpleLottieHandler(
+            blocStatus: state.status,
+            successWidget: homeContent(context, state),
+            isEmpty: state.status.isSuccess() && state.homeData == null,
+            emptyMessage: 'لا توجد بيانات متاحة',
+            loadingMessage: 'جاري تحميل البيانات...',
+            onRetry: () => context.read<HomeBloc>().add(const FetchHomeDataEvent()),
+            animationSize: 200,
+          );
+        },
+      ),
+    );
+  }
 
-          if (state.status.isFail()) {
-            return Scaffold(
-              appBar: AppBar(title: Text('الرئيسية')),
-              body: _buildErrorWidget(state.error ?? 'An error occurred'),
-            );
-          }
-          
-          // Ensure homeData is not null before proceeding
-          if (state.homeData == null) {
-            return Scaffold(
-              appBar: AppBar(title: Text('الرئيسية')),
-              body: _buildErrorWidget('لا يوجد بيانات متاحة'),
-            );
-          }
-          return Scaffold(
+  Widget homeContent(BuildContext context, HomeState state) {
+    return Scaffold(
             appBar: AppBar(
               elevation: 0,
               actions: [
@@ -97,7 +65,6 @@ class HomePage extends StatelessWidget {
             drawer: Drawer(
               child: AppDrawer(),
             ),
-            // bottomNavigationBar: BottomNavBarWidget(),
             body: Stack(
               children: [
                 Padding(
@@ -142,30 +109,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: _height(12)),
-                      Container(
-                        height: context.deviceValue(
-                          mobile: 200.h,
-                          tablet: 260.h,
-                          desktop: 300.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.secondary,
-                          gradient: LinearGradient(
-                            colors: [AppColors.white, AppColors.secondary],
-                            stops: [0.02, 0.5],
-                            begin: Alignment.topLeft,
-                          ),
-                          borderRadius: BorderRadius.circular(_radius(20)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: _radius(1),
-                              blurRadius: _radius(5),
-                            ),
-                          ],
-                        ),
-                        child: HomeMainCard(state: state),
-                      ),
+                      HomeMainCard(state: state,),
                       SizedBox(height: _height(10)),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: _width(5)),
@@ -205,8 +149,5 @@ class HomePage extends StatelessWidget {
               ],
             ),
           );
-        },
-      ),
-    );
   }
 }

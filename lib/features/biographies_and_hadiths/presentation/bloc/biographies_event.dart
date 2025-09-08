@@ -90,3 +90,5 @@ class ChangePerPageEvent extends BiographiesEvent {
   @override
   List<Object?> get props => [categoryId, perPage];
 }
+
+class MarkArticleNavigatedEvent extends BiographiesEvent {}

@@ -45,3 +45,5 @@ class FetchAllLessonsFromCategoryEvent extends LessonEvent {
     required this.perPage,
   });
 }
+
+class MarkArticleNavigatedEvent extends LessonEvent {}

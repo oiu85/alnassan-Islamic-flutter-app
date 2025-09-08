@@ -21,6 +21,8 @@ class BiographiesState extends Equatable {
   final ArticleDetailModel? articleDetail;
   final HtmlContent? htmlContent; // Mapped HTML content ready for viewer
   final String? articleDetailError;
+  final int? loadingArticleId;
+  final bool hasNavigatedToArticle;
 
   const BiographiesState({
     this.status = const BlocStatus.initial(),
@@ -36,6 +38,8 @@ class BiographiesState extends Equatable {
     this.articleDetail,
     this.htmlContent,
     this.articleDetailError,
+    this.loadingArticleId,
+    this.hasNavigatedToArticle = false,
   });
 
   BiographiesState copyWith({
@@ -52,6 +56,8 @@ class BiographiesState extends Equatable {
     ArticleDetailModel? articleDetail,
     HtmlContent? htmlContent,
     String? articleDetailError,
+    int? loadingArticleId,
+    bool? hasNavigatedToArticle,
   }) {
     return BiographiesState(
       status: status ?? this.status,
@@ -67,6 +73,8 @@ class BiographiesState extends Equatable {
       articleDetail: articleDetail ?? this.articleDetail,
       htmlContent: htmlContent ?? this.htmlContent,
       articleDetailError: articleDetailError ?? this.articleDetailError,
+      loadingArticleId: loadingArticleId ?? this.loadingArticleId,
+      hasNavigatedToArticle: hasNavigatedToArticle ?? this.hasNavigatedToArticle,
     );
   }
 
@@ -85,5 +93,7 @@ class BiographiesState extends Equatable {
         articleDetail,
         htmlContent,
         articleDetailError,
+        loadingArticleId,
+        hasNavigatedToArticle,
       ];
 }

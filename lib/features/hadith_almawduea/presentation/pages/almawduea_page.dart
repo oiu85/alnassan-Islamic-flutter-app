@@ -4,6 +4,7 @@ import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 
 import '../../../../core/shared/wdigets/app_drawer.dart';
+import '../../../../core/widgets/ui_status_handling.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../data/model.dart';
 import '../bloc/almawduea_bloc.dart';
@@ -20,8 +21,8 @@ class AlmawdueaPage extends StatefulWidget {
 }
 
 class _AlmawdueaPageState extends State<AlmawdueaPage> {
-  static const int categoryId = 18; // Hadith Almawduea category ID
-  static const int perPage = 4; // Fixed to 4 items per page
+  static const int categoryId = 18;
+  static const int perPage = 4;
 
   @override
   void initState() {
@@ -36,14 +37,37 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
       ),
     );
   }
+  // ===== EXPAND/COLLAPSE HANDLER =====
+  void _toggleArticleExpansion(int articleId) {
+    context.read<AlmawdueaBloc>().add(
+      ToggleArticleExpansionEvent(articleId: articleId),
+    );
+  }
 
   // ===== CARD CLICK HANDLER =====
-  /// Handles card click by dispatching event to BLoC
-  /// All business logic is now handled in the BLoC layer
   void _onArticleCardClick(AlmawdueaArticle article) {
     context.read<AlmawdueaBloc>().add(
       ArticleCardClickEvent(article: article),
     );
+  }
+
+  // ===== NAVIGATION HANDLER =====
+  void _handleNavigation(BuildContext context, AlmawdueaState state) {
+    if (state.articleDetailStatus.isSuccess() && 
+        state.htmlContent != null && 
+        !state.hasNavigatedToArticle) {
+      // Mark that navigation has happened
+      context.read<AlmawdueaBloc>().add(MarkArticleNavigatedEvent());
+      
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HtmlBookViewerPage(
+            htmlContent: state.htmlContent!,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -58,146 +82,24 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: BlocConsumer<AlmawdueaBloc, AlmawdueaState>(
-          listener: (context, state) {
-            // ===== ARTICLE DETAIL LISTENER =====
-            // Handle loading state - show loading dialog
-            if (state.articleDetailStatus.isLoading()) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-            // Handle article detail loading completion
-            else if (state.articleDetailStatus.isSuccess() && state.htmlContent != null) {
-              // Close loading dialog
-              Navigator.of(context).pop();
-              
-              // Navigate to HTML viewer using the pre-mapped content from BLoC
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HtmlBookViewerPage(
-                    htmlContent: state.htmlContent!,
-                  ),
-                ),
-              );
-            } 
-            // Handle error state
-            else if (state.articleDetailStatus.isFail()) {
-              // Close loading dialog and show error
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.articleDetailError ?? 'خطأ في تحميل المقال'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
+        child: BlocBuilder<AlmawdueaBloc, AlmawdueaState>(
           builder: (context, state) {
-            return CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  pinned: false,
-                  floating: true,
-                  actions: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_forward_outlined),
-                      onPressed: () {
-                        Navigator.of(context).maybePop();
-                      },
-                    ),
-                  ],
-                ),
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 30),
-                    child: Row(
-                      children: [
-                        Text(
-                          state.almawdueaData?.data?.categories?.first.catTitle ?? "الأحاديث الموضوعة",
-                          style: TextStyle(
-                            fontFamily: FontFamily.tajawal,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        // Filter button for pagination
-                        context.read<AlmawdueaBloc>().buildFilterButton(
-                          context: context,
-                          categoryId: categoryId,
-                          perPage: perPage,
-                        ),
-                      ],
-                    ),
+            return SimpleLottieHandler(
+              blocStatus: state.status,
+              successWidget: _buildAlmawdueaContent(context, state),
+              isEmpty: state.status.isSuccess() && state.articles.isEmpty,
+              emptyMessage: 'لا توجد مقالات متاحة',
+              loadingMessage: 'جاري تحميل المقالات...',
+              onRetry: () {
+                context.read<AlmawdueaBloc>().add(
+                  const FetchAlmawdueaArticlesEvent(
+                    categoryId: categoryId,
+                    page: 1,
+                    perPage: perPage,
                   ),
-                ),
-
-                // Loading state
-                if (state.status.isLoading() && state.articles.isEmpty)
-                  const SliverToBoxAdapter(
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  )
-                // Error state
-                else if (state.status.isFail())
-                  SliverToBoxAdapter(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(
-                          state.error ?? 'حدث خطأ في تحميل البيانات',
-                          style: const TextStyle(
-                            fontFamily: FontFamily.tajawal,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                // Empty state
-                else if (state.articles.isEmpty)
-                  const SliverToBoxAdapter(
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          'لا توجد مقالات متاحة',
-                          style: TextStyle(
-                            fontFamily: FontFamily.tajawal,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                // Articles list
-                else
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        if (index >= state.articles.length) {
-                          return null;
-                        }
-                        
-                        final article = state.articles[index];
-                        return _buildArticleCard(article);
-                      },
-                      childCount: state.articles.length,
-                    ),
-                  ),
-              ],
+                );
+              },
+              animationSize: 200,
             );
           },
         ),
@@ -205,9 +107,74 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
     );
   }
 
+  Widget _buildAlmawdueaContent(BuildContext context, AlmawdueaState state) {
+    // Handle navigation when content is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleNavigation(context, state);
+    });
 
-  // ===== ARTICLE CARD BUILDER =====
-  Widget _buildArticleCard(AlmawdueaArticle article) {
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          pinned: false,
+          floating: true,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.arrow_forward_outlined),
+              onPressed: () {
+                Navigator.of(context).maybePop();
+              },
+            ),
+          ],
+        ),
+        SliverToBoxAdapter(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 30),
+            child: Row(
+              children: [
+                Text(
+                  state.almawdueaData?.data?.categories?.first.catTitle ?? "الأحاديث الموضوعة",
+                  style: TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(width: 8),
+                // Filter button for pagination
+                context.read<AlmawdueaBloc>().buildFilterButton(
+                  context: context,
+                  categoryId: categoryId,
+                  perPage: perPage,
+                ),
+              ],
+            ),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              if (index >= state.articles.length) {
+                return null;
+              }
+              
+              final article = state.articles[index];
+              final isLoading = state.articleDetailStatus.isLoading() && 
+                               state.loadingArticleId == article.articleId;
+              final isExpanded = state.expandedArticles.contains(article.articleId);
+              return _buildArticleCard(article, isLoading, isExpanded);
+            },
+            childCount: state.articles.length,
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  Widget _buildArticleCard(AlmawdueaArticle article, bool isLoading, bool isExpanded) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 5),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
@@ -224,6 +191,8 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -255,21 +224,52 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
           Row(
             children: [
               Expanded(
-                child: Text(
-                  // Display article summary
-                  article.articleSummary ?? 'ملخص غير متوفر',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: FontFamily.tajawal
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  child: Text(
+                    // Display article summary
+                    article.articleSummary ?? 'ملخص غير متوفر',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: FontFamily.tajawal,
+                      height: 1.4,
+                    ),
+                    maxLines: isExpanded ? null : 4,
+                    overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
                   ),
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
+          SizedBox(height: 8),
           Row(children: [
-            Text("المزيد", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: FontFamily.tajawal),)
+            InkWell(
+              onTap: () => _toggleArticleExpansion(article.articleId ?? 0),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      isExpanded ? "عرض أقل" : "المزيد",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontFamily: FontFamily.tajawal,
+                        color: Colors.black,
+                        fontSize: 13,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    SizedBox(width: 6),
+                    Icon(
+                      isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      color: Colors.black,
+                      size: 16,
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],),
           Divider(
             color: AppColors.primary,
@@ -285,24 +285,29 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
             ],
           ),
           GestureDetector(
-            onTap: () => _onArticleCardClick(article),
+            onTap: isLoading ? null : () => _onArticleCardClick(article),
             child: Container(
               width: double.infinity,
               margin: EdgeInsets.only(bottom: 4),
               padding: EdgeInsets.symmetric(horizontal: 2, vertical: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(80),
-                color: AppColors.primary,
+                color: isLoading ? AppColors.secondary : AppColors.primary,
               ),
               child: Center(
-                child: Text(
-                  "عرض التفاصيل",
-                  style: TextStyle(
-                    fontFamily: FontFamily.tajawal,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: isLoading
+                    ? CircularProgressIndicator(
+                        color: AppColors.primary,
+                        strokeWidth: 2,
+                      )
+                    : Text(
+                        "عرض التفاصيل",
+                        style: TextStyle(
+                          fontFamily: FontFamily.tajawal,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ),
             ),
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
 
 import '../../../../core/utils/logger/app_logger.dart';
 
@@ -19,64 +18,56 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchHomeDataEvent event,
     Emitter<HomeState> emit,
   ) async {
-    try {
-      AppLogger.business('Initiating home data fetch', {'status': state.status.toString()});
-      emit(state.copyWith(status: const BlocStatus.loading()));
+    AppLogger.business('Initiating home data fetch', {'status': state.status.toString()});
+    emit(state.copyWith(status: const BlocStatus.loading()));
 
-      final homeModel = await _homeRepositoryImp.getHomeData();
-      
-      // Log the response for debugging
-      AppLogger.apiResponse('HomeBloc - Processed Model', homeModel);
-
-      // Check if we have valid data
-      if (homeModel.data == null) {
-        AppLogger.error('No data in response');
+    final result = await _homeRepositoryImp.getHomeData();
+    
+    result.fold(
+      // Left side - Error case
+      (error) {
+        AppLogger.error('Home data fetch error: $error');
         emit(
           state.copyWith(
-            status: const BlocStatus.fail(
-              error: 'Invalid response format',
-            ),
+            status: BlocStatus.fail(error: error),
           ),
         );
-        return;
-      }
+      },
+      // Right side - Success case
+      (homeModel) {
+        AppLogger.apiResponse('HomeBloc - Processed Model', homeModel);
+        if (homeModel.data == null) {
+          AppLogger.error('No data in response');
+          emit(
+            state.copyWith(
+              status: const BlocStatus.fail(
+                error: 'Invalid response format',
+              ),
+            ),
+          );
+          return;
+        }
+        if (homeModel.data?.recentArticles == null || 
+            homeModel.data!.recentArticles!.isEmpty) {
+          AppLogger.warning('No articles found');
+          emit(
+            state.copyWith(
+              status: const BlocStatus.fail(
+                error: 'No articles found',
+              ),
+            ),
+          );
+          return;
+        }
 
-      if (homeModel.data?.recentArticles == null || 
-          homeModel.data!.recentArticles!.isEmpty) {
-        AppLogger.warning('No articles found');
+        AppLogger.business('Home data fetch successful', {'articlesCount': 1});
         emit(
           state.copyWith(
-            status: const BlocStatus.fail(
-              error: 'No articles found',
-            ),
+            status: const BlocStatus.success(),
+            homeData: homeModel,
           ),
         );
-        return;
-      }
-
-      AppLogger.business('Home data fetch successful', {'articlesCount': 1});
-      emit(
-        state.copyWith(
-          status: const BlocStatus.success(),
-          homeData: homeModel,
-        ),
-      );
-    } on DioException catch (e) {
-      AppLogger.apiError('Home data fetch error', e);
-      emit(
-        state.copyWith(
-          status: BlocStatus.fail(
-            error: e.message ?? 'Connection attempt failed',
-          ),
-        ),
-      );
-    } catch (e) {
-      AppLogger.error('Unexpected error while fetching home data', e, (e as Error).stackTrace);
-      emit(
-        state.copyWith(
-          status: BlocStatus.fail(error: 'Unexpected error occurred'),
-        ),
-      );
-    }
+      },
+    );
   }
 }

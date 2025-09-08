@@ -20,6 +20,8 @@ class LessonState {
   final HtmlContent? htmlContent;
   final String? error;
   final String? articleDetailError;
+  final int? loadingArticleId;
+  final bool hasNavigatedToArticle;
   final int categoriesPerLoad;
 
   const LessonState({
@@ -40,6 +42,8 @@ class LessonState {
     this.htmlContent,
     this.error,
     this.articleDetailError,
+    this.loadingArticleId,
+    this.hasNavigatedToArticle = false,
     this.categoriesPerLoad = 3,
   });
 
@@ -61,6 +65,8 @@ class LessonState {
     HtmlContent? htmlContent,
     String? error,
     String? articleDetailError,
+    int? loadingArticleId,
+    bool? hasNavigatedToArticle,
     int? categoriesPerLoad,
   }) {
     return LessonState(
@@ -81,6 +87,8 @@ class LessonState {
       htmlContent: htmlContent ?? this.htmlContent,
       error: error ?? this.error,
       articleDetailError: articleDetailError ?? this.articleDetailError,
+      loadingArticleId: loadingArticleId ?? this.loadingArticleId,
+      hasNavigatedToArticle: hasNavigatedToArticle ?? this.hasNavigatedToArticle,
       categoriesPerLoad: categoriesPerLoad ?? this.categoriesPerLoad,
     );
   }

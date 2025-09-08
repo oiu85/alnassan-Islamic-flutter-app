@@ -64,3 +64,17 @@ class ArticleCardClickEvent extends AlmawdueaEvent {
   @override
   List<Object?> get props => [article];
 }
+
+class MarkArticleNavigatedEvent extends AlmawdueaEvent {}
+
+// ===== EXPAND/COLLAPSE EVENTS =====
+class ToggleArticleExpansionEvent extends AlmawdueaEvent {
+  final int articleId;
+
+  const ToggleArticleExpansionEvent({
+    required this.articleId,
+  });
+
+  @override
+  List<Object?> get props => [articleId];
+}

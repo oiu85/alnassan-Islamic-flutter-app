@@ -1,5 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/network/network_client.dart';
+import '../../../../config/api_config.dart';
 import '../../domain/lesson_repository.dart';
 import '../model.dart';
 
@@ -9,63 +11,49 @@ class LessonRepositoryImpl implements LessonRepository {
   LessonRepositoryImpl(this._networkClient);
 
   @override
-  Future<LessonModel> getLessons({
+  Future<Either<String, LessonModel>> getLessons({
     required List<int> categoryIds,
     required int page,
     required int perPage,
   }) async {
     try {
-      // Convert category IDs list to comma-separated string
-      final categoryIdsString = categoryIds.join(',');
-      
-      final url = '${NetworkClient.baseUrl}/public/categories/articles/with-articles?category_ids=$categoryIdsString&page=$page&per_page=$perPage';
-      
-      final response = await _networkClient.get(url);
-      
-      if (response.statusCode == 200) {
-        return LessonModel.fromJson(response.data);
-      } else {
-        throw DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          message: 'Failed to fetch lessons: ${response.statusCode}',
-        );
-      }
-    } on DioException {
-      rethrow;
-    } catch (e) {
-      throw DioException(
-        requestOptions: RequestOptions(path: ''),
-        message: 'Unexpected error: $e',
+      final url = ApiConfig.getMultipleArticlesByCategory(
+        categoryIds: categoryIds,
+        page: page,
+        perPage: perPage,
       );
+      final response = await _networkClient.get(url);
+
+      if (response.statusCode == 200) {
+        return Right(LessonModel.fromJson(response.data));
+      } else {
+        return Left('Failed to fetch lessons: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      return Left(e.message ?? 'Connection attempt failed');
+    } catch (e) {
+      return Left('Unexpected error: $e');
     }
   }
 
   @override
-  Future<LessonArticleDetailModel> getLessonArticleDetail({
+  Future<Either<String, LessonArticleDetailModel>> getLessonArticleDetail({
     required int articleId,
   }) async {
     try {
-      final url = '${NetworkClient.baseUrl}/public/articles/$articleId?include=category';
+      final url = ApiConfig.getArticleDetail(articleId: articleId);
       
       final response = await _networkClient.get(url);
       
       if (response.statusCode == 200) {
-        return LessonArticleDetailModel.fromJson(response.data);
+        return Right(LessonArticleDetailModel.fromJson(response.data));
       } else {
-        throw DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          message: 'Failed to fetch lesson article detail: ${response.statusCode}',
-        );
+        return Left('Failed to fetch lesson article detail: ${response.statusCode}');
       }
-    } on DioException {
-      rethrow;
+    } on DioException catch (e) {
+      return Left(e.message ?? 'Connection attempt failed');
     } catch (e) {
-      throw DioException(
-        requestOptions: RequestOptions(path: ''),
-        message: 'Unexpected error: $e',
-      );
+      return Left('Unexpected error: $e');
     }
   }
 }

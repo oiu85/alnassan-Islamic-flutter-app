@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:dartz/dartz.dart';
 
 import '../data/model.dart';
 
@@ -9,9 +9,8 @@ abstract class AlmawdueaRepository {
   /// [page] - The page number for pagination
   /// [perPage] - Number of articles per page
   ///
-  /// Returns an [AlmawdueaModel] containing articles on success
-  /// Throws [DioException] if the request fails
-  Future<AlmawdueaModel> getAlmawdueaArticles({
+  /// Returns [Right<AlmawdueaModel>] on success, [Left<String>] on failure
+  Future<Either<String, AlmawdueaModel>> getAlmawdueaArticles({
     required int categoryId,
     required int page,
     required int perPage,
@@ -22,9 +21,8 @@ abstract class AlmawdueaRepository {
   ///
   /// [articleId] - The ID of the article to fetch
   ///
-  /// Returns an [AlmawdueaArticleDetailModel] containing article details on success
-  /// Throws [DioException] if the request fails
-  Future<AlmawdueaArticleDetailModel> getArticleDetail({
+  /// Returns [Right<AlmawdueaArticleDetailModel>] on success, [Left<String>] on failure
+  Future<Either<String, AlmawdueaArticleDetailModel>> getArticleDetail({
     required int articleId,
   });
 }

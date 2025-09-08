@@ -25,9 +25,9 @@ class HtmlViewerBloc extends Bloc<HtmlViewerEvent, HtmlViewerState> {
 
 
   void _onInitialize(InitializeHtmlViewerEvent event, Emitter<HtmlViewerState> emit) {
+    emit(state.copyWith(status: HtmlViewerStatus.loading));
+    
     try {
-      emit(state.copyWith(status: HtmlViewerStatus.loading));
-      
       final htmlContent = event.htmlContent;
       final List<PageContent> pages = repository.parseHtmlToPages(htmlContent);
       
@@ -55,17 +55,17 @@ class HtmlViewerBloc extends Bloc<HtmlViewerEvent, HtmlViewerState> {
 
 
   void _onNavigateToPage(NavigateToPageEvent event, Emitter<HtmlViewerState> emit) {
+    final int pageNumber = event.pageNumber;
+    
+    // Validate page number
+    if (pageNumber < 1 || pageNumber > state.pages.length) {
+      emit(state.copyWith(
+        errorMessage: 'Invalid page number: $pageNumber',
+      ));
+      return;
+    }
+    
     try {
-      final int pageNumber = event.pageNumber;
-      
-      // Validate page number
-      if (pageNumber < 1 || pageNumber > state.pages.length) {
-        emit(state.copyWith(
-          errorMessage: 'Invalid page number: $pageNumber',
-        ));
-        return;
-      }
-      
       final PageContent newPage = state.pages[pageNumber - 1];
       emit(state.copyWith(currentPage: newPage));
     } catch (e) {

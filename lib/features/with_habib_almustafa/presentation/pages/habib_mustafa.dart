@@ -46,7 +46,7 @@ class HabibMustafa extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "(لقج كان في قصصهم عبرة)",
+                          "(مع الحبيب مصطفى )",
                           style: TextStyle(
                             fontSize: 18,
                             fontFamily: FontFamily.tajawal,
@@ -74,26 +74,27 @@ class HabibMustafa extends StatelessWidget {
                           lesson: "مع الحبيب مصطفى ومااجملها منك ياسيدي يارسول الله",
                           viewCont: "343",
                           title: "فضيلة الشيخ",
-                          imagePath: Assets.images.backgroundZh.path,
+                          imagePath: Assets.images.mohhamed.path,
                           imageNamePath: Assets.images.nassanName.path,
                           width: 161,
                           height: 236,
-                          imageWidth: 100,
-                          imageHeight:100,
+                          imageWidth: 50,
+                          imageHeight:50,
                           context: context,
                         ),
-                        cardBuild(
-                          lesson: "مع الحبيب مصطفى ومااجملها منك ياسيدي يارسول الله",
-                          viewCont: "343",
-                          title: "فضيلة الشيخ",
-                          imagePath: Assets.images.backgroundZh.path,
-                          imageNamePath: Assets.images.nassanName.path,
-                          width: 161,
-                          height: 236,
-                          imageWidth: 100,
-                          imageHeight:100,
-                          context: context,
-                        ),
+                          cardBuild(
+                            // lesson title :
+                            lesson: "مع الحبيب مصطفى ومااجملها منك ياسيدي يارسول الله",
+                            viewCont: "343",
+                            title: "فضيلة الشيخ",
+                            imagePath: Assets.images.mohhamed.path,
+                            imageNamePath: Assets.images.nassanName.path,
+                            width: 161,
+                            height: 236,
+                            imageWidth: 50,
+                            imageHeight:50,
+                            context: context,
+                          ),
                       ],
                     ),
 
@@ -131,12 +132,72 @@ Widget cardBuild({
           Expanded(
             child: Stack(
               children: [
-                Image.asset(
-                  imagePath,
-                  fit: BoxFit.cover,
-                  width: width,
-                  height: height,
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                      width: imageWidth,
+                      height: imageHeight,
+                    ),
+                  ),
                 ),
+                Positioned(
+                  left: -10,
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Image.asset(
+                      Assets.images.candleBig.path,
+                      fit: BoxFit.contain,
+                      width: imageWidth,
+                      height: imageHeight+30,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: -4,
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Image.asset(
+                      Assets.images.candleSmall.path,
+                      fit: BoxFit.contain,
+                      width: imageWidth+10,
+                      height: imageHeight+10,
+                    ),
+                  ),
+                ),
+
+
+
+
+
+                Positioned(
+                  right: -10,
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Image.asset(
+                      Assets.images.candleBig.path,
+                      fit: BoxFit.contain,
+                      width: imageWidth,
+                      height: imageHeight+30,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: -4,
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Image.asset(
+                      Assets.images.candleSmall.path,
+                      fit: BoxFit.contain,
+                      width: imageWidth+10,
+                      height: imageHeight+10,
+                    ),
+                  ),
+                ),
+
 
                 Padding(
                   padding: const EdgeInsets.only(top: 40),

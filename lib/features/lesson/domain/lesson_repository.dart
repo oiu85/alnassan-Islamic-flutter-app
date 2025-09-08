@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import '../data/model.dart';
 
 abstract class LessonRepository {
@@ -6,7 +7,8 @@ abstract class LessonRepository {
   /// [categoryIds] - List of category IDs to fetch articles from
   /// [page] - Page number for pagination
   /// [perPage] - Number of items per page
-  Future<LessonModel> getLessons({
+  /// Returns [Right<LessonModel>] on success, [Left<String>] on failure
+  Future<Either<String, LessonModel>> getLessons({
     required List<int> categoryIds,
     required int page,
     required int perPage,
@@ -15,7 +17,8 @@ abstract class LessonRepository {
   /// Fetches a single lesson article detail
   /// 
   /// [articleId] - The ID of the article to fetch
-  Future<LessonArticleDetailModel> getLessonArticleDetail({
+  /// Returns [Right<LessonArticleDetailModel>] on success, [Left<String>] on failure
+  Future<Either<String, LessonArticleDetailModel>> getLessonArticleDetail({
     required int articleId,
   });
 }

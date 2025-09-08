@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:dartz/dartz.dart';
 
 import '../data/model.dart';
 
@@ -9,9 +9,8 @@ abstract class BiographiesRepository {
   /// [page] - The page number for pagination
   /// [perPage] - Number of articles per page
   ///
-  /// Returns a [BiographiesAndHadithsModel] containing articles on success
-  /// Throws [DioException] if the request fails
-  Future<BiographiesAndHadithsModel> getBiographiesArticles({
+  /// Returns [Right<BiographiesAndHadithsModel>] on success, [Left<String>] on failure
+  Future<Either<String, BiographiesAndHadithsModel>> getBiographiesArticles({
     required int categoryId,
     required int page,
     required int perPage,
@@ -22,9 +21,8 @@ abstract class BiographiesRepository {
   ///
   /// [articleId] - The ID of the article to fetch
   ///
-  /// Returns an [ArticleDetailModel] containing article details on success
-  /// Throws [DioException] if the request fails
-  Future<ArticleDetailModel> getArticleDetail({
+  /// Returns [Right<ArticleDetailModel>] on success, [Left<String>] on failure
+  Future<Either<String, ArticleDetailModel>> getArticleDetail({
     required int articleId,
   });
 }

@@ -1,8 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/network_client.dart';
 import '../../../../core/utils/logger/app_logger.dart';
+import '../../../../config/api_config.dart';
 import '../model.dart';
 import '../../domain/almawduea_repository.dart';
 
@@ -13,13 +15,17 @@ class AlmawdueaRepositoryImpl implements AlmawdueaRepository {
   AlmawdueaRepositoryImpl(this._networkClient);
 
   @override
-  Future<AlmawdueaModel> getAlmawdueaArticles({
+  Future<Either<String, AlmawdueaModel>> getAlmawdueaArticles({
     required int categoryId,
     required int page,
     required int perPage,
   }) async {
     try {
-      final url = '${NetworkClient.baseUrl}/public/categories/articles/with-articles?category_ids=$categoryId&page=$page&per_page=$perPage';
+      final url = ApiConfig.getSingleCategoryArticles(
+        categoryId: categoryId,
+        page: page,
+        perPage: perPage,
+      );
       
       AppLogger.business('Fetching almawduea data');
       final response = await _networkClient.get(url);
@@ -31,10 +37,7 @@ class AlmawdueaRepositoryImpl implements AlmawdueaRepository {
 
       if (response.data == null || (response.data as Map).isEmpty) {
         AppLogger.warning('No data received from API');
-        throw DioException(
-          requestOptions: RequestOptions(path: url),
-          error: 'No data received from server',
-        );
+        return const Left('No data received from server');
       }
 
       final rawData = Map<String, dynamic>.from(response.data as Map<String, dynamic>);
@@ -42,26 +45,23 @@ class AlmawdueaRepositoryImpl implements AlmawdueaRepository {
       
       AppLogger.business('Data mapped successfully', {'model': almawdueaModel.toString()});
 
-      return almawdueaModel;
+      return Right(almawdueaModel);
     } on DioException catch (e) {
       AppLogger.apiError('AlmawdueaRepository - getAlmawdueaArticles', e);
-      rethrow;
+      return Left(e.message ?? 'Connection attempt failed');
     } catch (e) {
       AppLogger.error('Data mapping error', e);
-      throw DioException(
-        requestOptions: RequestOptions(path: '${NetworkClient.baseUrl}/public/categories/articles/$categoryId/with-articles'),
-        error: 'Error processing server response',
-      );
+      return const Left('Error processing server response');
     }
   }
   
   // ===== ARTICLE DETAIL IMPLEMENTATION =====
   @override
-  Future<AlmawdueaArticleDetailModel> getArticleDetail({
+  Future<Either<String, AlmawdueaArticleDetailModel>> getArticleDetail({
     required int articleId,
   }) async {
     try {
-      final url = '${NetworkClient.baseUrl}/public/articles/$articleId?include=category';
+      final url = ApiConfig.getArticleDetail(articleId: articleId);
       
       AppLogger.business('Fetching almawduea data');
       final response = await _networkClient.get(url);
@@ -73,10 +73,7 @@ class AlmawdueaRepositoryImpl implements AlmawdueaRepository {
 
       if (response.data == null || (response.data as Map).isEmpty) {
         AppLogger.warning('No data received from API');
-        throw DioException(
-          requestOptions: RequestOptions(path: url),
-          error: 'No article data received from server',
-        );
+        return const Left('No article data received from server');
       }
 
       final rawData = Map<String, dynamic>.from(response.data as Map<String, dynamic>);
@@ -84,16 +81,13 @@ class AlmawdueaRepositoryImpl implements AlmawdueaRepository {
       
       AppLogger.business('Article detail data mapped successfully', {'model': articleDetailModel.toString()});
 
-      return articleDetailModel;
+      return Right(articleDetailModel);
     } on DioException catch (e) {
       AppLogger.apiError('AlmawdueaRepository - getAlmawdueaArticles', e);
-      rethrow;
+      return Left(e.message ?? 'Connection attempt failed');
     } catch (e) {
       AppLogger.error('Data mapping error', e);
-      throw DioException(
-        requestOptions: RequestOptions(path: '${NetworkClient.baseUrl}/public/articles/$articleId'),
-        error: 'Error processing article detail response',
-      );
+      return const Left('Error processing article detail response');
     }
   }
 }

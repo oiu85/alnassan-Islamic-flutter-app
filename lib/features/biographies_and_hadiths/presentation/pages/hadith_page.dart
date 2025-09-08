@@ -4,6 +4,7 @@ import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 
 import '../../../../core/shared/wdigets/app_drawer.dart';
+import '../../../../core/widgets/ui_status_handling.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../data/model.dart';
 import '../bloc/biographies_bloc.dart';
@@ -27,7 +28,6 @@ class _HadithPageState extends State<HadithPage> {
   void initState() {
     super.initState();
     
-    // Fetch initial data
     context.read<BiographiesBloc>().add(
       const FetchBiographiesArticlesEvent(
         categoryId: categoryId,
@@ -40,11 +40,30 @@ class _HadithPageState extends State<HadithPage> {
 
   // ===== CARD CLICK HANDLER =====
   /// Handles card click by dispatching event to BLoC
- 
   void _onArticleCardClick(BiographiesArticle article) {
     context.read<BiographiesBloc>().add(
       ArticleCardClickEvent(article: article),
     );
+  }
+
+  // ===== NAVIGATION HANDLER =====
+  /// Handles navigation to HTML viewer when content is ready
+  void _handleNavigation(BuildContext context, BiographiesState state) {
+    if (state.articleDetailStatus.isSuccess() && 
+        state.htmlContent != null && 
+        !state.hasNavigatedToArticle) {
+      // Mark that navigation has happened
+      context.read<BiographiesBloc>().add(MarkArticleNavigatedEvent());
+      
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HtmlBookViewerPage(
+            htmlContent: state.htmlContent!,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -59,213 +78,24 @@ class _HadithPageState extends State<HadithPage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: BlocConsumer<BiographiesBloc, BiographiesState>(
-          listener: (context, state) {
-            // ===== ARTICLE DETAIL LISTENER =====
-            // Handle loading state - show loading dialog
-            if (state.articleDetailStatus.isLoading()) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-            // Handle article detail loading completion
-            else if (state.articleDetailStatus.isSuccess() && state.htmlContent != null) {
-              // Close loading dialog
-              Navigator.of(context).pop();
-              
-              // Navigate to HTML viewer using the pre-mapped content from BLoC
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HtmlBookViewerPage(
-                    htmlContent: state.htmlContent!,
-                  ),
-                ),
-              );
-            } 
-            // Handle error state
-            else if (state.articleDetailStatus.isFail()) {
-              // Close loading dialog and show error
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.articleDetailError ?? 'خطأ في تحميل المقال'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
+        child: BlocBuilder<BiographiesBloc, BiographiesState>(
           builder: (context, state) {
-            return CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  pinned: false,
-                  floating: true,
-                  actions: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_forward_outlined),
-                      onPressed: () {
-                        Navigator.of(context).maybePop();
-                      },
-                    ),
-                  ],
-                ),
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 30),
-                    child: Row(
-                      children: [
-                        Text(
-                          state.biographiesData?.data?.categories?.first.catTitle ?? "باب التراجم",
-                          style: const TextStyle(
-                            fontFamily: FontFamily.tajawal,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        // Combined filter button for pagination
-                        context.read<BiographiesBloc>().buildFilterButton(
-                          context: context,
-                          categoryId: categoryId,
-                          perPage: perPage,
-                        ),
-                      ],
-                    ),
+            return SimpleLottieHandler(
+              blocStatus: state.status,
+              successWidget: _buildHadithContent(context, state),
+              isEmpty: state.status.isSuccess() && state.articles.isEmpty,
+              emptyMessage: 'لا توجد مقالات متاحة',
+              loadingMessage: 'جاري تحميل المقالات...',
+              onRetry: () {
+                context.read<BiographiesBloc>().add(
+                  const FetchBiographiesArticlesEvent(
+                    categoryId: categoryId,
+                    page: 1,
+                    perPage: perPage,
                   ),
-                ),
-                if (state.status.isLoading() && state.articles.isEmpty)
-                  const SliverToBoxAdapter(
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  )
-                else if (state.status.isLoading() && state.articles.isNotEmpty)
-                  const SliverToBoxAdapter(
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  )
-                else if (state.status.isFail())
-                  SliverToBoxAdapter(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(
-                          state.error ?? 'حدث خطأ في تحميل البيانات',
-                          style: const TextStyle(
-                            fontFamily: FontFamily.tajawal,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                else if (state.articles.isEmpty)
-                  const SliverToBoxAdapter(
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          'لا توجد مقالات متاحة',
-                          style: TextStyle(
-                            fontFamily: FontFamily.tajawal,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                else
-                  SliverGrid(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 19,
-                      crossAxisSpacing: 20,
-                      childAspectRatio: 1.15,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        if (index >= state.articles.length) {
-                          return null;
-                        }
-                        
-                        final article = state.articles[index];
-                        return Card(
-                          color: AppColors.secondary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          child: InkWell(
-                            onTap: () => _onArticleCardClick(article),
-                            child: Stack(
-                              clipBehavior: Clip.antiAlias,
-                              children: [
-                                Positioned(
-                                  top: -3,
-                                  right: -3,
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      topRight: Radius.circular(180),
-                                    ),
-                                    child: Image.asset(
-                                      Assets.images.circulerZh.path,
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: const Alignment(-1.04, 1.04),
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(180),
-                                    ),
-                                    child: Image.asset(
-                                      Assets.images.circulerZh.path,
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: const Alignment(-0.3, 0.2),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      article.articleTitle ?? 'عنوان غير متوفر',
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontFamily: FontFamily.tajawal,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      maxLines: 4,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      childCount: state.articles.length,
-                    ),
-                  ),
-              ],
+                );
+              },
+              animationSize: 200,
             );
           },
         ),
@@ -273,6 +103,140 @@ class _HadithPageState extends State<HadithPage> {
     );
   }
 
+  Widget _buildHadithContent(BuildContext context, BiographiesState state) {
+    // Handle navigation when content is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleNavigation(context, state);
+    });
+
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          pinned: false,
+          floating: true,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.arrow_forward_outlined),
+              onPressed: () {
+                Navigator.of(context).maybePop();
+              },
+            ),
+          ],
+        ),
+        SliverToBoxAdapter(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 30),
+            child: Row(
+              children: [
+                Text(
+                  state.biographiesData?.data?.categories?.first.catTitle ?? "باب التراجم",
+                  style: const TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // Combined filter button for pagination
+                context.read<BiographiesBloc>().buildFilterButton(
+                  context: context,
+                  categoryId: categoryId,
+                  perPage: perPage,
+                ),
+              ],
+            ),
+          ),
+        ),
+        SliverGrid(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 19,
+            crossAxisSpacing: 20,
+            childAspectRatio: 1.15,
+          ),
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              if (index >= state.articles.length) {
+                return null;
+              }
+              
+              final article = state.articles[index];
+              final isLoading = state.articleDetailStatus.isLoading() && 
+                               state.loadingArticleId == article.articleId;
+              return Card(
+                color: AppColors.secondary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: InkWell(
+                  onTap: () => _onArticleCardClick(article),
+                  child: Stack(
+                    clipBehavior: Clip.antiAlias,
+                    children: [
+                      // Loading indicator
+                      if (isLoading)
+                        const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      Positioned(
+                        top: -3,
+                        right: -3,
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(180),
+                          ),
+                          child: Image.asset(
+                            Assets.images.circulerZh.path,
+                            width: 50,
+                            height: 50,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: const Alignment(-1.04, 1.04),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(180),
+                          ),
+                          child: Image.asset(
+                            Assets.images.circulerZh.path,
+                            width: 50,
+                            height: 50,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: const Alignment(-0.3, 0.2),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            article.articleTitle ?? 'عنوان غير متوفر',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontFamily: FontFamily.tajawal,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            childCount: state.articles.length,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 // Container(

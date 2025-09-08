@@ -21,6 +21,11 @@ class AlmawdueaState extends Equatable {
   final AlmawdueaArticleDetailModel? articleDetail;
   final HtmlContent? htmlContent; // Mapped HTML content ready for viewer
   final String? articleDetailError;
+  final int? loadingArticleId;
+  final bool hasNavigatedToArticle;
+  
+  // ===== EXPAND/COLLAPSE STATE =====
+  final Set<int> expandedArticles;
 
   const AlmawdueaState({
     this.status = const BlocStatus.initial(),
@@ -36,6 +41,9 @@ class AlmawdueaState extends Equatable {
     this.articleDetail,
     this.htmlContent,
     this.articleDetailError,
+    this.loadingArticleId,
+    this.hasNavigatedToArticle = false,
+    this.expandedArticles = const <int>{},
   });
 
   AlmawdueaState copyWith({
@@ -52,6 +60,9 @@ class AlmawdueaState extends Equatable {
     AlmawdueaArticleDetailModel? articleDetail,
     HtmlContent? htmlContent,
     String? articleDetailError,
+    int? loadingArticleId,
+    bool? hasNavigatedToArticle,
+    Set<int>? expandedArticles,
   }) {
     return AlmawdueaState(
       status: status ?? this.status,
@@ -67,6 +78,9 @@ class AlmawdueaState extends Equatable {
       articleDetail: articleDetail ?? this.articleDetail,
       htmlContent: htmlContent ?? this.htmlContent,
       articleDetailError: articleDetailError ?? this.articleDetailError,
+      loadingArticleId: loadingArticleId ?? this.loadingArticleId,
+      hasNavigatedToArticle: hasNavigatedToArticle ?? this.hasNavigatedToArticle,
+      expandedArticles: expandedArticles ?? this.expandedArticles,
     );
   }
 
@@ -85,5 +99,8 @@ class AlmawdueaState extends Equatable {
         articleDetail,
         htmlContent,
         articleDetailError,
+        loadingArticleId,
+        hasNavigatedToArticle,
+        expandedArticles,
       ];
 }

@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -13,7 +14,7 @@ class HomeRepositoryImpl implements HomeRepository {
   HomeRepositoryImpl(this._networkClient);
 
   @override
-  Future<HomeModel> getHomeData() async {
+  Future<Either<String, HomeModel>> getHomeData() async {
     try {
       AppLogger.business('Fetching home data');
       final response = await _networkClient.get(NetworkClient.homeUrl);
@@ -25,10 +26,7 @@ class HomeRepositoryImpl implements HomeRepository {
 
       if (response.data == null || (response.data as Map).isEmpty) {
         AppLogger.warning('No data received from API');
-        throw DioException(
-          requestOptions: RequestOptions(path: NetworkClient.homeUrl),
-          error: 'No data received from server',
-        );
+        return const Left('No data received from server');
       }
 
       // Parse initial response and make a deep copy to avoid modifying the original
@@ -100,16 +98,13 @@ class HomeRepositoryImpl implements HomeRepository {
       final homeModel = HomeModel.fromJson(rawData);
       AppLogger.business('Data mapped successfully', {'model': homeModel.toString()});
 
-      return homeModel;
+      return Right(homeModel);
     } on DioException catch (e) {
       AppLogger.apiError('HomeRepository - getHomeData', e);
-      rethrow;
+      return Left(e.message ?? 'Connection attempt failed');
     } catch (e) {
       AppLogger.error('Data mapping error', e);
-      throw DioException(
-        requestOptions: RequestOptions(path: NetworkClient.homeUrl),
-        error: 'Error processing server response',
-      );
+      return const Left('Error processing server response');
     }
   }
 }

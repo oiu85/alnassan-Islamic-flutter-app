@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
 
 import '../../../../core/utils/logger/app_logger.dart';
 import '../../../../core/models/page_state/bloc_status.dart';
@@ -20,6 +19,8 @@ class AlmawdueaBloc extends Bloc<AlmawdueaEvent, AlmawdueaState> {
     on<ChangePageEvent>(_onChangePage);
     on<FetchArticleDetailEvent>(_onFetchArticleDetail);
     on<ArticleCardClickEvent>(_onArticleCardClick);
+    on<MarkArticleNavigatedEvent>(_onMarkArticleNavigated);
+    on<ToggleArticleExpansionEvent>(_onToggleArticleExpansion);
   }
 
   // ===== FILTER BUTTON LOGIC =====
@@ -128,7 +129,11 @@ class AlmawdueaBloc extends Bloc<AlmawdueaEvent, AlmawdueaState> {
     // Set loading state for article detail
     emit(state.copyWith(
       articleDetailStatus: const BlocStatus.loading(),
+      articleDetail: null,
+      htmlContent: null,
       articleDetailError: null,
+      loadingArticleId: event.article.articleId,
+      hasNavigatedToArticle: false,
     ));
 
     // Trigger article detail fetch
@@ -139,104 +144,97 @@ class AlmawdueaBloc extends Bloc<AlmawdueaEvent, AlmawdueaState> {
     FetchAlmawdueaArticlesEvent event,
     Emitter<AlmawdueaState> emit,
   ) async {
-    try {
-      AppLogger.business('Initiating almawduea data fetch', {'status': state.status.toString()});
-      
-      emit(state.copyWith(
-        status: const BlocStatus.loading(),
-        hasReachedMax: false,
-      ));
-      final almawdueaModel = await _almawdueaRepository.getAlmawdueaArticles(
-        categoryId: event.categoryId,
-        page: event.page,
-        perPage: event.perPage,
-      );
+    AppLogger.business('Initiating almawduea data fetch', {'status': state.status.toString()});
+    
+    emit(state.copyWith(
+      status: const BlocStatus.loading(),
+      hasReachedMax: false,
+    ));
 
-      // Log the response for debugging
-      AppLogger.apiResponse('AlmawdueaBloc - Processed Model', almawdueaModel);
+    final result = await _almawdueaRepository.getAlmawdueaArticles(
+      categoryId: event.categoryId,
+      page: event.page,
+      perPage: event.perPage,
+    );
 
-      // Check if we have valid data
-      if (almawdueaModel.data == null) {
-        AppLogger.error('No data in response');
+    result.fold(
+      // Left side - Error case
+      (error) {
+        AppLogger.error('Almawduea fetch error: $error');
         emit(
           state.copyWith(
-            status: const BlocStatus.fail(
-              error: 'Invalid response format',
-            ),
+            status: BlocStatus.fail(error: error),
           ),
         );
-        return;
-      }
+      },
+      // Right side - Success case
+      (almawdueaModel) {
+        // Log the response for debugging
+        AppLogger.apiResponse('AlmawdueaBloc - Processed Model', almawdueaModel);
 
-      // Get the first category (should contain our articles)
-      final categories = almawdueaModel.data?.categories;
-      if (categories == null || categories.isEmpty) {
-        AppLogger.warning('No articles found');
+        // Check if we have valid data
+        if (almawdueaModel.data == null) {
+          AppLogger.error('No data in response');
+          emit(
+            state.copyWith(
+              status: const BlocStatus.fail(
+                error: 'Invalid response format',
+              ),
+            ),
+          );
+          return;
+        }
+
+        // Get the first category (should contain our articles)
+        final categories = almawdueaModel.data?.categories;
+        if (categories == null || categories.isEmpty) {
+          AppLogger.warning('No articles found');
+          emit(
+            state.copyWith(
+              status: const BlocStatus.fail(
+                error: 'No categories found',
+              ),
+            ),
+          );
+          return;
+        }
+
+        final firstCategory = categories.first;
+        final articles = firstCategory.articles;
+        
+        if (articles == null || articles.isEmpty) {
+          AppLogger.warning('No articles found');
+          emit(
+            state.copyWith(
+              status: const BlocStatus.fail(
+                error: 'No articles found',
+              ),
+            ),
+          );
+          return;
+        }
+
+        final newArticles = articles;
+        final pagination = firstCategory.pagination;
+        final totalPages = pagination?.lastPage ?? 1;
+        final totalItems = pagination?.total ?? 0;
+        final hasReachedMax = newArticles.length < event.perPage;
+
+        AppLogger.business('Almawduea data fetch successful', {'articlesCount': newArticles.length});
         emit(
           state.copyWith(
-            status: const BlocStatus.fail(
-              error: 'No categories found',
-            ),
+            status: const BlocStatus.success(),
+            almawdueaData: almawdueaModel,
+            articles: newArticles,
+            currentPage: event.page,
+            perPage: event.perPage,
+            totalPages: totalPages,
+            totalItems: totalItems,
+            hasReachedMax: hasReachedMax,
           ),
         );
-        return;
-      }
-
-      final firstCategory = categories.first;
-      final articles = firstCategory.articles;
-      
-      if (articles == null || articles.isEmpty) {
-        AppLogger.warning('No articles found');
-        emit(
-          state.copyWith(
-            status: const BlocStatus.fail(
-              error: 'No articles found',
-            ),
-          ),
-        );
-        return;
-      }
-
-      final newArticles = articles;
-      final pagination = firstCategory.pagination;
-      final totalPages = pagination?.lastPage ?? 1;
-      final totalItems = pagination?.total ?? 0;
-      final hasReachedMax = newArticles.length < event.perPage;
-
-      AppLogger.business('Almawduea data fetch successful', {'articlesCount': newArticles.length});
-      emit(
-        state.copyWith(
-          status: const BlocStatus.success(),
-          almawdueaData: almawdueaModel,
-          articles: newArticles,
-          currentPage: event.page,
-          perPage: event.perPage,
-          totalPages: totalPages,
-          totalItems: totalItems,
-          hasReachedMax: hasReachedMax,
-        ),
-      );
-    } on DioException catch (e) {
-      AppLogger.apiError('Almawduea fetch error', e);
-      emit(
-        state.copyWith(
-          status: BlocStatus.fail(
-            error: e.message ?? 'Connection attempt failed',
-          ),
-        ),
-      );
-    } catch (e) {
-      AppLogger.error(
-        'Unexpected error while fetching almawduea data',
-        e,
-        (e as Error).stackTrace,
-      );
-      emit(
-        state.copyWith(
-          status: BlocStatus.fail(error: 'Unexpected error occurred'),
-        ),
-      );
-    }
+      },
+    );
   }
 
   Future<void> _onChangePage(
@@ -255,51 +253,85 @@ class AlmawdueaBloc extends Bloc<AlmawdueaEvent, AlmawdueaState> {
     FetchArticleDetailEvent event,
     Emitter<AlmawdueaState> emit,
   ) async {
-    try {
-      AppLogger.business('Initiating article detail fetch', {'status': state.articleDetailStatus.toString()});
+    AppLogger.business('Initiating article detail fetch', {'status': state.articleDetailStatus.toString()});
 
-      emit(state.copyWith(
-        articleDetailStatus: const BlocStatus.loading(),
-        articleDetailError: null,
-      ));
+    emit(state.copyWith(
+      articleDetailStatus: const BlocStatus.loading(),
+      articleDetail: null,
+      htmlContent: null,
+      articleDetailError: null,
+      loadingArticleId: event.articleId,
+      hasNavigatedToArticle: false,
+    ));
 
-      final articleDetailModel = await _almawdueaRepository.getArticleDetail(
-        articleId: event.articleId,
-      );
+    final result = await _almawdueaRepository.getArticleDetail(
+      articleId: event.articleId,
+    );
 
-      if (articleDetailModel.data == null) {
-        AppLogger.warning('No article data received');
+    result.fold(
+      // Left side - Error case
+      (error) {
+        AppLogger.error('Article detail fetch error: $error');
         emit(state.copyWith(
-          articleDetailStatus: const BlocStatus.fail(error: 'No article data received'),
-          articleDetailError: 'No article data received',
+          articleDetailStatus: const BlocStatus.fail(error: 'Network error'),
+          articleDetailError: 'Network error: $error',
+          loadingArticleId: null,
         ));
-        return;
-      }
+      },
+      // Right side - Success case
+      (articleDetailModel) {
+        if (articleDetailModel.data == null) {
+          AppLogger.warning('No article data received');
+          emit(state.copyWith(
+            articleDetailStatus: const BlocStatus.fail(error: 'No article data received'),
+            articleDetailError: 'No article data received',
+            loadingArticleId: null,
+          ));
+          return;
+        }
 
-      // Map the article detail to HTML content
-      final htmlContent = _mapArticleDetailToHtmlContent(articleDetailModel);
-      
-      AppLogger.business('Article detail fetch successful', {'articleId': event.articleId});
-      emit(
-        state.copyWith(
-          articleDetailStatus: const BlocStatus.success(),
-          articleDetail: articleDetailModel,
-          htmlContent: htmlContent, // Set the mapped HTML content
-          articleDetailError: null,
-        ),
-      );
-    } on DioException catch (e) {
-      AppLogger.apiError('Article detail fetch error', e);
-      emit(state.copyWith(
-        articleDetailStatus: const BlocStatus.fail(error: 'Network error'),
-        articleDetailError: 'Network error: ${e.message}',
-      ));
-    } catch (e) {
-      AppLogger.error('Article detail mapping error', e);
-      emit(state.copyWith(
-        articleDetailStatus: const BlocStatus.fail(error: 'Error loading article'),
-        articleDetailError: 'Error loading article: ${e.toString()}',
-      ));
+        // Map the article detail to HTML content
+        final htmlContent = _mapArticleDetailToHtmlContent(articleDetailModel);
+        
+        AppLogger.business('Article detail fetch successful', {'articleId': event.articleId});
+        emit(
+          state.copyWith(
+            articleDetailStatus: const BlocStatus.success(),
+            articleDetail: articleDetailModel,
+            htmlContent: htmlContent, // Set the mapped HTML content
+            articleDetailError: null,
+            loadingArticleId: null,
+          ),
+        );
+      },
+    );
+  }
+
+  // ===== NAVIGATION MARKER =====
+  Future<void> _onMarkArticleNavigated(
+    MarkArticleNavigatedEvent event,
+    Emitter<AlmawdueaState> emit,
+  ) async {
+    emit(state.copyWith(
+      hasNavigatedToArticle: true,
+    ));
+  }
+
+  // ===== EXPAND/COLLAPSE HANDLER =====
+  Future<void> _onToggleArticleExpansion(
+    ToggleArticleExpansionEvent event,
+    Emitter<AlmawdueaState> emit,
+  ) async {
+    final Set<int> newExpandedArticles = Set<int>.from(state.expandedArticles);
+    
+    if (newExpandedArticles.contains(event.articleId)) {
+      newExpandedArticles.remove(event.articleId);
+    } else {
+      newExpandedArticles.add(event.articleId);
     }
+    
+    emit(state.copyWith(
+      expandedArticles: newExpandedArticles,
+    ));
   }
 }
