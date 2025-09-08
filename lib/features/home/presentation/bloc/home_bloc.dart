@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 
-import '../../../../core/utils/logger/log_helper.dart';
+import '../../../../core/utils/logger/app_logger.dart';
 
 import '../../../../core/models/page_state/bloc_status.dart';
 import '../../data/repositories/reprositers_imp.dart';
@@ -20,20 +20,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     try {
-      LogHelper.logInitiatingHomeDataFetch(state.status);
+      AppLogger.business('Initiating home data fetch', {'status': state.status.toString()});
       emit(state.copyWith(status: const BlocStatus.loading()));
 
       final homeModel = await _homeRepositoryImp.getHomeData();
       
       // Log the response for debugging
-      LogHelper.logApiResponse(
-        'HomeBloc',
-        'Processed Model: ${homeModel.toString()}',
-      );
+      AppLogger.apiResponse('HomeBloc - Processed Model', homeModel);
 
       // Check if we have valid data
       if (homeModel.data == null) {
-        LogHelper.logError('No data in response');
+        AppLogger.error('No data in response');
         emit(
           state.copyWith(
             status: const BlocStatus.fail(
@@ -46,7 +43,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       if (homeModel.data?.recentArticles == null || 
           homeModel.data!.recentArticles!.isEmpty) {
-        LogHelper.logNoArticlesFound();
+        AppLogger.warning('No articles found');
         emit(
           state.copyWith(
             status: const BlocStatus.fail(
@@ -57,7 +54,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         return;
       }
 
-      LogHelper.logHomeDataFetchSuccess(1); // Single article
+      AppLogger.business('Home data fetch successful', {'articlesCount': 1});
       emit(
         state.copyWith(
           status: const BlocStatus.success(),
@@ -65,7 +62,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
     } on DioException catch (e) {
-      LogHelper.logFetchError(e);
+      AppLogger.apiError('Home data fetch error', e);
       emit(
         state.copyWith(
           status: BlocStatus.fail(
@@ -74,7 +71,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       );
     } catch (e) {
-      LogHelper.logError('Unexpected error while fetching home data', stackTrace: (e as Error).stackTrace.toString(),);
+      AppLogger.error('Unexpected error while fetching home data', e, (e as Error).stackTrace);
       emit(
         state.copyWith(
           status: BlocStatus.fail(error: 'Unexpected error occurred'),

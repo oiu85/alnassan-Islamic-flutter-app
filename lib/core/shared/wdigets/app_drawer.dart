@@ -6,6 +6,8 @@ import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../features/biographies_and_hadiths/presentation/pages/hadith_page.dart';
 import '../../../features/biographies_and_hadiths/presentation/bloc/biographies_bloc.dart';
 import '../../../features/hadith_almawduea/presentation/pages/almawduea_page.dart';
+import '../../../features/hadith_almawduea/presentation/bloc/almawduea_bloc.dart';
+import '../../../features/with_habib_almustafa/presentation/pages/habib_mustafa.dart';
 import '../../../gen/assets.gen.dart';
 
 import '../../../features/biography/presentation/adapters/drawer_to_biography_adapter.dart';
@@ -79,7 +81,10 @@ class AppDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AlmawdueaPage(),
+                      builder: (context) => BlocProvider(
+                        create: (context) => getIt<AlmawdueaBloc>(),
+                        child: const AlmawdueaPage(),
+                      ),
                     ),
                   );
                 },
@@ -90,6 +95,10 @@ class AppDrawer extends StatelessWidget {
                 "مع الحبيب مصطفى",
                 Assets.images.drawerImage.path,
                 () {
+                  Navigator.of(context).push(   MaterialPageRoute(
+                      builder: (context) => const HabibMustafa()));
+
+
                 },
               ),
               SizedBox(height: _height(25)),

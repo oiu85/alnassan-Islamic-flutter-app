@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../core/models/page_state/bloc_status.dart';
-import '../../../../../core/utils/logger/log_helper.dart';
+import '../../../../../core/utils/logger/app_logger.dart';
 import '../../../../../features/html_viewer/domain/models/html_content.dart';
 import '../../domain/use_case/get_biography_use_case.dart';
 import 'biography_event.dart';
@@ -22,13 +22,13 @@ class BiographyBloc extends Bloc<BiographyEvent, BiographyState> {
     Emitter<BiographyState> emit,
   ) async {
     try {
-      LogHelper.logInfo('Initiating Biography Article data fetch');
+      AppLogger.business('Initiating Biography Article data fetch');
       emit(state.copyWith(status: const BlocStatus.loading()));
 
       final article = await _getBiographyUseCase();
 
       if (article.content == null || article.content!.isEmpty) {
-        LogHelper.logWarning('No article content found');
+        AppLogger.warning('No article content found');
         emit(
           state.copyWith(
             status: const BlocStatus.fail(
@@ -51,7 +51,7 @@ class BiographyBloc extends Bloc<BiographyEvent, BiographyState> {
         date: article.date
       );
 
-      LogHelper.logInfo('Successfully fetched Biography Article data and converted to HtmlContent');
+      AppLogger.business('Successfully fetched Biography Article data and converted to HtmlContent');
       emit(
         state.copyWith(
           status: const BlocStatus.success(),
@@ -60,7 +60,7 @@ class BiographyBloc extends Bloc<BiographyEvent, BiographyState> {
         ),
       );
     } on DioException catch (e) {
-      LogHelper.logFetchError(e);
+      AppLogger.apiError('Biography article fetch error', e);
       emit(
         state.copyWith(
           status: BlocStatus.fail(
@@ -69,7 +69,7 @@ class BiographyBloc extends Bloc<BiographyEvent, BiographyState> {
         ),
       );
     } catch (e) {
-      LogHelper.logError('Unexpected error while fetching biography article', stackTrace: (e as Error).stackTrace.toString());
+      AppLogger.error('Unexpected error while fetching biography article', e, (e as Error).stackTrace);
       emit(
         state.copyWith(
           status: BlocStatus.fail(error: 'Unexpected error occurred'),

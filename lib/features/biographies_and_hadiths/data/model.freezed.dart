@@ -332,7 +332,7 @@ $BiographiesMetaCopyWith<$Res>? get meta {
 /// @nodoc
 mixin _$BiographiesData {
 
- BiographiesCategory? get category; List<BiographiesArticle>? get articles;
+ List<BiographiesCategoryWithArticles>? get categories;
 /// Create a copy of BiographiesData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -345,16 +345,16 @@ $BiographiesDataCopyWith<BiographiesData> get copyWith => _$BiographiesDataCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BiographiesData&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other.articles, articles));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BiographiesData&&const DeepCollectionEquality().equals(other.categories, categories));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,category,const DeepCollectionEquality().hash(articles));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(categories));
 
 @override
 String toString() {
-  return 'BiographiesData(category: $category, articles: $articles)';
+  return 'BiographiesData(categories: $categories)';
 }
 
 
@@ -365,11 +365,11 @@ abstract mixin class $BiographiesDataCopyWith<$Res>  {
   factory $BiographiesDataCopyWith(BiographiesData value, $Res Function(BiographiesData) _then) = _$BiographiesDataCopyWithImpl;
 @useResult
 $Res call({
- BiographiesCategory? category, List<BiographiesArticle>? articles
+ List<BiographiesCategoryWithArticles>? categories
 });
 
 
-$BiographiesCategoryCopyWith<$Res>? get category;
+
 
 }
 /// @nodoc
@@ -382,26 +382,13 @@ class _$BiographiesDataCopyWithImpl<$Res>
 
 /// Create a copy of BiographiesData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? category = freezed,Object? articles = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? categories = freezed,}) {
   return _then(_self.copyWith(
-category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as BiographiesCategory?,articles: freezed == articles ? _self.articles : articles // ignore: cast_nullable_to_non_nullable
-as List<BiographiesArticle>?,
+categories: freezed == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
+as List<BiographiesCategoryWithArticles>?,
   ));
 }
-/// Create a copy of BiographiesData
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$BiographiesCategoryCopyWith<$Res>? get category {
-    if (_self.category == null) {
-    return null;
-  }
 
-  return $BiographiesCategoryCopyWith<$Res>(_self.category!, (value) {
-    return _then(_self.copyWith(category: value));
-  });
-}
 }
 
 
@@ -483,10 +470,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BiographiesCategory? category,  List<BiographiesArticle>? articles)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<BiographiesCategoryWithArticles>? categories)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BiographiesData() when $default != null:
-return $default(_that.category,_that.articles);case _:
+return $default(_that.categories);case _:
   return orElse();
 
 }
@@ -504,10 +491,10 @@ return $default(_that.category,_that.articles);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BiographiesCategory? category,  List<BiographiesArticle>? articles)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<BiographiesCategoryWithArticles>? categories)  $default,) {final _that = this;
 switch (_that) {
 case _BiographiesData():
-return $default(_that.category,_that.articles);case _:
+return $default(_that.categories);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -524,10 +511,10 @@ return $default(_that.category,_that.articles);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BiographiesCategory? category,  List<BiographiesArticle>? articles)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<BiographiesCategoryWithArticles>? categories)?  $default,) {final _that = this;
 switch (_that) {
 case _BiographiesData() when $default != null:
-return $default(_that.category,_that.articles);case _:
+return $default(_that.categories);case _:
   return null;
 
 }
@@ -539,15 +526,14 @@ return $default(_that.category,_that.articles);case _:
 @JsonSerializable()
 
 class _BiographiesData implements BiographiesData {
-  const _BiographiesData({this.category, final  List<BiographiesArticle>? articles}): _articles = articles;
+  const _BiographiesData({final  List<BiographiesCategoryWithArticles>? categories}): _categories = categories;
   factory _BiographiesData.fromJson(Map<String, dynamic> json) => _$BiographiesDataFromJson(json);
 
-@override final  BiographiesCategory? category;
- final  List<BiographiesArticle>? _articles;
-@override List<BiographiesArticle>? get articles {
-  final value = _articles;
+ final  List<BiographiesCategoryWithArticles>? _categories;
+@override List<BiographiesCategoryWithArticles>? get categories {
+  final value = _categories;
   if (value == null) return null;
-  if (_articles is EqualUnmodifiableListView) return _articles;
+  if (_categories is EqualUnmodifiableListView) return _categories;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
@@ -566,16 +552,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BiographiesData&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._articles, _articles));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BiographiesData&&const DeepCollectionEquality().equals(other._categories, _categories));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,category,const DeepCollectionEquality().hash(_articles));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_categories));
 
 @override
 String toString() {
-  return 'BiographiesData(category: $category, articles: $articles)';
+  return 'BiographiesData(categories: $categories)';
 }
 
 
@@ -586,11 +572,11 @@ abstract mixin class _$BiographiesDataCopyWith<$Res> implements $BiographiesData
   factory _$BiographiesDataCopyWith(_BiographiesData value, $Res Function(_BiographiesData) _then) = __$BiographiesDataCopyWithImpl;
 @override @useResult
 $Res call({
- BiographiesCategory? category, List<BiographiesArticle>? articles
+ List<BiographiesCategoryWithArticles>? categories
 });
 
 
-@override $BiographiesCategoryCopyWith<$Res>? get category;
+
 
 }
 /// @nodoc
@@ -603,27 +589,621 @@ class __$BiographiesDataCopyWithImpl<$Res>
 
 /// Create a copy of BiographiesData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? category = freezed,Object? articles = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? categories = freezed,}) {
   return _then(_BiographiesData(
-category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as BiographiesCategory?,articles: freezed == articles ? _self._articles : articles // ignore: cast_nullable_to_non_nullable
-as List<BiographiesArticle>?,
+categories: freezed == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
+as List<BiographiesCategoryWithArticles>?,
   ));
 }
 
-/// Create a copy of BiographiesData
+
+}
+
+
+/// @nodoc
+mixin _$BiographiesCategoryWithArticles {
+
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_pos', fromJson: _stringToInt) int? get catPos; dynamic get parent; List<dynamic>? get children; List<BiographiesHierarchy>? get hierarchy; List<BiographiesArticle>? get articles; BiographiesPagination? get pagination;
+/// Create a copy of BiographiesCategoryWithArticles
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BiographiesCategoryWithArticlesCopyWith<BiographiesCategoryWithArticles> get copyWith => _$BiographiesCategoryWithArticlesCopyWithImpl<BiographiesCategoryWithArticles>(this as BiographiesCategoryWithArticles, _$identity);
+
+  /// Serializes this BiographiesCategoryWithArticles to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BiographiesCategoryWithArticles&&(identical(other.catId, catId) || other.catId == catId)&&(identical(other.catTitle, catTitle) || other.catTitle == catTitle)&&(identical(other.catNote, catNote) || other.catNote == catNote)&&(identical(other.catPic, catPic) || other.catPic == catPic)&&(identical(other.catPos, catPos) || other.catPos == catPos)&&const DeepCollectionEquality().equals(other.parent, parent)&&const DeepCollectionEquality().equals(other.children, children)&&const DeepCollectionEquality().equals(other.hierarchy, hierarchy)&&const DeepCollectionEquality().equals(other.articles, articles)&&(identical(other.pagination, pagination) || other.pagination == pagination));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,catId,catTitle,catNote,catPic,catPos,const DeepCollectionEquality().hash(parent),const DeepCollectionEquality().hash(children),const DeepCollectionEquality().hash(hierarchy),const DeepCollectionEquality().hash(articles),pagination);
+
+@override
+String toString() {
+  return 'BiographiesCategoryWithArticles(catId: $catId, catTitle: $catTitle, catNote: $catNote, catPic: $catPic, catPos: $catPos, parent: $parent, children: $children, hierarchy: $hierarchy, articles: $articles, pagination: $pagination)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BiographiesCategoryWithArticlesCopyWith<$Res>  {
+  factory $BiographiesCategoryWithArticlesCopyWith(BiographiesCategoryWithArticles value, $Res Function(BiographiesCategoryWithArticles) _then) = _$BiographiesCategoryWithArticlesCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos', fromJson: _stringToInt) int? catPos, dynamic parent, List<dynamic>? children, List<BiographiesHierarchy>? hierarchy, List<BiographiesArticle>? articles, BiographiesPagination? pagination
+});
+
+
+$BiographiesPaginationCopyWith<$Res>? get pagination;
+
+}
+/// @nodoc
+class _$BiographiesCategoryWithArticlesCopyWithImpl<$Res>
+    implements $BiographiesCategoryWithArticlesCopyWith<$Res> {
+  _$BiographiesCategoryWithArticlesCopyWithImpl(this._self, this._then);
+
+  final BiographiesCategoryWithArticles _self;
+  final $Res Function(BiographiesCategoryWithArticles) _then;
+
+/// Create a copy of BiographiesCategoryWithArticles
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? catId = freezed,Object? catTitle = freezed,Object? catNote = freezed,Object? catPic = freezed,Object? catPos = freezed,Object? parent = freezed,Object? children = freezed,Object? hierarchy = freezed,Object? articles = freezed,Object? pagination = freezed,}) {
+  return _then(_self.copyWith(
+catId: freezed == catId ? _self.catId : catId // ignore: cast_nullable_to_non_nullable
+as int?,catTitle: freezed == catTitle ? _self.catTitle : catTitle // ignore: cast_nullable_to_non_nullable
+as String?,catNote: freezed == catNote ? _self.catNote : catNote // ignore: cast_nullable_to_non_nullable
+as String?,catPic: freezed == catPic ? _self.catPic : catPic // ignore: cast_nullable_to_non_nullable
+as String?,catPos: freezed == catPos ? _self.catPos : catPos // ignore: cast_nullable_to_non_nullable
+as int?,parent: freezed == parent ? _self.parent : parent // ignore: cast_nullable_to_non_nullable
+as dynamic,children: freezed == children ? _self.children : children // ignore: cast_nullable_to_non_nullable
+as List<dynamic>?,hierarchy: freezed == hierarchy ? _self.hierarchy : hierarchy // ignore: cast_nullable_to_non_nullable
+as List<BiographiesHierarchy>?,articles: freezed == articles ? _self.articles : articles // ignore: cast_nullable_to_non_nullable
+as List<BiographiesArticle>?,pagination: freezed == pagination ? _self.pagination : pagination // ignore: cast_nullable_to_non_nullable
+as BiographiesPagination?,
+  ));
+}
+/// Create a copy of BiographiesCategoryWithArticles
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$BiographiesCategoryCopyWith<$Res>? get category {
-    if (_self.category == null) {
+$BiographiesPaginationCopyWith<$Res>? get pagination {
+    if (_self.pagination == null) {
     return null;
   }
 
-  return $BiographiesCategoryCopyWith<$Res>(_self.category!, (value) {
-    return _then(_self.copyWith(category: value));
+  return $BiographiesPaginationCopyWith<$Res>(_self.pagination!, (value) {
+    return _then(_self.copyWith(pagination: value));
   });
 }
+}
+
+
+/// Adds pattern-matching-related methods to [BiographiesCategoryWithArticles].
+extension BiographiesCategoryWithArticlesPatterns on BiographiesCategoryWithArticles {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BiographiesCategoryWithArticles value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BiographiesCategoryWithArticles() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BiographiesCategoryWithArticles value)  $default,){
+final _that = this;
+switch (_that) {
+case _BiographiesCategoryWithArticles():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BiographiesCategoryWithArticles value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BiographiesCategoryWithArticles() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _stringToInt)  int? catPos,  dynamic parent,  List<dynamic>? children,  List<BiographiesHierarchy>? hierarchy,  List<BiographiesArticle>? articles,  BiographiesPagination? pagination)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _BiographiesCategoryWithArticles() when $default != null:
+return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.parent,_that.children,_that.hierarchy,_that.articles,_that.pagination);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _stringToInt)  int? catPos,  dynamic parent,  List<dynamic>? children,  List<BiographiesHierarchy>? hierarchy,  List<BiographiesArticle>? articles,  BiographiesPagination? pagination)  $default,) {final _that = this;
+switch (_that) {
+case _BiographiesCategoryWithArticles():
+return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.parent,_that.children,_that.hierarchy,_that.articles,_that.pagination);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _stringToInt)  int? catPos,  dynamic parent,  List<dynamic>? children,  List<BiographiesHierarchy>? hierarchy,  List<BiographiesArticle>? articles,  BiographiesPagination? pagination)?  $default,) {final _that = this;
+switch (_that) {
+case _BiographiesCategoryWithArticles() when $default != null:
+return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.parent,_that.children,_that.hierarchy,_that.articles,_that.pagination);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _BiographiesCategoryWithArticles implements BiographiesCategoryWithArticles {
+  const _BiographiesCategoryWithArticles({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_pos', fromJson: _stringToInt) this.catPos, this.parent, final  List<dynamic>? children, final  List<BiographiesHierarchy>? hierarchy, final  List<BiographiesArticle>? articles, this.pagination}): _children = children,_hierarchy = hierarchy,_articles = articles;
+  factory _BiographiesCategoryWithArticles.fromJson(Map<String, dynamic> json) => _$BiographiesCategoryWithArticlesFromJson(json);
+
+@override@JsonKey(name: 'cat_id', fromJson: _stringToInt) final  int? catId;
+@override@JsonKey(name: 'cat_title') final  String? catTitle;
+@override@JsonKey(name: 'cat_note') final  String? catNote;
+@override@JsonKey(name: 'cat_pic') final  String? catPic;
+@override@JsonKey(name: 'cat_pos', fromJson: _stringToInt) final  int? catPos;
+@override final  dynamic parent;
+ final  List<dynamic>? _children;
+@override List<dynamic>? get children {
+  final value = _children;
+  if (value == null) return null;
+  if (_children is EqualUnmodifiableListView) return _children;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<BiographiesHierarchy>? _hierarchy;
+@override List<BiographiesHierarchy>? get hierarchy {
+  final value = _hierarchy;
+  if (value == null) return null;
+  if (_hierarchy is EqualUnmodifiableListView) return _hierarchy;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<BiographiesArticle>? _articles;
+@override List<BiographiesArticle>? get articles {
+  final value = _articles;
+  if (value == null) return null;
+  if (_articles is EqualUnmodifiableListView) return _articles;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+@override final  BiographiesPagination? pagination;
+
+/// Create a copy of BiographiesCategoryWithArticles
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$BiographiesCategoryWithArticlesCopyWith<_BiographiesCategoryWithArticles> get copyWith => __$BiographiesCategoryWithArticlesCopyWithImpl<_BiographiesCategoryWithArticles>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$BiographiesCategoryWithArticlesToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BiographiesCategoryWithArticles&&(identical(other.catId, catId) || other.catId == catId)&&(identical(other.catTitle, catTitle) || other.catTitle == catTitle)&&(identical(other.catNote, catNote) || other.catNote == catNote)&&(identical(other.catPic, catPic) || other.catPic == catPic)&&(identical(other.catPos, catPos) || other.catPos == catPos)&&const DeepCollectionEquality().equals(other.parent, parent)&&const DeepCollectionEquality().equals(other._children, _children)&&const DeepCollectionEquality().equals(other._hierarchy, _hierarchy)&&const DeepCollectionEquality().equals(other._articles, _articles)&&(identical(other.pagination, pagination) || other.pagination == pagination));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,catId,catTitle,catNote,catPic,catPos,const DeepCollectionEquality().hash(parent),const DeepCollectionEquality().hash(_children),const DeepCollectionEquality().hash(_hierarchy),const DeepCollectionEquality().hash(_articles),pagination);
+
+@override
+String toString() {
+  return 'BiographiesCategoryWithArticles(catId: $catId, catTitle: $catTitle, catNote: $catNote, catPic: $catPic, catPos: $catPos, parent: $parent, children: $children, hierarchy: $hierarchy, articles: $articles, pagination: $pagination)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$BiographiesCategoryWithArticlesCopyWith<$Res> implements $BiographiesCategoryWithArticlesCopyWith<$Res> {
+  factory _$BiographiesCategoryWithArticlesCopyWith(_BiographiesCategoryWithArticles value, $Res Function(_BiographiesCategoryWithArticles) _then) = __$BiographiesCategoryWithArticlesCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos', fromJson: _stringToInt) int? catPos, dynamic parent, List<dynamic>? children, List<BiographiesHierarchy>? hierarchy, List<BiographiesArticle>? articles, BiographiesPagination? pagination
+});
+
+
+@override $BiographiesPaginationCopyWith<$Res>? get pagination;
+
+}
+/// @nodoc
+class __$BiographiesCategoryWithArticlesCopyWithImpl<$Res>
+    implements _$BiographiesCategoryWithArticlesCopyWith<$Res> {
+  __$BiographiesCategoryWithArticlesCopyWithImpl(this._self, this._then);
+
+  final _BiographiesCategoryWithArticles _self;
+  final $Res Function(_BiographiesCategoryWithArticles) _then;
+
+/// Create a copy of BiographiesCategoryWithArticles
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? catId = freezed,Object? catTitle = freezed,Object? catNote = freezed,Object? catPic = freezed,Object? catPos = freezed,Object? parent = freezed,Object? children = freezed,Object? hierarchy = freezed,Object? articles = freezed,Object? pagination = freezed,}) {
+  return _then(_BiographiesCategoryWithArticles(
+catId: freezed == catId ? _self.catId : catId // ignore: cast_nullable_to_non_nullable
+as int?,catTitle: freezed == catTitle ? _self.catTitle : catTitle // ignore: cast_nullable_to_non_nullable
+as String?,catNote: freezed == catNote ? _self.catNote : catNote // ignore: cast_nullable_to_non_nullable
+as String?,catPic: freezed == catPic ? _self.catPic : catPic // ignore: cast_nullable_to_non_nullable
+as String?,catPos: freezed == catPos ? _self.catPos : catPos // ignore: cast_nullable_to_non_nullable
+as int?,parent: freezed == parent ? _self.parent : parent // ignore: cast_nullable_to_non_nullable
+as dynamic,children: freezed == children ? _self._children : children // ignore: cast_nullable_to_non_nullable
+as List<dynamic>?,hierarchy: freezed == hierarchy ? _self._hierarchy : hierarchy // ignore: cast_nullable_to_non_nullable
+as List<BiographiesHierarchy>?,articles: freezed == articles ? _self._articles : articles // ignore: cast_nullable_to_non_nullable
+as List<BiographiesArticle>?,pagination: freezed == pagination ? _self.pagination : pagination // ignore: cast_nullable_to_non_nullable
+as BiographiesPagination?,
+  ));
+}
+
+/// Create a copy of BiographiesCategoryWithArticles
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BiographiesPaginationCopyWith<$Res>? get pagination {
+    if (_self.pagination == null) {
+    return null;
+  }
+
+  return $BiographiesPaginationCopyWith<$Res>(_self.pagination!, (value) {
+    return _then(_self.copyWith(pagination: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$BiographiesHierarchy {
+
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'level', fromJson: _stringToInt) int? get level;
+/// Create a copy of BiographiesHierarchy
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BiographiesHierarchyCopyWith<BiographiesHierarchy> get copyWith => _$BiographiesHierarchyCopyWithImpl<BiographiesHierarchy>(this as BiographiesHierarchy, _$identity);
+
+  /// Serializes this BiographiesHierarchy to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BiographiesHierarchy&&(identical(other.catId, catId) || other.catId == catId)&&(identical(other.catTitle, catTitle) || other.catTitle == catTitle)&&(identical(other.level, level) || other.level == level));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,catId,catTitle,level);
+
+@override
+String toString() {
+  return 'BiographiesHierarchy(catId: $catId, catTitle: $catTitle, level: $level)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BiographiesHierarchyCopyWith<$Res>  {
+  factory $BiographiesHierarchyCopyWith(BiographiesHierarchy value, $Res Function(BiographiesHierarchy) _then) = _$BiographiesHierarchyCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'level', fromJson: _stringToInt) int? level
+});
+
+
+
+
+}
+/// @nodoc
+class _$BiographiesHierarchyCopyWithImpl<$Res>
+    implements $BiographiesHierarchyCopyWith<$Res> {
+  _$BiographiesHierarchyCopyWithImpl(this._self, this._then);
+
+  final BiographiesHierarchy _self;
+  final $Res Function(BiographiesHierarchy) _then;
+
+/// Create a copy of BiographiesHierarchy
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? catId = freezed,Object? catTitle = freezed,Object? level = freezed,}) {
+  return _then(_self.copyWith(
+catId: freezed == catId ? _self.catId : catId // ignore: cast_nullable_to_non_nullable
+as int?,catTitle: freezed == catTitle ? _self.catTitle : catTitle // ignore: cast_nullable_to_non_nullable
+as String?,level: freezed == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [BiographiesHierarchy].
+extension BiographiesHierarchyPatterns on BiographiesHierarchy {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BiographiesHierarchy value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BiographiesHierarchy() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BiographiesHierarchy value)  $default,){
+final _that = this;
+switch (_that) {
+case _BiographiesHierarchy():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BiographiesHierarchy value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BiographiesHierarchy() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'level', fromJson: _stringToInt)  int? level)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _BiographiesHierarchy() when $default != null:
+return $default(_that.catId,_that.catTitle,_that.level);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'level', fromJson: _stringToInt)  int? level)  $default,) {final _that = this;
+switch (_that) {
+case _BiographiesHierarchy():
+return $default(_that.catId,_that.catTitle,_that.level);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'level', fromJson: _stringToInt)  int? level)?  $default,) {final _that = this;
+switch (_that) {
+case _BiographiesHierarchy() when $default != null:
+return $default(_that.catId,_that.catTitle,_that.level);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _BiographiesHierarchy implements BiographiesHierarchy {
+  const _BiographiesHierarchy({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'level', fromJson: _stringToInt) this.level});
+  factory _BiographiesHierarchy.fromJson(Map<String, dynamic> json) => _$BiographiesHierarchyFromJson(json);
+
+@override@JsonKey(name: 'cat_id', fromJson: _stringToInt) final  int? catId;
+@override@JsonKey(name: 'cat_title') final  String? catTitle;
+@override@JsonKey(name: 'level', fromJson: _stringToInt) final  int? level;
+
+/// Create a copy of BiographiesHierarchy
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$BiographiesHierarchyCopyWith<_BiographiesHierarchy> get copyWith => __$BiographiesHierarchyCopyWithImpl<_BiographiesHierarchy>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$BiographiesHierarchyToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BiographiesHierarchy&&(identical(other.catId, catId) || other.catId == catId)&&(identical(other.catTitle, catTitle) || other.catTitle == catTitle)&&(identical(other.level, level) || other.level == level));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,catId,catTitle,level);
+
+@override
+String toString() {
+  return 'BiographiesHierarchy(catId: $catId, catTitle: $catTitle, level: $level)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$BiographiesHierarchyCopyWith<$Res> implements $BiographiesHierarchyCopyWith<$Res> {
+  factory _$BiographiesHierarchyCopyWith(_BiographiesHierarchy value, $Res Function(_BiographiesHierarchy) _then) = __$BiographiesHierarchyCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'level', fromJson: _stringToInt) int? level
+});
+
+
+
+
+}
+/// @nodoc
+class __$BiographiesHierarchyCopyWithImpl<$Res>
+    implements _$BiographiesHierarchyCopyWith<$Res> {
+  __$BiographiesHierarchyCopyWithImpl(this._self, this._then);
+
+  final _BiographiesHierarchy _self;
+  final $Res Function(_BiographiesHierarchy) _then;
+
+/// Create a copy of BiographiesHierarchy
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? catId = freezed,Object? catTitle = freezed,Object? level = freezed,}) {
+  return _then(_BiographiesHierarchy(
+catId: freezed == catId ? _self.catId : catId // ignore: cast_nullable_to_non_nullable
+as int?,catTitle: freezed == catTitle ? _self.catTitle : catTitle // ignore: cast_nullable_to_non_nullable
+as String?,level: freezed == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
 }
 
 
@@ -2056,6 +2636,891 @@ as int?,currentPage: freezed == currentPage ? _self.currentPage : currentPage //
 as int?,lastPage: freezed == lastPage ? _self.lastPage : lastPage // ignore: cast_nullable_to_non_nullable
 as int?,from: freezed == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
 as int?,to: freezed == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$ArticleDetailModel {
+
+ String? get status; ArticleDetailData? get data;
+/// Create a copy of ArticleDetailModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ArticleDetailModelCopyWith<ArticleDetailModel> get copyWith => _$ArticleDetailModelCopyWithImpl<ArticleDetailModel>(this as ArticleDetailModel, _$identity);
+
+  /// Serializes this ArticleDetailModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArticleDetailModel&&(identical(other.status, status) || other.status == status)&&(identical(other.data, data) || other.data == data));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,status,data);
+
+@override
+String toString() {
+  return 'ArticleDetailModel(status: $status, data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ArticleDetailModelCopyWith<$Res>  {
+  factory $ArticleDetailModelCopyWith(ArticleDetailModel value, $Res Function(ArticleDetailModel) _then) = _$ArticleDetailModelCopyWithImpl;
+@useResult
+$Res call({
+ String? status, ArticleDetailData? data
+});
+
+
+$ArticleDetailDataCopyWith<$Res>? get data;
+
+}
+/// @nodoc
+class _$ArticleDetailModelCopyWithImpl<$Res>
+    implements $ArticleDetailModelCopyWith<$Res> {
+  _$ArticleDetailModelCopyWithImpl(this._self, this._then);
+
+  final ArticleDetailModel _self;
+  final $Res Function(ArticleDetailModel) _then;
+
+/// Create a copy of ArticleDetailModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = freezed,Object? data = freezed,}) {
+  return _then(_self.copyWith(
+status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as ArticleDetailData?,
+  ));
+}
+/// Create a copy of ArticleDetailModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ArticleDetailDataCopyWith<$Res>? get data {
+    if (_self.data == null) {
+    return null;
+  }
+
+  return $ArticleDetailDataCopyWith<$Res>(_self.data!, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [ArticleDetailModel].
+extension ArticleDetailModelPatterns on ArticleDetailModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ArticleDetailModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ArticleDetailModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ArticleDetailModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _ArticleDetailModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ArticleDetailModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ArticleDetailModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? status,  ArticleDetailData? data)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ArticleDetailModel() when $default != null:
+return $default(_that.status,_that.data);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? status,  ArticleDetailData? data)  $default,) {final _that = this;
+switch (_that) {
+case _ArticleDetailModel():
+return $default(_that.status,_that.data);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? status,  ArticleDetailData? data)?  $default,) {final _that = this;
+switch (_that) {
+case _ArticleDetailModel() when $default != null:
+return $default(_that.status,_that.data);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ArticleDetailModel implements ArticleDetailModel {
+  const _ArticleDetailModel({this.status, this.data});
+  factory _ArticleDetailModel.fromJson(Map<String, dynamic> json) => _$ArticleDetailModelFromJson(json);
+
+@override final  String? status;
+@override final  ArticleDetailData? data;
+
+/// Create a copy of ArticleDetailModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ArticleDetailModelCopyWith<_ArticleDetailModel> get copyWith => __$ArticleDetailModelCopyWithImpl<_ArticleDetailModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ArticleDetailModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArticleDetailModel&&(identical(other.status, status) || other.status == status)&&(identical(other.data, data) || other.data == data));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,status,data);
+
+@override
+String toString() {
+  return 'ArticleDetailModel(status: $status, data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ArticleDetailModelCopyWith<$Res> implements $ArticleDetailModelCopyWith<$Res> {
+  factory _$ArticleDetailModelCopyWith(_ArticleDetailModel value, $Res Function(_ArticleDetailModel) _then) = __$ArticleDetailModelCopyWithImpl;
+@override @useResult
+$Res call({
+ String? status, ArticleDetailData? data
+});
+
+
+@override $ArticleDetailDataCopyWith<$Res>? get data;
+
+}
+/// @nodoc
+class __$ArticleDetailModelCopyWithImpl<$Res>
+    implements _$ArticleDetailModelCopyWith<$Res> {
+  __$ArticleDetailModelCopyWithImpl(this._self, this._then);
+
+  final _ArticleDetailModel _self;
+  final $Res Function(_ArticleDetailModel) _then;
+
+/// Create a copy of ArticleDetailModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = freezed,Object? data = freezed,}) {
+  return _then(_ArticleDetailModel(
+status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as ArticleDetailData?,
+  ));
+}
+
+/// Create a copy of ArticleDetailModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ArticleDetailDataCopyWith<$Res>? get data {
+    if (_self.data == null) {
+    return null;
+  }
+
+  return $ArticleDetailDataCopyWith<$Res>(_self.data!, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$ArticleDetailData {
+
+@JsonKey(name: 'article_id', fromJson: _stringToInt) int? get articleId;@JsonKey(name: 'article_title') String? get articleTitle;@JsonKey(name: 'article_des') String? get articleDes;@JsonKey(name: 'article_summary') String? get articleSummary;@JsonKey(name: 'article_cat_id', fromJson: _stringToInt) int? get articleCatId;@JsonKey(name: 'article_pic') String? get articlePic;@JsonKey(name: 'article_visitor', fromJson: _stringToInt) int? get articleVisitor;@JsonKey(name: 'article_priority', fromJson: _stringToInt) int? get articlePriority;@JsonKey(name: 'article_date') String? get articleDate;@JsonKey(name: 'article_active', fromJson: _stringToInt) int? get articleActive; ArticleDetailCategory? get category;
+/// Create a copy of ArticleDetailData
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ArticleDetailDataCopyWith<ArticleDetailData> get copyWith => _$ArticleDetailDataCopyWithImpl<ArticleDetailData>(this as ArticleDetailData, _$identity);
+
+  /// Serializes this ArticleDetailData to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArticleDetailData&&(identical(other.articleId, articleId) || other.articleId == articleId)&&(identical(other.articleTitle, articleTitle) || other.articleTitle == articleTitle)&&(identical(other.articleDes, articleDes) || other.articleDes == articleDes)&&(identical(other.articleSummary, articleSummary) || other.articleSummary == articleSummary)&&(identical(other.articleCatId, articleCatId) || other.articleCatId == articleCatId)&&(identical(other.articlePic, articlePic) || other.articlePic == articlePic)&&(identical(other.articleVisitor, articleVisitor) || other.articleVisitor == articleVisitor)&&(identical(other.articlePriority, articlePriority) || other.articlePriority == articlePriority)&&(identical(other.articleDate, articleDate) || other.articleDate == articleDate)&&(identical(other.articleActive, articleActive) || other.articleActive == articleActive)&&(identical(other.category, category) || other.category == category));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,articleId,articleTitle,articleDes,articleSummary,articleCatId,articlePic,articleVisitor,articlePriority,articleDate,articleActive,category);
+
+@override
+String toString() {
+  return 'ArticleDetailData(articleId: $articleId, articleTitle: $articleTitle, articleDes: $articleDes, articleSummary: $articleSummary, articleCatId: $articleCatId, articlePic: $articlePic, articleVisitor: $articleVisitor, articlePriority: $articlePriority, articleDate: $articleDate, articleActive: $articleActive, category: $category)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ArticleDetailDataCopyWith<$Res>  {
+  factory $ArticleDetailDataCopyWith(ArticleDetailData value, $Res Function(ArticleDetailData) _then) = _$ArticleDetailDataCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'article_id', fromJson: _stringToInt) int? articleId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_des') String? articleDes,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_cat_id', fromJson: _stringToInt) int? articleCatId,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_visitor', fromJson: _stringToInt) int? articleVisitor,@JsonKey(name: 'article_priority', fromJson: _stringToInt) int? articlePriority,@JsonKey(name: 'article_date') String? articleDate,@JsonKey(name: 'article_active', fromJson: _stringToInt) int? articleActive, ArticleDetailCategory? category
+});
+
+
+$ArticleDetailCategoryCopyWith<$Res>? get category;
+
+}
+/// @nodoc
+class _$ArticleDetailDataCopyWithImpl<$Res>
+    implements $ArticleDetailDataCopyWith<$Res> {
+  _$ArticleDetailDataCopyWithImpl(this._self, this._then);
+
+  final ArticleDetailData _self;
+  final $Res Function(ArticleDetailData) _then;
+
+/// Create a copy of ArticleDetailData
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? articleId = freezed,Object? articleTitle = freezed,Object? articleDes = freezed,Object? articleSummary = freezed,Object? articleCatId = freezed,Object? articlePic = freezed,Object? articleVisitor = freezed,Object? articlePriority = freezed,Object? articleDate = freezed,Object? articleActive = freezed,Object? category = freezed,}) {
+  return _then(_self.copyWith(
+articleId: freezed == articleId ? _self.articleId : articleId // ignore: cast_nullable_to_non_nullable
+as int?,articleTitle: freezed == articleTitle ? _self.articleTitle : articleTitle // ignore: cast_nullable_to_non_nullable
+as String?,articleDes: freezed == articleDes ? _self.articleDes : articleDes // ignore: cast_nullable_to_non_nullable
+as String?,articleSummary: freezed == articleSummary ? _self.articleSummary : articleSummary // ignore: cast_nullable_to_non_nullable
+as String?,articleCatId: freezed == articleCatId ? _self.articleCatId : articleCatId // ignore: cast_nullable_to_non_nullable
+as int?,articlePic: freezed == articlePic ? _self.articlePic : articlePic // ignore: cast_nullable_to_non_nullable
+as String?,articleVisitor: freezed == articleVisitor ? _self.articleVisitor : articleVisitor // ignore: cast_nullable_to_non_nullable
+as int?,articlePriority: freezed == articlePriority ? _self.articlePriority : articlePriority // ignore: cast_nullable_to_non_nullable
+as int?,articleDate: freezed == articleDate ? _self.articleDate : articleDate // ignore: cast_nullable_to_non_nullable
+as String?,articleActive: freezed == articleActive ? _self.articleActive : articleActive // ignore: cast_nullable_to_non_nullable
+as int?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as ArticleDetailCategory?,
+  ));
+}
+/// Create a copy of ArticleDetailData
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ArticleDetailCategoryCopyWith<$Res>? get category {
+    if (_self.category == null) {
+    return null;
+  }
+
+  return $ArticleDetailCategoryCopyWith<$Res>(_self.category!, (value) {
+    return _then(_self.copyWith(category: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [ArticleDetailData].
+extension ArticleDetailDataPatterns on ArticleDetailData {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ArticleDetailData value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ArticleDetailData() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ArticleDetailData value)  $default,){
+final _that = this;
+switch (_that) {
+case _ArticleDetailData():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ArticleDetailData value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ArticleDetailData() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id', fromJson: _stringToInt)  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_cat_id', fromJson: _stringToInt)  int? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor', fromJson: _stringToInt)  int? articleVisitor, @JsonKey(name: 'article_priority', fromJson: _stringToInt)  int? articlePriority, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_active', fromJson: _stringToInt)  int? articleActive,  ArticleDetailCategory? category)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ArticleDetailData() when $default != null:
+return $default(_that.articleId,_that.articleTitle,_that.articleDes,_that.articleSummary,_that.articleCatId,_that.articlePic,_that.articleVisitor,_that.articlePriority,_that.articleDate,_that.articleActive,_that.category);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id', fromJson: _stringToInt)  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_cat_id', fromJson: _stringToInt)  int? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor', fromJson: _stringToInt)  int? articleVisitor, @JsonKey(name: 'article_priority', fromJson: _stringToInt)  int? articlePriority, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_active', fromJson: _stringToInt)  int? articleActive,  ArticleDetailCategory? category)  $default,) {final _that = this;
+switch (_that) {
+case _ArticleDetailData():
+return $default(_that.articleId,_that.articleTitle,_that.articleDes,_that.articleSummary,_that.articleCatId,_that.articlePic,_that.articleVisitor,_that.articlePriority,_that.articleDate,_that.articleActive,_that.category);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'article_id', fromJson: _stringToInt)  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_cat_id', fromJson: _stringToInt)  int? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor', fromJson: _stringToInt)  int? articleVisitor, @JsonKey(name: 'article_priority', fromJson: _stringToInt)  int? articlePriority, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_active', fromJson: _stringToInt)  int? articleActive,  ArticleDetailCategory? category)?  $default,) {final _that = this;
+switch (_that) {
+case _ArticleDetailData() when $default != null:
+return $default(_that.articleId,_that.articleTitle,_that.articleDes,_that.articleSummary,_that.articleCatId,_that.articlePic,_that.articleVisitor,_that.articlePriority,_that.articleDate,_that.articleActive,_that.category);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ArticleDetailData implements ArticleDetailData {
+  const _ArticleDetailData({@JsonKey(name: 'article_id', fromJson: _stringToInt) this.articleId, @JsonKey(name: 'article_title') this.articleTitle, @JsonKey(name: 'article_des') this.articleDes, @JsonKey(name: 'article_summary') this.articleSummary, @JsonKey(name: 'article_cat_id', fromJson: _stringToInt) this.articleCatId, @JsonKey(name: 'article_pic') this.articlePic, @JsonKey(name: 'article_visitor', fromJson: _stringToInt) this.articleVisitor, @JsonKey(name: 'article_priority', fromJson: _stringToInt) this.articlePriority, @JsonKey(name: 'article_date') this.articleDate, @JsonKey(name: 'article_active', fromJson: _stringToInt) this.articleActive, this.category});
+  factory _ArticleDetailData.fromJson(Map<String, dynamic> json) => _$ArticleDetailDataFromJson(json);
+
+@override@JsonKey(name: 'article_id', fromJson: _stringToInt) final  int? articleId;
+@override@JsonKey(name: 'article_title') final  String? articleTitle;
+@override@JsonKey(name: 'article_des') final  String? articleDes;
+@override@JsonKey(name: 'article_summary') final  String? articleSummary;
+@override@JsonKey(name: 'article_cat_id', fromJson: _stringToInt) final  int? articleCatId;
+@override@JsonKey(name: 'article_pic') final  String? articlePic;
+@override@JsonKey(name: 'article_visitor', fromJson: _stringToInt) final  int? articleVisitor;
+@override@JsonKey(name: 'article_priority', fromJson: _stringToInt) final  int? articlePriority;
+@override@JsonKey(name: 'article_date') final  String? articleDate;
+@override@JsonKey(name: 'article_active', fromJson: _stringToInt) final  int? articleActive;
+@override final  ArticleDetailCategory? category;
+
+/// Create a copy of ArticleDetailData
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ArticleDetailDataCopyWith<_ArticleDetailData> get copyWith => __$ArticleDetailDataCopyWithImpl<_ArticleDetailData>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ArticleDetailDataToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArticleDetailData&&(identical(other.articleId, articleId) || other.articleId == articleId)&&(identical(other.articleTitle, articleTitle) || other.articleTitle == articleTitle)&&(identical(other.articleDes, articleDes) || other.articleDes == articleDes)&&(identical(other.articleSummary, articleSummary) || other.articleSummary == articleSummary)&&(identical(other.articleCatId, articleCatId) || other.articleCatId == articleCatId)&&(identical(other.articlePic, articlePic) || other.articlePic == articlePic)&&(identical(other.articleVisitor, articleVisitor) || other.articleVisitor == articleVisitor)&&(identical(other.articlePriority, articlePriority) || other.articlePriority == articlePriority)&&(identical(other.articleDate, articleDate) || other.articleDate == articleDate)&&(identical(other.articleActive, articleActive) || other.articleActive == articleActive)&&(identical(other.category, category) || other.category == category));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,articleId,articleTitle,articleDes,articleSummary,articleCatId,articlePic,articleVisitor,articlePriority,articleDate,articleActive,category);
+
+@override
+String toString() {
+  return 'ArticleDetailData(articleId: $articleId, articleTitle: $articleTitle, articleDes: $articleDes, articleSummary: $articleSummary, articleCatId: $articleCatId, articlePic: $articlePic, articleVisitor: $articleVisitor, articlePriority: $articlePriority, articleDate: $articleDate, articleActive: $articleActive, category: $category)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ArticleDetailDataCopyWith<$Res> implements $ArticleDetailDataCopyWith<$Res> {
+  factory _$ArticleDetailDataCopyWith(_ArticleDetailData value, $Res Function(_ArticleDetailData) _then) = __$ArticleDetailDataCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'article_id', fromJson: _stringToInt) int? articleId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_des') String? articleDes,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_cat_id', fromJson: _stringToInt) int? articleCatId,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_visitor', fromJson: _stringToInt) int? articleVisitor,@JsonKey(name: 'article_priority', fromJson: _stringToInt) int? articlePriority,@JsonKey(name: 'article_date') String? articleDate,@JsonKey(name: 'article_active', fromJson: _stringToInt) int? articleActive, ArticleDetailCategory? category
+});
+
+
+@override $ArticleDetailCategoryCopyWith<$Res>? get category;
+
+}
+/// @nodoc
+class __$ArticleDetailDataCopyWithImpl<$Res>
+    implements _$ArticleDetailDataCopyWith<$Res> {
+  __$ArticleDetailDataCopyWithImpl(this._self, this._then);
+
+  final _ArticleDetailData _self;
+  final $Res Function(_ArticleDetailData) _then;
+
+/// Create a copy of ArticleDetailData
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? articleId = freezed,Object? articleTitle = freezed,Object? articleDes = freezed,Object? articleSummary = freezed,Object? articleCatId = freezed,Object? articlePic = freezed,Object? articleVisitor = freezed,Object? articlePriority = freezed,Object? articleDate = freezed,Object? articleActive = freezed,Object? category = freezed,}) {
+  return _then(_ArticleDetailData(
+articleId: freezed == articleId ? _self.articleId : articleId // ignore: cast_nullable_to_non_nullable
+as int?,articleTitle: freezed == articleTitle ? _self.articleTitle : articleTitle // ignore: cast_nullable_to_non_nullable
+as String?,articleDes: freezed == articleDes ? _self.articleDes : articleDes // ignore: cast_nullable_to_non_nullable
+as String?,articleSummary: freezed == articleSummary ? _self.articleSummary : articleSummary // ignore: cast_nullable_to_non_nullable
+as String?,articleCatId: freezed == articleCatId ? _self.articleCatId : articleCatId // ignore: cast_nullable_to_non_nullable
+as int?,articlePic: freezed == articlePic ? _self.articlePic : articlePic // ignore: cast_nullable_to_non_nullable
+as String?,articleVisitor: freezed == articleVisitor ? _self.articleVisitor : articleVisitor // ignore: cast_nullable_to_non_nullable
+as int?,articlePriority: freezed == articlePriority ? _self.articlePriority : articlePriority // ignore: cast_nullable_to_non_nullable
+as int?,articleDate: freezed == articleDate ? _self.articleDate : articleDate // ignore: cast_nullable_to_non_nullable
+as String?,articleActive: freezed == articleActive ? _self.articleActive : articleActive // ignore: cast_nullable_to_non_nullable
+as int?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as ArticleDetailCategory?,
+  ));
+}
+
+/// Create a copy of ArticleDetailData
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ArticleDetailCategoryCopyWith<$Res>? get category {
+    if (_self.category == null) {
+    return null;
+  }
+
+  return $ArticleDetailCategoryCopyWith<$Res>(_self.category!, (value) {
+    return _then(_self.copyWith(category: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$ArticleDetailCategory {
+
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_pos', fromJson: _stringToInt) int? get catPos;@JsonKey(name: 'cat_father_id', fromJson: _stringToInt) int? get catFatherId;
+/// Create a copy of ArticleDetailCategory
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ArticleDetailCategoryCopyWith<ArticleDetailCategory> get copyWith => _$ArticleDetailCategoryCopyWithImpl<ArticleDetailCategory>(this as ArticleDetailCategory, _$identity);
+
+  /// Serializes this ArticleDetailCategory to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArticleDetailCategory&&(identical(other.catId, catId) || other.catId == catId)&&(identical(other.catTitle, catTitle) || other.catTitle == catTitle)&&(identical(other.catNote, catNote) || other.catNote == catNote)&&(identical(other.catPic, catPic) || other.catPic == catPic)&&(identical(other.catPos, catPos) || other.catPos == catPos)&&(identical(other.catFatherId, catFatherId) || other.catFatherId == catFatherId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,catId,catTitle,catNote,catPic,catPos,catFatherId);
+
+@override
+String toString() {
+  return 'ArticleDetailCategory(catId: $catId, catTitle: $catTitle, catNote: $catNote, catPic: $catPic, catPos: $catPos, catFatherId: $catFatherId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ArticleDetailCategoryCopyWith<$Res>  {
+  factory $ArticleDetailCategoryCopyWith(ArticleDetailCategory value, $Res Function(ArticleDetailCategory) _then) = _$ArticleDetailCategoryCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos', fromJson: _stringToInt) int? catPos,@JsonKey(name: 'cat_father_id', fromJson: _stringToInt) int? catFatherId
+});
+
+
+
+
+}
+/// @nodoc
+class _$ArticleDetailCategoryCopyWithImpl<$Res>
+    implements $ArticleDetailCategoryCopyWith<$Res> {
+  _$ArticleDetailCategoryCopyWithImpl(this._self, this._then);
+
+  final ArticleDetailCategory _self;
+  final $Res Function(ArticleDetailCategory) _then;
+
+/// Create a copy of ArticleDetailCategory
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? catId = freezed,Object? catTitle = freezed,Object? catNote = freezed,Object? catPic = freezed,Object? catPos = freezed,Object? catFatherId = freezed,}) {
+  return _then(_self.copyWith(
+catId: freezed == catId ? _self.catId : catId // ignore: cast_nullable_to_non_nullable
+as int?,catTitle: freezed == catTitle ? _self.catTitle : catTitle // ignore: cast_nullable_to_non_nullable
+as String?,catNote: freezed == catNote ? _self.catNote : catNote // ignore: cast_nullable_to_non_nullable
+as String?,catPic: freezed == catPic ? _self.catPic : catPic // ignore: cast_nullable_to_non_nullable
+as String?,catPos: freezed == catPos ? _self.catPos : catPos // ignore: cast_nullable_to_non_nullable
+as int?,catFatherId: freezed == catFatherId ? _self.catFatherId : catFatherId // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ArticleDetailCategory].
+extension ArticleDetailCategoryPatterns on ArticleDetailCategory {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ArticleDetailCategory value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ArticleDetailCategory() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ArticleDetailCategory value)  $default,){
+final _that = this;
+switch (_that) {
+case _ArticleDetailCategory():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ArticleDetailCategory value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ArticleDetailCategory() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _stringToInt)  int? catPos, @JsonKey(name: 'cat_father_id', fromJson: _stringToInt)  int? catFatherId)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ArticleDetailCategory() when $default != null:
+return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.catFatherId);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _stringToInt)  int? catPos, @JsonKey(name: 'cat_father_id', fromJson: _stringToInt)  int? catFatherId)  $default,) {final _that = this;
+switch (_that) {
+case _ArticleDetailCategory():
+return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.catFatherId);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _stringToInt)  int? catPos, @JsonKey(name: 'cat_father_id', fromJson: _stringToInt)  int? catFatherId)?  $default,) {final _that = this;
+switch (_that) {
+case _ArticleDetailCategory() when $default != null:
+return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.catFatherId);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ArticleDetailCategory implements ArticleDetailCategory {
+  const _ArticleDetailCategory({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_pos', fromJson: _stringToInt) this.catPos, @JsonKey(name: 'cat_father_id', fromJson: _stringToInt) this.catFatherId});
+  factory _ArticleDetailCategory.fromJson(Map<String, dynamic> json) => _$ArticleDetailCategoryFromJson(json);
+
+@override@JsonKey(name: 'cat_id', fromJson: _stringToInt) final  int? catId;
+@override@JsonKey(name: 'cat_title') final  String? catTitle;
+@override@JsonKey(name: 'cat_note') final  String? catNote;
+@override@JsonKey(name: 'cat_pic') final  String? catPic;
+@override@JsonKey(name: 'cat_pos', fromJson: _stringToInt) final  int? catPos;
+@override@JsonKey(name: 'cat_father_id', fromJson: _stringToInt) final  int? catFatherId;
+
+/// Create a copy of ArticleDetailCategory
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ArticleDetailCategoryCopyWith<_ArticleDetailCategory> get copyWith => __$ArticleDetailCategoryCopyWithImpl<_ArticleDetailCategory>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ArticleDetailCategoryToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArticleDetailCategory&&(identical(other.catId, catId) || other.catId == catId)&&(identical(other.catTitle, catTitle) || other.catTitle == catTitle)&&(identical(other.catNote, catNote) || other.catNote == catNote)&&(identical(other.catPic, catPic) || other.catPic == catPic)&&(identical(other.catPos, catPos) || other.catPos == catPos)&&(identical(other.catFatherId, catFatherId) || other.catFatherId == catFatherId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,catId,catTitle,catNote,catPic,catPos,catFatherId);
+
+@override
+String toString() {
+  return 'ArticleDetailCategory(catId: $catId, catTitle: $catTitle, catNote: $catNote, catPic: $catPic, catPos: $catPos, catFatherId: $catFatherId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ArticleDetailCategoryCopyWith<$Res> implements $ArticleDetailCategoryCopyWith<$Res> {
+  factory _$ArticleDetailCategoryCopyWith(_ArticleDetailCategory value, $Res Function(_ArticleDetailCategory) _then) = __$ArticleDetailCategoryCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos', fromJson: _stringToInt) int? catPos,@JsonKey(name: 'cat_father_id', fromJson: _stringToInt) int? catFatherId
+});
+
+
+
+
+}
+/// @nodoc
+class __$ArticleDetailCategoryCopyWithImpl<$Res>
+    implements _$ArticleDetailCategoryCopyWith<$Res> {
+  __$ArticleDetailCategoryCopyWithImpl(this._self, this._then);
+
+  final _ArticleDetailCategory _self;
+  final $Res Function(_ArticleDetailCategory) _then;
+
+/// Create a copy of ArticleDetailCategory
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? catId = freezed,Object? catTitle = freezed,Object? catNote = freezed,Object? catPic = freezed,Object? catPos = freezed,Object? catFatherId = freezed,}) {
+  return _then(_ArticleDetailCategory(
+catId: freezed == catId ? _self.catId : catId // ignore: cast_nullable_to_non_nullable
+as int?,catTitle: freezed == catTitle ? _self.catTitle : catTitle // ignore: cast_nullable_to_non_nullable
+as String?,catNote: freezed == catNote ? _self.catNote : catNote // ignore: cast_nullable_to_non_nullable
+as String?,catPic: freezed == catPic ? _self.catPic : catPic // ignore: cast_nullable_to_non_nullable
+as String?,catPos: freezed == catPos ? _self.catPos : catPos // ignore: cast_nullable_to_non_nullable
+as int?,catFatherId: freezed == catFatherId ? _self.catFatherId : catFatherId // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }

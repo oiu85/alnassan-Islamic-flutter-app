@@ -18,12 +18,42 @@ abstract class BiographiesAndHadithsModel with _$BiographiesAndHadithsModel {
 @freezed
 abstract class BiographiesData with _$BiographiesData {
   const factory BiographiesData({
-    BiographiesCategory? category,
-    List<BiographiesArticle>? articles,
+    List<BiographiesCategoryWithArticles>? categories,
   }) = _BiographiesData;
 
   factory BiographiesData.fromJson(Map<String, dynamic> json) =>
       _$BiographiesDataFromJson(json);
+}
+
+@freezed
+abstract class BiographiesCategoryWithArticles with _$BiographiesCategoryWithArticles {
+  const factory BiographiesCategoryWithArticles({
+    @JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,
+    @JsonKey(name: 'cat_title') String? catTitle,
+    @JsonKey(name: 'cat_note') String? catNote,
+    @JsonKey(name: 'cat_pic') String? catPic,
+    @JsonKey(name: 'cat_pos', fromJson: _stringToInt) int? catPos,
+    dynamic parent,
+    List<dynamic>? children,
+    List<BiographiesHierarchy>? hierarchy,
+    List<BiographiesArticle>? articles,
+    BiographiesPagination? pagination,
+  }) = _BiographiesCategoryWithArticles;
+
+  factory BiographiesCategoryWithArticles.fromJson(Map<String, dynamic> json) =>
+      _$BiographiesCategoryWithArticlesFromJson(json);
+}
+
+@freezed
+abstract class BiographiesHierarchy with _$BiographiesHierarchy {
+  const factory BiographiesHierarchy({
+    @JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,
+    @JsonKey(name: 'cat_title') String? catTitle,
+    @JsonKey(name: 'level', fromJson: _stringToInt) int? level,
+  }) = _BiographiesHierarchy;
+
+  factory BiographiesHierarchy.fromJson(Map<String, dynamic> json) =>
+      _$BiographiesHierarchyFromJson(json);
 }
 
 @freezed
@@ -103,4 +133,53 @@ abstract class BiographiesPagination with _$BiographiesPagination {
 
   factory BiographiesPagination.fromJson(Map<String, dynamic> json) =>
       _$BiographiesPaginationFromJson(json);
+}
+
+// ===== ARTICLE DETAIL MODELS FOR INDIVIDUAL ARTICLE API =====
+// These models handle the response from {{base_url}}/public/articles/#id?include=category
+
+@freezed
+abstract class ArticleDetailModel with _$ArticleDetailModel {
+  const factory ArticleDetailModel({
+    String? status,
+    ArticleDetailData? data,
+  }) = _ArticleDetailModel;
+
+  factory ArticleDetailModel.fromJson(Map<String, dynamic> json) =>
+      _$ArticleDetailModelFromJson(json);
+}
+
+@freezed
+abstract class ArticleDetailData with _$ArticleDetailData {
+  const factory ArticleDetailData({
+    @JsonKey(name: 'article_id', fromJson: _stringToInt) int? articleId,
+    @JsonKey(name: 'article_title') String? articleTitle,
+    @JsonKey(name: 'article_des') String? articleDes,
+    @JsonKey(name: 'article_summary') String? articleSummary,
+    @JsonKey(name: 'article_cat_id', fromJson: _stringToInt) int? articleCatId,
+    @JsonKey(name: 'article_pic') String? articlePic,
+    @JsonKey(name: 'article_visitor', fromJson: _stringToInt) int? articleVisitor,
+    @JsonKey(name: 'article_priority', fromJson: _stringToInt) int? articlePriority,
+    @JsonKey(name: 'article_date') String? articleDate,
+    @JsonKey(name: 'article_active', fromJson: _stringToInt) int? articleActive,
+    ArticleDetailCategory? category,
+  }) = _ArticleDetailData;
+
+  factory ArticleDetailData.fromJson(Map<String, dynamic> json) =>
+      _$ArticleDetailDataFromJson(json);
+}
+
+@freezed
+abstract class ArticleDetailCategory with _$ArticleDetailCategory {
+  const factory ArticleDetailCategory({
+    @JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,
+    @JsonKey(name: 'cat_title') String? catTitle,
+    @JsonKey(name: 'cat_note') String? catNote,
+    @JsonKey(name: 'cat_pic') String? catPic,
+    @JsonKey(name: 'cat_pos', fromJson: _stringToInt) int? catPos,
+    @JsonKey(name: 'cat_father_id', fromJson: _stringToInt) int? catFatherId,
+  }) = _ArticleDetailCategory;
+
+  factory ArticleDetailCategory.fromJson(Map<String, dynamic> json) =>
+      _$ArticleDetailCategoryFromJson(json);
 }

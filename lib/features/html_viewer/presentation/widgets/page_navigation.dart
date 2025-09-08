@@ -10,7 +10,7 @@ import '../bloc/html_viewer_state.dart';
 /// A widgets for book page navigation controls
 class PageNavigation extends StatelessWidget {
   /// Constructor
-  const PageNavigation({Key? key}) : super(key: key);
+  const PageNavigation({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,12 @@ class PageNavigation extends StatelessWidget {
 
         final int currentPage = state.currentPage!.pageNumber;
         final int totalPages = state.currentPage!.totalPages;
+        
+        // Safety check to prevent division by zero
+        if (totalPages <= 0) {
+          return const SizedBox.shrink();
+        }
+        
         return Column(
           children: [
             Padding(
@@ -74,7 +80,7 @@ class PageNavigation extends StatelessWidget {
                     ),
                   ),
                   FractionallySizedBox(
-                    widthFactor: currentPage / totalPages,
+                    widthFactor: totalPages > 0 ? currentPage / totalPages : 1.0,
                     child: Container(
                       height: 8,
                       decoration: BoxDecoration(
@@ -83,18 +89,19 @@ class PageNavigation extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    right: (currentPage - 1) / (totalPages - 1) * (MediaQuery.of(context).size.width - 65),
-                    child: Container(
-                      width: 20,
-                      height: 16,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
+                  if (totalPages > 1)
+                    Positioned(
+                      right: (currentPage - 1) / (totalPages - 1) * (MediaQuery.of(context).size.width - 65),
+                      child: Container(
+                        width: 20,
+                        height: 16,
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),

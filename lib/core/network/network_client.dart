@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:flutter/foundation.dart';
 import '../../config/api_config.dart';
-import '../utils/logger/log_helper.dart';
+import '../utils/logger/app_logger.dart';
 
 @singleton
 class NetworkClient {
@@ -20,7 +22,32 @@ class NetworkClient {
             'Content-Type': 'application/json',
           },
         ),
+      ) {
+    // Add pretty_dio_logger interceptor for network logging
+    if (kDebugMode) {
+      _dio.interceptors.add(
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: false,
+          error: true,
+          compact: true,
+          maxWidth: 90,
+          enabled: kDebugMode,
+          // Limit response body to 500 characters
+          logPrint: (object) {
+            final logString = object.toString();
+            if (logString.length > 500) {
+              debugPrint('${logString.substring(0, 500)}... [TRUNCATED - ${logString.length} chars total]');
+            } else {
+              debugPrint(logString);
+            }
+          },
+        ),
       );
+    }
+  }
 
   /// Performs a GET request
   Future<Response> get(
@@ -29,9 +56,9 @@ class NetworkClient {
   }) async {
     _validateUrl(url);
     try {
-      LogHelper.logGetRequest(url, queryParams: queryParameters);
+      AppLogger.network('GET $url', queryParameters);
       final response = await _dio.get(url, queryParameters: queryParameters);
-      LogHelper.logGetResponse(response.data);
+      AppLogger.apiResponse('GET $url', response.data);
       return response;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -47,9 +74,9 @@ class NetworkClient {
   }) async {
     _validateUrl(url);
     try {
-      LogHelper.logPostRequest(url, data: data, queryParams: queryParameters);
+      AppLogger.network('POST $url', {'data': data, 'queryParams': queryParameters});
       final response = await _dio.post(url, data: data, queryParameters: queryParameters);
-      LogHelper.logPostResponse(response.data);
+      AppLogger.apiResponse('POST $url', response.data);
       return response;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -65,9 +92,9 @@ class NetworkClient {
   }) async {
     _validateUrl(url);
     try {
-      LogHelper.logPutRequest(url, data: data, queryParams: queryParameters);
+      AppLogger.network('PUT $url', {'data': data, 'queryParams': queryParameters});
       final response = await _dio.put(url, data: data, queryParameters: queryParameters);
-      LogHelper.logPutResponse(response.data);
+      AppLogger.apiResponse('PUT $url', response.data);
       return response;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -83,13 +110,13 @@ class NetworkClient {
   }) async {
     _validateUrl(url);
     try {
-      LogHelper.logPatchRequest(url, data: data, queryParams: queryParameters);
+      AppLogger.network('PATCH $url', {'data': data, 'queryParams': queryParameters});
       final response = await _dio.patch(
         url,
         data: data,
         queryParameters: queryParameters,
       );
-      LogHelper.logPatchResponse(response.data);
+      AppLogger.apiResponse('PATCH $url', response.data);
       return response;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -105,13 +132,13 @@ class NetworkClient {
   }) async {
     _validateUrl(url);
     try {
-      LogHelper.logDeleteRequest(url, data: data, queryParams: queryParameters);
+      AppLogger.network('DELETE $url', {'data': data, 'queryParams': queryParameters});
       final response = await _dio.delete(
         url,
         data: data,
         queryParameters: queryParameters,
       );
-      LogHelper.logDeleteResponse(response.data);
+      AppLogger.apiResponse('DELETE $url', response.data);
       return response;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -127,7 +154,7 @@ class NetworkClient {
   }
 
   void _handleDioError(DioException error) {
-    LogHelper.logNetworkError(error);
+    AppLogger.apiError('Network Error', error);
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:

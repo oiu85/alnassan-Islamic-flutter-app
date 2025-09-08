@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/network_client.dart';
-import '../../../../core/utils/logger/log_helper.dart';
+import '../../../../core/utils/logger/app_logger.dart';
 import '../model/home_model.dart';
 import '../../domain/home_repository.dart';
 
@@ -15,16 +15,16 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<HomeModel> getHomeData() async {
     try {
-      LogHelper.logFetchingHomeData();
+      AppLogger.business('Fetching home data');
       final response = await _networkClient.get(NetworkClient.homeUrl);
 
-      LogHelper.logApiResponse(
-        'HomeRepository',
-        'Response Status: ${response.statusCode}\nResponse Data: ${response.data}',
-      );
+      AppLogger.apiResponse('HomeRepository - getHomeData', {
+        'statusCode': response.statusCode,
+        'data': response.data,
+      });
 
       if (response.data == null || (response.data as Map).isEmpty) {
-        LogHelper.logNoDataReceived();
+        AppLogger.warning('No data received from API');
         throw DioException(
           requestOptions: RequestOptions(path: NetworkClient.homeUrl),
           error: 'No data received from server',
@@ -76,7 +76,7 @@ class HomeRepositoryImpl implements HomeRepository {
             rawData['data'].remove('article');
           }
         } catch (e) {
-          LogHelper.logError('Error processing article format: ${e.toString()}');
+          AppLogger.error('Error processing article format', e);
           
           // Ensure we have a minimum valid structure
           rawData['data']['recent_articles'] = [{
@@ -98,14 +98,14 @@ class HomeRepositoryImpl implements HomeRepository {
       }
       
       final homeModel = HomeModel.fromJson(rawData);
-      LogHelper.logDataMapped(homeModel);
+      AppLogger.business('Data mapped successfully', {'model': homeModel.toString()});
 
       return homeModel;
     } on DioException catch (e) {
-      LogHelper.logFetchErrorWithDetails(e);
+      AppLogger.apiError('HomeRepository - getHomeData', e);
       rethrow;
     } catch (e) {
-      LogHelper.logMappingError(e);
+      AppLogger.error('Data mapping error', e);
       throw DioException(
         requestOptions: RequestOptions(path: NetworkClient.homeUrl),
         error: 'Error processing server response',

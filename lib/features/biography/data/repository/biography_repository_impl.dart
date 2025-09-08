@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/network_client.dart';
-import '../../../../../core/utils/logger/log_helper.dart';
+import '../../../../../core/utils/logger/app_logger.dart';
 import '../../domain/model/biography_article.dart';
 import '../../domain/repository/biography_repository.dart';
 import '../mapper/biography_mapper.dart';
@@ -18,17 +18,17 @@ class BiographyRepositoryImpl implements BiographyRepository {
   @override
   Future<BiographyArticle> getBiographyArticle() async {
     try {
-      LogHelper.logInfo('Fetching Biography Article data from API');
+      AppLogger.business('Fetching Biography Article data from API');
       final endpoint = '/public/articles/$BIOGRAPHY_ARTICLE_ID';
       final response = await _networkClient.get(endpoint);
       
-      LogHelper.logApiResponse(
-        'BiographyRepository',
-        'Response Status: ${response.statusCode}\nResponse Data: ${response.data}',
-      );
+      AppLogger.apiResponse('BiographyRepository - getBiographyArticle', {
+        'statusCode': response.statusCode,
+        'data': response.data,
+      });
       
       if (response.data == null || (response.data as Map).isEmpty) {
-        LogHelper.logNoDataReceived();
+        AppLogger.warning('No data received from API');
         throw DioException(
           requestOptions: RequestOptions(path: endpoint),
           error: 'No data received from server',
@@ -37,14 +37,14 @@ class BiographyRepositoryImpl implements BiographyRepository {
       
       final articleResponse = ArticleResponse.fromJson(response.data);
       final biographyArticle = BiographyMapper.mapFromResponse(articleResponse.data);
-      LogHelper.logDataMapped(biographyArticle);
+      AppLogger.business('Data mapped successfully', {'article': biographyArticle.toString()});
       
       return biographyArticle;
     } on DioException catch (e) {
-      LogHelper.logFetchErrorWithDetails(e);
+      AppLogger.apiError('BiographyRepository - getBiographyArticle', e);
       rethrow;
     } catch (e) {
-      LogHelper.logMappingError(e);
+      AppLogger.error('Data mapping error', e);
       throw DioException(
         requestOptions: RequestOptions(path: '/public/articles/$BIOGRAPHY_ARTICLE_ID'),
         error: 'Error processing server response',

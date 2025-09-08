@@ -121,7 +121,7 @@ class BottomCards extends StatelessWidget {
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
-            mobile: _height(180),
+            mobile: _height(220),
             tablet: _height(220),
             desktop: _height(260),
           ),
@@ -211,7 +211,7 @@ class BottomCards extends StatelessWidget {
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
-            mobile: _height(180),
+            mobile: _height(220),
             tablet: _height(220),
             desktop: _height(260),
           ),
@@ -238,7 +238,7 @@ class BottomCards extends StatelessWidget {
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
-            mobile: _height(180),
+            mobile: _height(220),
             tablet: _height(220),
             desktop: _height(260),
           ),

@@ -16,4 +16,15 @@ abstract class BiographiesRepository {
     required int page,
     required int perPage,
   });
+  
+  // ===== ARTICLE DETAIL METHODS =====
+  /// Fetches individual article details for HTML viewer
+  ///
+  /// [articleId] - The ID of the article to fetch
+  ///
+  /// Returns an [ArticleDetailModel] containing article details on success
+  /// Throws [DioException] if the request fails
+  Future<ArticleDetailModel> getArticleDetail({
+    required int articleId,
+  });
 }

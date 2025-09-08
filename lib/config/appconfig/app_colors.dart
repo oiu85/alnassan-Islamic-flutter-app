@@ -2,36 +2,37 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Primary colors
-  static const Color primary = Color(0xffE9BE6E);
-  static const Color primaryDark = Color(0xFF272727);
+  static const Color primary = Color(0xffE9BE6E);  // لون ذهبي دافئ
+  static const Color primaryDark = Color(0xFF272727);  // أسود داكن
 
   // Secondary colors
-  static const Color secondary = Color(0xFFF4D99F);
-  static const Color secondaryLight = Color(0xFFFAEFDC);
+  static const Color secondary = Color(0xFFF4D99F);  // لون أصفر فاتح
+  static const Color secondaryLight = Color(0xFFFAEFDC);  // لون كريمي دافئ
 
   // Accent colors
-  static const Color accent = Color(0xFFFFC107);
-  static const Color accentDark = Color(0xFFCFC5A3);
+  static const Color accent = Color(0xFFF4D99F);  // لون أصفر فاتح
+  static const Color accentDark = Color(0xFFF0E7DC);  // لون كريمي فاتح
 
-  static const Color homeCard = Color(0xffFAEFDC);
-  static const Color homeCard2 = Color(0xFFF7E8D0);
+  static const Color homeCard = Color(0xffFAEFDC);  // لون كريمي دافئ
+  static const Color homeCard2 = Color(0xFFF7E8D0);  // لون بيج دافئ
+
   // Neutral colors
-  static const Color white = Color(0xFFFFFFFF);
-  static const Color black = Color(0xFF000000);
-  static const Color grey = Color(0xFF9E9E9E);
-  static const Color lightGrey = Color(0xFFF5F5F5);
-  static const Color darkGrey = Color(0xFF616161);
+  static const Color white = Color(0xFFFFFFFF);  // أبيض
+  static const Color black = Color(0xFF272727);  // أسود داكن
+  static const Color grey = Color(0xFF9E9E9E);  // رمادي
+  static const Color lightGrey = Color(0xFFF5F5F5);  // رمادي فاتح
+  static const Color darkGrey = Color(0xFF616161);  // رمادي داكن
 
   // Background colors
-  static const Color background = Color(0xFFFFFFFF);
-  static const Color scaffoldBackground = Color(0xFFF5F5F5);
+  static const Color background = Color(0xFFFFFFFF);  // خلفية بيضاء
+  static const Color scaffoldBackground = Color(0xFFF5F5F5);  // خلفية فاتحة
 
   // Text colors
-  static const Color textPrimary = Color(0xFF000000);
-  static const Color textSecondary = Color(0xFF757575);
+  static const Color textPrimary = Color(0xFF000000);  // نص أسود
+  static const Color textSecondary = Color(0xFF757575);  // نص رمادي
 
   // Error and success
-  static const Color error = Color(0xFFF44336);
+  static const Color error = Color(0xFFF44336);  // خطأ
 
   static const LinearGradient secondaryGradient = LinearGradient(
     colors: [secondary, white],
