@@ -7,7 +7,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../gen/fonts.gen.dart';
 import '../../../../core/di/app_dependencies.dart';
-import '../../../../core/widgets/ui_status_handling.dart';
+import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../bloc/lesson_bloc.dart';
 import '../bloc/lesson_event.dart';
 import '../bloc/lesson_state.dart';

@@ -75,7 +75,6 @@ class HomeRepositoryImpl implements HomeRepository {
           }
         } catch (e) {
           AppLogger.error('Error processing article format', e);
-          
           // Ensure we have a minimum valid structure
           rawData['data']['recent_articles'] = [{
             'article_id': 0,

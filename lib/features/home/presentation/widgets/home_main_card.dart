@@ -9,27 +9,22 @@ import '../bloc/home_state.dart';
 
 class HomeMainCard extends StatelessWidget {
   final HomeState state;
-  
-  const HomeMainCard({
-    super.key,
-    required this.state,
-  });
+
+  const HomeMainCard({super.key, required this.state});
 
   // Helper methods for responsive sizing
   double _fontSize(double size) => ScreenUtil().setSp(size);
+
   double _width(double size) => ScreenUtil().setWidth(size);
+
   double _height(double size) => ScreenUtil().setHeight(size);
+
   double _radius(double size) => ScreenUtil().radius(size);
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
-      height: context.deviceValue(
-        mobile: 200.h,
-        tablet: 260.h,
-        desktop: 300.h,
-      ),
+      height: context.deviceValue(mobile: 200.h, tablet: 260.h, desktop: 300.h),
       decoration: BoxDecoration(
         color: AppColors.secondary,
         gradient: LinearGradient(
@@ -48,73 +43,79 @@ class HomeMainCard extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: _width(25)),
-                  child: Center(
-                    child: Text(
+          Container(
+            padding: EdgeInsets.fromLTRB(70,50,70,0),
+            child: Expanded(
+              child: SingleChildScrollView(
+                physics: NeverScrollableScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
                       state.homeData?.data?.recentArticles?.isNotEmpty == true
                           ? (state
-                          .homeData
-                          ?.data
-                          ?.recentArticles
-                          ?.first
-                          .articleSummary
-                          ?.split('\n')
-                          .take(5)
-                          .join('\n') ??
-                          '')
+                                    .homeData
+                                    ?.data
+                                    ?.recentArticles
+                                    ?.first
+                                    .articleSummary
+                                    ?.split('\n')
+                                    .take(5)
+                                    .join('\n') ??
+                                '')
                           : 'لا يوجد محتوى متاح',
                       textAlign: TextAlign.center,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: _fontSize(16),
+                        fontSize: _fontSize(12),
                         fontFamily: FontFamily.tajawal,
-                        height: 1.5,
+                        height: 2.5,
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(height: _height(10)),
-                GestureDetector(
-                  onTap: () {
-                    try {
-                      if (state.homeData?.data?.recentArticles?.isNotEmpty ==
-                          true) {
-                        final articleId =
-                            state.homeData?.data?.recentArticles?.first.articleId;
-                        if (articleId != null) {
-                          HomeToHtmlViewerAdapter.navigateToHtmlViewerFromArticle(
-                            context,
-                            state.homeData?.data?.recentArticles?.first,
+                    GestureDetector(
+                      onTap: () {
+                        try {
+                          if (state.homeData?.data?.recentArticles?.isNotEmpty ==
+                              true) {
+                            final articleId = state
+                                .homeData
+                                ?.data
+                                ?.recentArticles
+                                ?.first
+                                .articleId;
+                            if (articleId != null) {
+                              HomeToHtmlViewerAdapter.navigateToHtmlViewerFromArticle(
+                                context,
+                                state.homeData?.data?.recentArticles?.first,
+                              );
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('لا يوجد مقال لعرضه')),
+                            );
+                          }
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('حدث خطأ في عرض المقال')),
                           );
                         }
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('لا يوجد مقال لعرضه')),
-                        );
-                      }
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('حدث خطأ في عرض المقال')),
-                      );
-                    }
-                  },
-                  child: Text(
-                    'المزيد',
-                    style: TextStyle(
-                      fontSize: _fontSize(16),
-                      fontFamily: FontFamily.tajawal,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      },
+                      child: Text(
+                        'المزيد',
+                        style: TextStyle(
+                          fontSize: _fontSize(16),
+                          fontFamily: FontFamily.tajawal,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(height: _height(76)),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
           Positioned(
@@ -145,7 +146,9 @@ class HomeMainCard extends StatelessWidget {
             bottom: _height(-16),
             right: _width(-14),
             child: ClipRRect(
-              borderRadius: BorderRadius.only(bottomRight: Radius.circular(180)),
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(180),
+              ),
               child: Image.asset(
                 Assets.images.circulerZh.path,
                 width: _width(76),

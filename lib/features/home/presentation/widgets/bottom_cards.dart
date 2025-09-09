@@ -13,7 +13,6 @@ import '../../../../gen/fonts.gen.dart';
 
 class ContentCard extends StatelessWidget {
   final String title;
-  final String imagePath;
   final Image cardMainImage;
   final Color waveColor;
   final Color cardColor;
@@ -23,7 +22,6 @@ class ContentCard extends StatelessWidget {
   const ContentCard({
     super.key,
     required this.title,
-    required this.imagePath,
     required this.waveColor,
     required this.cardColor,
     required this.cardMainImage,
@@ -39,18 +37,21 @@ class ContentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_radius(20))),
-      elevation: 3,
-      clipBehavior: Clip.antiAlias, //? for the wave image has the same Card radius
-      color: cardColor,
+    return Container(
+      decoration: BoxDecoration(
+        color: cardColor,
+        borderRadius: BorderRadius.circular(23)
+      ),
       child: Stack(
         fit: StackFit.expand,
         children: [
-          SvgPicture.asset(
-            Assets.svg.cardBackground.path,
-            color: waveColor,
-            fit: BoxFit.cover,
+          ClipRRect(
+            borderRadius: BorderRadius.only(bottomRight: Radius.circular(20)),
+            child: SvgPicture.asset(
+              Assets.svg.cardBackground.path,
+              color: waveColor,
+              fit: BoxFit.cover,
+            ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: _height(20)),
@@ -112,12 +113,6 @@ class BottomCards extends StatelessWidget {
       crossAxisSpacing: _width(10),
       children: [
 
-
-
-
-
-
-
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
@@ -134,17 +129,11 @@ class BottomCards extends StatelessWidget {
               height: ScreenUtil().setHeight(80),
             ),
             title: "الفتاوى الشرعية",
-            imagePath: Assets.images.qurane.path,
-            cardColor: AppColors.primary.withOpacity(0.3),
-            waveColor: Color(0xFAF066).withOpacity(0.4),
+            cardColor: AppColors.bottomCardColor.withAlpha(70),
+            waveColor: AppColors.waveCardColor,
           ),
         ),
         // cardColor: Color(0xFFE3B260).withOpacity(0.3),
-
-
-
-
-
 
 
 
@@ -159,29 +148,20 @@ class BottomCards extends StatelessWidget {
             onTap: (){
               Navigator.of(context).push(MaterialPageRoute(builder: (_)=> LessonsPage()));
             },
-            child: ContentCard(
-              paddingRight: ScreenUtil().setWidth(65),
-              paddingTop: ScreenUtil().setHeight(65),
-              title: "الخطب والدروس",
-              imagePath: Assets.images.mousqe.path,
-              cardColor: Color(0xE8DCCC80).withOpacity(0.4),
-              waveColor: Color(0xE8DCCC66).withOpacity(0.4),
-              cardMainImage: Image.asset(
-                Assets.images.mousqe.path,
-                width: ScreenUtil().setWidth(90),
-                height: ScreenUtil().setHeight(90),
+              child: ContentCard(
+                paddingRight: ScreenUtil().setWidth(60),
+                paddingTop: ScreenUtil().setHeight(65),
+                cardMainImage: Image.asset(
+                  Assets.images.mousqe.path,
+                  width: ScreenUtil().setWidth(80),
+                  height: ScreenUtil().setHeight(80),
+                ),
+                title: "الخطب والدروس",
+                cardColor: AppColors.bottomCardColor2.withAlpha(125),
+                waveColor: AppColors.waveCardColor2.withAlpha(100),
               ),
-            ),
           ),
         ),
-
-
-
-
-
-
-
-
 
 
 
@@ -195,17 +175,16 @@ class BottomCards extends StatelessWidget {
             desktop: _height(300),
           ),
           child: ContentCard(
-            paddingRight: ScreenUtil().setWidth(65),
-            paddingTop: ScreenUtil().setHeight(75),
-            title: "المكتبة المرئية",
-            imagePath: Assets.images.tablet.path,
-            cardColor: Color(0xFFF9F5E3).withOpacity(0.8),
-            waveColor: Color(0xE8DCCC66),
+            paddingRight: ScreenUtil().setWidth(60),
+            paddingTop: ScreenUtil().setHeight(65),
             cardMainImage: Image.asset(
               Assets.images.tablet.path,
               width: ScreenUtil().setWidth(80),
               height: ScreenUtil().setHeight(80),
             ),
+            title: "المكتبة المرئية",
+            cardColor: AppColors.bottomCardColor2.withAlpha(125),
+            waveColor: AppColors.waveCardColor2.withAlpha(100),
           ),
         ),
         StaggeredGridTile.extent(
@@ -220,17 +199,16 @@ class BottomCards extends StatelessWidget {
               Navigator.of(context).push(MaterialPageRoute(builder: (_)=> SoundsPage()));
             },
             child: ContentCard(
-              paddingRight: ScreenUtil().setWidth(70),
-              paddingTop: ScreenUtil().setHeight(55),
-              title: "المكتبة الصوتية",
-              imagePath: Assets.images.headphone.path,
-              cardColor: AppColors.secondaryLight,
-              waveColor: Color(0xFFFAF066),
+              paddingRight: ScreenUtil().setWidth(60),
+              paddingTop: ScreenUtil().setHeight(65),
               cardMainImage: Image.asset(
                 Assets.images.headphone.path,
-                width: ScreenUtil().setWidth(70),
-                height: ScreenUtil().setHeight(70),
+                width: ScreenUtil().setWidth(80),
+                height: ScreenUtil().setHeight(80),
               ),
+              title: "المكتبة الصوتية",
+              cardColor: AppColors.bottomCardColor.withAlpha(75),
+              waveColor: AppColors.waveCardColor.withAlpha(100),
             ),
           ),
         ),
@@ -244,16 +222,15 @@ class BottomCards extends StatelessWidget {
           ),
           child: ContentCard(
             paddingRight: ScreenUtil().setWidth(60),
-            paddingTop: ScreenUtil().setHeight(55),
-            title: "كلمات في مناسبات",
-            imagePath: Assets.images.helal.path,
-            cardColor: AppColors.secondaryLight,
-            waveColor: Color(0xFFFAF066),
+            paddingTop: ScreenUtil().setHeight(65),
             cardMainImage: Image.asset(
               Assets.images.helal.path,
               width: ScreenUtil().setWidth(80),
               height: ScreenUtil().setHeight(80),
             ),
+            title: "كلمات في مناسبات",
+            cardColor: AppColors.bottomCardColor.withAlpha(70),
+            waveColor: AppColors.waveCardColor,
           ),
         ),
       ],

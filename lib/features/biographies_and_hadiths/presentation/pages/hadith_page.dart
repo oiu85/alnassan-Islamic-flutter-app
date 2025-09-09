@@ -4,13 +4,12 @@ import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 
 import '../../../../core/shared/wdigets/app_drawer.dart';
-import '../../../../core/widgets/ui_status_handling.dart';
+import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../data/model.dart';
 import '../bloc/biographies_bloc.dart';
 import '../bloc/biographies_event.dart';
 import '../bloc/biographies_state.dart';
-// ===== HTML VIEWER IMPORTS =====
 import '../../../html_viewer/presentation/pages/html_book_viewer_page.dart';
 
 class HadithPage extends StatefulWidget {
@@ -39,22 +38,18 @@ class _HadithPageState extends State<HadithPage> {
 
 
   // ===== CARD CLICK HANDLER =====
-  /// Handles card click by dispatching event to BLoC
   void _onArticleCardClick(BiographiesArticle article) {
     context.read<BiographiesBloc>().add(
       ArticleCardClickEvent(article: article),
     );
   }
-
   // ===== NAVIGATION HANDLER =====
-  /// Handles navigation to HTML viewer when content is ready
   void _handleNavigation(BuildContext context, BiographiesState state) {
     if (state.articleDetailStatus.isSuccess() && 
         state.htmlContent != null && 
         !state.hasNavigatedToArticle) {
       // Mark that navigation has happened
       context.read<BiographiesBloc>().add(MarkArticleNavigatedEvent());
-      
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -104,7 +99,6 @@ class _HadithPageState extends State<HadithPage> {
   }
 
   Widget _buildHadithContent(BuildContext context, BiographiesState state) {
-    // Handle navigation when content is ready
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _handleNavigation(context, state);
     });
@@ -154,7 +148,7 @@ class _HadithPageState extends State<HadithPage> {
             crossAxisCount: 2,
             mainAxisSpacing: 19,
             crossAxisSpacing: 20,
-            childAspectRatio: 1.15,
+            childAspectRatio: 1.3,
           ),
           delegate: SliverChildBuilderDelegate(
             (context, index) {
@@ -166,9 +160,10 @@ class _HadithPageState extends State<HadithPage> {
               final isLoading = state.articleDetailStatus.isLoading() && 
                                state.loadingArticleId == article.articleId;
               return Card(
+                elevation: 4,
                 color: AppColors.secondary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
+                  borderRadius: BorderRadius.circular(25),
                 ),
                 child: InkWell(
                   onTap: () => _onArticleCardClick(article),
@@ -179,12 +174,12 @@ class _HadithPageState extends State<HadithPage> {
                       if (isLoading)
                         const Center(
                           child: CircularProgressIndicator(
-                            color: AppColors.primary,
+                            color: AppColors.darkGrey,
                           ),
                         ),
                       Positioned(
-                        top: -3,
-                        right: -3,
+                        top: -8,
+                        right: -10,
                         child: ClipRRect(
                           borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(180),
@@ -197,7 +192,7 @@ class _HadithPageState extends State<HadithPage> {
                         ),
                       ),
                       Align(
-                        alignment: const Alignment(-1.04, 1.04),
+                        alignment: const Alignment(-1.18, 1.3),
                         child: ClipRRect(
                           borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(180),
@@ -238,23 +233,3 @@ class _HadithPageState extends State<HadithPage> {
     );
   }
 }
-
-// Container(
-// decoration: BoxDecoration(
-// boxShadow: [
-// BoxShadow(
-// color: Colors.black.withOpacity(0.2),
-// spreadRadius: 1,
-// blurRadius: 6,
-// offset: Offset(0, 3),
-// ),
-// ],
-// color: AppColors.secondary,
-// borderRadius: BorderRadius.circular(40),
-// ),
-// child: Stack(
-// children: [
-//
-// ],
-// ),
-// );

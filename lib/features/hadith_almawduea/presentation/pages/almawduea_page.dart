@@ -4,7 +4,7 @@ import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 
 import '../../../../core/shared/wdigets/app_drawer.dart';
-import '../../../../core/widgets/ui_status_handling.dart';
+import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../data/model.dart';
 import '../bloc/almawduea_bloc.dart';

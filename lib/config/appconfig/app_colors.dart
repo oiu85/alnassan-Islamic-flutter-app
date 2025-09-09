@@ -23,11 +23,21 @@ class AppColors {
   static const Color lightGrey = Color(0xFFF5F5F5);  // رمادي فاتح
   static const Color darkGrey = Color(0xFF616161);  // رمادي داكن
 
-  // Background colors
-  static const Color background = Color(0xFFFFFFFF);  // خلفية بيضاء
-  static const Color scaffoldBackground = Color(0xFFF5F5F5);  // خلفية فاتحة
 
-  // Text colors
+  static const Color background = Color(0xFFFFFFFF);
+  static const Color scaffoldBackground = Color(0xFFF5F5F5);
+
+
+//* ================ Home Bottom Cards Color===============*//
+  static const Color bottomCardColor = Color(0xFFE3B260);
+  static  Color waveCardColor = Color(0xFFFFFAF0);
+  static const Color bottomCardColor2 = Color(0xFFE8DCCC);
+  static  Color waveCardColor2 = Color(0xFFE8DCCC);
+
+
+
+
+
   static const Color textPrimary = Color(0xFF000000);  // نص أسود
   static const Color textSecondary = Color(0xFF757575);  // نص رمادي
 

@@ -91,7 +91,7 @@ Widget cardBuild({
   required String soundDate,
 }) {
   return Container(
-    height: 500,
+    height: 300,
     width: 260,
     child: Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -105,8 +105,8 @@ Widget cardBuild({
               children: [
                 Image.asset(
                   Assets.images.headphone2.path,
-                  width: 35,
-                  height: 35,
+                  width: 30,
+                  height: 30,
                 ),
                 SizedBox(width: 8),
                 Expanded(
@@ -127,12 +127,12 @@ Widget cardBuild({
               children: [
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.remove_red_eye_outlined, size: 20),
+                  icon: Icon(Icons.remove_red_eye_outlined, size: 18),
                 ),
                 Text(viewCont),
                 Spacer(),
-                Icon(Icons.calendar_today_outlined, size: 20),
-                SizedBox(width: 4),
+                Icon(Icons.calendar_today_outlined, size: 18),
+                SizedBox(width: 1),
                 Text(soundDate),
               ],
             ),

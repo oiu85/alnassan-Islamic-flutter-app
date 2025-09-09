@@ -35,7 +35,7 @@ class BottomNavBarWidget extends StatelessWidget {
               imagePath,
               width: _width(iconSize),
               height: _height(iconSize),
-              color: isActive ? AppColors.primary : Colors.black,
+              color: isActive ? AppColors.primary : AppColors.grey,
             ),
           ),
           SizedBox(height: _height(2)),
@@ -43,7 +43,7 @@ class BottomNavBarWidget extends StatelessWidget {
             title,
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              color: isActive ? AppColors.primary : Colors.black,
+              color: isActive ? AppColors.primary : AppColors.grey,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -63,7 +63,7 @@ class BottomNavBarWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(_radius(80)),
+        borderRadius: BorderRadius.circular(_radius(20)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.6),

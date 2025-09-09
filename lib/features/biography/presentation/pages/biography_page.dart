@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/widgets/ui_status_handling.dart';
+import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../../../../../features/html_viewer/presentation/pages/html_book_viewer_page.dart';
 import '../bloc/biography_bloc.dart';
 import '../bloc/biography_event.dart';
