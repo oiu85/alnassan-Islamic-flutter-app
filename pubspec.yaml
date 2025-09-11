@@ -59,6 +59,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   talker_flutter: ^5.0.0
   dartz: ^0.10.0
+  audioplayers: ^6.5.1
 dev_dependencies:
   freezed: ^3.0.0
   flutter_test:
@@ -68,6 +69,7 @@ dev_dependencies:
   flutter_gen_runner: ^5.11.0
   flutter_html: ^3.0.0
   html: ^0.15.0
+  marquee: ^2.3.0
 flutter:
   uses-material-design: true
 

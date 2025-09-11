@@ -11,14 +11,9 @@ class HomeMainCard extends StatelessWidget {
   final HomeState state;
 
   const HomeMainCard({super.key, required this.state});
-
-  // Helper methods for responsive sizing
   double _fontSize(double size) => ScreenUtil().setSp(size);
-
   double _width(double size) => ScreenUtil().setWidth(size);
-
   double _height(double size) => ScreenUtil().setHeight(size);
-
   double _radius(double size) => ScreenUtil().radius(size);
 
   @override
@@ -35,7 +30,7 @@ class HomeMainCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(_radius(20)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             spreadRadius: _radius(1),
             blurRadius: _radius(5),
           ),
@@ -45,76 +40,74 @@ class HomeMainCard extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.fromLTRB(70,50,70,0),
-            child: Expanded(
-              child: SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      state.homeData?.data?.recentArticles?.isNotEmpty == true
-                          ? (state
-                                    .homeData
-                                    ?.data
-                                    ?.recentArticles
-                                    ?.first
-                                    .articleSummary
-                                    ?.split('\n')
-                                    .take(5)
-                                    .join('\n') ??
-                                '')
-                          : 'لا يوجد محتوى متاح',
-                      textAlign: TextAlign.center,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: _fontSize(12),
-                        fontFamily: FontFamily.tajawal,
-                        height: 2.5,
-                      ),
+            child: SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    state.homeData?.data?.recentArticles?.isNotEmpty == true
+                        ? (state
+                                  .homeData
+                                  ?.data
+                                  ?.recentArticles
+                                  ?.first
+                                  .articleSummary
+                                  ?.split('\n')
+                                  .take(5)
+                                  .join('\n') ??
+                              '')
+                        : 'لا يوجد محتوى متاح',
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: _fontSize(12),
+                      fontFamily: FontFamily.tajawal,
+                      height: 2.5,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        try {
-                          if (state.homeData?.data?.recentArticles?.isNotEmpty ==
-                              true) {
-                            final articleId = state
-                                .homeData
-                                ?.data
-                                ?.recentArticles
-                                ?.first
-                                .articleId;
-                            if (articleId != null) {
-                              HomeToHtmlViewerAdapter.navigateToHtmlViewerFromArticle(
-                                context,
-                                state.homeData?.data?.recentArticles?.first,
-                              );
-                            }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('لا يوجد مقال لعرضه')),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      try {
+                        if (state.homeData?.data?.recentArticles?.isNotEmpty ==
+                            true) {
+                          final articleId = state
+                              .homeData
+                              ?.data
+                              ?.recentArticles
+                              ?.first
+                              .articleId;
+                          if (articleId != null) {
+                            HomeToHtmlViewerAdapter.navigateToHtmlViewerFromArticle(
+                              context,
+                              state.homeData?.data?.recentArticles?.first,
                             );
                           }
-                        } catch (e) {
+                        } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('حدث خطأ في عرض المقال')),
+                            SnackBar(content: Text('لا يوجد مقال لعرضه')),
                           );
                         }
-                      },
-                      child: Text(
-                        'المزيد',
-                        style: TextStyle(
-                          fontSize: _fontSize(16),
-                          fontFamily: FontFamily.tajawal,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('حدث خطأ في عرض المقال')),
+                        );
+                      }
+                    },
+                    child: Text(
+                      'المزيد',
+                      style: TextStyle(
+                        fontSize: _fontSize(16),
+                        fontFamily: FontFamily.tajawal,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.black,
                       ),
                     ),
-                    SizedBox(height: _height(76)),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: _height(76)),
+                ],
               ),
             ),
           ),

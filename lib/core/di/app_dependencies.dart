@@ -1,11 +1,12 @@
 import 'package:get_it/get_it.dart';
 
 import '../../features/html_viewer/injection.dart';
+import '../../features/sound_library/injection.dart';
 import '../network/network_client.dart';
-import '../../features/biography/injection.dart';
-import '../../features/biographies_and_hadiths/injection.dart';
-import '../../features/hadith_almawduea/injection.dart';
-import '../../features/lesson/injection.dart';
+import '../../features/biography/di/injection.dart';
+import '../../features/biographies_and_hadiths/di/injection.dart';
+import '../../features/hadith_almawduea/di/injection.dart';
+import '../../features/lesson/di/injection.dart';
 
 /// Global GetIt instance
 final GetIt getIt = GetIt.instance;
@@ -21,4 +22,5 @@ void setupAppDependencies() {
   registerBiographiesDependencies(getIt);
   registerAlmawdueaDependencies(getIt);
   registerLessonDependencies(getIt);
+  configureSoundLibraryDependencies(getIt);
 }

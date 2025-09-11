@@ -46,7 +46,7 @@ class HabibMustafa extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "(مع الحبيب مصطفى )",
+                          "(مع الحبيب مصطفى)",
                           style: TextStyle(
                             fontSize: 18,
                             fontFamily: FontFamily.tajawal,
@@ -126,6 +126,7 @@ Widget cardBuild({
     height: 236,
     width: width,
     child: Card(
+      color: Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -190,6 +191,7 @@ Widget cardBuild({
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Image.asset(
+                      color: AppColors.primary,
                       Assets.images.candleSmall.path,
                       fit: BoxFit.contain,
                       width: imageWidth+10,
@@ -273,7 +275,7 @@ Widget cardBuild({
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(80),
-              color: AppColors.secondary,
+              color: AppColors.primary,
             ),
             child: Text(
               "عرض التفاصيل",

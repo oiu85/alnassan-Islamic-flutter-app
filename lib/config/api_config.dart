@@ -58,6 +58,31 @@ class ApiConfig {
     );
   }
 
+  // ===== SOUND LIBRARY ENDPOINTS =====
+  /// Get sound categories with children and pagination
+  /// Parameters: id, cat_father_id, children_per_page, sounds_per_page, per_page
+  static String getSoundCategories({
+    int? id,
+    int? catFatherId,
+    int? childrenPerPage,
+    int? soundsPerPage,
+    int? perPage,
+  }) {
+    final params = <String, String>{};
+    
+    if (id != null) params['id'] = id.toString();
+    if (catFatherId != null) params['cat_father_id'] = catFatherId.toString();
+    if (childrenPerPage != null) params['children_per_page'] = childrenPerPage.toString();
+    if (soundsPerPage != null) params['sounds_per_page'] = soundsPerPage.toString();
+    if (perPage != null) params['per_page'] = perPage.toString();
+    
+    final queryString = params.entries
+        .map((e) => '${e.key}=${e.value}')
+        .join('&');
+    
+    return '$baseUrl/public/categories/sounds/children${queryString.isNotEmpty ? '?$queryString' : ''}';
+  }
+
   // ===== LEGACY ENDPOINTS (for backward compatibility) =====
   @Deprecated('Use getArticlesByCategory instead')
   static const String biographiesUrl = '$baseUrl/public/categories/articles';

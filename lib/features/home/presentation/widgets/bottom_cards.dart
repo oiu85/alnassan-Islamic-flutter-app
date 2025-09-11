@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
+import 'package:nassan_app/core/di/app_dependencies.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/features/lesson/presentation/pages/lessons_page.dart';
 import 'package:nassan_app/features/sound_library/presentation/pages/sounds_page.dart';
+import 'package:nassan_app/features/sound_library/presentation/bloc/sound_library_bloc.dart';
 
 import '../../../../gen/assets.gen.dart';
 
@@ -196,7 +199,12 @@ class BottomCards extends StatelessWidget {
           ),
           child: InkWell(
             onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (_)=> SoundsPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => BlocProvider(
+                  create: (context) => getIt<SoundLibraryBloc>(),
+                  child: SoundsPage(),
+                ),
+              ));
             },
             child: ContentCard(
               paddingRight: ScreenUtil().setWidth(60),

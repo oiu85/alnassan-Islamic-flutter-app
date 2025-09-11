@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:marquee/marquee.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import '../../../../config/appconfig/app_colors.dart';
@@ -119,13 +120,52 @@ class _LessonsPageState extends State<LessonsPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  category.catTitle ?? "عنوان غير متوفر",
-                                  style: TextStyle(
-                                    fontSize: _fontSize(18),
-                                    fontFamily: FontFamily.tajawal,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.black,
+                                Expanded(
+                                  child: SizedBox(
+                                    height: _fontSize(22),
+                                    child: LayoutBuilder(
+                                      builder: (context, constraints) {
+                                        final text = category.catTitle ?? "عنوان غير متوفر";
+                                        final textStyle = TextStyle(
+                                          fontSize: _fontSize(18),
+                                          fontFamily: FontFamily.tajawal,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.black,
+                                        );
+                                        
+                                        // Calculate text width
+                                        final textPainter = TextPainter(
+                                          text: TextSpan(text: text, style: textStyle),
+                                          textDirection: TextDirection.rtl,
+                                        );
+                                        textPainter.layout();
+                                        
+                                        // Only use Marquee if text is wider than available space
+                                        if (textPainter.width > constraints.maxWidth) {
+                                          return Marquee(
+                                            text: text,
+                                            style: textStyle,
+                                            scrollAxis: Axis.horizontal,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            blankSpace: 20.0,
+                                            velocity: 100.0,
+                                            pauseAfterRound: Duration(seconds: 1),
+                                            startPadding: 10.0,
+                                            accelerationDuration: Duration(seconds: 1),
+                                            accelerationCurve: Curves.linear,
+                                            decelerationDuration: Duration(milliseconds: 500),
+                                            decelerationCurve: Curves.easeOut,
+                                          );
+                                        } else {
+                                          // Use regular Text for short text
+                                          return Text(
+                                            text,
+                                            style: textStyle,
+                                            overflow: TextOverflow.ellipsis,
+                                          );
+                                        }
+                                      },
+                                    ),
                                   ),
                                 ),
                                 GestureDetector(

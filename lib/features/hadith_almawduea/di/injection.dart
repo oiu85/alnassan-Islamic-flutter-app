@@ -1,10 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/network/network_client.dart';
-import 'data/repository/almawduea_repository_impl.dart';
-import 'domain/almawduea_repository.dart';
-import 'presentation/bloc/almawduea_bloc.dart';
+import '../../../../core/network/network_client.dart';
+import '../data/repository/almawduea_repository_impl.dart';
+import '../domain/almawduea_repository.dart';
+import '../presentation/bloc/almawduea_bloc.dart';
 
 @module
 abstract class AlmawdueaModule {
