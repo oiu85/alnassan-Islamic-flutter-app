@@ -68,7 +68,7 @@ class HomeMainCard extends StatelessWidget {
                       height: 2.5,
                     ),
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       try {
                         if (state.homeData?.data?.recentArticles?.isNotEmpty ==

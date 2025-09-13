@@ -45,14 +45,14 @@ class HomePage extends StatelessWidget {
   Widget homeContent(BuildContext context, HomeState state) {
     return AppScaffold.home(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: _width(20)),
+        padding: EdgeInsets.symmetric(horizontal: _width(27)),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: _width(5)),
+                padding: EdgeInsets.symmetric(horizontal: _width(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -87,22 +87,22 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: _height(12)),
+              SizedBox(height: _height(27)),
               HomeMainCard(state: state,),
-              SizedBox(height: _height(10)),
+              SizedBox(height: _height(24)),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _width(5)),
                 child: Text(
                   "مواضيع هامة:",
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: _fontSize(20),
+                    fontSize: _fontSize(24),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               HomeCarousel(),
-              SizedBox(height: _height(15)),
+              SizedBox(height: _height(23)),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: _width(5)),
                 child: Text(
@@ -114,7 +114,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: _height(20)),
+              SizedBox(height: _height(23)),
               BottomCards(),
             ],
           ),

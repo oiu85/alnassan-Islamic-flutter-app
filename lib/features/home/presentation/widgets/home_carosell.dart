@@ -57,9 +57,9 @@ class _HomeCarouselState extends State<HomeCarousel> {
   Widget build(BuildContext context) {
     // Responsive sizing for SVG icons based on device type
     final double svgSize = context.deviceValue(
-      mobile: 24.0,
-      tablet: 32.0,
-      desktop: 40.0,
+      mobile: 56.0,
+      tablet: 60.0,
+      desktop: 70.0,
     );
     
     return Padding(
@@ -84,9 +84,9 @@ class _HomeCarouselState extends State<HomeCarousel> {
                     texts[currentIndex],
                     style: TextStyle(
                       fontSize: _fontSize(context.deviceValue(
-                        mobile: 18.0,
-                        tablet: 22.0,
-                        desktop: 26.0,
+                        mobile: 20.0,
+                        tablet: 26.0,
+                        desktop: 30.0,
                       )),
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Tajawal',
