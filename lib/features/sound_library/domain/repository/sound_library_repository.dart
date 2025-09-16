@@ -1,46 +1,17 @@
+import 'package:dartz/dartz.dart';
 import '../../data/model.dart';
 
+/// Repository interface for sound library operations
+/// Handles data fetching and transformation for hierarchical sound categories
 abstract class SoundLibraryRepository {
-  /// Fetch parent categories with pagination
-  Future<SoundLibraryResponse> getParentCategories({
-    int page = 1,
-    int perPage = 3,
-  });
-
-  /// Fetch child categories for a specific parent category
-  Future<SoundLibraryResponse> getChildCategories({
-    required int parentCategoryId,
-    int page = 1,
-    int perPage = 3,
-    int childrenPerPage = 2,
-  });
-
-  /// Fetch sounds for a specific child category
-  Future<SoundLibraryResponse> getSounds({
-    required int childCategoryId,
-    int page = 1,
-    int perPage = 3,
-    int soundsPerPage = 1,
-  });
-
-  /// Fetch sounds for a specific parent category (direct sounds)
-  Future<SoundLibraryResponse> getDirectSounds({
-    required int parentCategoryId,
-    int page = 1,
-    int perPage = 3,
-    int soundsPerPage = 1,
-  });
-
-  /// Fetch all sounds for a specific subcategory
-  Future<SoundLibraryResponse> getSubcategorySounds({
-    required int subcategoryId,
-    int page = 1,
-    int perPage = 6,
-  });
-
-  /// Fetch more content for a parent category (subcategories and sounds)
-  Future<SoundLibraryResponse> getParentCategoryContent({
-    required int parentCategoryId,
-    int page = 1,
-  });
+  /// Fetches hierarchical sound categories from the API
+  /// 
+  /// The API returns a nested structure with:
+  /// - Level 1 root categories
+  /// - Level 2-4 subcategories with their own direct sounds
+  /// - Pagination data for each level
+  /// 
+  /// Returns [Right<HierarchicalSoundResponse>] containing hierarchical sound data on success
+  /// Returns [Left<String>] with error message on failure
+  Future<Either<String, HierarchicalSoundResponse>> getHierarchicalSoundCategories();
 }

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/di/app_dependencies.dart';
 import 'core/responsive/device_type.dart';
 import 'features/biography/presentation/bloc/biography_bloc.dart';
+import 'features/sound_library/presentation/bloc/sound_library_bloc.dart';
 import 'features/splash_screen/presentation/pages/splash_screen.dart';
 
 void main() {
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
           providers: [
             BlocProvider<BiographyBloc>(
               create: (context) => getIt<BiographyBloc>(),
+            ),
+            BlocProvider<SoundLibraryBloc>(
+              create: (context) => getIt<SoundLibraryBloc>(),
             ),
           ],
           child: MaterialApp(

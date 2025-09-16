@@ -59,6 +59,9 @@ class ApiConfig {
   }
 
   // ===== SOUND LIBRARY ENDPOINTS =====
+  /// Get hierarchical sound categories (no parameters)
+  static const String getHierarchicalSoundCategories = '$baseUrl/public/categories/sounds';
+
   /// Get sound categories with children and pagination
   /// Parameters: id, cat_father_id, children_per_page, sounds_per_page, per_page
   static String getSoundCategories({

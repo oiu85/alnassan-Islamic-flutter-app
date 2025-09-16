@@ -4,9 +4,9 @@ import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../data/model.dart';
 
 class SoundTopBar extends StatelessWidget {
-  final List<SoundCategory> parentCategories;
-  final SoundCategory? selectedCategory;
-  final Function(SoundCategory) onCategorySelected;
+  final List<Level1RootCategory> parentCategories;
+  final Level1RootCategory? selectedCategory;
+  final Function(Level1RootCategory) onCategorySelected;
 
   const SoundTopBar({
     super.key,

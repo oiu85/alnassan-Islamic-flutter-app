@@ -3,17 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
+import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../../../../gen/assets.gen.dart';
-import '../widgets/compact_audio_player.dart';
+import '../widgets/sound_card.dart';
 import '../bloc/sound_library_bloc.dart';
+import '../bloc/sound_library_event.dart';
+import '../bloc/sound_library_state.dart';
 import '../../data/model.dart';
+import 'direct_sounds_page.dart';
 
 class SubcategorySoundsPage extends StatefulWidget {
-  final SoundCategory subcategory;
-  
+  final dynamic subcategory; // Can be Level2Category, Level3Category, or Level4Category
+  final String title;
+
   const SubcategorySoundsPage({
     super.key,
     required this.subcategory,
+    required this.title,
   });
 
   @override
@@ -21,37 +27,30 @@ class SubcategorySoundsPage extends StatefulWidget {
 }
 
 class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
-  late ScrollController _scrollController;
-
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
     
-    // Fetch subcategory sounds
-    context.read<SoundLibraryBloc>().add(
-      FetchSubcategorySoundsEvent(
-        subcategoryId: widget.subcategory.catId,
-        page: 1,
-        perPage: 6,
-      ),
-    );
+    // Navigate to the appropriate subcategory level after the widget is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _navigateToSubcategory();
+    });
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    context.read<SoundLibraryBloc>().add(
-      OnSubcategoryScrollEvent(
-        scrollPosition: _scrollController.position.pixels,
-        maxScrollExtent: _scrollController.position.maxScrollExtent,
-      ),
-    );
+  void _navigateToSubcategory() {
+    if (widget.subcategory is Level2Category) {
+      context.read<SoundLibraryBloc>().add(
+        NavigateToLevel2CategoryEvent(category: widget.subcategory as Level2Category),
+      );
+    } else if (widget.subcategory is Level3Category) {
+      context.read<SoundLibraryBloc>().add(
+        NavigateToLevel3CategoryEvent(category: widget.subcategory as Level3Category),
+      );
+    } else if (widget.subcategory is Level4Category) {
+      context.read<SoundLibraryBloc>().add(
+        NavigateToLevel4CategoryEvent(category: widget.subcategory as Level4Category),
+      );
+    }
   }
 
   @override
@@ -60,174 +59,228 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
       drawer: const Drawer(child: AppDrawer()),
       body: BlocBuilder<SoundLibraryBloc, SoundLibraryState>(
         builder: (context, state) {
-          return CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              // App Bar
-              SliverAppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                pinned: false,
-                floating: true,
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_forward_outlined),
-                    onPressed: () => Navigator.of(context).maybePop(),
-                  ),
-                ],
+          final bloc = context.read<SoundLibraryBloc>();
+          return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Assets.images.viewerBackground.path),
+                fit: BoxFit.cover,
               ),
-              
-              // Main Content
-              SliverToBoxAdapter(
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(Assets.images.viewerBackground.path),
+            ),
+            child: SimpleLottieHandler(
+              blocStatus: state.status,
+              successWidget: _buildSubcategoryContent(context, state, bloc),
+              isEmpty: !bloc.shouldShowSubcategoryContent(),
+              emptyMessage: bloc.getSubcategoryEmptyMessage(),
+              loadingMessage: 'جاري تحميل المحتوى...',
+              onRetry: () {
+                _navigateToSubcategory();
+              },
+              animationSize: 200,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildSubcategoryContent(BuildContext context, SoundLibraryState state, SoundLibraryBloc bloc) {
+    return CustomScrollView(
+      slivers: [
+        // App Bar
+        SliverAppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          pinned: false,
+          floating: true,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.arrow_forward_outlined),
+              onPressed: () => Navigator.of(context).maybePop(),
+            ),
+          ],
+        ),
+
+        // Main Content
+        SliverToBoxAdapter(
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Direct sounds from the selected subcategory
+                if (bloc.shouldShowSubcategoryDirectSounds()) ...[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                      vertical: 8,
                     ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Title
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Text(
-                          widget.subcategory.catTitle,
+                    child: Row(
+                      children: [
+                    Text(
+                          widget.title,
                           style: TextStyle(
                             fontFamily: FontFamily.tajawal,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                      
-                      const SizedBox(height: 12),
-                      
-                      // Content based on state
-                      if (state.status == BlocStatus.loading && state.subcategorySounds.isEmpty)
-                        const Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(20.0),
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      else if (state.status == BlocStatus.fail)
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
+                        Spacer(),
+                        if (bloc.getSubcategoryDirectSounds().length > 3)
+                          GestureDetector(
+                            onTap: () => _navigateToDirectSoundsPage(context, bloc.getSubcategoryDirectSounds()),
                             child: Text(
-                              'خطأ: ${state.error ?? "حدث خطأ غير متوقع"}',
+                              "الكل",
                               style: TextStyle(
                                 fontFamily: FontFamily.tajawal,
-                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.primary,
                               ),
                             ),
                           ),
-                        )
-                      else
-                        _buildSoundsGrid(state.subcategorySounds),
-                      
-                      // Loading More
-                      if (state.isLoadingMoreSubcategory)
-                        const Padding(
-                          padding: EdgeInsets.all(20.0),
-                          child: Center(child: CircularProgressIndicator()),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-      );
-  }
+                  const SizedBox(height: 8),
+                  // Use grid layout when no subcategories, horizontal scroll when there are subcategories
+                  !bloc.shouldShowSubcategorySubcategories()
+                      ? GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 1.4,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                          ),
+                          itemCount: bloc.getSubcategoryDirectSounds().length,
+                          itemBuilder: (context, index) {
+                            final sound = bloc.getSubcategoryDirectSounds()[index];
+                            return SoundCard(sound: sound);
+                          },
+                        )
+                      : SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: bloc.getSubcategoryDirectSounds()
+                                .take(3) // Show only 3 sounds as preview
+                                .map(
+                                  (sound) => Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: SoundCard(sound: sound),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                  const SizedBox(height: 16),
+                ],
 
-  Widget _buildSoundsGrid(List<SoundItem> sounds) {
-    if (sounds.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Center(
-          child: Text(
-            'لا توجد محتويات متاحة',
-            style: TextStyle(
-              fontFamily: FontFamily.tajawal,
-              fontSize: 16,
-              color: AppColors.grey,
+                // Subcategories with their sounds
+                if (bloc.shouldShowSubcategorySubcategories())
+                  ...bloc.getSubcategoriesWithSounds().map(
+                    (subcategory) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0,
+                            vertical: 8,
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                bloc.getSubcategoryTitle(subcategory),
+                                style: TextStyle(
+                                  fontFamily: FontFamily.tajawal,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.black.withValues(alpha: 0.8),
+                                ),
+                              ),
+                              Spacer(),
+                              if (bloc.getPreviewSounds(subcategory).length > 3)
+                                GestureDetector(
+                                  onTap: () => _navigateToSubcategoryPage(context, subcategory, bloc),
+                                  child: Text(
+                                    "الكل",
+                                    style: TextStyle(
+                                      fontFamily: FontFamily.tajawal,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: bloc.getPreviewSounds(subcategory)
+                                .take(3)
+                                .map(
+                                  (sound) => Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: SoundCard(sound: sound),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
+                  ),
+
+              ],
             ),
           ),
         ),
-      );
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.85,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-        ),
-        itemCount: sounds.length,
-        itemBuilder: (context, index) {
-          return _buildSoundCard(sounds[index]);
-        },
-      ),
+      ],
     );
   }
 
-  Widget _buildSoundCard(SoundItem sound) {
-    return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
-      color: Colors.white,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                Image.asset(Assets.images.headphone2.path, width: 20, height: 20),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    sound.soundTitle,
-                    style: const TextStyle(
-                      fontFamily: FontFamily.tajawal,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
-            CompactAudioPlayer(
-              audioUrl: sound.soundUrl ?? "",
-              width: double.infinity,
-              height: 50,
-              playButtonSize: 35,
-              playButtonMargin: 6,
-              progressBarHeight: 5,
-              progressBarThumbRadius: 3,
-              fontSize: 10,
-              optionsButtonSize: 25,
-              optionsButtonMargin: 4,
-            ),
-          ],
+  void _navigateToSubcategoryPage(BuildContext context, dynamic subcategory, SoundLibraryBloc bloc) {
+    // Navigate to a new page for subcategory and provide the BLoC
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BlocProvider.value(
+          value: bloc,
+          child: SubcategorySoundsPage(
+            subcategory: subcategory,
+            title: bloc.getSubcategoryTitle(subcategory),
+          ),
         ),
       ),
     );
   }
+
+  /// Navigates to direct sounds page for the current subcategory
+  void _navigateToDirectSoundsPage(BuildContext context, List<SoundData> sounds) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BlocProvider.value(
+          value: context.read<SoundLibraryBloc>(),
+          child: DirectSoundsPage(
+            category: Level1RootCategory(
+              catId: 0,
+              catFatherId: 0,
+              catTitle: "الأصوات المباشرة",
+              catPos: "0",
+              catActive: true,
+              directSoundsCount: sounds.length.toString(),
+              directSounds: sounds,
+              level2Children: [],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
 }

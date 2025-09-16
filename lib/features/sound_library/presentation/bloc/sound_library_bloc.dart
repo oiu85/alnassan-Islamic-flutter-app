@@ -1,432 +1,297 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import '../../../../core/models/page_state/bloc_status.dart';
 import '../../domain/repository/sound_library_repository.dart';
 import '../../data/model.dart';
+import 'sound_library_event.dart';
+import 'sound_library_state.dart';
 
+/// Manages the state and business logic for the sound library feature
+/// Handles hierarchical category navigation and direct sounds display
 @injectable
 class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
   final SoundLibraryRepository _repository;
 
-  SoundLibraryBloc(this._repository) : super(SoundLibraryState()) {
-    on<FetchParentCategoriesEvent>(_onFetchParentCategories);
-    on<FetchChildCategoriesEvent>(_onFetchChildCategories);
-    on<FetchSoundsEvent>(_onFetchSounds);
-    on<LoadMoreParentCategoriesEvent>(_onLoadMoreParentCategories);
-    on<LoadMoreChildCategoriesEvent>(_onLoadMoreChildCategories);
-    on<LoadMoreSoundsEvent>(_onLoadMoreSounds);
-    on<SelectParentCategoryEvent>(_onSelectParentCategory);
-    on<SelectChildCategoryEvent>(_onSelectChildCategory);
+  SoundLibraryBloc(this._repository) : super(const SoundLibraryState()) {
+    on<FetchHierarchicalCategoriesEvent>(_onFetchHierarchicalCategories);
+    on<SelectLevel1CategoryEvent>(_onSelectLevel1Category);
+    on<NavigateToLevel2CategoryEvent>(_onNavigateToLevel2Category);
+    on<NavigateToLevel3CategoryEvent>(_onNavigateToLevel3Category);
+    on<NavigateToLevel4CategoryEvent>(_onNavigateToLevel4Category);
+    on<ToggleDirectSoundsViewEvent>(_onToggleDirectSoundsView);
     on<ResetSoundLibraryEvent>(_onReset);
-    on<OnScrollEvent>(_onScroll);
-    on<LoadSelectedCategoryContentEvent>(_onLoadSelectedCategoryContent);
-    on<FetchSubcategorySoundsEvent>(_onFetchSubcategorySounds);
-    on<OnSubcategoryScrollEvent>(_onSubcategoryScroll);
-    on<LoadMoreParentCategoryContentEvent>(_onLoadMoreParentCategoryContent);
   }
 
-  Future<void> _onFetchParentCategories(
-    FetchParentCategoriesEvent event,
+  /// Fetches hierarchical sound categories from the API
+  /// Automatically selects the first category after successful fetch
+  Future<void> _onFetchHierarchicalCategories(
+    FetchHierarchicalCategoriesEvent event,
     Emitter<SoundLibraryState> emit,
   ) async {
-    emit(state.copyWith(status: BlocStatus.loading));
+    emit(state.copyWith(status: const BlocStatus.loading()));
 
-    try {
-      final response = await _repository.getParentCategories(
-        page: state.currentPage,
-        perPage: state.perPage,
-      );
-
-      final categories = response.data.categories ?? [];
-      final firstCategory = categories.isNotEmpty ? categories.first : null;
-      
-      // Process display data
-      final displayData = _processDisplayData(firstCategory);
-      
-      emit(state.copyWith(
-        status: BlocStatus.success,
-        parentCategories: categories,
-        selectedParentCategory: firstCategory,
-        hasReachedMax: state.currentPage >= response.pagination.lastPage,
-        error: null,
-        displaySounds: (displayData['sounds'] as List<SoundItem>?) ?? [],
-        displaySubcategories: (displayData['subcategories'] as List<SoundCategory>?) ?? [],
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        status: BlocStatus.fail,
-        error: e.toString(),
-      ));
-    }
-  }
-
-  Future<void> _onFetchChildCategories(
-    FetchChildCategoriesEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) async {
-    emit(state.copyWith(
-      status: BlocStatus.loading,
-      childCategories: [],
-      sounds: [],
-    ));
-
-    try {
-      final response = await _repository.getChildCategories(
-        parentCategoryId: event.parentCategoryId,
-        page: event.page,
-        perPage: event.perPage,
-        childrenPerPage: 2,
-      );
-
-      final childCategories = response.data.categories ?? [];
-      emit(state.copyWith(
-        status: BlocStatus.success,
-        childCategories: childCategories,
-        currentPage: event.page,
-        hasReachedMax: event.page >= response.pagination.lastPage,
-        error: null,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        status: BlocStatus.fail,
-        error: e.toString(),
-      ));
-    }
-  }
-
-  Future<void> _onFetchSounds(
-    FetchSoundsEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) async {
-    emit(state.copyWith(
-      status: BlocStatus.loading,
-      sounds: [],
-    ));
-
-    try {
-      final response = await _repository.getSounds(
-        childCategoryId: event.childCategoryId,
-        page: event.page,
-        perPage: event.perPage,
-        soundsPerPage: 1,
-      );
-
-      final sounds = response.data.sounds ?? [];
-      emit(state.copyWith(
-        status: BlocStatus.success,
-        sounds: sounds,
-        currentPage: event.page,
-        hasReachedMax: event.page >= response.pagination.lastPage,
-        error: null,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        status: BlocStatus.fail,
-        error: e.toString(),
-      ));
-    }
-  }
-
-  Future<void> _onLoadMoreParentCategories(
-    LoadMoreParentCategoriesEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) async {
-    if (state.hasReachedMax || state.isLoadingMore) return;
-
-    emit(state.copyWith(isLoadingMore: true));
-
-    try {
-      final nextPage = state.currentPage + 1;
-      final response = await _repository.getParentCategories(
-        page: nextPage,
-        perPage: state.perPage,
-      );
-
-      final newCategories = response.data.categories ?? [];
-      final updatedCategories = [...state.parentCategories, ...newCategories];
-      
-      emit(state.copyWith(
-        isLoadingMore: false,
-        parentCategories: updatedCategories,
-        currentPage: nextPage,
-        hasReachedMax: nextPage >= response.pagination.lastPage,
-        error: null,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isLoadingMore: false,
-        error: e.toString(),
-      ));
-    }
-  }
-
-  Future<void> _onLoadMoreChildCategories(
-    LoadMoreChildCategoriesEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) async {
-    if (state.hasReachedMax || state.isLoadingMore) return;
-
-    emit(state.copyWith(isLoadingMore: true));
-
-    try {
-      final nextPage = state.currentPage + 1;
-      final response = await _repository.getChildCategories(
-        parentCategoryId: event.parentCategoryId,
-        page: nextPage,
-        perPage: state.perPage,
-        childrenPerPage: 2,
-      );
-
-      final newCategories = response.data.categories ?? [];
-      final updatedCategories = [...state.childCategories, ...newCategories];
-      
-      emit(state.copyWith(
-        isLoadingMore: false,
-        childCategories: updatedCategories,
-        currentPage: nextPage,
-        hasReachedMax: nextPage >= response.pagination.lastPage,
-        error: null,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isLoadingMore: false,
-        error: e.toString(),
-      ));
-    }
-  }
-
-  Future<void> _onLoadMoreSounds(
-    LoadMoreSoundsEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) async {
-    if (state.hasReachedMax || state.isLoadingMore) return;
-
-    emit(state.copyWith(isLoadingMore: true));
-
-    try {
-      final nextPage = state.currentPage + 1;
-      final response = await _repository.getSounds(
-        childCategoryId: event.childCategoryId,
-        page: nextPage,
-        perPage: state.perPage,
-        soundsPerPage: 1,
-      );
-
-      final newSounds = response.data.sounds ?? [];
-      final updatedSounds = [...state.sounds, ...newSounds];
-      
-      emit(state.copyWith(
-        isLoadingMore: false,
-        sounds: updatedSounds,
-        currentPage: nextPage,
-        hasReachedMax: nextPage >= response.pagination.lastPage,
-        error: null,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isLoadingMore: false,
-        error: e.toString(),
-      ));
-    }
-  }
-
-  void _onSelectParentCategory(
-    SelectParentCategoryEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) {
-    final displayData = _processDisplayData(event.category);
+    final result = await _repository.getHierarchicalSoundCategories();
     
-    emit(state.copyWith(
-      selectedParentCategory: event.category,
-      childCategories: [],
-      sounds: [],
-      currentPage: 1,
-      hasReachedMax: false,
-      displaySounds: (displayData['sounds'] as List<SoundItem>?) ?? [],
-      displaySubcategories: (displayData['subcategories'] as List<SoundCategory>?) ?? [],
-    ));
-  }
-
-  void _onSelectChildCategory(
-    SelectChildCategoryEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) {
-    emit(state.copyWith(
-      selectedChildCategory: event.category,
-      sounds: [],
-      currentPage: 1,
-      hasReachedMax: false,
-    ));
-  }
-
-  void _onReset(
-    ResetSoundLibraryEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) {
-    emit(SoundLibraryState());
-  }
-
-  void _onScroll(
-    OnScrollEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) {
-    final shouldLoadMore = event.scrollPosition >= event.maxScrollExtent * 0.8;
-    
-    if (shouldLoadMore && !state.hasReachedMax && !state.isLoadingMore) {
-      emit(state.copyWith(shouldLoadMore: true));
-      add(LoadMoreParentCategoriesEvent());
-    }
-  }
-
-  void _onLoadSelectedCategoryContent(
-    LoadSelectedCategoryContentEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) {
-    if (state.selectedParentCategory != null) {
-      final displayData = _processDisplayData(state.selectedParentCategory);
-      emit(state.copyWith(
-        displaySounds: (displayData['sounds'] as List<SoundItem>?) ?? [],
-        displaySubcategories: (displayData['subcategories'] as List<SoundCategory>?) ?? [],
-      ));
-    }
-  }
-
-  Map<String, List<dynamic>> _processDisplayData(SoundCategory? category) {
-    if (category == null) {
-      return {'sounds': <SoundItem>[], 'subcategories': <SoundCategory>[]};
-    }
-
-    // If category has subcategories, return them
-    if (category.children != null && category.children!.isNotEmpty) {
-      return {
-        'sounds': <SoundItem>[],
-        'subcategories': category.children!,
-      };
-    }
-
-    // If category has direct sounds, return them
-    if (category.sounds != null && category.sounds!.isNotEmpty) {
-      return {
-        'sounds': category.sounds!,
-        'subcategories': <SoundCategory>[],
-      };
-    }
-
-    return {'sounds': <SoundItem>[], 'subcategories': <SoundCategory>[]};
-  }
-
-  Future<void> _onFetchSubcategorySounds(
-    FetchSubcategorySoundsEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) async {
-    emit(state.copyWith(status: BlocStatus.loading));
-
-    try {
-      final response = await _repository.getSubcategorySounds(
-        subcategoryId: event.subcategoryId,
-        page: event.page,
-        perPage: event.perPage,
-      );
-
-      final sounds = response.data.sounds ?? [];
-      
-      emit(state.copyWith(
-        status: BlocStatus.success,
-        subcategorySounds: sounds,
-        subcategoryCurrentPage: event.page,
-        hasReachedMaxSubcategory: event.page >= response.pagination.lastPage,
-        currentSubcategoryId: event.subcategoryId,
-        error: null,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        status: BlocStatus.fail,
-        error: e.toString(),
-      ));
-    }
-  }
-
-  Future<void> _onSubcategoryScroll(
-    OnSubcategoryScrollEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) async {
-    if (state.hasReachedMaxSubcategory || state.isLoadingMoreSubcategory) {
-      return;
-    }
-
-    if (event.scrollPosition >= event.maxScrollExtent * 0.8) {
-      emit(state.copyWith(isLoadingMoreSubcategory: true));
-
-      try {
-        final nextPage = state.subcategoryCurrentPage + 1;
-        final response = await _repository.getSubcategorySounds(
-          subcategoryId: state.currentSubcategoryId ?? 0,
-          page: nextPage,
-          perPage: 6,
-        );
-
-        final newSounds = response.data.sounds ?? [];
-        final allSounds = [...state.subcategorySounds, ...newSounds];
-
+    result.fold(
+      (error) => emit(state.copyWith(status: BlocStatus.fail(error: error))),
+      (response) {
+        final categories = response.data.level1RootCategories;
+        
         emit(state.copyWith(
-          subcategorySounds: allSounds,
-          subcategoryCurrentPage: nextPage,
-          hasReachedMaxSubcategory: nextPage >= response.pagination.lastPage,
-          isLoadingMoreSubcategory: false,
+          status: const BlocStatus.success(),
+          level1Categories: categories,
+          error: null,
         ));
-      } catch (e) {
-        emit(state.copyWith(
-          isLoadingMoreSubcategory: false,
-          error: e.toString(),
-        ));
-      }
-    }
-  }
-
-  Future<void> _onLoadMoreParentCategoryContent(
-    LoadMoreParentCategoryContentEvent event,
-    Emitter<SoundLibraryState> emit,
-  ) async {
-    if (state.isLoadingMore) return;
-
-    emit(state.copyWith(isLoadingMore: true));
-
-    try {
-      final response = await _repository.getParentCategoryContent(
-        parentCategoryId: event.parentCategoryId,
-        page: event.page,
-      );
-
-      final newCategories = response.data.categories ?? [];
-      
-      // Filter out the first 3 categories (index 0-2) and get the rest (index 3+)
-      final additionalCategories = newCategories.skip(3).toList();
-      
-      // Merge with existing display subcategories
-      final allSubcategories = [...state.displaySubcategories, ...additionalCategories];
-      
-      // Extract sounds from the new categories
-      final newSounds = <SoundItem>[];
-      for (final category in additionalCategories) {
-        if (category.sounds != null) {
-          newSounds.addAll(category.sounds!);
+        
+        if (categories.isNotEmpty) {
+          add(SelectLevel1CategoryEvent(category: categories.first));
         }
-      }
-      
-      // Merge with existing display sounds
-      final allSounds = [...state.displaySounds, ...newSounds];
+      },
+    );
+  }
 
+  /// Selects a main category and displays its direct sounds and subcategories
+  void _onSelectLevel1Category(
+    SelectLevel1CategoryEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    final category = event.category;
+
+    emit(state.copyWith(
+      selectedLevel1Category: category,
+      currentLevel2Categories: category.level2Children,
+      displaySounds: category.directSounds,
+      displaySubcategories: category.level2Children,
+      currentLevel2Category: null,
+      currentLevel3Category: null,
+      currentLevel4Category: null,
+      currentLevel3Categories: [],
+      currentLevel4Categories: [],
+      status: const BlocStatus.success(),
+    ));
+  }
+
+  /// Navigates to a Level 2 subcategory
+  void _onNavigateToLevel2Category(
+    NavigateToLevel2CategoryEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    final category = event.category;
+    emit(state.copyWith(
+      status: const BlocStatus.success(),
+      currentLevel2Category: category,
+      currentLevel3Categories: category.level3Grandchildren,
+      displaySounds: category.directSounds,
+      displaySubcategories: category.level3Grandchildren,
+      currentLevel3Category: null,
+      currentLevel4Category: null,
+      currentLevel4Categories: [],
+    ));
+  }
+
+  /// Navigates to a Level 3 subcategory
+  void _onNavigateToLevel3Category(
+    NavigateToLevel3CategoryEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    final category = event.category;
+    emit(state.copyWith(
+      status: const BlocStatus.success(),
+      currentLevel3Category: category,
+      currentLevel4Categories: category.level4GreatGrandchildren,
+      displaySounds: category.directSounds,
+      displaySubcategories: category.level4GreatGrandchildren,
+      currentLevel4Category: null,
+    ));
+  }
+
+  /// Navigates to a Level 4 subcategory
+  void _onNavigateToLevel4Category(
+    NavigateToLevel4CategoryEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    final category = event.category;
+    emit(state.copyWith(
+      status: const BlocStatus.success(),
+      currentLevel4Category: category,
+      displaySounds: category.directSounds,
+      displaySubcategories: [],
+    ));
+  }
+
+  /// Toggles between showing 3 direct sounds or all direct sounds
+  void _onToggleDirectSoundsView(
+    ToggleDirectSoundsViewEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    emit(state.copyWith(isViewingDirectSounds: !state.isViewingDirectSounds));
+  }
+
+  /// Resets navigation state but keeps loaded categories and selected main category
+  void _onReset(ResetSoundLibraryEvent event, Emitter<SoundLibraryState> emit) {
+    // If we have a selected category, restore its content
+    if (state.selectedLevel1Category != null) {
+      final selectedCategory = state.selectedLevel1Category!;
       emit(state.copyWith(
-        displaySubcategories: allSubcategories,
-        displaySounds: allSounds,
-        currentPage: event.page,
-        hasReachedMax: event.page >= response.pagination.lastPage,
-        isLoadingMore: false,
+        // Keep selectedLevel1Category to maintain main category selection
+        currentLevel2Category: null,
+        currentLevel3Category: null,
+        currentLevel4Category: null,
+        currentLevel2Categories: [],
+        currentLevel3Categories: [],
+        currentLevel4Categories: [],
+        displaySounds: selectedCategory.directSounds,
+        displaySubcategories: selectedCategory.level2Children,
+        isViewingDirectSounds: false,
+        status: const BlocStatus.success(),
       ));
-    } catch (e) {
+    } else {
+      // If no category selected, just reset navigation state
       emit(state.copyWith(
-        isLoadingMore: false,
-        error: e.toString(),
+        currentLevel2Category: null,
+        currentLevel3Category: null,
+        currentLevel4Category: null,
+        currentLevel2Categories: [],
+        currentLevel3Categories: [],
+        currentLevel4Categories: [],
+        displaySounds: [],
+        displaySubcategories: [],
+        isViewingDirectSounds: false,
+        status: const BlocStatus.success(),
       ));
     }
   }
+
+  // UI Helper Methods
+
+  /// Gets the current page title based on navigation state
+  String getCurrentPageTitle() {
+    return state.currentLevel4Category?.catTitle ??
+           state.currentLevel3Category?.catTitle ??
+           state.currentLevel2Category?.catTitle ??
+           state.selectedLevel1Category?.catTitle ??
+           'مكتبة الأصوات';
+  }
+
+  /// Gets subcategories that have direct sounds for preview
+  List<dynamic> getSubcategoriesWithSounds() {
+    return state.displaySubcategories.where((subcategory) {
+      if (subcategory is Level2Category) return subcategory.directSounds.isNotEmpty;
+      if (subcategory is Level3Category) return subcategory.directSounds.isNotEmpty;
+      if (subcategory is Level4Category) return subcategory.directSounds.isNotEmpty;
+      return false;
+    }).toList();
+  }
+
+  /// Gets up to 3 sounds from a subcategory for preview
+  List<SoundData> getPreviewSounds(dynamic subcategory) {
+    if (subcategory is Level2Category) return subcategory.directSounds.take(3).toList();
+    if (subcategory is Level3Category) return subcategory.directSounds.take(3).toList();
+    if (subcategory is Level4Category) return subcategory.directSounds.take(3).toList();
+    return [];
+  }
+
+  /// Gets direct sounds for display (3 or all based on toggle state)
+  List<SoundData> getDisplayDirectSounds() {
+    if (state.selectedLevel1Category == null) return [];
+    return state.isViewingDirectSounds 
+        ? state.selectedLevel1Category!.directSounds
+        : state.selectedLevel1Category!.directSounds.take(3).toList();
+  }
+
+  /// Checks if "الكل" button should be shown for direct sounds
+  bool shouldShowDirectSoundsAllButton() {
+    return (state.selectedLevel1Category?.directSounds.length ?? 0) > 3;
+  }
+
+  /// Gets subcategory title
+  String getSubcategoryTitle(dynamic subcategory) {
+    if (subcategory is Level2Category) return subcategory.catTitle;
+    if (subcategory is Level3Category) return subcategory.catTitle;
+    if (subcategory is Level4Category) return subcategory.catTitle;
+    return "فئة فرعية";
+  }
+
+  /// Checks if loading state should be shown
+  bool shouldShowLoading() => state.status.isLoading() && state.level1Categories.isEmpty;
+
+  /// Checks if error state should be shown
+  bool shouldShowError() => state.status.isFail();
+
+  /// Checks if selected category content should be shown
+  bool shouldShowSelectedCategory() => state.selectedLevel1Category != null;
+
+  /// Checks if all categories should be shown
+  bool shouldShowAllCategories() => state.status.isSuccess() && state.selectedLevel1Category == null;
+
+  /// Gets error message
+  String getErrorMessage() => state.status.error ?? "حدث خطأ غير متوقع";
+
+  /// Checks if direct sounds should be shown
+  bool shouldShowDirectSounds() {
+    return state.selectedLevel1Category?.directSounds.isNotEmpty == true;
+  }
+
+  /// Checks if subcategories should be shown
+  bool shouldShowSubcategories() {
+    return state.selectedLevel1Category?.level2Children.isNotEmpty == true;
+  }
+
+  /// Gets direct sounds for display
+  List<SoundData> getDirectSounds() {
+    return state.selectedLevel1Category?.directSounds ?? [];
+  }
+
+  /// Gets subcategories for display
+  List<Level2Category> getSubcategories() {
+    return state.selectedLevel1Category?.level2Children ?? [];
+  }
+
+  /// Gets empty state message
+  String getEmptyMessage() {
+    if (state.level1Categories.isEmpty) {
+      return 'لا توجد فئات صوتية متاحة';
+    }
+    return 'لا توجد محتويات متاحة';
+  }
+
+  /// Checks if content should be shown
+  bool shouldShowContent() {
+    return state.status.isSuccess() && 
+           (state.level1Categories.isNotEmpty || 
+            (state.selectedLevel1Category != null && 
+             (state.displaySounds.isNotEmpty || state.displaySubcategories.isNotEmpty)));
+  }
+
+  /// Checks if subcategory content should be shown
+  bool shouldShowSubcategoryContent() {
+    return state.status.isSuccess() && 
+           (state.displaySounds.isNotEmpty || state.displaySubcategories.isNotEmpty);
+  }
+
+  /// Gets subcategory empty message
+  String getSubcategoryEmptyMessage() {
+    return 'لا توجد محتويات متاحة';
+  }
+
+  /// Checks if direct sounds should be shown in subcategory
+  bool shouldShowSubcategoryDirectSounds() {
+    return state.displaySounds.isNotEmpty;
+  }
+
+  /// Checks if subcategories should be shown in subcategory page
+  bool shouldShowSubcategorySubcategories() {
+    return state.displaySubcategories.isNotEmpty;
+  }
+
+  /// Gets direct sounds for subcategory display
+  List<SoundData> getSubcategoryDirectSounds() {
+    return state.displaySounds;
+  }
+
+  /// Gets subcategories for subcategory display
+  List<dynamic> getSubcategorySubcategories() {
+    return state.displaySubcategories;
+  }
+
 }

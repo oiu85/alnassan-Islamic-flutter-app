@@ -30,7 +30,7 @@ class PageNavigation extends StatelessWidget {
         
         return Column(
           children: [
-            Padding(
+            Container(
               padding: const EdgeInsets.symmetric(vertical: 1),
               child: Text(
                 'الصفحة $currentPage من $totalPages',
@@ -42,34 +42,38 @@ class PageNavigation extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                
-                
-                IconButton(
-                  icon: const Icon(Icons.arrow_back_ios),
-                  onPressed: currentPage > 1
-                      ? () => context.read<HtmlViewerBloc>().add(PreviousPageEvent())
-                      : null,
-                  color: state.isDarkMode ? AppColors.primary : AppColors.primary,
-                  disabledColor: state.isDarkMode ? Colors.grey : Colors.grey.shade300,
-                ),
-                const SizedBox(width: 40),
-                
-                IconButton(
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  onPressed: currentPage < totalPages
-                      ? () => context.read<HtmlViewerBloc>().add(NextPageEvent())
-                      : null,
-                  color: state.isDarkMode ? AppColors.primary : AppColors.primary,
-                  disabledColor: state.isDarkMode ? Colors.grey : Colors.grey.shade300,
-                ),
-              ],
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 80),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios),
+                    onPressed: currentPage > 1
+                        ? () => context.read<HtmlViewerBloc>().add(PreviousPageEvent())
+                        : null,
+                    color: state.isDarkMode ? AppColors.primary : AppColors.primary,
+                    disabledColor: state.isDarkMode ? Colors.grey : Colors.grey.shade300,
+                  ),
+                  Spacer(),
+                  const SizedBox(width: 40),
+
+                  IconButton(
+                    icon: const Icon(Icons.arrow_forward_ios),
+                    onPressed: currentPage < totalPages
+                        ? () => context.read<HtmlViewerBloc>().add(NextPageEvent())
+                        : null,
+                    color: state.isDarkMode ? AppColors.primary : AppColors.primary,
+                    disabledColor: state.isDarkMode ? Colors.grey : Colors.grey.shade300,
+                  ),
+                ],
+              ),
             ),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 27, vertical: 1),
               child: Stack(
                 children: [
                   Container(
@@ -94,7 +98,7 @@ class PageNavigation extends StatelessWidget {
                       right: (currentPage - 1) / (totalPages - 1) * (MediaQuery.of(context).size.width - 65),
                       child: Container(
                         width: 20,
-                        height: 16,
+                        height: 15,
                         decoration: BoxDecoration(
                           color: AppColors.primary,
                           shape: BoxShape.circle,

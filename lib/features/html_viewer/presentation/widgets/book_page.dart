@@ -66,7 +66,7 @@ class BookPage extends StatelessWidget {
                 ? mediaQuery.size.width *
                 0.8 // 80% of screen width in landscape
                 : mediaQuery.size.width *
-                0.95, // 95% of screen width in portrait
+                0.98, // 95% of screen width in portrait
           ),
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -79,8 +79,7 @@ class BookPage extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, constraints) {
               // Calculate content width based on constraints
-              final contentWidth = constraints.maxWidth *
-                  0.9999; // 95% of container width
+              final contentWidth = constraints.maxWidth * 0.9999;
 
               return SingleChildScrollView(
                 child: SizedBox(
