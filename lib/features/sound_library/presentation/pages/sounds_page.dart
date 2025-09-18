@@ -53,7 +53,7 @@ class _SoundsPageState extends State<SoundsPage> {
               isEmpty: !bloc.shouldShowContent(),
               emptyMessage: bloc.getEmptyMessage(),
               loadingMessage: 'جاري تحميل المكتبة الصوتية...',
-              onRetry: () => bloc.add(const FetchHierarchicalCategoriesEvent()),
+              onRetry: () => bloc.add(const RefreshSoundLibraryEvent()),
               animationSize: 200,
             ),
           );
@@ -87,16 +87,31 @@ class _SoundsPageState extends State<SoundsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Title
+                // Title with loading indicator
                 Padding(
                   padding:  EdgeInsets.only(right: 15.0.sp,left: 15.sp, top: 32.sp, bottom: 30.sp),
-                  child: Text(
-                    "المكتبة الصوتية",
-                    style: TextStyle(
-                      fontFamily: FontFamily.tajawal,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Row(
+                    children: [
+                      Text(
+                        "المكتبة الصوتية",
+                        style: TextStyle(
+                          fontFamily: FontFamily.tajawal,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      if (state.status.isLoading()) ...[
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ),
 
@@ -151,7 +166,6 @@ class _SoundsPageState extends State<SoundsPage> {
     );
   }
 
-  /// Builds direct sounds section (same pattern as subcategories)
   Widget _buildDirectSoundsSection(BuildContext context, SoundLibraryState state, SoundLibraryBloc bloc) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,7 +184,7 @@ class _SoundsPageState extends State<SoundsPage> {
                 ),
               ),
               Spacer(),
-              if (state.selectedLevel1Category!.directSounds.length > 3)
+              if (bloc.shouldShowDirectSoundsAllButton())
                 GestureDetector(
                   onTap: () => _navigateToDirectSounds(context, state.selectedLevel1Category!),
                   child: Text(

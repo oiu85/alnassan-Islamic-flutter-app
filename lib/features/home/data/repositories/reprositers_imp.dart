@@ -32,65 +32,27 @@ class HomeRepositoryImpl implements HomeRepository {
       // Parse initial response and make a deep copy to avoid modifying the original
       final rawData = Map<String, dynamic>.from(response.data as Map<String, dynamic>);
       
-      // Handle the new response format - extract article and convert to recentArticles format
-      // Extract article data and format it properly
+      // Handle the new response format - ensure proper structure
       if (rawData.containsKey('data')) {
-        try {
-          if ((rawData['data'] as Map<String, dynamic>).containsKey('article')) {
-            final articleMap = rawData['data']['article'] as Map<String, dynamic>;
-            
-            // Handle either format: {article: {article: {...}}} or {article: {...}}
-            Map<String, dynamic> articleData;
-            if (articleMap.containsKey('article')) {
-              articleData = Map<String, dynamic>.from(articleMap['article'] as Map<String, dynamic>);
-            } else if (articleMap.containsKey('article_id')) {
-              // Direct article format
-              articleData = Map<String, dynamic>.from(articleMap);
-            } else {
-              // Unknown format, create minimal valid structure
-              articleData = {
-                'article_id': 0,
-                'article_title': 'مقال غير متوفر',
-                'article_summary': 'لم يتم العثور على محتوى',
-                'article_des': ''
-              };
-            }
-            
-            // Add category data if it exists
-            if (articleData.containsKey('category')) {
-              // Category is already properly formatted
-            } else {
-              // Default category if missing
-              articleData['category'] = {
-                'cat_id': 1,
-                'cat_title': 'كلمة الشهر'
-              };
-            }
-            
-            // Store the article in the recent_articles array
-            rawData['data']['recent_articles'] = [articleData];
-            
-            // Remove the article field since our model doesn't support it
-            rawData['data'].remove('article');
-          }
-        } catch (e) {
-          AppLogger.error('Error processing article format', e);
-          // Ensure we have a minimum valid structure
-          rawData['data']['recent_articles'] = [{
-            'article_id': 0,
-            'article_title': 'خطأ في عرض المقال',
-            'article_summary': 'حدث خطأ في معالجة بيانات المقال',
-            'article_des': '',
-            'category': {
-              'cat_id': 1,
-              'cat_title': 'كلمة الشهر'
-            }
-          }];
+        final dataMap = rawData['data'] as Map<String, dynamic>;
+        
+        // Handle article structure - it might be nested
+        if (dataMap.containsKey('article')) {
+          final articleMap = dataMap['article'] as Map<String, dynamic>;
           
-          // Remove the article field since our model doesn't support it
-          if (rawData['data'].containsKey('article')) {
-            rawData['data'].remove('article');
+          // Check if article is nested (article.article) or direct
+          if (articleMap.containsKey('article')) {
+            // Nested structure: {article: {article: {...}}}
+            final nestedArticle = articleMap['article'] as Map<String, dynamic>;
+            dataMap['article'] = nestedArticle;
           }
+          // If not nested, article is already in the correct format
+        }
+        
+        // Ensure article_categories exists and is properly formatted
+        if (!dataMap.containsKey('article_categories')) {
+          AppLogger.warning('No article_categories found in response');
+          dataMap['article_categories'] = [];
         }
       }
       

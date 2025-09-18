@@ -25,7 +25,7 @@ class SoundTopBar extends StatelessWidget {
         itemBuilder: (context, index) {
           final category = parentCategories[index];
           final isSelected = selectedCategory?.catId == category.catId;
-          
+
           return Padding(
             padding: EdgeInsets.only(right: index == 0 ? 0 : 8),
             child: GestureDetector(
@@ -37,7 +37,7 @@ class SoundTopBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.black.withValues(alpha: 0.1), 
+                      color: AppColors.black.withValues(alpha: 0.1),
                       offset: Offset(0.1, 0.1)
                     ),
                   ],

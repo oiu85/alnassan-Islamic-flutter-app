@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nassan_app/core/responsive/screen_utils.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
-import 'package:nassan_app/config/appconfig/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../config/appconfig/app_colors.dart';
+import '../bloc/sound_library_bloc.dart';
+import '../bloc/sound_library_event.dart';
+import '../bloc/sound_library_state.dart';
 
-class CompactAudioPlayer extends StatefulWidget {
+class CompactAudioPlayer extends StatelessWidget {
+  final String soundId;
   final String audioUrl;
+  final List<String>? alternativeUrls;
   final double width;
   final double height;
   
@@ -20,7 +28,9 @@ class CompactAudioPlayer extends StatefulWidget {
 
   const CompactAudioPlayer({
     super.key,
+    required this.soundId,
     required this.audioUrl,
+    this.alternativeUrls,
     this.width = 200,
     this.height = 40,
     this.playButtonSize,
@@ -34,77 +44,19 @@ class CompactAudioPlayer extends StatefulWidget {
   });
 
   @override
-  State<CompactAudioPlayer> createState() => _CompactAudioPlayerState();
-}
-
-class _CompactAudioPlayerState extends State<CompactAudioPlayer> {
-  late AudioPlayer _audioPlayer;
-  bool _isPlaying = false;
-  bool _isLoading = false;
-  Duration _duration = Duration.zero;
-  Duration _position = Duration.zero;
-
-  @override
-  void initState() {
-    super.initState();
-    _audioPlayer = AudioPlayer();
-    _initPlayer();
-  }
-
-  void _initPlayer() async {
-    try {
-      await _audioPlayer.setSourceUrl(widget.audioUrl);
-      
-      _audioPlayer.onDurationChanged.listen((duration) {
-        setState(() {
-          _duration = duration;
-        });
-      });
-
-      _audioPlayer.onPositionChanged.listen((position) {
-        setState(() {
-          _position = position;
-        });
-      });
-
-      _audioPlayer.onPlayerStateChanged.listen((state) {
-        setState(() {
-          _isPlaying = state == PlayerState.playing;
-          _isLoading = false; // Simplified - we'll handle loading differently
-        });
-      });
-    } catch (e) {
-      // Error initializing audio player: $e
-    }
-  }
-
-  void _togglePlayPause() async {
-    if (_isPlaying) {
-      await _audioPlayer.pause();
-    } else {
-      await _audioPlayer.resume();
-    }
-  }
-
-  void _seekTo(Duration position) async {
-    await _audioPlayer.seek(position);
-  }
-
-  String _formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(1, '0');
-    final minutes = twoDigits(duration.inMinutes.remainder(60));
-    final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return '$minutes:$seconds';
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    return BlocBuilder<SoundLibraryBloc, SoundLibraryState>(
+      builder: (context, state) {
+        final bloc = context.read<SoundLibraryBloc>();
+        final audioState = bloc.getAudioPlayerState(soundId);
+        
+        return _buildAudioPlayer(context, audioState, bloc);
+      },
+    );
+  }
+
+  /// Builds the audio player UI
+  Widget _buildAudioPlayer(BuildContext context, AudioPlayerState audioState, SoundLibraryBloc bloc) {
     // Calculate responsive dimensions
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 400;
@@ -112,122 +64,180 @@ class _CompactAudioPlayerState extends State<CompactAudioPlayer> {
     
     // Responsive sizing
     final effectiveHeight = isSmallScreen 
-        ? widget.height * 0.8 
+        ? height * 0.8 
         : isMediumScreen 
-            ? widget.height * 0.9 
-            : widget.height;
+            ? height * 0.9 
+            : height;
     
     final effectiveWidth = isSmallScreen 
-        ? widget.width * 0.95 
-        : widget.width;
-
+        ? width * 0.95 
+        : width;
     // Customizable dimensions with defaults
-    final playButtonSize = widget.playButtonSize ?? effectiveHeight * 0.7;
-    final playButtonMargin = widget.playButtonMargin ?? effectiveHeight * 0.15;
-    final progressBarHeight = widget.progressBarHeight ?? effectiveHeight * 0.08;
-    final progressBarThumbRadius = widget.progressBarThumbRadius ?? effectiveHeight * 0.08;
-    final fontSize = widget.fontSize ?? effectiveHeight * 0.25;
-    final horizontalPadding = widget.horizontalPadding ?? effectiveHeight * 0.2;
-    final optionsButtonSize = widget.optionsButtonSize ?? effectiveHeight * 0.6;
-    final optionsButtonMargin = widget.optionsButtonMargin ?? effectiveHeight * 0.1;
+    final playButtonSize = this.playButtonSize ?? effectiveHeight * 0.7;
+    final playButtonMargin = this.playButtonMargin ?? effectiveHeight * 0.15;
+    final fontSize = this.fontSize ?? effectiveHeight * 0.25;
+    final horizontalPadding = this.horizontalPadding ?? effectiveHeight * 0.2;
+    final optionsButtonSize = this.optionsButtonSize ?? effectiveHeight * 0.6;
+    final optionsButtonMargin = this.optionsButtonMargin ?? effectiveHeight * 0.1;
 
-     return Container(
-       width: effectiveWidth,
-       height: effectiveHeight,
-       decoration: BoxDecoration(
-         color: AppColors.grey.withAlpha(100),
-         borderRadius: BorderRadius.circular(effectiveHeight / 2), // Pill shape
-       ),
+    return Container(
+      width: effectiveWidth,
+      height: effectiveHeight,
+      decoration: BoxDecoration(
+        color: AppColors.grey.withAlpha(100),
+        borderRadius: BorderRadius.circular(effectiveHeight / 2), // Pill shape
+      ),
       child: Row(
         children: [
           InkWell(
-            onTap: _isLoading ? null : _togglePlayPause,
+            onTap: (audioState.isLoading || audioState.isDownloading) ? null : () => _togglePlayPause(context, bloc),
             child: Container(
               width: playButtonSize,
               height: playButtonSize,
               margin: EdgeInsets.all(playButtonMargin),
-               decoration: BoxDecoration(
-                 color: const Color(0xFFD4AF37),
-                 shape: BoxShape.circle,
-               ),
-              child: _isLoading
-                  ? SizedBox(
+              decoration: BoxDecoration(
+                color: const Color(0xFFD4AF37),
+                shape: BoxShape.circle,
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Show loading indicator when downloading
+                  if (audioState.isDownloading || audioState.isLoading)
+                    SizedBox(
                       width: playButtonSize * 0.4,
                       height: playButtonSize * 0.4,
-                       child: CircularProgressIndicator(
-                         strokeWidth: 2,
-                         valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-                       ),
-                     )
-                   : Icon(
-                       _isPlaying ? Icons.pause : Icons.play_arrow,
-                       color: Colors.white,
-                       size: playButtonSize * 0.5,
-                     ),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    ),
+                  
+                  // Show appropriate icon based on state
+                  if (!audioState.isDownloading && !audioState.isLoading)
+                    audioState.hasError
+                        ? Icon(
+                            Icons.refresh,
+                            size: playButtonSize * 0.5,
+                          )
+                        : Icon(
+                            audioState.isPlaying ? Icons.pause : Icons.play_arrow,
+                            size: playButtonSize * 0.5,
+                          ),
+                ],
+              ),
             ),
           ),
-
-          // Expanded(
-          //   child: SliderTheme(
-          //      data: SliderTheme.of(context).copyWith(
-          //        activeTrackColor: const Color(0xFFD4AF37),
-          //        inactiveTrackColor: const Color(0xFFE0E0E0),
-          //        thumbColor: const Color(0xFFD4AF37),
-          //       thumbShape: RoundSliderThumbShape(
-          //         enabledThumbRadius: progressBarThumbRadius,
-          //       ),
-          //       trackHeight: progressBarHeight,
-          //       overlayShape: RoundSliderOverlayShape(
-          //         overlayRadius: progressBarThumbRadius * 1.5,
-          //       ),
-          //       overlayColor: AppColors.primary.withValues(alpha: 0.1),
-          //     ),
-          //     child: Slider(
-          //       value: _duration.inMilliseconds > 0
-          //           ? _position.inMilliseconds / _duration.inMilliseconds
-          //           : 0.0,
-          //       onChanged: (value) {
-          //         final position = Duration(
-          //           milliseconds: (value * _duration.inMilliseconds).round(),
-          //         );
-          //         _seekTo(position);
-          //       },
-          //     ),
-          //   ),
-          // ),
-          
-          // Timer on the right
           Padding(
             padding: EdgeInsets.only(right: horizontalPadding * 0.5),
             child: Text(
-              '${_formatDuration(_position)}/${_formatDuration(_duration)}',
-               style: TextStyle(
-                 fontFamily: FontFamily.tajawal,
-                 fontSize: fontSize,
-                 color: const Color(0xFF333333), // Dark grey text like the image
-                 fontWeight: FontWeight.w500,
-               ),
+              audioState.isDownloading 
+                  ? 'جاري التحميل...'
+                  : audioState.hasError 
+                      ? 'خطأ  '
+                      : audioState.duration > Duration.zero
+                          ? '${_formatDuration(audioState.position)}/${_formatDuration(audioState.duration)}'
+                          : '0:0/0:0',
+              style: TextStyle(
+                fontFamily: FontFamily.tajawal,
+                fontSize: fontSize,
+                color: audioState.isDownloading 
+                    ? AppColors.primary
+                    : audioState.hasError 
+                        ? Colors.red 
+                        : const Color(0xFF333333),
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           
-          // Options Menu (3 dots) on the far right
+          // Download button on the far right
           GestureDetector(
-            onTap: () {
-              // Add options menu functionality here
-              // Options menu tapped
-            },
+            onTap: audioState.isFileDownloading ? null : () => _downloadAudio(context, bloc),
             child: Container(
               width: optionsButtonSize,
               height: optionsButtonSize,
               margin: EdgeInsets.only(right: optionsButtonMargin),
-               decoration: BoxDecoration(
-                 color: Colors.transparent,
-               ),
-               child:Image.asset('assets/images/Frame 1321317284.png',width: 50 , height: 35,),
-          ),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Download icon
+                  if (!audioState.isFileDownloading)
+                    Icon(
+                      Icons.download,
+                      size: optionsButtonSize * 0.6,
+                      color: const Color(0xFF333333),
+                    ),
+                  
+                  // Loading indicator when downloading
+                  if (audioState.isFileDownloading)
+                    SizedBox(
+                      width: optionsButtonSize * 0.4,
+                      height: optionsButtonSize * 0.4,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
     );
+  }
+
+  /// Toggles play/pause for the audio
+  void _togglePlayPause(BuildContext context, SoundLibraryBloc bloc) {
+    final audioState = bloc.getAudioPlayerState(soundId);
+    
+    if (audioState.isLoading || audioState.isDownloading) {
+      print('Audio is currently being downloaded, please wait...');
+      return;
+    }
+
+    if (audioState.isPlaying) {
+      bloc.add(PauseAudioEvent(soundId: soundId));
+    } else {
+      // If there's an error or no URL loaded, load it first
+      if (audioState.hasError || audioState.currentUrl == null || audioState.currentUrl!.isEmpty) {
+        bloc.add(LoadAudioEvent(
+          soundId: soundId,
+          audioUrl: audioUrl,
+          alternativeUrls: alternativeUrls,
+        ));
+        return;
+      }
+
+      // Just play the already loaded audio
+      bloc.add(PlayAudioEvent(soundId: soundId));
+    }
+  }
+
+  /// Downloads the audio file
+  void _downloadAudio(BuildContext context, SoundLibraryBloc bloc) {
+    // Extract filename from URL
+    final uri = Uri.parse(audioUrl);
+    final fileName = uri.pathSegments.last;
+    
+    print('Downloading audio: $fileName from $audioUrl');
+    
+    bloc.add(DownloadAudioEvent(
+      soundId: soundId,
+      audioUrl: audioUrl,
+      fileName: fileName,
+    ));
+  }
+
+  /// Formats duration to show only minutes:seconds
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(1, '0');
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return '$minutes:$seconds';
   }
 }

@@ -17,7 +17,7 @@ class SoundLibraryRepositoryImpl implements SoundLibraryRepository {
   @override
   Future<Either<String, HierarchicalSoundResponse>> getHierarchicalSoundCategories() async {
     try {
-      AppLogger.business('Fetching hierarchical sound categories');
+      AppLogger.business('Fetching  sound + categories');
       final response = await _networkClient.get(ApiConfig.getHierarchicalSoundCategories);
 
       AppLogger.apiResponse('SoundLibraryRepository - getHierarchicalSoundCategories', {

@@ -47,13 +47,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           );
           return;
         }
-        if (homeModel.data?.recentArticles == null || 
-            homeModel.data!.recentArticles!.isEmpty) {
-          AppLogger.warning('No articles found');
+        if (homeModel.data?.article == null) {
+          AppLogger.warning('No main article found');
           emit(
             state.copyWith(
               status: const BlocStatus.fail(
-                error: 'No articles found',
+                error: 'No main article found',
               ),
             ),
           );

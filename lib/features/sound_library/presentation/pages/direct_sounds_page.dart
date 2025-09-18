@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
+import 'package:nassan_app/core/responsive/screen_utils.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../gen/assets.gen.dart';
@@ -45,12 +46,10 @@ class DirectSoundsPage extends StatelessWidget {
             // Title
             SliverToBoxAdapter(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
                 child: Text(
                   category.catTitle,
                   style: TextStyle(
-                    fontFamily: FontFamily.tajawal,
-                    fontSize: 20,
+                    fontSize: 20.sf,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -59,9 +58,7 @@ class DirectSoundsPage extends StatelessWidget {
 
             // Direct sounds content
             SliverToBoxAdapter(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Column(
+              child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (category.directSounds.isNotEmpty) ...[
@@ -98,7 +95,6 @@ class DirectSoundsPage extends StatelessWidget {
                     ],
                   ],
                 ),
-              ),
             ),
           ],
         ),

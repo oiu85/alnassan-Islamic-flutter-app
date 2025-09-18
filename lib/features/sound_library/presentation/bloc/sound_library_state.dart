@@ -2,6 +2,63 @@ import 'package:equatable/equatable.dart';
 import '../../../../core/models/page_state/bloc_status.dart';
 import '../../data/model.dart';
 
+/// Audio player state for individual sounds
+class AudioPlayerState extends Equatable {
+  final bool isPlaying;
+  final bool isLoading;
+  final bool hasError;
+  final bool isDownloading;
+  final bool isFileDownloading;
+  final Duration duration;
+  final Duration position;
+  final String? currentUrl;
+
+  const AudioPlayerState({
+    this.isPlaying = false,
+    this.isLoading = false,
+    this.hasError = false,
+    this.isDownloading = false,
+    this.isFileDownloading = false,
+    this.duration = Duration.zero,
+    this.position = Duration.zero,
+    this.currentUrl,
+  });
+
+  AudioPlayerState copyWith({
+    bool? isPlaying,
+    bool? isLoading,
+    bool? hasError,
+    bool? isDownloading,
+    bool? isFileDownloading,
+    Duration? duration,
+    Duration? position,
+    String? currentUrl,
+  }) {
+    return AudioPlayerState(
+      isPlaying: isPlaying ?? this.isPlaying,
+      isLoading: isLoading ?? this.isLoading,
+      hasError: hasError ?? this.hasError,
+      isDownloading: isDownloading ?? this.isDownloading,
+      isFileDownloading: isFileDownloading ?? this.isFileDownloading,
+      duration: duration ?? this.duration,
+      position: position ?? this.position,
+      currentUrl: currentUrl ?? this.currentUrl,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        isPlaying,
+        isLoading,
+        hasError,
+        isDownloading,
+        isFileDownloading,
+        duration,
+        position,
+        currentUrl,
+      ];
+}
+
 /// State management for the sound library feature
 /// Handles hierarchical category navigation and sound display
 class SoundLibraryState extends Equatable {
@@ -20,6 +77,15 @@ class SoundLibraryState extends Equatable {
   final List<SoundData> displaySounds;
   final List<dynamic> displaySubcategories;
   final bool isViewingDirectSounds;
+  
+  // Audio player states
+  final Map<String, AudioPlayerState> audioPlayerStates;
+  final Map<String, bool> audioDownloadingStates;
+  final Map<String, String?> audioCurrentUrls;
+  
+  // Download message
+  final String? downloadMessage;
+  final bool isDownloadSuccess;
 
   const SoundLibraryState({
     this.status = const BlocStatus.initial(),
@@ -35,6 +101,11 @@ class SoundLibraryState extends Equatable {
     this.displaySounds = const [],
     this.displaySubcategories = const [],
     this.isViewingDirectSounds = false,
+    this.audioPlayerStates = const {},
+    this.audioDownloadingStates = const {},
+    this.audioCurrentUrls = const {},
+    this.downloadMessage,
+    this.isDownloadSuccess = false,
   });
 
   SoundLibraryState copyWith({
@@ -51,6 +122,11 @@ class SoundLibraryState extends Equatable {
     List<SoundData>? displaySounds,
     List<dynamic>? displaySubcategories,
     bool? isViewingDirectSounds,
+    Map<String, AudioPlayerState>? audioPlayerStates,
+    Map<String, bool>? audioDownloadingStates,
+    Map<String, String?>? audioCurrentUrls,
+    String? downloadMessage,
+    bool? isDownloadSuccess,
   }) {
     return SoundLibraryState(
       status: status ?? this.status,
@@ -66,6 +142,11 @@ class SoundLibraryState extends Equatable {
       displaySounds: displaySounds ?? this.displaySounds,
       displaySubcategories: displaySubcategories ?? this.displaySubcategories,
       isViewingDirectSounds: isViewingDirectSounds ?? this.isViewingDirectSounds,
+      audioPlayerStates: audioPlayerStates ?? this.audioPlayerStates,
+      audioDownloadingStates: audioDownloadingStates ?? this.audioDownloadingStates,
+      audioCurrentUrls: audioCurrentUrls ?? this.audioCurrentUrls,
+      downloadMessage: downloadMessage ?? this.downloadMessage,
+      isDownloadSuccess: isDownloadSuccess ?? this.isDownloadSuccess,
     );
   }
 
@@ -84,5 +165,10 @@ class SoundLibraryState extends Equatable {
     displaySounds,
     displaySubcategories,
     isViewingDirectSounds,
+    audioPlayerStates,
+    audioDownloadingStates,
+    audioCurrentUrls,
+    downloadMessage,
+    isDownloadSuccess,
   ];
 }

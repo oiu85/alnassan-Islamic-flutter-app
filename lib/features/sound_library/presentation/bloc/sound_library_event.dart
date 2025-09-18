@@ -55,3 +55,148 @@ class ToggleDirectSoundsViewEvent extends SoundLibraryEvent {
 class ResetSoundLibraryEvent extends SoundLibraryEvent {
   const ResetSoundLibraryEvent();
 }
+
+class RefreshSoundLibraryEvent extends SoundLibraryEvent {
+  const RefreshSoundLibraryEvent();
+}
+
+class ShowAllSubcategorySoundsEvent extends SoundLibraryEvent {
+  final dynamic subcategory; // Can be Level2Category, Level3Category, or Level4Category
+
+  const ShowAllSubcategorySoundsEvent({required this.subcategory});
+
+  @override
+  List<Object?> get props => [subcategory];
+}
+
+// Audio player events
+class LoadAudioEvent extends SoundLibraryEvent {
+  final String soundId;
+  final String audioUrl;
+  final List<String>? alternativeUrls;
+
+  const LoadAudioEvent({
+    required this.soundId,
+    required this.audioUrl,
+    this.alternativeUrls,
+  });
+
+  @override
+  List<Object?> get props => [soundId, audioUrl, alternativeUrls];
+}
+
+class PlayAudioEvent extends SoundLibraryEvent {
+  final String soundId;
+
+  const PlayAudioEvent({required this.soundId});
+
+  @override
+  List<Object?> get props => [soundId];
+}
+
+class PauseAudioEvent extends SoundLibraryEvent {
+  final String soundId;
+
+  const PauseAudioEvent({required this.soundId});
+
+  @override
+  List<Object?> get props => [soundId];
+}
+
+class StopAudioEvent extends SoundLibraryEvent {
+  final String soundId;
+
+  const StopAudioEvent({required this.soundId});
+
+  @override
+  List<Object?> get props => [soundId];
+}
+
+class UpdateAudioPositionEvent extends SoundLibraryEvent {
+  final String soundId;
+  final Duration position;
+
+  const UpdateAudioPositionEvent({
+    required this.soundId,
+    required this.position,
+  });
+
+  @override
+  List<Object?> get props => [soundId, position];
+}
+
+class UpdateAudioDurationEvent extends SoundLibraryEvent {
+  final String soundId;
+  final Duration duration;
+
+  const UpdateAudioDurationEvent({
+    required this.soundId,
+    required this.duration,
+  });
+
+  @override
+  List<Object?> get props => [soundId, duration];
+}
+
+class AudioErrorEvent extends SoundLibraryEvent {
+  final String soundId;
+  final String error;
+
+  const AudioErrorEvent({
+    required this.soundId,
+    required this.error,
+  });
+
+  @override
+  List<Object?> get props => [soundId, error];
+}
+
+class ResetAudioStateEvent extends SoundLibraryEvent {
+  final String soundId;
+
+  const ResetAudioStateEvent({required this.soundId});
+
+  @override
+  List<Object?> get props => [soundId];
+}
+
+class UpdateAudioPlayerStateEvent extends SoundLibraryEvent {
+  final String soundId;
+  final bool isPlaying;
+
+  const UpdateAudioPlayerStateEvent({
+    required this.soundId,
+    required this.isPlaying,
+  });
+
+  @override
+  List<Object?> get props => [soundId, isPlaying];
+}
+
+class DownloadAudioEvent extends SoundLibraryEvent {
+  final String soundId;
+  final String audioUrl;
+  final String fileName;
+
+  const DownloadAudioEvent({
+    required this.soundId,
+    required this.audioUrl,
+    required this.fileName,
+  });
+
+  @override
+  List<Object?> get props => [soundId, audioUrl, fileName];
+}
+
+class ShowDownloadMessageEvent extends SoundLibraryEvent {
+  final String message;
+  final bool isSuccess;
+
+  const ShowDownloadMessageEvent({
+    required this.message,
+    this.isSuccess = true,
+  });
+
+  @override
+  List<Object?> get props => [message, isSuccess];
+}

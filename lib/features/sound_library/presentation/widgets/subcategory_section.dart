@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/gen/fonts.gen.dart';
+import 'package:nassan_app/core/responsive/screen_utils.dart';
 import '../bloc/sound_library_bloc.dart';
 import 'sound_card.dart';
 import '../pages/subcategory_sounds_page.dart';
@@ -29,21 +29,19 @@ class SubcategorySection extends StatelessWidget {
               Text(
                 bloc.getSubcategoryTitle(subcategory),
                 style: TextStyle(
-                  fontFamily: FontFamily.tajawal,
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.black.withValues(alpha: 0.8),
+                  color: AppColors.black.withOpacity(0.8),
                 ),
               ),
-              Spacer(),
-              if (subcategory.directSounds.length > 3)
+              const Spacer(),
+              if (bloc.shouldShowAllButtonForSubcategory(subcategory))
                 InkWell(
                   onTap: () => _navigateToSubcategory(context, subcategory),
                   child: Text(
                     "الكل",
                     style: TextStyle(
-                      fontFamily: FontFamily.tajawal,
-                      fontSize: 12,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.black,
                     ),
@@ -57,6 +55,7 @@ class SubcategorySection extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: bloc.getPreviewSounds(subcategory)
+                .take(3)
                 .map((sound) => Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: SoundCard(sound: sound),

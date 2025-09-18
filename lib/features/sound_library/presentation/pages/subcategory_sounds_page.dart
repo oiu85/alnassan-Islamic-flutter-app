@@ -38,18 +38,22 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
   }
 
   void _navigateToSubcategory() {
-    if (widget.subcategory is Level2Category) {
-      context.read<SoundLibraryBloc>().add(
-        NavigateToLevel2CategoryEvent(category: widget.subcategory as Level2Category),
-      );
-    } else if (widget.subcategory is Level3Category) {
-      context.read<SoundLibraryBloc>().add(
-        NavigateToLevel3CategoryEvent(category: widget.subcategory as Level3Category),
-      );
-    } else if (widget.subcategory is Level4Category) {
-      context.read<SoundLibraryBloc>().add(
-        NavigateToLevel4CategoryEvent(category: widget.subcategory as Level4Category),
-      );
+    try {
+      if (widget.subcategory is Level2Category) {
+        context.read<SoundLibraryBloc>().add(
+          NavigateToLevel2CategoryEvent(category: widget.subcategory as Level2Category),
+        );
+      } else if (widget.subcategory is Level3Category) {
+        context.read<SoundLibraryBloc>().add(
+          NavigateToLevel3CategoryEvent(category: widget.subcategory as Level3Category),
+        );
+      } else if (widget.subcategory is Level4Category) {
+        context.read<SoundLibraryBloc>().add(
+          NavigateToLevel4CategoryEvent(category: widget.subcategory as Level4Category),
+        );
+      }
+    } catch (e) {
+      // Error navigating to subcategory: $e
     }
   }
 
@@ -103,8 +107,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
 
         // Main Content
         SliverToBoxAdapter(
-          child: Container(
-            child: Column(
+          child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Direct sounds from the selected subcategory
@@ -125,7 +128,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                           ),
                         ),
                         Spacer(),
-                        if (bloc.getSubcategoryDirectSounds().length > 3)
+                        if (bloc.shouldShowAllButtonForSubcategory(widget.subcategory))
                           GestureDetector(
                             onTap: () => _navigateToDirectSoundsPage(context, bloc.getSubcategoryDirectSounds()),
                             child: Text(
@@ -199,7 +202,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                 ),
                               ),
                               Spacer(),
-                              if (bloc.getPreviewSounds(subcategory).length > 3)
+                              if (bloc.shouldShowAllButtonForSubcategory(subcategory))
                                 GestureDetector(
                                   onTap: () => _navigateToSubcategoryPage(context, subcategory, bloc),
                                   child: Text(
@@ -237,7 +240,6 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
 
               ],
             ),
-          ),
         ),
       ],
     );

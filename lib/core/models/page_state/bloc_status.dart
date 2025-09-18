@@ -3,6 +3,7 @@ import 'dart:core';
 enum Status {
   initial,
   loading,
+  loadingMore,
   success,
   fail,
 }
@@ -13,6 +14,10 @@ class BlocStatus {
 
   const BlocStatus.loading()
       : status = Status.loading,
+        error = null;
+
+  const BlocStatus.loadingMore()
+      : status = Status.loadingMore,
         error = null;
 
   const BlocStatus.success()
@@ -28,6 +33,8 @@ class BlocStatus {
         error = null;
 
   bool isLoading() => status == Status.loading;
+
+  bool isLoadingMore() => status == Status.loadingMore;
 
   bool isInitial() => status == Status.initial;
 

@@ -184,6 +184,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/ceirculer_zh.svg
   SvgGenImage get ceirculerZh => const SvgGenImage('assets/svg/ceirculer_zh.svg');
 
+  /// File path: assets/svg/download_button.svg
+  SvgGenImage get downloadButton => const SvgGenImage('assets/svg/download_button.svg');
+
   /// File path: assets/svg/headphone.svg
   SvgGenImage get headphone => const SvgGenImage('assets/svg/headphone.svg');
 
@@ -215,6 +218,7 @@ class $AssetsSvgGen {
     carosell,
     carosellResverse,
     ceirculerZh,
+    downloadButton,
     headphone,
     helal,
     mohammed,

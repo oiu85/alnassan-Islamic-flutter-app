@@ -86,6 +86,34 @@ class ApiConfig {
     return '$baseUrl/public/categories/sounds/children${queryString.isNotEmpty ? '?$queryString' : ''}';
   }
 
+  // ===== SUB-CATEGORIES ENDPOINTS =====
+  /// Get sub-categories with articles (standard endpoint for multiple features)
+  /// Parameters: cat_id, cat_menus, articles_per_page, categories_per_page, articles_page, categories_page
+  static String getSubCategories({
+    required int catId,
+    int? catMenus,
+    int? articlesPerPage,
+    int? categoriesPerPage,
+    int? articlesPage,
+    int? categoriesPage,
+  }) {
+    final params = <String, String>{
+      'cat_id': catId.toString(),
+    };
+    
+    if (catMenus != null) params['cat_menus'] = catMenus.toString();
+    if (articlesPerPage != null) params['articles_per_page'] = articlesPerPage.toString();
+    if (categoriesPerPage != null) params['categories_per_page'] = categoriesPerPage.toString();
+    if (articlesPage != null) params['articles_page'] = articlesPage.toString();
+    if (categoriesPage != null) params['categories_page'] = categoriesPage.toString();
+    
+    final queryString = params.entries
+        .map((e) => '${e.key}=${e.value}')
+        .join('&');
+    
+    return '$baseUrl/public/sub-categories?$queryString';
+  }
+
   // ===== LEGACY ENDPOINTS (for backward compatibility) =====
   @Deprecated('Use getArticlesByCategory instead')
   static const String biographiesUrl = '$baseUrl/public/categories/articles';

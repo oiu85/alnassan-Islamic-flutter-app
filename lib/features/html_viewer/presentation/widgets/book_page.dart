@@ -88,7 +88,7 @@ class BookPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (state.currentPage!.pageNumber == 1 &&
-                          state.htmlContent != null)
+                          state.htmlContent != null) ...[
                         Center(
                           child: Text(
                             "بسم الله الرحمن الرحيم",
@@ -105,6 +105,7 @@ class BookPage extends StatelessWidget {
                             textAlign: TextAlign.center,
                           ),
                         ),
+                      ],
                       // HTML content
                       Html(
                         data: state.currentPage!.content,

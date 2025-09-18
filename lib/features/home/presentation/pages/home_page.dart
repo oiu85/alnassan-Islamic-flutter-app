@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/shared/wdigets/app_drawer.dart';
+import 'package:nassan_app/features/home/presentation/widgets/bottom_bar.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../../../../core/shared/wdigets/AppScaffold.dart';
@@ -43,7 +45,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget homeContent(BuildContext context, HomeState state) {
-    return AppScaffold.home(
+    return AppScaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: _width(27)),
         child: SingleChildScrollView(
@@ -109,17 +111,38 @@ class HomePage extends StatelessWidget {
                   "المحتوى",
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: _fontSize(20),
+                    fontSize: _fontSize(24),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              SizedBox(height: _height(23)),
+              SizedBox(height: _height(20)),
               BottomCards(),
             ],
           ),
         ),
       ),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            onPressed: () {
+              // TODO: Handle notifications
+            },
+            icon: Icon(
+              Icons.notifications_outlined,
+              size: ScreenUtil().setSp(30),
+            ),
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: AppDrawer(
+          categories: state.homeData?.data?.articleCategories,
+        ),
+      ),
+      bottomNavigationBar: BottomNavBarWidget(index: true),
     );
   }
 }

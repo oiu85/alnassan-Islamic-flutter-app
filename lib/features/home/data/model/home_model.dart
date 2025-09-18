@@ -17,16 +17,17 @@ abstract class HomeModel with _$HomeModel {
 @freezed
 abstract class Data with _$Data {
   const factory Data({
-    @JsonKey(name: 'recent_articles') 
-    List<RecentArticles>? recentArticles,
+    Article? article,
+    @JsonKey(name: 'article_categories') 
+    List<ArticleCategory>? articleCategories,
   }) = _Data;
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 }
 
 @freezed
-abstract class RecentArticles with _$RecentArticles {
-  const factory RecentArticles({
+abstract class Article with _$Article {
+  const factory Article({
     @JsonKey(name: 'article_id') 
     int? articleId,
     @JsonKey(name: 'article_title') 
@@ -44,10 +45,49 @@ abstract class RecentArticles with _$RecentArticles {
     @JsonKey(name: 'article_date') 
     String? articleDate,
     Category? category,
-  }) = _RecentArticles;
+    @JsonKey(name: 'monthly_info') 
+    MonthlyInfo? monthlyInfo,
+  }) = _Article;
 
-  factory RecentArticles.fromJson(Map<String, dynamic> json) =>
-      _$RecentArticlesFromJson(json);
+  factory Article.fromJson(Map<String, dynamic> json) =>
+      _$ArticleFromJson(json);
+}
+
+@freezed
+abstract class ArticleCategory with _$ArticleCategory {
+  const factory ArticleCategory({
+    @JsonKey(name: 'cat_id') 
+    int? catId,
+    @JsonKey(name: 'cat_title') 
+    String? catTitle,
+    @JsonKey(name: 'cat_note') 
+    String? catNote,
+    @JsonKey(name: 'cat_pic') 
+    String? catPic,
+    @JsonKey(name: 'cat_menus') 
+    String? catMenus,
+    @JsonKey(name: 'cat_pos') 
+    String? catPos,
+    @JsonKey(name: 'cat_in_sub_menu') 
+    String? catInSubMenu,
+  }) = _ArticleCategory;
+
+  factory ArticleCategory.fromJson(Map<String, dynamic> json) =>
+      _$ArticleCategoryFromJson(json);
+}
+
+@freezed
+abstract class MonthlyInfo with _$MonthlyInfo {
+  const factory MonthlyInfo({
+    @JsonKey(name: 'current_month') 
+    int? currentMonth,
+    @JsonKey(name: 'current_year') 
+    int? currentYear,
+    int? index,
+  }) = _MonthlyInfo;
+
+  factory MonthlyInfo.fromJson(Map<String, dynamic> json) =>
+      _$MonthlyInfoFromJson(json);
 }
 
 @freezed

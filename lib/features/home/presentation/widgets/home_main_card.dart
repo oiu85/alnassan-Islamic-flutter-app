@@ -46,43 +46,41 @@ class HomeMainCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  // بسم الله الرحمن الرحيم
                   Text(
-                    state.homeData?.data?.recentArticles?.isNotEmpty == true
-                        ? (state
-                                  .homeData
-                                  ?.data
-                                  ?.recentArticles
-                                  ?.first
-                                  .articleSummary
-                                  ?.split('\n')
-                                  .take(5)
-                                  .join('\n') ??
-                              '')
-                        : 'لا يوجد محتوى متاح',
+                    "بسم الله الرحمن الرحيم",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: _fontSize(24),
+                      fontFamily: FontFamily.amiri,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.black,
+                      height: 2.0,
+                    ),
+                  ),
+                  SizedBox(height: _height(10)),
+                  // Article title
+                  Text(
+                    state.homeData?.data?.article?.articleTitle ?? 'لا يوجد عنوان متاح',
                     textAlign: TextAlign.center,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: _fontSize(12),
                       fontFamily: FontFamily.tajawal,
-                      height: 2.5,
+                      fontWeight: FontWeight.bold,
+                      height: 1.0,
                     ),
                   ),
                   InkWell(
                     onTap: () {
                       try {
-                        if (state.homeData?.data?.recentArticles?.isNotEmpty ==
-                            true) {
-                          final articleId = state
-                              .homeData
-                              ?.data
-                              ?.recentArticles
-                              ?.first
-                              .articleId;
+                        if (state.homeData?.data?.article != null) {
+                          final articleId = state.homeData?.data?.article?.articleId;
                           if (articleId != null) {
                             HomeToHtmlViewerAdapter.navigateToHtmlViewerFromArticle(
                               context,
-                              state.homeData?.data?.recentArticles?.first,
+                              state.homeData?.data?.article,
                             );
                           }
                         } else {
