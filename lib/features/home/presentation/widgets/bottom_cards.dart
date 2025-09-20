@@ -6,9 +6,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/di/app_dependencies.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/network/network_client.dart';
 import 'package:nassan_app/features/lesson/presentation/pages/lessons_page.dart';
 import 'package:nassan_app/features/sound_library/presentation/pages/sounds_page.dart';
 import 'package:nassan_app/features/sound_library/presentation/bloc/sound_library_bloc.dart';
+import 'package:nassan_app/features/words_on_occasions/presentation/pages/words_on_occasions_page.dart';
+import 'package:nassan_app/features/words_on_occasions/presentation/bloc/words_on_occasions_bloc.dart';
+import 'package:nassan_app/features/words_on_occasions/data/repository/words_on_occasions_repository_impl.dart';
 
 import '../../../../gen/assets.gen.dart';
 
@@ -228,17 +232,29 @@ class BottomCards extends StatelessWidget {
             tablet: _height(270),
             desktop: _height(300),
           ),
-          child: ContentCard(
-            paddingRight: ScreenUtil().setWidth(60),
-            paddingTop: ScreenUtil().setHeight(65),
-            cardMainImage: Image.asset(
-              Assets.images.helal.path,
-              width: ScreenUtil().setWidth(80),
-              height: ScreenUtil().setHeight(75),
+          child: InkWell(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => BlocProvider(
+                  create: (context) => WordsOnOccasionsBloc(
+                    WordsOnOccasionsRepositoryImpl(NetworkClient())
+                  ),
+                  child: WordsOnOccasionsPage(),
+                ),
+              ));
+            },
+            child: ContentCard(
+              paddingRight: ScreenUtil().setWidth(60),
+              paddingTop: ScreenUtil().setHeight(65),
+              cardMainImage: Image.asset(
+                Assets.images.helal.path,
+                width: ScreenUtil().setWidth(80),
+                height: ScreenUtil().setHeight(75),
+              ),
+              title: "كلمات في مناسبات",
+              cardColor: AppColors.bottomCardColor.withAlpha(70),
+              waveColor: AppColors.waveCardColor,
             ),
-            title: "كلمات في مناسبات",
-            cardColor: AppColors.bottomCardColor.withAlpha(70),
-            waveColor: AppColors.waveCardColor,
           ),
         ),
       ],

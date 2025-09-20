@@ -6,58 +6,66 @@ import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../data/model.dart';
-import '../bloc/almawduea_bloc.dart';
-import '../bloc/almawduea_event.dart';
-import '../bloc/almawduea_state.dart';
+import '../../data/model/word_of_the_month_model.dart';
+import '../bloc/word_of_the_month_bloc.dart';
+import '../bloc/word_of_the_month_event.dart';
+import '../bloc/word_of_the_month_state.dart';
 // ===== HTML VIEWER IMPORTS =====
 import '../../../html_viewer/presentation/pages/html_book_viewer_page.dart';
 
-class AlmawdueaPage extends StatefulWidget {
-  const AlmawdueaPage({super.key});
+class WordOfTheMonthPage extends StatefulWidget {
+  final int catId;
+  final String catMenus;
+  final int articlesPerPage;
+
+  const WordOfTheMonthPage({
+    super.key,
+    required this.catId,
+    required this.catMenus,
+    this.articlesPerPage = 4,
+  });
 
   @override
-  State<AlmawdueaPage> createState() => _AlmawdueaPageState();
+  State<WordOfTheMonthPage> createState() => _WordOfTheMonthPageState();
 }
 
-class _AlmawdueaPageState extends State<AlmawdueaPage> {
-  static const int categoryId = 18;
-  static const int perPage = 4;
-
+class _WordOfTheMonthPageState extends State<WordOfTheMonthPage> {
   @override
   void initState() {
     super.initState();
     
     // Fetch initial data
-    context.read<AlmawdueaBloc>().add(
-      const FetchAlmawdueaArticlesEvent(
-        categoryId: categoryId,
-        page: 1,
-        perPage: perPage,
+    context.read<WordOfTheMonthBloc>().add(
+      FetchWordOfTheMonthDataEvent(
+        catId: widget.catId,
+        catMenus: widget.catMenus,
+        articlesPerPage: widget.articlesPerPage,
+        articlesPage: 1,
       ),
     );
   }
+
   // ===== EXPAND/COLLAPSE HANDLER =====
   void _toggleArticleExpansion(int articleId) {
-    context.read<AlmawdueaBloc>().add(
+    context.read<WordOfTheMonthBloc>().add(
       ToggleArticleExpansionEvent(articleId: articleId),
     );
   }
 
   // ===== CARD CLICK HANDLER =====
-  void _onArticleCardClick(AlmawdueaArticle article) {
-    context.read<AlmawdueaBloc>().add(
+  void _onArticleCardClick(WordOfTheMonthArticle article) {
+    context.read<WordOfTheMonthBloc>().add(
       ArticleCardClickEvent(article: article),
     );
   }
 
   // ===== NAVIGATION HANDLER =====
-  void _handleNavigation(BuildContext context, AlmawdueaState state) {
+  void _handleNavigation(BuildContext context, WordOfTheMonthState state) {
     if (state.articleDetailStatus.isSuccess() && 
         state.htmlContent != null && 
         !state.hasNavigatedToArticle) {
       // Mark that navigation has happened
-      context.read<AlmawdueaBloc>().add(MarkArticleNavigatedEvent());
+      context.read<WordOfTheMonthBloc>().add(MarkArticleNavigatedEvent());
       
       Navigator.push(
         context,
@@ -82,20 +90,21 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: BlocBuilder<AlmawdueaBloc, AlmawdueaState>(
+        child: BlocBuilder<WordOfTheMonthBloc, WordOfTheMonthState>(
           builder: (context, state) {
             return SimpleLottieHandler(
               blocStatus: state.status,
-              successWidget: _buildAlmawdueaContent(context, state),
+              successWidget: _buildWordOfTheMonthContent(context, state),
               isEmpty: state.status.isSuccess() && state.articles.isEmpty,
               emptyMessage: 'لا توجد مقالات متاحة',
               loadingMessage: 'جاري تحميل المقالات...',
               onRetry: () {
-                context.read<AlmawdueaBloc>().add(
-                  const FetchAlmawdueaArticlesEvent(
-                    categoryId: categoryId,
-                    page: 1,
-                    perPage: perPage,
+                context.read<WordOfTheMonthBloc>().add(
+                  FetchWordOfTheMonthDataEvent(
+                    catId: widget.catId,
+                    catMenus: widget.catMenus,
+                    articlesPerPage: widget.articlesPerPage,
+                    articlesPage: 1,
                   ),
                 );
               },
@@ -107,7 +116,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
     );
   }
 
-  Widget _buildAlmawdueaContent(BuildContext context, AlmawdueaState state) {
+  Widget _buildWordOfTheMonthContent(BuildContext context, WordOfTheMonthState state) {
     // Handle navigation when content is ready
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _handleNavigation(context, state);
@@ -130,54 +139,62 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
           ],
         ),
         SliverToBoxAdapter(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 30),
-            child: Row(
-              children: [
-                Text(
-                  state.almawdueaData?.data?.categories?.first.catTitle ?? "الأحاديث الموضوعة",
-                  style: TextStyle(
-                    fontFamily: FontFamily.tajawal,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(width: 8),
-                // Filter button for pagination with better handling
-                BlocBuilder<AlmawdueaBloc, AlmawdueaState>(
-                  builder: (context, state) {
-                    final bloc = context.read<AlmawdueaBloc>();
-                    final filterButton = bloc.buildFilterButton(
-                      context: context,
-                      categoryId: categoryId,
-                      perPage: perPage,
-                    );
-                    
-                    // Show loading indicator when changing pages
-                    if (state.status.isLoading() && state.currentPage > 1) {
-                      return Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
-                            ),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          state.wordOfTheMonthData?.data?.subCategories?.first.catTitle ?? "كلمة الشهر",
+                          style: TextStyle(
+                            fontFamily: FontFamily.tajawal,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(width: 8),
-                          filterButton,
-                        ],
-                      );
-                    }
-                    
-                    return filterButton;
-                  },
-                ),
-              ],
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      // Filter button for pagination
+                      BlocBuilder<WordOfTheMonthBloc, WordOfTheMonthState>(
+                        builder: (context, state) {
+                          final bloc = context.read<WordOfTheMonthBloc>();
+                          final filterButton = bloc.buildFilterButton(
+                            context: context,
+                            catId: widget.catId,
+                            catMenus: widget.catMenus,
+                            articlesPerPage: widget.articlesPerPage,
+                          );
+                          
+                          // Show loading indicator when changing pages
+                          if (state.status.isLoading() && state.currentPage > 1) {
+                            return Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                filterButton,
+                              ],
+                            );
+                          }
+                          
+                          return filterButton;
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
@@ -199,8 +216,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
     );
   }
 
-
-  Widget _buildArticleCard(AlmawdueaArticle article, bool isLoading, bool isExpanded) {
+  Widget _buildArticleCard(WordOfTheMonthArticle article, bool isLoading, bool isExpanded) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 5),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),

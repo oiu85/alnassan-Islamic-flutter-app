@@ -11,6 +11,19 @@ class HabibMustafaState extends Equatable {
   final int currentCategoriesPage;
   final bool hasReachedMax;
   final String? error;
+  
+  // Category Articles State
+  final CategoryArticlesModel? categoryArticlesData;
+  final List<HabibArticle> categoryArticles;
+  final int currentCategoryArticlesPage;
+  final bool hasReachedMaxCategoryArticles;
+  final String? categoryTitle;
+  
+  // Article Detail State
+  final BlocStatus articleDetailStatus;
+  final ArticleDetailModel? articleDetailData;
+  final HabibArticle? selectedArticle;
+  final bool hasNavigatedToArticle;
 
   const HabibMustafaState({
     this.status = const BlocStatus.initial(),
@@ -20,6 +33,15 @@ class HabibMustafaState extends Equatable {
     this.currentCategoriesPage = 1,
     this.hasReachedMax = false,
     this.error,
+    this.categoryArticlesData,
+    this.categoryArticles = const [],
+    this.currentCategoryArticlesPage = 1,
+    this.hasReachedMaxCategoryArticles = false,
+    this.categoryTitle,
+    this.articleDetailStatus = const BlocStatus.initial(),
+    this.articleDetailData,
+    this.selectedArticle,
+    this.hasNavigatedToArticle = false,
   });
 
   HabibMustafaState copyWith({
@@ -30,6 +52,15 @@ class HabibMustafaState extends Equatable {
     int? currentCategoriesPage,
     bool? hasReachedMax,
     String? error,
+    CategoryArticlesModel? categoryArticlesData,
+    List<HabibArticle>? categoryArticles,
+    int? currentCategoryArticlesPage,
+    bool? hasReachedMaxCategoryArticles,
+    String? categoryTitle,
+    BlocStatus? articleDetailStatus,
+    ArticleDetailModel? articleDetailData,
+    HabibArticle? selectedArticle,
+    bool? hasNavigatedToArticle,
   }) {
     return HabibMustafaState(
       status: status ?? this.status,
@@ -39,6 +70,15 @@ class HabibMustafaState extends Equatable {
       currentCategoriesPage: currentCategoriesPage ?? this.currentCategoriesPage,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       error: error ?? this.error,
+      categoryArticlesData: categoryArticlesData ?? this.categoryArticlesData,
+      categoryArticles: categoryArticles ?? this.categoryArticles,
+      currentCategoryArticlesPage: currentCategoryArticlesPage ?? this.currentCategoryArticlesPage,
+      hasReachedMaxCategoryArticles: hasReachedMaxCategoryArticles ?? this.hasReachedMaxCategoryArticles,
+      categoryTitle: categoryTitle ?? this.categoryTitle,
+      articleDetailStatus: articleDetailStatus ?? this.articleDetailStatus,
+      articleDetailData: articleDetailData ?? this.articleDetailData,
+      selectedArticle: selectedArticle ?? this.selectedArticle,
+      hasNavigatedToArticle: hasNavigatedToArticle ?? this.hasNavigatedToArticle,
     );
   }
 
@@ -51,6 +91,14 @@ class HabibMustafaState extends Equatable {
         currentCategoriesPage,
         hasReachedMax,
         error,
+        categoryArticlesData,
+        categoryArticles,
+        currentCategoryArticlesPage,
+        hasReachedMaxCategoryArticles,
+        categoryTitle,
+        articleDetailStatus,
+        articleDetailData,
+        selectedArticle,
+        hasNavigatedToArticle,
       ];
 }
-

@@ -26,33 +26,13 @@ Map<String, dynamic> _$HabibMustafaModelToJson(_HabibMustafaModel instance) =>
 
 _HabibMustafaData _$HabibMustafaDataFromJson(Map<String, dynamic> json) =>
     _HabibMustafaData(
-      subCategories: json['sub_categories'] == null
-          ? null
-          : SubCategoriesWrapper.fromJson(
-              json['sub_categories'] as Map<String, dynamic>,
-            ),
+      subCategories: (json['sub_categories'] as List<dynamic>?)
+          ?.map((e) => SubCategory.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$HabibMustafaDataToJson(_HabibMustafaData instance) =>
     <String, dynamic>{'sub_categories': instance.subCategories};
-
-_SubCategoriesWrapper _$SubCategoriesWrapperFromJson(
-  Map<String, dynamic> json,
-) => _SubCategoriesWrapper(
-  data: (json['data'] as List<dynamic>?)
-      ?.map((e) => SubCategory.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  pagination: json['pagination'] == null
-      ? null
-      : Pagination.fromJson(json['pagination'] as Map<String, dynamic>),
-);
-
-Map<String, dynamic> _$SubCategoriesWrapperToJson(
-  _SubCategoriesWrapper instance,
-) => <String, dynamic>{
-  'data': instance.data,
-  'pagination': instance.pagination,
-};
 
 _Meta _$MetaFromJson(Map<String, dynamic> json) => _Meta(
   paginationParams: json['pagination_params'] == null
@@ -110,9 +90,9 @@ _SubCategory _$SubCategoryFromJson(Map<String, dynamic> json) => _SubCategory(
   catMenus: json['cat_menus'] as String?,
   catPos: json['cat_pos'] as String?,
   catInSubMenu: json['cat_in_sub_menu'] as String?,
-  articles: (json['articles'] as List<dynamic>?)
-      ?.map((e) => HabibArticle.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  articles: json['articles'] == null
+      ? null
+      : ArticlesWrapper.fromJson(json['articles'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$SubCategoryToJson(_SubCategory instance) =>
@@ -126,6 +106,19 @@ Map<String, dynamic> _$SubCategoryToJson(_SubCategory instance) =>
       'cat_in_sub_menu': instance.catInSubMenu,
       'articles': instance.articles,
     };
+
+_ArticlesWrapper _$ArticlesWrapperFromJson(Map<String, dynamic> json) =>
+    _ArticlesWrapper(
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => HabibArticle.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pagination: json['pagination'] == null
+          ? null
+          : Pagination.fromJson(json['pagination'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ArticlesWrapperToJson(_ArticlesWrapper instance) =>
+    <String, dynamic>{'data': instance.data, 'pagination': instance.pagination};
 
 _HabibArticle _$HabibArticleFromJson(Map<String, dynamic> json) =>
     _HabibArticle(
@@ -185,3 +178,214 @@ Map<String, dynamic> _$PaginationToJson(_Pagination instance) =>
       'from': instance.from,
       'to': instance.to,
     };
+
+_CategoryArticlesModel _$CategoryArticlesModelFromJson(
+  Map<String, dynamic> json,
+) => _CategoryArticlesModel(
+  status: json['status'] as String?,
+  data: json['data'] == null
+      ? null
+      : CategoryArticlesData.fromJson(json['data'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$CategoryArticlesModelToJson(
+  _CategoryArticlesModel instance,
+) => <String, dynamic>{'status': instance.status, 'data': instance.data};
+
+_CategoryArticlesData _$CategoryArticlesDataFromJson(
+  Map<String, dynamic> json,
+) => _CategoryArticlesData(
+  categories: (json['categories'] as List<dynamic>?)
+      ?.map((e) => CategoryWithArticles.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  isMultipleCategories: json['is_multiple_categories'] as bool?,
+);
+
+Map<String, dynamic> _$CategoryArticlesDataToJson(
+  _CategoryArticlesData instance,
+) => <String, dynamic>{
+  'categories': instance.categories,
+  'is_multiple_categories': instance.isMultipleCategories,
+};
+
+_CategoryWithArticles _$CategoryWithArticlesFromJson(
+  Map<String, dynamic> json,
+) => _CategoryWithArticles(
+  catId: (json['cat_id'] as num?)?.toInt(),
+  catTitle: json['cat_title'] as String?,
+  catNote: json['cat_note'] as String?,
+  catPic: json['cat_pic'] as String?,
+  catPos: json['cat_pos'] as String?,
+  parent: json['parent'],
+  children: json['children'] as List<dynamic>?,
+  articles: (json['articles'] as List<dynamic>?)
+      ?.map((e) => HabibArticle.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  pagination: json['pagination'] == null
+      ? null
+      : Pagination.fromJson(json['pagination'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$CategoryWithArticlesToJson(
+  _CategoryWithArticles instance,
+) => <String, dynamic>{
+  'cat_id': instance.catId,
+  'cat_title': instance.catTitle,
+  'cat_note': instance.catNote,
+  'cat_pic': instance.catPic,
+  'cat_pos': instance.catPos,
+  'parent': instance.parent,
+  'children': instance.children,
+  'articles': instance.articles,
+  'pagination': instance.pagination,
+};
+
+_ArticleDetailModel _$ArticleDetailModelFromJson(Map<String, dynamic> json) =>
+    _ArticleDetailModel(
+      status: json['status'] as String?,
+      data: json['data'] == null
+          ? null
+          : ArticleDetailData.fromJson(json['data'] as Map<String, dynamic>),
+      meta: json['meta'] == null
+          ? null
+          : ArticleDetailMeta.fromJson(json['meta'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ArticleDetailModelToJson(_ArticleDetailModel instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'data': instance.data,
+      'meta': instance.meta,
+    };
+
+_ArticleDetailData _$ArticleDetailDataFromJson(Map<String, dynamic> json) =>
+    _ArticleDetailData(
+      articleId: (json['article_id'] as num?)?.toInt(),
+      articleCatId: json['article_cat_id'] as String?,
+      articleTitle: json['article_title'] as String?,
+      articleTs: json['article_ts'] as String?,
+      articleSummary: json['article_summary'] as String?,
+      articlePic: json['article_pic'] as String?,
+      articleDes: json['article_des'] as String?,
+      articlePicPos: json['article_pic_pos'] as String?,
+      articleVisitor: json['article_visitor'] as String?,
+      articleIsNew: json['article_is_new'] as String?,
+      articlePriority: json['article_priority'] as String?,
+      articleActiveVote: json['article_active_vote'] as String?,
+      articleActiveHint: json['article_active_hint'] as String?,
+      articleActive: json['article_active'] as String?,
+      articleDate: json['article_date'] as String?,
+      articlePicActive: json['article_pic_active'] as String?,
+      articleLastArticle: json['article_last_article'] as String?,
+      articlePublisherId: json['article_publisher_id'] as String?,
+      articleSource: json['article_source'] as String?,
+      articleSourceUrl: json['article_source_url'] as String?,
+      articleYoutubeId: json['article_youtube_id'] as String?,
+      articleFile: json['article_file'] as String?,
+      articleUserAddHintNsup: json['article_user_add_hint_nsup'] as String?,
+      category: json['category'] == null
+          ? null
+          : ArticleDetailCategory.fromJson(
+              json['category'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$ArticleDetailDataToJson(_ArticleDetailData instance) =>
+    <String, dynamic>{
+      'article_id': instance.articleId,
+      'article_cat_id': instance.articleCatId,
+      'article_title': instance.articleTitle,
+      'article_ts': instance.articleTs,
+      'article_summary': instance.articleSummary,
+      'article_pic': instance.articlePic,
+      'article_des': instance.articleDes,
+      'article_pic_pos': instance.articlePicPos,
+      'article_visitor': instance.articleVisitor,
+      'article_is_new': instance.articleIsNew,
+      'article_priority': instance.articlePriority,
+      'article_active_vote': instance.articleActiveVote,
+      'article_active_hint': instance.articleActiveHint,
+      'article_active': instance.articleActive,
+      'article_date': instance.articleDate,
+      'article_pic_active': instance.articlePicActive,
+      'article_last_article': instance.articleLastArticle,
+      'article_publisher_id': instance.articlePublisherId,
+      'article_source': instance.articleSource,
+      'article_source_url': instance.articleSourceUrl,
+      'article_youtube_id': instance.articleYoutubeId,
+      'article_file': instance.articleFile,
+      'article_user_add_hint_nsup': instance.articleUserAddHintNsup,
+      'category': instance.category,
+    };
+
+_ArticleDetailCategory _$ArticleDetailCategoryFromJson(
+  Map<String, dynamic> json,
+) => _ArticleDetailCategory(
+  catId: (json['cat_id'] as num?)?.toInt(),
+  catFatherId: json['cat_father_id'] as String?,
+  catMenus: json['cat_menus'] as String?,
+  catTitle: json['cat_title'] as String?,
+  catNote: json['cat_note'] as String?,
+  catPic: json['cat_pic'] as String?,
+  catSup: json['cat_sup'] as String?,
+  catDate: json['cat_date'] as String?,
+  catPicActive: json['cat_pic_active'] as String?,
+  catLan: json['cat_lan'] as String?,
+  catPos: json['cat_pos'] as String?,
+  catActive: json['cat_active'] as String?,
+  catShowMenu: json['cat_show_menu'] as String?,
+  catShowMain: json['cat_show_main'] as String?,
+  catAgent: json['cat_agent'] as String?,
+  catInSubMenu: json['cat_in_sub_menu'] as String?,
+);
+
+Map<String, dynamic> _$ArticleDetailCategoryToJson(
+  _ArticleDetailCategory instance,
+) => <String, dynamic>{
+  'cat_id': instance.catId,
+  'cat_father_id': instance.catFatherId,
+  'cat_menus': instance.catMenus,
+  'cat_title': instance.catTitle,
+  'cat_note': instance.catNote,
+  'cat_pic': instance.catPic,
+  'cat_sup': instance.catSup,
+  'cat_date': instance.catDate,
+  'cat_pic_active': instance.catPicActive,
+  'cat_lan': instance.catLan,
+  'cat_pos': instance.catPos,
+  'cat_active': instance.catActive,
+  'cat_show_menu': instance.catShowMenu,
+  'cat_show_main': instance.catShowMain,
+  'cat_agent': instance.catAgent,
+  'cat_in_sub_menu': instance.catInSubMenu,
+};
+
+_ArticleDetailMeta _$ArticleDetailMetaFromJson(Map<String, dynamic> json) =>
+    _ArticleDetailMeta(
+      responseInfo: json['response_info'] == null
+          ? null
+          : ArticleDetailResponseInfo.fromJson(
+              json['response_info'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$ArticleDetailMetaToJson(_ArticleDetailMeta instance) =>
+    <String, dynamic>{'response_info': instance.responseInfo};
+
+_ArticleDetailResponseInfo _$ArticleDetailResponseInfoFromJson(
+  Map<String, dynamic> json,
+) => _ArticleDetailResponseInfo(
+  timestamp: json['timestamp'] as String?,
+  apiVersion: json['api_version'] as String?,
+  endpoint: json['endpoint'] as String?,
+  contentType: json['content_type'] as String?,
+);
+
+Map<String, dynamic> _$ArticleDetailResponseInfoToJson(
+  _ArticleDetailResponseInfo instance,
+) => <String, dynamic>{
+  'timestamp': instance.timestamp,
+  'api_version': instance.apiVersion,
+  'endpoint': instance.endpoint,
+  'content_type': instance.contentType,
+};

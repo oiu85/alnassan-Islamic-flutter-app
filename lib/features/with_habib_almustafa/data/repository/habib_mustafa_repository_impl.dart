@@ -58,10 +58,12 @@ class HabibMustafaRepositoryImpl implements HabibMustafaRepository {
       final responseData = response.data as Map<dynamic, dynamic>;
       final rawData = <String, dynamic>{};
       
-      // Convert all keys to String and handle nested maps
+      // Convert all keys to String and handle nested maps and lists
       responseData.forEach((key, value) {
         if (value is Map<dynamic, dynamic>) {
           rawData[key.toString()] = _convertDynamicMapToStringMap(value);
+        } else if (value is List) {
+          rawData[key.toString()] = _convertDynamicListToStringList(value);
         } else {
           rawData[key.toString()] = value;
         }
@@ -74,13 +76,13 @@ class HabibMustafaRepositoryImpl implements HabibMustafaRepository {
         // Ensure sub_categories exists and is properly formatted
         if (!dataMap.containsKey('sub_categories')) {
           AppLogger.warning('No sub_categories found in response');
-          dataMap['sub_categories'] = {'data': []};
+          dataMap['sub_categories'] = [];
         } else {
-          // Ensure sub_categories has data array
-          final subCategoriesMap = dataMap['sub_categories'] as Map<String, dynamic>;
-          if (!subCategoriesMap.containsKey('data')) {
-            AppLogger.warning('No data array in sub_categories');
-            subCategoriesMap['data'] = [];
+          // sub_categories is now a direct list, not wrapped in a data object
+          final subCategories = dataMap['sub_categories'];
+          if (subCategories is! List) {
+            AppLogger.warning('sub_categories is not a list, converting to empty list');
+            dataMap['sub_categories'] = [];
           }
         }
       }
@@ -126,5 +128,114 @@ class HabibMustafaRepositoryImpl implements HabibMustafaRepository {
         return item;
       }
     }).toList();
+  }
+
+  @override
+  Future<Either<String, CategoryArticlesModel>> getCategoryArticles({
+    required int categoryId,
+    required int page,
+    required int perPage,
+  }) async {
+    try {
+      AppLogger.business('Fetching category articles', {
+        'categoryId': categoryId,
+        'page': page,
+        'perPage': perPage,
+      });
+
+      final url = ApiConfig.getSingleCategoryArticles(
+        categoryId: categoryId,
+        page: page,
+        perPage: perPage,
+      );
+
+      final response = await _networkClient.get(url);
+
+      AppLogger.apiResponse('HabibMustafaRepository - getCategoryArticles', {
+        'statusCode': response.statusCode,
+        'data': response.data,
+      });
+
+      if (response.data == null || (response.data as Map).isEmpty) {
+        AppLogger.warning('No data received from API');
+        return const Left('No data received from server');
+      }
+
+      // Parse response and convert dynamic maps to String maps
+      final responseData = response.data as Map<dynamic, dynamic>;
+      final rawData = <String, dynamic>{};
+      
+      // Convert all keys to String and handle nested maps
+      responseData.forEach((key, value) {
+        if (value is Map<dynamic, dynamic>) {
+          rawData[key.toString()] = _convertDynamicMapToStringMap(value);
+        } else {
+          rawData[key.toString()] = value;
+        }
+      });
+      
+      final categoryArticlesModel = CategoryArticlesModel.fromJson(rawData);
+      AppLogger.business('Category articles mapped successfully', {'model': categoryArticlesModel.toString()});
+
+      return Right(categoryArticlesModel);
+    } on DioException catch (e) {
+      AppLogger.apiError('HabibMustafaRepository - getCategoryArticles', e);
+      return Left(e.message ?? 'Connection attempt failed');
+    } catch (e) {
+      AppLogger.error('Category articles data mapping error', e);
+      return const Left('Error processing server response');
+    }
+  }
+
+  @override
+  Future<Either<String, ArticleDetailModel>> getArticleDetail({
+    required int articleId,
+  }) async {
+    try {
+      AppLogger.business('Fetching article detail', {
+        'articleId': articleId,
+      });
+
+      final url = ApiConfig.getArticleDetail(
+        articleId: articleId,
+        include: 'category',
+      );
+
+      final response = await _networkClient.get(url);
+
+      AppLogger.apiResponse('HabibMustafaRepository - getArticleDetail', {
+        'statusCode': response.statusCode,
+        'data': response.data,
+      });
+
+      if (response.data == null || (response.data as Map).isEmpty) {
+        AppLogger.warning('No data received from API');
+        return const Left('No data received from server');
+      }
+
+      // Parse response and convert dynamic maps to String maps
+      final responseData = response.data as Map<dynamic, dynamic>;
+      final rawData = <String, dynamic>{};
+      
+      // Convert all keys to String and handle nested maps
+      responseData.forEach((key, value) {
+        if (value is Map<dynamic, dynamic>) {
+          rawData[key.toString()] = _convertDynamicMapToStringMap(value);
+        } else {
+          rawData[key.toString()] = value;
+        }
+      });
+      
+      final articleDetailModel = ArticleDetailModel.fromJson(rawData);
+      AppLogger.business('Article detail mapped successfully', {'model': articleDetailModel.toString()});
+
+      return Right(articleDetailModel);
+    } on DioException catch (e) {
+      AppLogger.apiError('HabibMustafaRepository - getArticleDetail', e);
+      return Left(e.message ?? 'Connection attempt failed');
+    } catch (e) {
+      AppLogger.error('Article detail data mapping error', e);
+      return const Left('Error processing server response');
+    }
   }
 }

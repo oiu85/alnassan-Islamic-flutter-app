@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../data/model/habib_mustafa_model.dart';
+
 abstract class HabibMustafaEvent extends Equatable {
   const HabibMustafaEvent();
 
@@ -46,5 +48,76 @@ class LoadMoreArticlesEvent extends HabibMustafaEvent {
 
   @override
   List<Object?> get props => [articlesPage, categoriesPage];
+}
+
+class FetchCategoryArticlesEvent extends HabibMustafaEvent {
+  final int categoryId;
+  final int page;
+  final int perPage;
+
+  const FetchCategoryArticlesEvent({
+    required this.categoryId,
+    this.page = 1,
+    this.perPage = 6,
+  });
+
+  @override
+  List<Object?> get props => [categoryId, page, perPage];
+}
+
+class LoadMoreCategoryArticlesEvent extends HabibMustafaEvent {
+  final int categoryId;
+  final int page;
+  final int perPage;
+
+  const LoadMoreCategoryArticlesEvent({
+    required this.categoryId,
+    required this.page,
+    required this.perPage,
+  });
+
+  @override
+  List<Object?> get props => [categoryId, page, perPage];
+}
+
+class ChangeCategoryPageEvent extends HabibMustafaEvent {
+  final int categoryId;
+  final int page;
+  final int perPage;
+
+  const ChangeCategoryPageEvent({
+    required this.categoryId,
+    required this.page,
+    required this.perPage,
+  });
+
+  @override
+  List<Object?> get props => [categoryId, page, perPage];
+}
+
+class FetchArticleDetailEvent extends HabibMustafaEvent {
+  final int articleId;
+
+  const FetchArticleDetailEvent({
+    required this.articleId,
+  });
+
+  @override
+  List<Object?> get props => [articleId];
+}
+
+class ArticleCardClickEvent extends HabibMustafaEvent {
+  final HabibArticle article;
+
+  const ArticleCardClickEvent({
+    required this.article,
+  });
+
+  @override
+  List<Object?> get props => [article];
+}
+
+class MarkArticleNavigatedEvent extends HabibMustafaEvent {
+  const MarkArticleNavigatedEvent();
 }
 

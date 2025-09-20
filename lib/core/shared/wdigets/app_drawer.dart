@@ -63,6 +63,19 @@ class AppDrawer extends StatelessWidget {
                       final biographyBloc = context.read<BiographyBloc>();
                       DrawerToBiographyAdapter.navigateToBiographyPage(context, biographyBloc);
                     };
+                  } else if (title.contains('الموضوعة')) {
+                    // Check for الموضوعة (almawduea) first before general hadiths
+                    onTap = () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => getIt<AlmawdueaBloc>(),
+                            child: const AlmawdueaPage(),
+                          ),
+                        ),
+                      );
+                    };
                   } else if (title.contains('التراجم') || title.contains('الأحاديث')) {
                     onTap = () {
                       Navigator.push(
@@ -71,18 +84,6 @@ class AppDrawer extends StatelessWidget {
                           builder: (context) => BlocProvider(
                             create: (context) => getIt<BiographiesBloc>(),
                             child: const HadithPage(),
-                          ),
-                        ),
-                      );
-                    };
-                  } else if (title.contains('الموضوعة')) {
-                    onTap = () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (context) => getIt<AlmawdueaBloc>(),
-                            child: const AlmawdueaPage(),
                           ),
                         ),
                       );

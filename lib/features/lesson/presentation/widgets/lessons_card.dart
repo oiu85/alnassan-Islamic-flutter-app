@@ -142,7 +142,6 @@ Widget lessonCardBuild({
               ),
             ),
           ),
-          SizedBox(height:20,)
         ],
       ),
     ),

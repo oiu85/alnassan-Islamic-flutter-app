@@ -74,20 +74,32 @@ class AlmawdueaBloc extends Bloc<AlmawdueaEvent, AlmawdueaState> {
       )
     ).toList();
     
+    // Don't show filter button if no options available
+    if (options.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    
     return FilterButton<String>(
       options: options,
       selectedValue: getCurrentPageValue(),
       label: 'اختر الصفحة',
       onChanged: state.status.isLoading() ? null : (value) {
         if (value != null && value.startsWith('page_')) {
-          final page = int.parse(value.split('_')[1]);
-          add(
-            ChangePageEvent(
-              categoryId: categoryId,
-              page: page,
-              perPage: perPage,
-            ),
-          );
+          try {
+            final page = int.parse(value.split('_')[1]);
+            // Only trigger page change if it's different from current page
+            if (page != state.currentPage && page >= 1 && page <= state.totalPages) {
+              add(
+                ChangePageEvent(
+                  categoryId: categoryId,
+                  page: page,
+                  perPage: perPage,
+                ),
+              );
+            }
+          } catch (e) {
+            AppLogger.error('Invalid page value in filter button: $value', e);
+          }
         }
       },
       width: 60,

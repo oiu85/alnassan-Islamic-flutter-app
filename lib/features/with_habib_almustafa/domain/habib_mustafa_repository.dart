@@ -15,5 +15,23 @@ abstract class HabibMustafaRepository {
     int articlesPage = 1,
     int categoriesPage = 1,
   });
+
+  /// Fetches all articles from a specific category
+  ///
+  /// Returns [Right<CategoryArticlesModel>] containing category and all its articles on success
+  /// Returns [Left<String>] with error message on failure
+  Future<Either<String, CategoryArticlesModel>> getCategoryArticles({
+    required int categoryId,
+    required int page,
+    required int perPage,
+  });
+
+  /// Fetches detailed information for a specific article
+  ///
+  /// Returns [Right<ArticleDetailModel>] containing the article detail on success
+  /// Returns [Left<String>] with error message on failure
+  Future<Either<String, ArticleDetailModel>> getArticleDetail({
+    required int articleId,
+  });
 }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marquee/marquee.dart';
 import 'package:nassan_app/core/responsive/responsive_builder.dart';
 import '../../../../config/appconfig/app_colors.dart';
@@ -17,6 +16,7 @@ import '../bloc/habib_mustafa_event.dart';
 import '../bloc/habib_mustafa_state.dart';
 import '../../../../features/html_viewer/domain/models/html_content.dart';
 import '../../../../features/html_viewer/presentation/pages/html_book_viewer_page.dart';
+import 'category_articles_page.dart';
 
 class HabibMustafa extends StatelessWidget {
   final int catId;
@@ -151,7 +151,16 @@ class HabibMustafa extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
-                                  // TODO: Navigate to all articles in this sub-category
+                                  // Navigate to all articles in this sub-category
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CategoryArticlesPage(
+                                        categoryId: subCategory.catId ?? 19,
+                                        categoryTitle: subCategory.catTitle ?? "جميع المقالات",
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: Text(
                                   "الكل",
@@ -170,7 +179,7 @@ class HabibMustafa extends StatelessWidget {
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
-                            children: (subCategory.articles ?? []).map((
+                            children: (subCategory.articles?.data ?? []).map((
                               article,
                             ) {
                               return cardBuild(
@@ -420,3 +429,4 @@ void _navigateToArticle(BuildContext context, HabibArticle? article) {
     ),
   );
 }
+
