@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../config/appconfig/app_colors.dart';
 
@@ -18,10 +18,10 @@ class SearchBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(40),
+      height: 40.h,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
@@ -38,7 +38,7 @@ class SearchBarWidget extends StatelessWidget {
           hintText: hintText,
           hintStyle: TextStyle(
             fontFamily: FontFamily.tajawal,
-            fontSize: ScreenUtil().setSp(14),
+            fontSize: 14.f,
             color: Colors.grey[600],
           ),
           prefixIcon: Icon(
@@ -48,13 +48,13 @@ class SearchBarWidget extends StatelessWidget {
           ),
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(
-            horizontal: ScreenUtil().setWidth(16),
-            vertical: ScreenUtil().setHeight(8),
+            horizontal: 16.w,
+            vertical: 8.h,
           ),
         ),
         style: TextStyle(
           fontFamily: FontFamily.tajawal,
-          fontSize: ScreenUtil().setSp(14),
+          fontSize: 14.f,
         ),
       ),
     );

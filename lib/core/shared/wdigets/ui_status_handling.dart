@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:lottie/lottie.dart';
 import '../../../gen/assets.gen.dart';
 import '../../models/page_state/bloc_status.dart';
@@ -58,7 +58,7 @@ class SimpleLottieHandler extends StatelessWidget {
             Text(
               loadingMessage ?? 'جاري التحميل...',
               style: TextStyle(
-                fontSize: 16.sp,
+                fontSize: 16.f,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Tajawal',
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
@@ -75,7 +76,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
     return Scaffold(
       drawer: const Drawer(child: AppDrawer()),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 12),
+        margin: EdgeInsets.symmetric(horizontal: 12.w),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(Assets.images.viewerBackground.path),
@@ -99,7 +100,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                   ),
                 );
               },
-              animationSize: 200,
+              animationSize: 200.w,
             );
           },
         ),
@@ -131,18 +132,18 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
         ),
         SliverToBoxAdapter(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 30),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 30.h),
             child: Row(
               children: [
                 Text(
                   state.almawdueaData?.data?.categories?.first.catTitle ?? "الأحاديث الموضوعة",
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 20,
+                    fontSize: 20.f,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 // Filter button for pagination with better handling
                 BlocBuilder<AlmawdueaBloc, AlmawdueaState>(
                   builder: (context, state) {
@@ -159,14 +160,14 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
-                            width: 16,
-                            height: 16,
+                            width: 16.w,
+                            height: 16.h,
                             child: CircularProgressIndicator(
-                              strokeWidth: 2,
+                              strokeWidth: 2.w,
                               valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
                             ),
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(width: 8.w),
                           filterButton,
                         ],
                       );
@@ -202,17 +203,17 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
 
   Widget _buildArticleCard(AlmawdueaArticle article, bool isLoading, bool isExpanded) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4, vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+      margin: EdgeInsets.symmetric(horizontal: 4.w, vertical: 5.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(30.r),
         boxShadow: [
           BoxShadow(
             color: AppColors.secondary,
-            spreadRadius: 1,
-            blurRadius: 3,
-            offset: Offset(0, 2),
+            spreadRadius: 1.r,
+            blurRadius: 3.r,
+            offset: Offset(0, 2.h),
           ),
         ],
       ),
@@ -229,7 +230,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold, 
                     fontFamily: FontFamily.tajawal, 
-                    fontSize: 12
+                    fontSize: 12.f
                   ),
                 ),
               ),
@@ -256,7 +257,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                     // Display article summary
                     article.articleSummary ?? 'ملخص غير متوفر',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 14.f,
                       fontFamily: FontFamily.tajawal,
                       height: 1.4,
                     ),
@@ -267,12 +268,12 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
               ),
             ],
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Row(children: [
             InkWell(
               onTap: () => _toggleArticleExpansion(article.articleId ?? 0),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -282,15 +283,15 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                         fontWeight: FontWeight.w600,
                         fontFamily: FontFamily.tajawal,
                         color: Colors.black,
-                        fontSize: 13,
+                        fontSize: 13.f,
                         letterSpacing: 0.5,
                       ),
                     ),
-                    SizedBox(width: 6),
+                    SizedBox(width: 6.w),
                     Icon(
                       isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                       color: Colors.black,
-                      size: 16,
+                      size: 16.f,
                     ),
                   ],
                 ),
@@ -299,13 +300,13 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
           ],),
           Divider(
             color: AppColors.primary,
-            thickness: 2,
+            thickness: 2.h,
           ),
           Row(
             children: [
               Spacer(),
               IconButton(onPressed: (){}, icon: Icon(Icons.calendar_month_outlined)),
-              Text(article.articleDate ?? 'غير محدد', style: TextStyle(fontSize: 12)),
+              Text(article.articleDate ?? 'غير محدد', style: TextStyle(fontSize: 12.f)),
               IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined)),
               Text(article.articleVisitor ?? '0', style: TextStyle(fontFamily: FontFamily.tajawal)),
             ],
@@ -314,17 +315,17 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
             onTap: isLoading ? null : () => _onArticleCardClick(article),
             child: Container(
               width: double.infinity,
-              margin: EdgeInsets.only(bottom: 4),
-              padding: EdgeInsets.symmetric(horizontal: 2, vertical: 10),
+              margin: EdgeInsets.only(bottom: 4.h),
+              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 10.h),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(80),
+                borderRadius: BorderRadius.circular(80.r),
                 color: isLoading ? AppColors.secondary : AppColors.primary,
               ),
               child: Center(
                 child: isLoading
                     ? CircularProgressIndicator(
                         color: AppColors.primary,
-                        strokeWidth: 2,
+                        strokeWidth: 2.w,
                       )
                     : Text(
                         "عرض التفاصيل",

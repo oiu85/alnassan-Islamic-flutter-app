@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
@@ -123,7 +124,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                           widget.title,
                           style: TextStyle(
                             fontFamily: FontFamily.tajawal,
-                            fontSize: 20,
+                            fontSize: 20.f,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -135,7 +136,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                               "الكل",
                               style: TextStyle(
                                 fontFamily: FontFamily.tajawal,
-                                fontSize: 18,
+                                fontSize: 18.f,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.primary,
                               ),
@@ -144,7 +145,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   // Use grid layout when no subcategories, horizontal scroll when there are subcategories
                   !bloc.shouldShowSubcategorySubcategories()
                       ? GridView.builder(
@@ -176,7 +177,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                 .toList(),
                           ),
                         ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                 ],
 
                 // Subcategories with their sounds
@@ -196,7 +197,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                 bloc.getSubcategoryTitle(subcategory),
                                 style: TextStyle(
                                   fontFamily: FontFamily.tajawal,
-                                  fontSize: 18,
+                                  fontSize: 18.f,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.black.withValues(alpha: 0.8),
                                 ),
@@ -209,7 +210,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                     "الكل",
                                     style: TextStyle(
                                       fontFamily: FontFamily.tajawal,
-                                      fontSize: 18,
+                                      fontSize: 18.f,
                                       fontWeight: FontWeight.w600,
                                       color: AppColors.primary,
                                     ),
@@ -218,7 +219,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
@@ -233,7 +234,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                 .toList(),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                       ],
                     ),
                   ),

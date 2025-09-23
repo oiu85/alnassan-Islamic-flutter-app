@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 
 /// Floating download progress widget that overlays on the sound card
@@ -19,20 +20,20 @@ class FloatingDownloadProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            blurRadius: 8.r,
+            offset: Offset(0, 2.h),
           ),
         ],
         border: Border.all(
           color: AppColors.primary.withValues(alpha: 0.2),
-          width: 1,
+          width: 1.w,
         ),
       ),
       child: Column(
@@ -43,23 +44,23 @@ class FloatingDownloadProgress extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                padding: const EdgeInsets.all(6),
+                padding: EdgeInsets.all(6.w),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8.r),
                 ),
-                child: const Icon(
+                child:  Icon(
                   Icons.download,
                   color: AppColors.primary,
-                  size: 16,
+                  size: 16.f,
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Expanded(
                 child: Text(
                   'جاري التحميل...',
-                  style: const TextStyle(
-                    fontSize: 14,
+                  style:  TextStyle(
+                    fontSize: 14.f,
                     fontWeight: FontWeight.w600,
                     color: AppColors.black,
                   ),
@@ -67,26 +68,26 @@ class FloatingDownloadProgress extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           
           // File name
           Text(
             fileName,
-            style: const TextStyle(
-              fontSize: 12,
+            style:  TextStyle(
+              fontSize: 12.f,
               color: AppColors.grey,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           
           // Progress bar
           Container(
-            height: 6,
+            height: 6.h,
             decoration: BoxDecoration(
               color: AppColors.grey.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(3),
+              borderRadius: BorderRadius.circular(3.r),
             ),
             child: FractionallySizedBox(
               alignment: Alignment.centerLeft,
@@ -94,12 +95,12 @@ class FloatingDownloadProgress extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(3),
+                  borderRadius: BorderRadius.circular(3.r),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           
           // Progress text and file size
           Row(
@@ -107,16 +108,16 @@ class FloatingDownloadProgress extends StatelessWidget {
             children: [
               Text(
                 '${(progress * 100).toInt()}%',
-                style: const TextStyle(
-                  fontSize: 12,
+                style:  TextStyle(
+                  fontSize: 12.f,
                   fontWeight: FontWeight.w600,
                   color: AppColors.primary,
                 ),
               ),
               Text(
                 '${_formatBytes(downloadedBytes)} / ${_formatBytes(totalBytes)}',
-                style: const TextStyle(
-                  fontSize: 11,
+                style:  TextStyle(
+                  fontSize: 11.f,
                   color: AppColors.grey,
                 ),
               ),
@@ -173,7 +174,7 @@ class FloatingDownloadOverlay extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.black.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(30.r),
               ),
               child: Center(
                 child: FloatingDownloadProgress(

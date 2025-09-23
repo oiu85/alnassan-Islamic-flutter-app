@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 
 import '../../../../gen/assets.gen.dart';
@@ -22,10 +22,8 @@ class BottomNavBarWidget extends StatefulWidget {
 
 class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
 
-  // Helper methods for responsive sizing
-  double _width(double size) => ScreenUtil().setWidth(size);
-  double _height(double size) => ScreenUtil().setHeight(size);
-  double _radius(double size) => ScreenUtil().radius(size);
+  // Using extension methods for easier access
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
   Widget buildNavItem(
     String title,
@@ -38,16 +36,16 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     return GestureDetector(
       onTap: () => widget.onTap(index),
       child: SizedBox(
-        height: _height(52),
+        height: 52.h,
         child: Column(
           children: [
             Image.asset(
               imagePath,
-              width: _width(iconSize),
-              height: _height(iconSize),
+              width: iconSize.w,
+              height: iconSize.h,
               color: isActive ? AppColors.primary : AppColors.grey,
             ),
-            SizedBox(height: _height(2)),
+            SizedBox(height: 2.h),
             Text(
               title,
               style: TextStyle(
@@ -73,24 +71,24 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(_radius(20)),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
                     color: Colors.black.withValues(alpha: 0.6),
-            spreadRadius: _radius(5),
-            blurRadius: _radius(12),
-            offset: Offset(0, _height(9)),
+            spreadRadius: 5.r,
+            blurRadius: 12.r,
+            offset: Offset(0, 9.h),
           ),
         ],
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: _width(20),
-        vertical: _height(3),
+        horizontal: 20.w,
+        vertical: 3.h,
       ),
       margin: EdgeInsets.only(
-        right: _width(12),
-        left: _width(12),
-        bottom: _height(20),
+        right: 12.w,
+        left: 12.w,
+        bottom: 20.h,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

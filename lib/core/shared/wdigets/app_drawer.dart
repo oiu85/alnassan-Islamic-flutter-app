@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marquee/marquee.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../features/biographies_and_hadiths/presentation/pages/hadith_page.dart';
 import '../../../features/biographies_and_hadiths/presentation/bloc/biographies_bloc.dart';
@@ -14,21 +14,22 @@ import '../../../features/word_of_the_month/presentation/bloc/word_of_the_month_
 import '../../../features/word_of_the_month/data/repository/word_of_the_month_repository_impl.dart';
 import '../../../core/network/network_client.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../features/contact_us/presentation/pages/contact_us.dart';
+import '../../../features/contact_us/presentation/bloc/contact_bloc.dart';
 
 import '../../../features/biography/presentation/adapters/drawer_to_biography_adapter.dart';
 import '../../../features/biography/presentation/bloc/biography_bloc.dart';
 import '../../di/app_dependencies.dart';
 import '../../../features/home/data/model/home_model.dart';
-import '../../../features/contact_us/presentation/pages/contact_us.dart';
-import '../../../features/contact_us/presentation/bloc/contact_bloc.dart';
+import '../../utils/url_launcher_utils.dart';
 
 class AppDrawer extends StatelessWidget {
   final List<ArticleCategory>? categories;
   
   const AppDrawer({super.key, this.categories});
 
-  // Helper method for responsive sizing
-  double _height(double size) => ScreenUtil().setHeight(size);
+  // Using extension methods for easier access
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class AppDrawer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Padding(
-          padding: EdgeInsets.only(top: _height(20)),
+          padding: EdgeInsets.only(top: 20.h),
           child: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -54,7 +55,7 @@ class AppDrawer extends StatelessWidget {
         ),
         Expanded(
           child: ListView(
-            padding: EdgeInsets.symmetric(vertical: _height(10)),
+            padding: EdgeInsets.symmetric(vertical: 10.h),
             children: [
               // Use API categories if available, otherwise use original static items
               if (categories != null && categories!.isNotEmpty) ...[
@@ -141,17 +142,17 @@ class AppDrawer extends StatelessWidget {
                         Assets.images.drawerImage.path,
                         onTap,
                       ),
-                      SizedBox(height: _height(25)),
+                      SizedBox(height: 25.h),
                     ],
                   );
                 }),
               ],
               
-              SizedBox(height: _height(35)),
+              SizedBox(height: 35.h),
 
 
 
-              SizedBox(height: _height(35)),
+              SizedBox(height: 35.h),
               buildDrawerItem(
                 context,"اتصل بنا", Assets.images.contactUs.path, () {
                   Navigator.push(
@@ -164,11 +165,46 @@ class AppDrawer extends StatelessWidget {
                     ),
                   );
                 }),
-              SizedBox(height: _height(25)),
+              SizedBox(height: 25.h),
+              buildDrawerItem(
+                context,
+                "اسئل سؤالا",
+                Assets.images.message.path,
+                () async {
+                  try {
+                    await UrlLauncherUtils.launchWhatsApp(
+                      phoneNumber: '9639911929522',
+                      message: 'السلام عليكم ورحمة الله وبركاته\nأريد الاستفسار عن:',
+                    );
+                  } catch (e) {
+                    // Show message if WhatsApp URL was copied to clipboard
+                    if (context.mounted) {
+                      String message = e.toString();
+                      if (message.contains('نسخ رابط واتساب')) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(message),
+                            backgroundColor: Colors.green,
+                            duration: const Duration(seconds: 4),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('حدث خطأ في فتح واتساب: $e'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    }
+                  }
+                },
+              ),
+              SizedBox(height: 25.h),
               buildDrawerItem(
                 context,"قناة التلغرام", Assets.images.telegram.path, () {
               }),
-              SizedBox(height: _height(25)),
+              SizedBox(height: 25.h),
               buildDrawerItem(
                 context,
                 "إعدادات التطبيق",
@@ -199,20 +235,20 @@ Widget buildDrawerItem(BuildContext context, String title, String imagePath, Voi
 
   return Padding(
     padding: EdgeInsets.symmetric(
-      vertical: ScreenUtil().setHeight(12),
-      horizontal: ScreenUtil().setWidth(30),
+      vertical: 12.h,
+      horizontal: 30.w,
     ),
     child: InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(ScreenUtil().radius(8)),
+      borderRadius: BorderRadius.circular(8.r),
       child: Row(
         children: [
           Image.asset(
             imagePath,
-            width: ScreenUtil().setWidth(iconSize),
-            height: ScreenUtil().setHeight(iconSize),
+            width: iconSize.w,
+            height: iconSize.h,
           ),
-          SizedBox(width: ScreenUtil().setWidth(10)),
+          SizedBox(width: 10.w),
           Expanded(
             child: _buildMarqueeText(
               context,
@@ -229,7 +265,7 @@ Widget buildDrawerItem(BuildContext context, String title, String imagePath, Voi
 Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
   // Calculate available width (approximate)
   final screenWidth = MediaQuery.of(context).size.width;
-  final availableWidth = screenWidth - ScreenUtil().setWidth(100); // Account for icon and padding
+  final availableWidth = screenWidth - 100.w; // Account for icon and padding
   
   // Create a text painter to measure text width
   final textPainter = TextPainter(
@@ -237,7 +273,7 @@ Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
       text: text,
       style: TextStyle(
         fontFamily: FontFamily.tajawal,
-        fontSize: ScreenUtil().setSp(fontSize),
+        fontSize: fontSize.f,
       ),
     ),
     textDirection: TextDirection.rtl,
@@ -250,7 +286,7 @@ Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
       text,
       style: TextStyle(
         fontFamily: FontFamily.tajawal,
-        fontSize: ScreenUtil().setSp(fontSize),
+        fontSize: fontSize.f,
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -259,12 +295,12 @@ Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
   
   // If text is too long, use marquee
   return Container(
-    height: ScreenUtil().setHeight(30), // Fixed height for consistent layout
+    height: 30.h, // Fixed height for consistent layout
     child: Marquee(
       text: text,
       style: TextStyle(
         fontFamily: FontFamily.tajawal,
-        fontSize: ScreenUtil().setSp(fontSize),
+        fontSize: fontSize.f,
       ),
       scrollAxis: Axis.horizontal,
       crossAxisAlignment: CrossAxisAlignment.center,

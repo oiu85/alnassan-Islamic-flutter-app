@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/screen_utils.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../gen/assets.gen.dart';
@@ -49,7 +49,7 @@ class DirectSoundsPage extends StatelessWidget {
                 child: Text(
                   category.catTitle,
                   style: TextStyle(
-                    fontSize: 20.sf,
+                    fontSize: 20.f,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -62,7 +62,7 @@ class DirectSoundsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (category.directSounds.isNotEmpty) ...[
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -79,14 +79,14 @@ class DirectSoundsPage extends StatelessWidget {
                         },
                       ),
                     ] else ...[
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
+                      Padding(
+                        padding: EdgeInsets.all(20.w),
                         child: Center(
                           child: Text(
                             'لا توجد أصوات متاحة',
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 16,
+                              fontSize: 16.f,
                               color: AppColors.grey,
                             ),
                           ),

@@ -211,3 +211,59 @@ Map<String, dynamic> _$AdvisoryCategoryToJson(_AdvisoryCategory instance) =>
       'cat_show_main': instance.catShowMain,
       'cat_agent': instance.catAgent,
     };
+
+_AdvisorySubmissionRequest _$AdvisorySubmissionRequestFromJson(
+  Map<String, dynamic> json,
+) => _AdvisorySubmissionRequest(
+  advisoryQuestion: json['advisory_question'] as String,
+  advisorySenderName: json['advisory_sender_name'] as String,
+  advisorySenderEmail: json['advisory_sender_email'] as String,
+);
+
+Map<String, dynamic> _$AdvisorySubmissionRequestToJson(
+  _AdvisorySubmissionRequest instance,
+) => <String, dynamic>{
+  'advisory_question': instance.advisoryQuestion,
+  'advisory_sender_name': instance.advisorySenderName,
+  'advisory_sender_email': instance.advisorySenderEmail,
+};
+
+_AdvisorySubmissionResponse _$AdvisorySubmissionResponseFromJson(
+  Map<String, dynamic> json,
+) => _AdvisorySubmissionResponse(
+  status: json['status'] as String?,
+  message: json['message'] as String?,
+  data: json['data'] == null
+      ? null
+      : AdvisorySubmissionData.fromJson(json['data'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$AdvisorySubmissionResponseToJson(
+  _AdvisorySubmissionResponse instance,
+) => <String, dynamic>{
+  'status': instance.status,
+  'message': instance.message,
+  'data': instance.data,
+};
+
+_AdvisorySubmissionData _$AdvisorySubmissionDataFromJson(
+  Map<String, dynamic> json,
+) => _AdvisorySubmissionData(
+  id: (json['id'] as num?)?.toInt(),
+  question: json['question'] as String?,
+  senderName: json['sender_name'] as String?,
+  senderEmail: json['sender_email'] as String?,
+  submissionDate: json['submission_date'] as String?,
+  status: json['status'] as String?,
+);
+
+Map<String, dynamic> _$AdvisorySubmissionDataToJson(
+  _AdvisorySubmissionData instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'question': instance.question,
+  'sender_name': instance.senderName,
+  'sender_email': instance.senderEmail,
+  'submission_date': instance.submissionDate,
+  'status': instance.status,
+};

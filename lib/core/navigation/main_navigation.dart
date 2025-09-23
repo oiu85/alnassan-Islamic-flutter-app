@@ -3,11 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/features/home/presentation/pages/home_page.dart';
 import 'package:nassan_app/features/home/presentation/widgets/bottom_bar.dart';
 import 'package:nassan_app/features/advisory_fatwa/presentation/pages/add_advisory.dart';
-import 'package:nassan_app/features/advisory_fatwa/presentation/bloc/advisory_bloc.dart';
 import 'package:nassan_app/features/book_library/presentation/pages/books_page.dart';
 import 'package:nassan_app/features/global_search/presentation/pages/global_search.dart';
 import 'package:nassan_app/features/global_search/presentation/bloc/global_search_bloc.dart';
-import 'package:nassan_app/core/di/app_dependencies.dart';
 import 'bloc/shared_bloc.dart';
 import 'bloc/shared_event.dart';
 import 'bloc/shared_state.dart';
@@ -24,10 +22,7 @@ class _MainNavigationState extends State<MainNavigation> {
   final List<Widget> _pages = [
     const HomePage(),
     const GlobalSearchPage(), // Global search page
-    BlocProvider(
-      create: (context) => getIt<AdvisoryBloc>(),
-      child: const AddAdvisory(),
-    ),
+    const AddAdvisory(),
     const BooksPage(),
   ];
 

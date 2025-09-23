@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
@@ -51,14 +51,12 @@ class AdvisoriesSectionWidget extends StatelessWidget {
 
   Widget _buildLoadingState(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(
-        context.deviceValue(mobile: 200, tablet: 240, desktop: 280),
-      ),
+      height: context.deviceValue(mobile: 200.h, tablet: 240.h, desktop: 280.h),
       child: Center(
         child: Lottie.asset(
           Assets.lottie.loading,
-          height: ScreenUtil().setHeight(60),
-          width: ScreenUtil().setWidth(60),
+          height: 60.h,
+          width: 60.w,
           fit: BoxFit.contain,
           repeat: true,
         ),
@@ -68,26 +66,24 @@ class AdvisoriesSectionWidget extends StatelessWidget {
 
   Widget _buildErrorState(BuildContext context, String? error) {
     return Container(
-      height: ScreenUtil().setHeight(
-        context.deviceValue(mobile: 200, tablet: 240, desktop: 280),
-      ),
+      height: context.deviceValue(mobile: 200.h, tablet: 240.h, desktop: 280.h),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Lottie.asset(
               Assets.lottie.notFound,
-              height: ScreenUtil().setHeight(60),
-              width: ScreenUtil().setWidth(60),
+              height: 60.h,
+              width: 60.w,
               fit: BoxFit.contain,
               repeat: true,
             ),
-            SizedBox(height: ScreenUtil().setHeight(8)),
+            SizedBox(height: 8.h),
             Text(
               error ?? 'حدث خطأ في التحميل',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: ScreenUtil().setSp(14),
+                fontSize: 14.f,
                 color: Colors.grey[600],
               ),
               textAlign: TextAlign.center,
@@ -100,26 +96,24 @@ class AdvisoriesSectionWidget extends StatelessWidget {
 
   Widget _buildEmptyState(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(
-        context.deviceValue(mobile: 200, tablet: 240, desktop: 280),
-      ),
+      height: context.deviceValue(mobile: 200.h, tablet: 240.h, desktop: 280.h),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Lottie.asset(
               Assets.lottie.noData,
-              height: ScreenUtil().setHeight(60),
-              width: ScreenUtil().setWidth(60),
+              height: 60.h,
+              width: 60.w,
               fit: BoxFit.contain,
               repeat: true,
             ),
-            SizedBox(height: ScreenUtil().setHeight(8)),
+            SizedBox(height: 8.h),
             Text(
               'لا توجد فتاوى متاحة',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: ScreenUtil().setSp(14),
+                fontSize: 14.f,
                 color: Colors.grey[600],
               ),
               textAlign: TextAlign.center,
@@ -146,10 +140,8 @@ class AdvisoriesSectionWidget extends StatelessWidget {
 
   Widget _buildAdvisoryCard(BuildContext context, AdvisoryItem advisory) {
     return Container(
-      margin: EdgeInsets.only(left: ScreenUtil().setWidth(8)),
-      width: ScreenUtil().setWidth(
-        context.deviceValue(mobile: 280, tablet: 320, desktop: 360),
-      ),
+      margin: EdgeInsets.only(left: 8.w),
+      width: context.deviceValue(mobile: 280.w, tablet: 320.w, desktop: 360.w),
       child: Card(
         elevation: 0,
         color: Colors.white,
@@ -162,7 +154,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
           },
           borderRadius: BorderRadius.circular(20),
           child: Padding(
-            padding: EdgeInsets.all(ScreenUtil().setWidth(16)),
+            padding: EdgeInsets.all(16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -170,8 +162,8 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                 if (advisory.category?.catTitle != null)
                   Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: ScreenUtil().setWidth(8),
-                      vertical: ScreenUtil().setHeight(4),
+                      horizontal: 8.w,
+                      vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
                       color: AppColors.primary.withOpacity(0.1),
@@ -182,16 +174,16 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.lightbulb_outline,
-                          size: ScreenUtil().setWidth(14),
+                          size: 14.f,
                           color: AppColors.primary,
                         ),
-                        SizedBox(width: ScreenUtil().setWidth(4)),
+                        SizedBox(width: 4.w),
                         Text(
                           advisory.category!.catTitle!,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontFamily: FontFamily.tajawal,
-                            fontSize: ScreenUtil().setSp(12),
+                            fontSize: 12.f,
                             color: AppColors.primary,
                           ),
                         ),
@@ -199,13 +191,13 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                     ),
                   ),
 
-                SizedBox(height: ScreenUtil().setHeight(8)),
+                SizedBox(height: 8.h),
 
                 // Question Label
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(8),
-                    vertical: ScreenUtil().setHeight(2),
+                    horizontal: 8.w,
+                    vertical: 2.h,
                   ),
                   decoration: BoxDecoration(
                     color: AppColors.primary,
@@ -217,23 +209,21 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontFamily: FontFamily.tajawal,
-                      fontSize: ScreenUtil().setSp(12),
+                      fontSize: 12.f,
                     ),
                   ),
                 ),
 
-                SizedBox(height: ScreenUtil().setHeight(8)),
+                SizedBox(height: 8.h),
 
                 // Question Text
                 Text(
                   advisory.advisoryQuestion ?? 'لا يوجد سؤال',
                   style: TextStyle(
-                    fontSize: ScreenUtil().setSp(
-                      context.deviceValue(
-                        mobile: 13.0,
-                        tablet: 15.0,
-                        desktop: 17.0,
-                      ),
+                    fontSize: context.deviceValue(
+                      mobile: 13.0.f,
+                      tablet: 15.0.f,
+                      desktop: 17.0.f,
                     ),
                     fontFamily: FontFamily.tajawal,
                     height: 1.5,
@@ -243,15 +233,15 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
 
-                SizedBox(height: ScreenUtil().setHeight(12)),
+                SizedBox(height: 12.h),
 
                 // Advisory ID and Stats
                 Row(
                   children: [
                     Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(8),
-                        vertical: ScreenUtil().setHeight(4),
+                        horizontal: 8.w,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withOpacity(0.1),
@@ -265,7 +255,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
                               fontWeight: FontWeight.bold,
-                              fontSize: ScreenUtil().setSp(12),
+                              fontSize: 12.f,
                               color: AppColors.primary,
                             ),
                           ),
@@ -273,7 +263,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                             "#${advisory.advisoryId ?? 'غير محدد'}",
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: ScreenUtil().setSp(12),
+                              fontSize: 12.f,
                               fontWeight: FontWeight.w600,
                               color: AppColors.primary,
                             ),
@@ -284,8 +274,8 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                     const Spacer(),
                     Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(6),
-                        vertical: ScreenUtil().setHeight(4),
+                        horizontal: 6.w,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.grey[100],
@@ -296,14 +286,14 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.calendar_month_outlined,
-                            size: ScreenUtil().setWidth(14),
+                            size: 14.f,
                             color: Colors.grey[600],
                           ),
-                          SizedBox(width: ScreenUtil().setWidth(4)),
+                          SizedBox(width: 4.w),
                           Text(
                             _formatDate(advisory.advisoryQuestionDate),
                             style: TextStyle(
-                              fontSize: ScreenUtil().setSp(11),
+                              fontSize: 11.f,
                               fontFamily: FontFamily.tajawal,
                               color: Colors.grey[600],
                             ),
@@ -311,11 +301,11 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(width: ScreenUtil().setWidth(8)),
+                    SizedBox(width: 8.w),
                     Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(6),
-                        vertical: ScreenUtil().setHeight(4),
+                        horizontal: 6.w,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.grey[100],
@@ -326,15 +316,15 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.remove_red_eye_outlined,
-                            size: ScreenUtil().setWidth(14),
+                            size: 14.f,
                             color: Colors.grey[600],
                           ),
-                          SizedBox(width: ScreenUtil().setWidth(4)),
+                          SizedBox(width: 4.w),
                           Text(
                             _formatViews(advisory.advisoryVisitor),
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: ScreenUtil().setSp(11),
+                              fontSize: 11.f,
                               color: Colors.grey[600],
                             ),
                           ),
@@ -344,7 +334,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: ScreenUtil().setHeight(12)),
+                SizedBox(height: 12.h),
 
                 // Enhanced Action Button
                 InkWell(
@@ -355,8 +345,8 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: ScreenUtil().setWidth(16),
-                      vertical: ScreenUtil().setHeight(14),
+                      horizontal: 16.w,
+                      vertical: 14.h,
                     ),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -386,20 +376,18 @@ class AdvisoriesSectionWidget extends StatelessWidget {
                             fontFamily: FontFamily.tajawal,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: ScreenUtil().setSp(
-                              context.deviceValue(
-                                mobile: 14.0,
-                                tablet: 16.0,
-                                desktop: 18.0,
-                              ),
+                            fontSize: context.deviceValue(
+                              mobile: 14.0.f,
+                              tablet: 16.0.f,
+                              desktop: 18.0.f,
                             ),
                           ),
                         ),
-                        SizedBox(width: ScreenUtil().setWidth(8)),
+                        SizedBox(width: 8.w),
                         Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.white,
-                          size: ScreenUtil().setWidth(16),
+                          size: 16.f,
                         ),
                       ],
                     ),

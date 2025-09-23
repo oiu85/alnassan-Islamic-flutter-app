@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/di/app_dependencies.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/core/shared/wdigets/ui_status_handling.dart';
@@ -38,7 +38,7 @@ class AdvisorsPage extends StatelessWidget {
             emptyMessage: 'لا توجد أقسام متاحة',
             loadingMessage: 'جاري تحميل الأقسام...',
             onRetry: () => context.read<AdvisoryCategoriesBloc>().add(const FetchAdvisoryCategoriesEvent()),
-            animationSize: 200,
+            animationSize: 200.w,
           );
         },
       ),
@@ -62,11 +62,11 @@ class AdvisorsPage extends StatelessWidget {
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(
-          horizontal: ScreenUtil().setWidth(16),
-          vertical: ScreenUtil().setHeight(8),
+          horizontal: 16.w,
+          vertical: 8.h,
         ),
         children: [
-          SizedBox(height: ScreenUtil().setHeight(16)),
+          SizedBox(height: 16.h),
 
           // Subject Index Section
           SectionHeaderWidget(
@@ -77,10 +77,10 @@ class AdvisorsPage extends StatelessWidget {
             },
           ),
 
-          SizedBox(height: ScreenUtil().setHeight(12)),
+          SizedBox(height: 12.h),
           CategoriesSectionWidget(),
 
-          SizedBox(height: ScreenUtil().setHeight(24)),
+          SizedBox(height: 24.h),
 
           // Most Viewed Fatwas Section
           SectionHeaderWidget(
@@ -91,12 +91,15 @@ class AdvisorsPage extends StatelessWidget {
             },
           ),
 
-          SizedBox(height: ScreenUtil().setHeight(12)),
+          SizedBox(height: 12.h),
 
           // Popular Advisories Horizontal Scroll
-          const PopularAdvisoriesWidget(),
+          AdvisoriesSectionWidget(
+            title: "الفتاوى الأكثر اطلاعا",
+            isRecent: false,
+          ),
 
-          SizedBox(height: ScreenUtil().setHeight(24)),
+          SizedBox(height: 24.h),
 
           // Latest Fatwas Section
           SectionHeaderWidget(
@@ -107,12 +110,15 @@ class AdvisorsPage extends StatelessWidget {
             },
           ),
 
-          SizedBox(height: ScreenUtil().setHeight(12)),
+          SizedBox(height: 12.h),
 
           // Recent Advisories Horizontal Scroll
-          const RecentAdvisoriesWidget(),
+          AdvisoriesSectionWidget(
+            title: "اخر الفتاوى اظافة",
+            isRecent: true,
+          ),
 
-          SizedBox(height: ScreenUtil().setHeight(20)),
+          SizedBox(height: 20.h),
         ],
       ),
     );

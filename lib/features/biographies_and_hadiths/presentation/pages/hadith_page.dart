@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 
@@ -66,7 +67,7 @@ class _HadithPageState extends State<HadithPage> {
     return Scaffold(
       drawer: const Drawer(child: AppDrawer()),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 12),
+        margin: EdgeInsets.symmetric(horizontal: 12.w),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(Assets.images.viewerBackground.path),
@@ -90,7 +91,7 @@ class _HadithPageState extends State<HadithPage> {
                   ),
                 );
               },
-              animationSize: 200,
+              animationSize: 200.w,
             );
           },
         ),
@@ -121,18 +122,18 @@ class _HadithPageState extends State<HadithPage> {
         ),
         SliverToBoxAdapter(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 30),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 30.h),
             child: Row(
               children: [
                 Text(
                   state.biographiesData?.data?.categories?.first.catTitle ?? "باب التراجم",
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 25,
+                    fontSize: 25.f,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 // Combined filter button for pagination
                 context.read<BiographiesBloc>().buildFilterButton(
                   context: context,
@@ -144,10 +145,10 @@ class _HadithPageState extends State<HadithPage> {
           ),
         ),
         SliverGrid(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            mainAxisSpacing: 19,
-            crossAxisSpacing: 20,
+            mainAxisSpacing: 19.h,
+            crossAxisSpacing: 20.w,
             childAspectRatio: 1.3,
           ),
           delegate: SliverChildBuilderDelegate(
@@ -163,7 +164,7 @@ class _HadithPageState extends State<HadithPage> {
                 elevation: 4,
                 color: AppColors.secondary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(25.r),
                 ),
                 child: InkWell(
                   onTap: () => _onArticleCardClick(article),
@@ -181,39 +182,39 @@ class _HadithPageState extends State<HadithPage> {
                         top: -8,
                         right: -10,
                         child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(180),
+                          borderRadius:  BorderRadius.only(
+                            topRight: Radius.circular(180.r),
                           ),
                           child: Image.asset(
                             Assets.images.circulerZh.path,
-                            width: 50,
-                            height: 50,
+                            width: 50.w,
+                            height: 50.h,
                           ),
                         ),
                       ),
                       Align(
-                        alignment: const Alignment(-1.18, 1.3),
+                        alignment:  Alignment(-1.18, 1.3),
                         child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(180),
+                          borderRadius:  BorderRadius.only(
+                            bottomLeft: Radius.circular(180.r),
                           ),
                           child: Image.asset(
                             Assets.images.circulerZh.path,
-                            width: 50,
-                            height: 50,
+                            width: 50.w,
+                            height: 50.h,
                           ),
                         ),
                       ),
                       Align(
                         alignment: const Alignment(-0.3, 0.2),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.w),
                           child: Text(
                             article.articleTitle ?? 'عنوان غير متوفر',
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
+                            style:  TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 14,
+                              fontSize: 14.f,
                               fontWeight: FontWeight.w500,
                             ),
                             maxLines: 4,

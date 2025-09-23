@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 
 /// Generic filter option model
 class FilterOption<T> {
@@ -92,7 +92,7 @@ class _FilterButtonState<T> extends State<FilterButton<T>> {
         hint: Text(
           widget.hintText ?? 'اختر',
           style: TextStyle(
-            fontSize: 14.sp,
+            fontSize: 14.f,
             fontFamily: 'Tajawal',
             fontWeight: FontWeight.bold,
             color: widget.textColor ?? Colors.black54,
@@ -104,11 +104,11 @@ class _FilterButtonState<T> extends State<FilterButton<T>> {
         underline: const SizedBox(), // Remove default underline
         icon: Icon(
           Icons.arrow_drop_down_outlined,
-          size: 25.sp,
+          size: 25.f,
           color: widget.textColor ?? Colors.black,
         ),
 
-        iconSize: 40.sp,
+        iconSize: 40.f,
         borderRadius: BorderRadius.circular(10.r),
 
 
@@ -120,7 +120,7 @@ class _FilterButtonState<T> extends State<FilterButton<T>> {
               child: Text(
                 option.label,
                 style: TextStyle(
-                  fontSize: 18.sp,
+                  fontSize: 18.f,
                   fontFamily: 'Tajawal',
                   fontWeight: FontWeight.bold,
                   color: Colors.black,

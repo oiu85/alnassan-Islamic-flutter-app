@@ -2404,4 +2404,844 @@ as String?,
 
 }
 
+
+/// @nodoc
+mixin _$AdvisorySubmissionRequest {
+
+@JsonKey(name: 'advisory_question') String get advisoryQuestion;@JsonKey(name: 'advisory_sender_name') String get advisorySenderName;@JsonKey(name: 'advisory_sender_email') String get advisorySenderEmail;
+/// Create a copy of AdvisorySubmissionRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AdvisorySubmissionRequestCopyWith<AdvisorySubmissionRequest> get copyWith => _$AdvisorySubmissionRequestCopyWithImpl<AdvisorySubmissionRequest>(this as AdvisorySubmissionRequest, _$identity);
+
+  /// Serializes this AdvisorySubmissionRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdvisorySubmissionRequest&&(identical(other.advisoryQuestion, advisoryQuestion) || other.advisoryQuestion == advisoryQuestion)&&(identical(other.advisorySenderName, advisorySenderName) || other.advisorySenderName == advisorySenderName)&&(identical(other.advisorySenderEmail, advisorySenderEmail) || other.advisorySenderEmail == advisorySenderEmail));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,advisoryQuestion,advisorySenderName,advisorySenderEmail);
+
+@override
+String toString() {
+  return 'AdvisorySubmissionRequest(advisoryQuestion: $advisoryQuestion, advisorySenderName: $advisorySenderName, advisorySenderEmail: $advisorySenderEmail)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AdvisorySubmissionRequestCopyWith<$Res>  {
+  factory $AdvisorySubmissionRequestCopyWith(AdvisorySubmissionRequest value, $Res Function(AdvisorySubmissionRequest) _then) = _$AdvisorySubmissionRequestCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'advisory_question') String advisoryQuestion,@JsonKey(name: 'advisory_sender_name') String advisorySenderName,@JsonKey(name: 'advisory_sender_email') String advisorySenderEmail
+});
+
+
+
+
+}
+/// @nodoc
+class _$AdvisorySubmissionRequestCopyWithImpl<$Res>
+    implements $AdvisorySubmissionRequestCopyWith<$Res> {
+  _$AdvisorySubmissionRequestCopyWithImpl(this._self, this._then);
+
+  final AdvisorySubmissionRequest _self;
+  final $Res Function(AdvisorySubmissionRequest) _then;
+
+/// Create a copy of AdvisorySubmissionRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? advisoryQuestion = null,Object? advisorySenderName = null,Object? advisorySenderEmail = null,}) {
+  return _then(_self.copyWith(
+advisoryQuestion: null == advisoryQuestion ? _self.advisoryQuestion : advisoryQuestion // ignore: cast_nullable_to_non_nullable
+as String,advisorySenderName: null == advisorySenderName ? _self.advisorySenderName : advisorySenderName // ignore: cast_nullable_to_non_nullable
+as String,advisorySenderEmail: null == advisorySenderEmail ? _self.advisorySenderEmail : advisorySenderEmail // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [AdvisorySubmissionRequest].
+extension AdvisorySubmissionRequestPatterns on AdvisorySubmissionRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AdvisorySubmissionRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AdvisorySubmissionRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AdvisorySubmissionRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _AdvisorySubmissionRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AdvisorySubmissionRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AdvisorySubmissionRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'advisory_question')  String advisoryQuestion, @JsonKey(name: 'advisory_sender_name')  String advisorySenderName, @JsonKey(name: 'advisory_sender_email')  String advisorySenderEmail)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AdvisorySubmissionRequest() when $default != null:
+return $default(_that.advisoryQuestion,_that.advisorySenderName,_that.advisorySenderEmail);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'advisory_question')  String advisoryQuestion, @JsonKey(name: 'advisory_sender_name')  String advisorySenderName, @JsonKey(name: 'advisory_sender_email')  String advisorySenderEmail)  $default,) {final _that = this;
+switch (_that) {
+case _AdvisorySubmissionRequest():
+return $default(_that.advisoryQuestion,_that.advisorySenderName,_that.advisorySenderEmail);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'advisory_question')  String advisoryQuestion, @JsonKey(name: 'advisory_sender_name')  String advisorySenderName, @JsonKey(name: 'advisory_sender_email')  String advisorySenderEmail)?  $default,) {final _that = this;
+switch (_that) {
+case _AdvisorySubmissionRequest() when $default != null:
+return $default(_that.advisoryQuestion,_that.advisorySenderName,_that.advisorySenderEmail);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _AdvisorySubmissionRequest implements AdvisorySubmissionRequest {
+  const _AdvisorySubmissionRequest({@JsonKey(name: 'advisory_question') required this.advisoryQuestion, @JsonKey(name: 'advisory_sender_name') required this.advisorySenderName, @JsonKey(name: 'advisory_sender_email') required this.advisorySenderEmail});
+  factory _AdvisorySubmissionRequest.fromJson(Map<String, dynamic> json) => _$AdvisorySubmissionRequestFromJson(json);
+
+@override@JsonKey(name: 'advisory_question') final  String advisoryQuestion;
+@override@JsonKey(name: 'advisory_sender_name') final  String advisorySenderName;
+@override@JsonKey(name: 'advisory_sender_email') final  String advisorySenderEmail;
+
+/// Create a copy of AdvisorySubmissionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AdvisorySubmissionRequestCopyWith<_AdvisorySubmissionRequest> get copyWith => __$AdvisorySubmissionRequestCopyWithImpl<_AdvisorySubmissionRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AdvisorySubmissionRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdvisorySubmissionRequest&&(identical(other.advisoryQuestion, advisoryQuestion) || other.advisoryQuestion == advisoryQuestion)&&(identical(other.advisorySenderName, advisorySenderName) || other.advisorySenderName == advisorySenderName)&&(identical(other.advisorySenderEmail, advisorySenderEmail) || other.advisorySenderEmail == advisorySenderEmail));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,advisoryQuestion,advisorySenderName,advisorySenderEmail);
+
+@override
+String toString() {
+  return 'AdvisorySubmissionRequest(advisoryQuestion: $advisoryQuestion, advisorySenderName: $advisorySenderName, advisorySenderEmail: $advisorySenderEmail)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AdvisorySubmissionRequestCopyWith<$Res> implements $AdvisorySubmissionRequestCopyWith<$Res> {
+  factory _$AdvisorySubmissionRequestCopyWith(_AdvisorySubmissionRequest value, $Res Function(_AdvisorySubmissionRequest) _then) = __$AdvisorySubmissionRequestCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'advisory_question') String advisoryQuestion,@JsonKey(name: 'advisory_sender_name') String advisorySenderName,@JsonKey(name: 'advisory_sender_email') String advisorySenderEmail
+});
+
+
+
+
+}
+/// @nodoc
+class __$AdvisorySubmissionRequestCopyWithImpl<$Res>
+    implements _$AdvisorySubmissionRequestCopyWith<$Res> {
+  __$AdvisorySubmissionRequestCopyWithImpl(this._self, this._then);
+
+  final _AdvisorySubmissionRequest _self;
+  final $Res Function(_AdvisorySubmissionRequest) _then;
+
+/// Create a copy of AdvisorySubmissionRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? advisoryQuestion = null,Object? advisorySenderName = null,Object? advisorySenderEmail = null,}) {
+  return _then(_AdvisorySubmissionRequest(
+advisoryQuestion: null == advisoryQuestion ? _self.advisoryQuestion : advisoryQuestion // ignore: cast_nullable_to_non_nullable
+as String,advisorySenderName: null == advisorySenderName ? _self.advisorySenderName : advisorySenderName // ignore: cast_nullable_to_non_nullable
+as String,advisorySenderEmail: null == advisorySenderEmail ? _self.advisorySenderEmail : advisorySenderEmail // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$AdvisorySubmissionResponse {
+
+ String? get status; String? get message; AdvisorySubmissionData? get data;
+/// Create a copy of AdvisorySubmissionResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AdvisorySubmissionResponseCopyWith<AdvisorySubmissionResponse> get copyWith => _$AdvisorySubmissionResponseCopyWithImpl<AdvisorySubmissionResponse>(this as AdvisorySubmissionResponse, _$identity);
+
+  /// Serializes this AdvisorySubmissionResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdvisorySubmissionResponse&&(identical(other.status, status) || other.status == status)&&(identical(other.message, message) || other.message == message)&&(identical(other.data, data) || other.data == data));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,status,message,data);
+
+@override
+String toString() {
+  return 'AdvisorySubmissionResponse(status: $status, message: $message, data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AdvisorySubmissionResponseCopyWith<$Res>  {
+  factory $AdvisorySubmissionResponseCopyWith(AdvisorySubmissionResponse value, $Res Function(AdvisorySubmissionResponse) _then) = _$AdvisorySubmissionResponseCopyWithImpl;
+@useResult
+$Res call({
+ String? status, String? message, AdvisorySubmissionData? data
+});
+
+
+$AdvisorySubmissionDataCopyWith<$Res>? get data;
+
+}
+/// @nodoc
+class _$AdvisorySubmissionResponseCopyWithImpl<$Res>
+    implements $AdvisorySubmissionResponseCopyWith<$Res> {
+  _$AdvisorySubmissionResponseCopyWithImpl(this._self, this._then);
+
+  final AdvisorySubmissionResponse _self;
+  final $Res Function(AdvisorySubmissionResponse) _then;
+
+/// Create a copy of AdvisorySubmissionResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = freezed,Object? message = freezed,Object? data = freezed,}) {
+  return _then(_self.copyWith(
+status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as AdvisorySubmissionData?,
+  ));
+}
+/// Create a copy of AdvisorySubmissionResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AdvisorySubmissionDataCopyWith<$Res>? get data {
+    if (_self.data == null) {
+    return null;
+  }
+
+  return $AdvisorySubmissionDataCopyWith<$Res>(_self.data!, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [AdvisorySubmissionResponse].
+extension AdvisorySubmissionResponsePatterns on AdvisorySubmissionResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AdvisorySubmissionResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AdvisorySubmissionResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AdvisorySubmissionResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _AdvisorySubmissionResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AdvisorySubmissionResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AdvisorySubmissionResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? status,  String? message,  AdvisorySubmissionData? data)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AdvisorySubmissionResponse() when $default != null:
+return $default(_that.status,_that.message,_that.data);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? status,  String? message,  AdvisorySubmissionData? data)  $default,) {final _that = this;
+switch (_that) {
+case _AdvisorySubmissionResponse():
+return $default(_that.status,_that.message,_that.data);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? status,  String? message,  AdvisorySubmissionData? data)?  $default,) {final _that = this;
+switch (_that) {
+case _AdvisorySubmissionResponse() when $default != null:
+return $default(_that.status,_that.message,_that.data);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _AdvisorySubmissionResponse implements AdvisorySubmissionResponse {
+  const _AdvisorySubmissionResponse({this.status, this.message, this.data});
+  factory _AdvisorySubmissionResponse.fromJson(Map<String, dynamic> json) => _$AdvisorySubmissionResponseFromJson(json);
+
+@override final  String? status;
+@override final  String? message;
+@override final  AdvisorySubmissionData? data;
+
+/// Create a copy of AdvisorySubmissionResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AdvisorySubmissionResponseCopyWith<_AdvisorySubmissionResponse> get copyWith => __$AdvisorySubmissionResponseCopyWithImpl<_AdvisorySubmissionResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AdvisorySubmissionResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdvisorySubmissionResponse&&(identical(other.status, status) || other.status == status)&&(identical(other.message, message) || other.message == message)&&(identical(other.data, data) || other.data == data));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,status,message,data);
+
+@override
+String toString() {
+  return 'AdvisorySubmissionResponse(status: $status, message: $message, data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AdvisorySubmissionResponseCopyWith<$Res> implements $AdvisorySubmissionResponseCopyWith<$Res> {
+  factory _$AdvisorySubmissionResponseCopyWith(_AdvisorySubmissionResponse value, $Res Function(_AdvisorySubmissionResponse) _then) = __$AdvisorySubmissionResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ String? status, String? message, AdvisorySubmissionData? data
+});
+
+
+@override $AdvisorySubmissionDataCopyWith<$Res>? get data;
+
+}
+/// @nodoc
+class __$AdvisorySubmissionResponseCopyWithImpl<$Res>
+    implements _$AdvisorySubmissionResponseCopyWith<$Res> {
+  __$AdvisorySubmissionResponseCopyWithImpl(this._self, this._then);
+
+  final _AdvisorySubmissionResponse _self;
+  final $Res Function(_AdvisorySubmissionResponse) _then;
+
+/// Create a copy of AdvisorySubmissionResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = freezed,Object? message = freezed,Object? data = freezed,}) {
+  return _then(_AdvisorySubmissionResponse(
+status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as AdvisorySubmissionData?,
+  ));
+}
+
+/// Create a copy of AdvisorySubmissionResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AdvisorySubmissionDataCopyWith<$Res>? get data {
+    if (_self.data == null) {
+    return null;
+  }
+
+  return $AdvisorySubmissionDataCopyWith<$Res>(_self.data!, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$AdvisorySubmissionData {
+
+ int? get id; String? get question;@JsonKey(name: 'sender_name') String? get senderName;@JsonKey(name: 'sender_email') String? get senderEmail;@JsonKey(name: 'submission_date') String? get submissionDate; String? get status;
+/// Create a copy of AdvisorySubmissionData
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AdvisorySubmissionDataCopyWith<AdvisorySubmissionData> get copyWith => _$AdvisorySubmissionDataCopyWithImpl<AdvisorySubmissionData>(this as AdvisorySubmissionData, _$identity);
+
+  /// Serializes this AdvisorySubmissionData to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdvisorySubmissionData&&(identical(other.id, id) || other.id == id)&&(identical(other.question, question) || other.question == question)&&(identical(other.senderName, senderName) || other.senderName == senderName)&&(identical(other.senderEmail, senderEmail) || other.senderEmail == senderEmail)&&(identical(other.submissionDate, submissionDate) || other.submissionDate == submissionDate)&&(identical(other.status, status) || other.status == status));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,question,senderName,senderEmail,submissionDate,status);
+
+@override
+String toString() {
+  return 'AdvisorySubmissionData(id: $id, question: $question, senderName: $senderName, senderEmail: $senderEmail, submissionDate: $submissionDate, status: $status)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AdvisorySubmissionDataCopyWith<$Res>  {
+  factory $AdvisorySubmissionDataCopyWith(AdvisorySubmissionData value, $Res Function(AdvisorySubmissionData) _then) = _$AdvisorySubmissionDataCopyWithImpl;
+@useResult
+$Res call({
+ int? id, String? question,@JsonKey(name: 'sender_name') String? senderName,@JsonKey(name: 'sender_email') String? senderEmail,@JsonKey(name: 'submission_date') String? submissionDate, String? status
+});
+
+
+
+
+}
+/// @nodoc
+class _$AdvisorySubmissionDataCopyWithImpl<$Res>
+    implements $AdvisorySubmissionDataCopyWith<$Res> {
+  _$AdvisorySubmissionDataCopyWithImpl(this._self, this._then);
+
+  final AdvisorySubmissionData _self;
+  final $Res Function(AdvisorySubmissionData) _then;
+
+/// Create a copy of AdvisorySubmissionData
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? question = freezed,Object? senderName = freezed,Object? senderEmail = freezed,Object? submissionDate = freezed,Object? status = freezed,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,question: freezed == question ? _self.question : question // ignore: cast_nullable_to_non_nullable
+as String?,senderName: freezed == senderName ? _self.senderName : senderName // ignore: cast_nullable_to_non_nullable
+as String?,senderEmail: freezed == senderEmail ? _self.senderEmail : senderEmail // ignore: cast_nullable_to_non_nullable
+as String?,submissionDate: freezed == submissionDate ? _self.submissionDate : submissionDate // ignore: cast_nullable_to_non_nullable
+as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [AdvisorySubmissionData].
+extension AdvisorySubmissionDataPatterns on AdvisorySubmissionData {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AdvisorySubmissionData value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AdvisorySubmissionData() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AdvisorySubmissionData value)  $default,){
+final _that = this;
+switch (_that) {
+case _AdvisorySubmissionData():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AdvisorySubmissionData value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AdvisorySubmissionData() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  String? question, @JsonKey(name: 'sender_name')  String? senderName, @JsonKey(name: 'sender_email')  String? senderEmail, @JsonKey(name: 'submission_date')  String? submissionDate,  String? status)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AdvisorySubmissionData() when $default != null:
+return $default(_that.id,_that.question,_that.senderName,_that.senderEmail,_that.submissionDate,_that.status);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  String? question, @JsonKey(name: 'sender_name')  String? senderName, @JsonKey(name: 'sender_email')  String? senderEmail, @JsonKey(name: 'submission_date')  String? submissionDate,  String? status)  $default,) {final _that = this;
+switch (_that) {
+case _AdvisorySubmissionData():
+return $default(_that.id,_that.question,_that.senderName,_that.senderEmail,_that.submissionDate,_that.status);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  String? question, @JsonKey(name: 'sender_name')  String? senderName, @JsonKey(name: 'sender_email')  String? senderEmail, @JsonKey(name: 'submission_date')  String? submissionDate,  String? status)?  $default,) {final _that = this;
+switch (_that) {
+case _AdvisorySubmissionData() when $default != null:
+return $default(_that.id,_that.question,_that.senderName,_that.senderEmail,_that.submissionDate,_that.status);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _AdvisorySubmissionData implements AdvisorySubmissionData {
+  const _AdvisorySubmissionData({this.id, this.question, @JsonKey(name: 'sender_name') this.senderName, @JsonKey(name: 'sender_email') this.senderEmail, @JsonKey(name: 'submission_date') this.submissionDate, this.status});
+  factory _AdvisorySubmissionData.fromJson(Map<String, dynamic> json) => _$AdvisorySubmissionDataFromJson(json);
+
+@override final  int? id;
+@override final  String? question;
+@override@JsonKey(name: 'sender_name') final  String? senderName;
+@override@JsonKey(name: 'sender_email') final  String? senderEmail;
+@override@JsonKey(name: 'submission_date') final  String? submissionDate;
+@override final  String? status;
+
+/// Create a copy of AdvisorySubmissionData
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AdvisorySubmissionDataCopyWith<_AdvisorySubmissionData> get copyWith => __$AdvisorySubmissionDataCopyWithImpl<_AdvisorySubmissionData>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AdvisorySubmissionDataToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdvisorySubmissionData&&(identical(other.id, id) || other.id == id)&&(identical(other.question, question) || other.question == question)&&(identical(other.senderName, senderName) || other.senderName == senderName)&&(identical(other.senderEmail, senderEmail) || other.senderEmail == senderEmail)&&(identical(other.submissionDate, submissionDate) || other.submissionDate == submissionDate)&&(identical(other.status, status) || other.status == status));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,question,senderName,senderEmail,submissionDate,status);
+
+@override
+String toString() {
+  return 'AdvisorySubmissionData(id: $id, question: $question, senderName: $senderName, senderEmail: $senderEmail, submissionDate: $submissionDate, status: $status)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AdvisorySubmissionDataCopyWith<$Res> implements $AdvisorySubmissionDataCopyWith<$Res> {
+  factory _$AdvisorySubmissionDataCopyWith(_AdvisorySubmissionData value, $Res Function(_AdvisorySubmissionData) _then) = __$AdvisorySubmissionDataCopyWithImpl;
+@override @useResult
+$Res call({
+ int? id, String? question,@JsonKey(name: 'sender_name') String? senderName,@JsonKey(name: 'sender_email') String? senderEmail,@JsonKey(name: 'submission_date') String? submissionDate, String? status
+});
+
+
+
+
+}
+/// @nodoc
+class __$AdvisorySubmissionDataCopyWithImpl<$Res>
+    implements _$AdvisorySubmissionDataCopyWith<$Res> {
+  __$AdvisorySubmissionDataCopyWithImpl(this._self, this._then);
+
+  final _AdvisorySubmissionData _self;
+  final $Res Function(_AdvisorySubmissionData) _then;
+
+/// Create a copy of AdvisorySubmissionData
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? question = freezed,Object? senderName = freezed,Object? senderEmail = freezed,Object? submissionDate = freezed,Object? status = freezed,}) {
+  return _then(_AdvisorySubmissionData(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,question: freezed == question ? _self.question : question // ignore: cast_nullable_to_non_nullable
+as String?,senderName: freezed == senderName ? _self.senderName : senderName // ignore: cast_nullable_to_non_nullable
+as String?,senderEmail: freezed == senderEmail ? _self.senderEmail : senderEmail // ignore: cast_nullable_to_non_nullable
+as String?,submissionDate: freezed == submissionDate ? _self.submissionDate : submissionDate // ignore: cast_nullable_to_non_nullable
+as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
 // dart format on

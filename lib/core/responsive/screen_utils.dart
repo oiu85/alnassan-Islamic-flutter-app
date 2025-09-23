@@ -13,7 +13,7 @@ extension ScreenUtils on num {
   double get sr => ScreenUtil().radius(this);
   
   /// Get responsive font size
-  double get sf => ScreenUtil().setSp(this);
+  double get sf => ScreenUtil().setSp(this) *1;
   
   /// Get responsive padding/margin
   double get sp => ScreenUtil().setWidth(this);

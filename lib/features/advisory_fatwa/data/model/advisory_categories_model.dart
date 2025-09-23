@@ -198,6 +198,53 @@ abstract class AdvisoryCategory with _$AdvisoryCategory {
       _$AdvisoryCategoryFromJson(json);
 }
 
+// ===== ADVISORY SUBMISSION MODELS =====
+
+@freezed
+abstract class AdvisorySubmissionRequest with _$AdvisorySubmissionRequest {
+  const factory AdvisorySubmissionRequest({
+    @JsonKey(name: 'advisory_question')
+    required String advisoryQuestion,
+    @JsonKey(name: 'advisory_sender_name')
+    required String advisorySenderName,
+    @JsonKey(name: 'advisory_sender_email')
+    required String advisorySenderEmail,
+  }) = _AdvisorySubmissionRequest;
+
+  factory AdvisorySubmissionRequest.fromJson(Map<String, dynamic> json) =>
+      _$AdvisorySubmissionRequestFromJson(json);
+}
+
+@freezed
+abstract class AdvisorySubmissionResponse with _$AdvisorySubmissionResponse {
+  const factory AdvisorySubmissionResponse({
+    String? status,
+    String? message,
+    AdvisorySubmissionData? data,
+  }) = _AdvisorySubmissionResponse;
+
+  factory AdvisorySubmissionResponse.fromJson(Map<String, dynamic> json) =>
+      _$AdvisorySubmissionResponseFromJson(json);
+}
+
+@freezed
+abstract class AdvisorySubmissionData with _$AdvisorySubmissionData {
+  const factory AdvisorySubmissionData({
+    int? id,
+    String? question,
+    @JsonKey(name: 'sender_name')
+    String? senderName,
+    @JsonKey(name: 'sender_email')
+    String? senderEmail,
+    @JsonKey(name: 'submission_date')
+    String? submissionDate,
+    String? status,
+  }) = _AdvisorySubmissionData;
+
+  factory AdvisorySubmissionData.fromJson(Map<String, dynamic> json) =>
+      _$AdvisorySubmissionDataFromJson(json);
+}
+
 // Helper function to convert string to int
 int? _stringToInt(dynamic value) {
   if (value == null) return null;

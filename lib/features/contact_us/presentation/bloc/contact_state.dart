@@ -1,49 +1,58 @@
 import 'package:equatable/equatable.dart';
 import '../../../../core/models/page_state/bloc_status.dart';
+import '../../domain/model/contact_response.dart';
 
 class ContactState extends Equatable {
   final BlocStatus status;
+  final ContactResponse? response;
   final String? error;
-  final bool isFormValid;
   final String captchaCode;
+  final String enteredCaptcha;
+  final bool isFormValid;
   final bool isCaptchaValid;
-  final String? successMessage;
+  final String successMessage;
 
   const ContactState({
     this.status = const BlocStatus.initial(),
+    this.response,
     this.error,
-    this.isFormValid = false,
     this.captchaCode = '',
+    this.enteredCaptcha = '',
+    this.isFormValid = false,
     this.isCaptchaValid = false,
-    this.successMessage,
+    this.successMessage = '',
   });
 
   ContactState copyWith({
     BlocStatus? status,
+    ContactResponse? response,
     String? error,
-    bool? isFormValid,
     String? captchaCode,
+    String? enteredCaptcha,
+    bool? isFormValid,
     bool? isCaptchaValid,
     String? successMessage,
   }) {
     return ContactState(
       status: status ?? this.status,
+      response: response ?? this.response,
       error: error ?? this.error,
-      isFormValid: isFormValid ?? this.isFormValid,
       captchaCode: captchaCode ?? this.captchaCode,
+      enteredCaptcha: enteredCaptcha ?? this.enteredCaptcha,
+      isFormValid: isFormValid ?? this.isFormValid,
       isCaptchaValid: isCaptchaValid ?? this.isCaptchaValid,
       successMessage: successMessage ?? this.successMessage,
     );
   }
 
-  bool get canSubmit => isFormValid && isCaptchaValid && !status.isLoading();
-
   @override
   List<Object?> get props => [
         status,
+        response,
         error,
-        isFormValid,
         captchaCode,
+        enteredCaptcha,
+        isFormValid,
         isCaptchaValid,
         successMessage,
       ];

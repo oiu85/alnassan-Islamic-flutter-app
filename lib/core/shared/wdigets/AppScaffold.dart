@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/shared/wdigets/app_drawer.dart';
 import 'package:nassan_app/features/home/presentation/widgets/bottom_bar.dart';
 import 'package:nassan_app/features/advisory_fatwa/presentation/pages/add_advisory.dart';
-import 'package:nassan_app/features/advisory_fatwa/presentation/bloc/advisory_bloc.dart';
-import 'package:nassan_app/core/di/app_dependencies.dart';
 
 
 class AppScaffold extends StatelessWidget {
@@ -106,7 +103,7 @@ class AppScaffold extends StatelessWidget {
           },
           icon: Icon(
             Icons.notifications_outlined,
-            size: ScreenUtil().setSp(30),
+            size: 30.f,
           ),
         ),
       ],
@@ -166,10 +163,7 @@ class _DefaultBottomNavBarState extends State<_DefaultBottomNavBar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) => getIt<AdvisoryBloc>(),
-              child: const AddAdvisory(),
-            ),
+            builder: (context) => const AddAdvisory(),
           ),
         );
         break;

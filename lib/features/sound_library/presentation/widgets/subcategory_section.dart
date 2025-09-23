@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/screen_utils.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import '../bloc/sound_library_bloc.dart';
 import 'sound_card.dart';
 import '../pages/subcategory_sounds_page.dart';
@@ -29,7 +29,7 @@ class SubcategorySection extends StatelessWidget {
               Text(
                 bloc.getSubcategoryTitle(subcategory),
                 style: TextStyle(
-                  fontSize: 18.sp,
+                  fontSize: 18.f,
                   fontWeight: FontWeight.w600,
                   color: AppColors.black.withOpacity(0.8),
                 ),
@@ -41,7 +41,7 @@ class SubcategorySection extends StatelessWidget {
                   child: Text(
                     "الكل",
                     style: TextStyle(
-                      fontSize: 12.sp,
+                      fontSize: 12.f,
                       fontWeight: FontWeight.w600,
                       color: AppColors.black,
                     ),
@@ -50,7 +50,7 @@ class SubcategorySection extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -63,7 +63,7 @@ class SubcategorySection extends StatelessWidget {
                 .toList(),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
       ],
     );
   }

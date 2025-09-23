@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/fonts.gen.dart';
 import '../../data/model/home_model.dart';
@@ -79,11 +79,8 @@ class _HomeCarouselState extends State<HomeCarousel> {
     );
   }
 
-  // Helper methods for responsive sizing
-  double _fontSize(double size) => ScreenUtil().setSp(size);
-  double _width(double size) => ScreenUtil().setWidth(size);
-  double _height(double size) => ScreenUtil().setHeight(size);
-  double _radius(double size) => ScreenUtil().radius(size);
+  // Using extension methods for easier access
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
   
   @override
   Widget build(BuildContext context) {
@@ -97,40 +94,41 @@ class _HomeCarouselState extends State<HomeCarousel> {
     // If no topics available, show default text
     if (_topics.isEmpty) {
       return Padding(
-        padding: EdgeInsets.all(_width(10)),
+        padding: EdgeInsets.all(10.w),
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(_radius(20))),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SvgPicture.asset(
                 Assets.svg.carosellResverse.path,
-                width: _width(svgSize),
-                height: _height(svgSize),
+                width: svgSize.w,
+                height: svgSize.h,
               ),
               Expanded(
                 child: Center(
                   child: Text(
                     "تربية الأمة على كلمة التوحيد",
                     style: TextStyle(
-                      fontSize: _fontSize(context.deviceValue(
-                        mobile: 12,
-                        tablet: 26.0,
-                        desktop: 30.0,
-                      )),
+                      fontSize: context.deviceValue(
+                        mobile: 12.f,
+                        tablet: 26.f,
+                        desktop: 30.f,
+                      ),
                       fontWeight: FontWeight.bold,
                       fontFamily: FontFamily.tajawal,
                     ),
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
+                    softWrap: true,
                   ),
                 ),
               ),
               SvgPicture.asset(
                 Assets.svg.carosell.path,
-                width: _width(svgSize),
-                height: _height(svgSize),
+                width: svgSize.w,
+                height: svgSize.h,
               ),
             ],
           ),
@@ -141,18 +139,18 @@ class _HomeCarouselState extends State<HomeCarousel> {
     final currentTopic = _topics[currentIndex];
     
     return Padding(
-      padding: EdgeInsets.all(_width(10)),
+      padding: EdgeInsets.all(10.w),
       child: GestureDetector(
         onTap: () => _navigateToHtmlViewer(currentTopic),
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(_radius(20))),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SvgPicture.asset(
                 Assets.svg.carosellResverse.path,
-                width: _width(svgSize),
-                height: _height(svgSize),
+                width: svgSize.w,
+                height: svgSize.h,
               ),
               Expanded(
                 child: Center(
@@ -163,25 +161,26 @@ class _HomeCarouselState extends State<HomeCarousel> {
                     child: Text(
                       currentTopic.title ?? 'عنوان غير متوفر',
                       style: TextStyle(
-                        fontSize: _fontSize(context.deviceValue(
-                          mobile: 14,
-                          tablet: 26.0,
-                          desktop: 30.0,
-                        )),
+                        fontSize: context.deviceValue(
+                          mobile: 14.f,
+                          tablet: 26.f,
+                          desktop: 30.f,
+                        ),
                         fontWeight: FontWeight.bold,
                         fontFamily: FontFamily.tajawal,
                       ),
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
+                      softWrap: true,
                     ),
                   ),
                 ),
               ),
               SvgPicture.asset(
                 Assets.svg.carosell.path,
-                width: _width(svgSize),
-                height: _height(svgSize),
+                width: svgSize.w,
+                height: svgSize.h,
               ),
             ],
           ),

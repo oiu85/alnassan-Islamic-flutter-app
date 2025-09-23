@@ -12,10 +12,11 @@ class AdvisoryState extends Equatable {
   final String? recentError;
   final String? popularError;
   final String? submissionError;
-  final String? successMessage;
+  final AdvisorySubmissionResponse? submissionResponse;
   final bool isFormValid;
-  final String captchaCode;
   final bool isCaptchaValid;
+  final String captchaCode;
+  final String successMessage;
 
   const AdvisoryState({
     this.recentStatus = const BlocStatus.initial(),
@@ -26,10 +27,11 @@ class AdvisoryState extends Equatable {
     this.recentError,
     this.popularError,
     this.submissionError,
-    this.successMessage,
+    this.submissionResponse,
     this.isFormValid = false,
-    this.captchaCode = '',
     this.isCaptchaValid = false,
+    this.captchaCode = '',
+    this.successMessage = '',
   });
 
   AdvisoryState copyWith({
@@ -41,10 +43,11 @@ class AdvisoryState extends Equatable {
     String? recentError,
     String? popularError,
     String? submissionError,
-    String? successMessage,
+    AdvisorySubmissionResponse? submissionResponse,
     bool? isFormValid,
-    String? captchaCode,
     bool? isCaptchaValid,
+    String? captchaCode,
+    String? successMessage,
   }) {
     return AdvisoryState(
       recentStatus: recentStatus ?? this.recentStatus,
@@ -55,14 +58,13 @@ class AdvisoryState extends Equatable {
       recentError: recentError ?? this.recentError,
       popularError: popularError ?? this.popularError,
       submissionError: submissionError ?? this.submissionError,
-      successMessage: successMessage ?? this.successMessage,
+      submissionResponse: submissionResponse ?? this.submissionResponse,
       isFormValid: isFormValid ?? this.isFormValid,
-      captchaCode: captchaCode ?? this.captchaCode,
       isCaptchaValid: isCaptchaValid ?? this.isCaptchaValid,
+      captchaCode: captchaCode ?? this.captchaCode,
+      successMessage: successMessage ?? this.successMessage,
     );
   }
-
-  bool get canSubmit => isFormValid && isCaptchaValid && !submissionStatus.isLoading();
 
   @override
   List<Object?> get props => [
@@ -74,9 +76,10 @@ class AdvisoryState extends Equatable {
         recentError,
         popularError,
         submissionError,
-        successMessage,
+        submissionResponse,
         isFormValid,
-        captchaCode,
         isCaptchaValid,
+        captchaCode,
+        successMessage,
       ];
 }

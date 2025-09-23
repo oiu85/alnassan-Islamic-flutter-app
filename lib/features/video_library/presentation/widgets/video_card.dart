@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -21,7 +21,7 @@ class VideoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,15 +31,15 @@ class VideoCard extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+                  topLeft: Radius.circular(12.r),
+                  topRight: Radius.circular(12.r),
                 ),
                 color: AppColors.primary.withValues(alpha: 0.1),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+                  topLeft: Radius.circular(12.r),
+                  topRight: Radius.circular(12.r),
                 ),
                 child: Image.asset(
                   Assets.images.nassanImage.path,
@@ -54,7 +54,7 @@ class VideoCard extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -65,7 +65,7 @@ class VideoCard extends StatelessWidget {
                         child: Text(
                           "عنوان الدرس:",
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 12.f,
                             fontFamily: FontFamily.tajawal,
                             fontWeight: FontWeight.bold,
                             color: AppColors.black,
@@ -78,14 +78,14 @@ class VideoCard extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.remove_red_eye_outlined,
-                            size: 14,
+                            size: 14.f,
                             color: AppColors.grey,
                           ),
-                          SizedBox(width: 2),
+                          SizedBox(width: 2.w),
                           Text(
                             video.videoVisitor,
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 10.f,
                               fontFamily: FontFamily.tajawal,
                               color: AppColors.grey,
                             ),
@@ -97,7 +97,7 @@ class VideoCard extends StatelessWidget {
                   Text(
                     video.videoTitle,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 12.f,
                       fontFamily: FontFamily.tajawal,
                     ),
                     maxLines: 2,
@@ -118,25 +118,25 @@ class VideoCard extends StatelessWidget {
                       );
                     },
                     child: Container(
-                      height: 30,
+                      height: 30.h,
                       width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 4),
+                      padding: EdgeInsets.symmetric(vertical: 4.h),
                       decoration: BoxDecoration(
                         color: AppColors.secondary,
-                        borderRadius: BorderRadius.circular(40),
+                        borderRadius: BorderRadius.circular(40.r),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.play_arrow, color: Colors.white, size: 16),
-                          SizedBox(width: 4),
+                          Icon(Icons.play_arrow, color: Colors.white, size: 16.f),
+                          SizedBox(width: 4.w),
                           Text(
                             "تشغيل",
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 10,
+                              fontSize: 10.f, 
                             ),
                           ),
                         ],

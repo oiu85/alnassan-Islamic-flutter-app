@@ -1,30 +1,18 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class ContactRequest extends Equatable {
-  final String name;
-  final String email;
-  final String message;
-  final String phone;
-  final String country;
+part 'contact_request.freezed.dart';
+part 'contact_request.g.dart';
 
-  const ContactRequest({
-    required this.name,
-    required this.email,
-    required this.message,
-    required this.phone,
-    required this.country,
-  });
+@freezed
+abstract class ContactRequest with _$ContactRequest {
+  const factory ContactRequest({
+    required String name,
+    required String email,
+    required String message,
+    required String phone,
+    required String country,
+  }) = _ContactRequest;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'email': email,
-      'message': message,
-      'phone': phone,
-      'country': country,
-    };
-  }
-
-  @override
-  List<Object?> get props => [name, email, message, phone, country];
+  factory ContactRequest.fromJson(Map<String, dynamic> json) =>
+      _$ContactRequestFromJson(json);
 }

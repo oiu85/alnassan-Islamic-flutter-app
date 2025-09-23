@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
@@ -26,12 +26,6 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   final FocusNode _searchFocusNode = FocusNode();
   late final GlobalSearchBloc _searchBloc;
 
-  // Helper methods for responsive sizing
-  double _fontSize(double size) => ScreenUtil().setSp(size);
-
-  double _width(double size) => ScreenUtil().setWidth(size);
-
-  double _height(double size) => ScreenUtil().setHeight(size);
 
   @override
   void initState() {
@@ -139,8 +133,8 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
             // Search Bar and Filter Button
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: _width(16),
-                vertical: _height(12),
+                horizontal: 16.w,
+                vertical: 12.h,
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -157,25 +151,25 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                 children: [
                   // Filter Button
                   Container(
-                    height: _height(48),
+                    height: 48.h,
                     decoration: BoxDecoration(
                       color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(_width(12)),
+                      borderRadius: BorderRadius.circular(12.w),
                     ),
                     child: InkWell(
-                      onTap: _onFilterPressed,
-                      borderRadius: BorderRadius.circular(_width(12)),
+                        onTap: _onFilterPressed,
+                        borderRadius: BorderRadius.circular(12.w),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: _width(12)),
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
                               Icons.filter_list,
                               color: Colors.white,
-                              size: _width(20),
+                              size: 20.w,
                             ),
-                            SizedBox(width: _width(4)),
+                            SizedBox(width: 4.w),
                             // Text(
                             //   _selectedFilter,
                             //   style: TextStyle(
@@ -196,14 +190,14 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: _width(16)),
+                  SizedBox(width: 16.w),
                   // Search Bar
                   Expanded(
                     child: Container(
-                      height: _height(48),
+                      height: 48.h,
                       decoration: BoxDecoration(
                         color: AppColors.grey.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(_width(60)),
+                        borderRadius: BorderRadius.circular(60.w) ,
                         border: Border.all(
                           color: AppColors.grey.withValues(alpha: 0.3),
                           width: 1,
@@ -217,21 +211,21 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                         enableInteractiveSelection: true,
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: _fontSize(16),
+                          fontSize: 16.f,
                           color: Colors.black87,
                         ),
                         decoration: InputDecoration(
                           hintText: 'ابحث هنا...',
                           hintStyle: TextStyle(
                             fontFamily: FontFamily.tajawal,
-                            fontSize: _fontSize(16),
+                            fontSize: 16.f,
                             color: AppColors.grey,
                           ),
                           prefixIcon: IconButton(
                             icon: Icon(
                               Icons.search,
                               color: AppColors.primary,
-                              size: _width(24),
+                              size: 24.w,
                             ),
                             onPressed: _onSearchPressed,
                           ),
@@ -240,7 +234,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                                   icon: Icon(
                                     Icons.clear,
                                     color: AppColors.grey,
-                                    size: _width(20),
+                                    size: 20.w,
                                   ),
                                   onPressed: () {
                                     _searchController.clear();
@@ -249,8 +243,8 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                               : null,
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
-                            horizontal: _width(16),
-                            vertical: _height(12),
+                            horizontal: 16.w,
+                            vertical: 12.h,
                           ),
                         ),
                       ),
@@ -305,35 +299,35 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
           Image.asset(
             Assets.images.searchEmpty.path,
             width: context.deviceValue(
-              mobile: _width(200),
-              tablet: _width(300),
-              desktop: _width(400),
+              mobile: 200.w,
+              tablet: 300.w,
+              desktop: 400.w,
             ),
             height: context.deviceValue(
-              mobile: _height(200),
-              tablet: _height(300),
-              desktop: _height(400),
+              mobile: 200.h,
+              tablet: 300.h,
+              desktop: 400.h,
             ),
             fit: BoxFit.contain,
           ),
-          SizedBox(height: _height(24)),
+          SizedBox(height: 24.h),
           // Empty State Text
           Text(
             'ابدأ البحث عن المحتوى',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: _fontSize(20),
+              fontSize: 20.f,
               fontWeight: FontWeight.bold,
               color: AppColors.grey,
             ),
           ),
-          SizedBox(height: _height(8)),
+          SizedBox(height: 8.h),
           Text(
             'اكتب في شريط البحث للعثور على الفتاوى، الدروس، والكتب',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: _fontSize(16),
+              fontSize: 16.f,
               color: AppColors.grey.withValues(alpha: 0.7),
             ),
           ),
@@ -350,12 +344,12 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
           CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
           ),
-          SizedBox(height: _height(16)),
+          SizedBox(height: 16.h),
           Text(
             'جاري البحث...',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: _fontSize(16),
+              fontSize: 16.f,
               color: AppColors.grey,
             ),
           ),
@@ -371,30 +365,30 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
         children: [
           Icon(
             Icons.error_outline,
-            size: _width(64),
+            size: 64.w,
             color: AppColors.error,
           ),
-          SizedBox(height: _height(16)),
+          SizedBox(height: 16.h),
           Text(
             'حدث خطأ في البحث',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: _fontSize(18),
+              fontSize: 18.f,
               fontWeight: FontWeight.bold,
               color: AppColors.error,
             ),
           ),
-          SizedBox(height: _height(8)),
+          SizedBox(height: 8.h),
           Text(
             error,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: _fontSize(14),
+              fontSize: 14.f,
               color: AppColors.grey,
             ),
           ),
-          SizedBox(height: _height(16)),
+          SizedBox(height: 16.h),
           ElevatedButton(
             onPressed: () {
               if (_searchController.text.trim().isNotEmpty) {
@@ -414,7 +408,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
               'إعادة المحاولة',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: _fontSize(14),
+                fontSize: 14.f,
               ),
             ),
           ),
@@ -437,26 +431,26 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
           children: [
             Icon(
               Icons.search_off,
-              size: _width(64),
+              size: 64.w,
               color: AppColors.grey.withValues(alpha: 0.5),
             ),
-            SizedBox(height: _height(16)),
+            SizedBox(height: 16.h),
             Text(
               'لا توجد نتائج',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: _fontSize(18),
+                fontSize: 18.f,
                 fontWeight: FontWeight.bold,
                 color: AppColors.grey,
               ),
             ),
-            SizedBox(height: _height(8)),
+            SizedBox(height: 8.h),
             Text(
               'لم نجد نتائج لـ "${state.searchText}"',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: _fontSize(14),
+                fontSize: 14.f,
                 color: AppColors.grey.withValues(alpha: 0.7),
               ),
             ),
@@ -470,8 +464,8 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
         // Search info header
         Container(
           padding: EdgeInsets.symmetric(
-            horizontal: _width(16),
-            vertical: _height(12),
+            horizontal: 16.w,
+            vertical: 12.h,
           ),
           child: Row(
             children: [
@@ -479,7 +473,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                 'نتائج البحث لـ: "${state.searchText}"',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: _fontSize(16),
+                  fontSize: 16.f,
                   fontWeight: FontWeight.bold,
                   color: AppColors.black,
                 ),
@@ -488,18 +482,18 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
               if (state.selectedFilter != 'جميع الأقسام')
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: _width(8),
-                    vertical: _height(4),
+                    horizontal: 8.w,
+                    vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(_width(12)),
+                    borderRadius: BorderRadius.circular(12.w),
                   ),
                   child: Text(
                     state.selectedFilter,
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: _fontSize(12),
+                      fontSize: 12.f,
                       color: AppColors.primary,
                       fontWeight: FontWeight.w600,
                     ),
@@ -577,17 +571,17 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   Widget _buildAdvisoryPlaceholder() {
     return Card(
       margin: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(16),
-        vertical: ScreenUtil().setHeight(8),
+        horizontal: 16.w,
+        vertical: 8.h,
       ),
       child: Padding(
-        padding: EdgeInsets.all(ScreenUtil().setWidth(16)),
+        padding: EdgeInsets.all(16.w),
         child: Center(
           child: Text(
             'قريباً يمكنك البحث في هذه القسم',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: ScreenUtil().setSp(16),
+              fontSize: 16.f,
               color: AppColors.grey,
             ),
           ),
@@ -600,7 +594,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
     if (!state.hasMoreResults) return const SizedBox.shrink();
     
     return Container(
-      padding: EdgeInsets.all(ScreenUtil().setWidth(16)),
+      padding: EdgeInsets.all(16.w),
       child: state.isLoadingMore
           ? Center(
               child: CircularProgressIndicator(
@@ -615,15 +609,15 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(
-                  horizontal: ScreenUtil().setWidth(32),
-                  vertical: ScreenUtil().setHeight(12),
+                  horizontal: 32.w,
+                  vertical: 12.h,
                 ),
               ),
               child: Text(
                 'تحميل المزيد',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: ScreenUtil().setSp(14),
+                  fontSize: 14.f,
                 ),
               ),
             ),
@@ -649,8 +643,8 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(_width(20)),
-          topRight: Radius.circular(_width(20)),
+          topLeft: Radius.circular(20.w),
+          topRight: Radius.circular(20.w),
         ),
       ),
       child: Column(
@@ -658,50 +652,50 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
         children: [
           // Handle bar
           Container(
-            margin: EdgeInsets.only(top: _height(12)),
-            width: _width(40),
-            height: _height(4),
+            margin: EdgeInsets.only(top: 12.h),
+            width: 40.w,
+            height: 4.h,
             decoration: BoxDecoration(
               color: AppColors.grey.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(_width(2)),
+              borderRadius: BorderRadius.circular(2.w),
             ),
           ),
-          SizedBox(height: _height(20)),
+          SizedBox(height: 20.h),
           // Title
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: _width(20)),
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Text(
               'اختر القسم',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: _fontSize(20),
+                fontSize: 20.f,  
                 fontWeight: FontWeight.bold,
                 color: Colors.black87,
               ),
             ),
           ),
-          SizedBox(height: _height(20)),
+          SizedBox(height: 20.h),
           // Filter Options
           ...filterOptions.map((filter) {
             final isSelected = filter == selectedFilter;
             return Container(
               margin: EdgeInsets.symmetric(
-                horizontal: _width(20),
-                vertical: _height(4),
+                horizontal: 20.w,
+                vertical: 4.h,
               ),
               child: InkWell(
                 onTap: () => onFilterSelected(filter),
-                borderRadius: BorderRadius.circular(_width(12)),
+                borderRadius: BorderRadius.circular(12.w),
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: _width(20),
-                    vertical: _height(16),
+                    horizontal: 20.w,
+                    vertical: 16.h,
                   ),
                   decoration: BoxDecoration(
                     color: isSelected 
                         ? AppColors.primary.withValues(alpha: 0.1)
                         : Colors.transparent,
-                    borderRadius: BorderRadius.circular(_width(12)),
+                    borderRadius: BorderRadius.circular(12.w),
                     border: Border.all(
                       color: isSelected 
                           ? AppColors.primary
@@ -715,15 +709,15 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                         Icon(
                           Icons.check_circle,
                           color: AppColors.primary,
-                          size: _width(24),
+                          size: 24.w,
                         ),
-                      if (isSelected) SizedBox(width: _width(12)),
+                      if (isSelected) SizedBox(width: 12.w),
                       Expanded(
                         child: Text(
                           filter,
                           style: TextStyle(
                             fontFamily: FontFamily.tajawal,
-                            fontSize: _fontSize(16),
+                            fontSize: 16.f,
                             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                             color: isSelected ? AppColors.primary : Colors.black87,
                           ),
@@ -733,7 +727,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                         Icon(
                           Icons.radio_button_checked,
                           color: AppColors.primary,
-                          size: _width(20),
+                          size: 20.w,
                         ),
                     ],
                   ),
@@ -741,9 +735,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
               ),
             );
           }).toList(),
-          SizedBox(height: _height(20)),
+          SizedBox(height: 20.h),
           // Bottom padding for safe area
-          SizedBox(height: MediaQuery.of(context).padding.bottom + _height(20)),
+          SizedBox(height: MediaQuery.of(context).padding.bottom + 20.h),
         ],
       ),
     );

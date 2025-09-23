@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -20,11 +20,8 @@ Widget lessonCardBuild({
   bool isLoading = false,
   VoidCallback? onTap,
 }) {
-  // Helper methods for responsive sizing
-  double _fontSize(double size) => ScreenUtil().setSp(size);
-  double _width(double size) => ScreenUtil().setWidth(size);
-  double _height(double size) => ScreenUtil().setHeight(size);
-  double _radius(double size) => ScreenUtil().radius(size);
+  // Using extension methods for easier access
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
   return SizedBox(
     height: height,
@@ -45,13 +42,13 @@ Widget lessonCardBuild({
                 ),
 
                 Padding(
-                  padding: EdgeInsets.only(top: _height(40)),
+                  padding: EdgeInsets.only(top: 40.h),
                   child: Center(
                     child: Text(
                       title,
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: _fontSize(13),
+                        fontSize: 13.f,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
                       ),
@@ -66,14 +63,14 @@ Widget lessonCardBuild({
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: _width(8)),
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "الدرس:",
                   style: TextStyle(
-                    fontSize: _fontSize(13),
+                    fontSize: 13.f,
                     fontFamily: FontFamily.tajawal,
                     color: AppColors.grey,
                     fontWeight: FontWeight.bold,
@@ -84,7 +81,7 @@ Widget lessonCardBuild({
                     Text(
                       viewCont,
                       style: TextStyle(
-                        fontSize: _fontSize(12),
+                        fontSize: 12.f,
                         fontFamily: FontFamily.tajawal,
                         color: AppColors.grey,
                       ),
@@ -92,7 +89,7 @@ Widget lessonCardBuild({
                     IconButton(
                       onPressed: () {},
                       icon: Icon(Icons.remove_red_eye_outlined),
-                      iconSize: _fontSize(24),
+                      iconSize: 24.f,
                       color: AppColors.grey,
                     ),
                   ],
@@ -101,11 +98,11 @@ Widget lessonCardBuild({
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: _width(8)),
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
             child: Text(
               lesson,
               style: TextStyle(
-                fontSize: _fontSize(12),
+                fontSize: 12.f,
                 fontFamily: FontFamily.tajawal,
                 color: AppColors.grey,
               ),
@@ -116,18 +113,18 @@ Widget lessonCardBuild({
           GestureDetector(
             onTap: isLoading ? null : onTap,
             child: Container(
-              margin: EdgeInsets.only(bottom: _height(4)),
-              padding: EdgeInsets.symmetric(horizontal: _width(20), vertical: _height(10)),
+              margin: EdgeInsets.only(bottom: 4.h),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(_radius(80)),
+                borderRadius: BorderRadius.circular(80.r),
                 color: isLoading ? AppColors.grey : AppColors.primary,
               ),
               child: isLoading
                   ? SizedBox(
-                width: _width(20),
-                height: _height(20),
+                width: 20.w,
+                height: 20.h,
                 child: CircularProgressIndicator(
-                  strokeWidth: 2,
+                  strokeWidth: 2.w,
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
               )
@@ -137,7 +134,7 @@ Widget lessonCardBuild({
                   fontFamily: FontFamily.tajawal,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: _fontSize(12),
+                  fontSize: 12.f,
                 ),
               ),
             ),

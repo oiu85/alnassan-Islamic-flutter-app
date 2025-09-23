@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/core/responsive/responsive_builder.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../core/responsive/responsive_scaling.dart';
 import '../../../../gen/assets.gen.dart';
@@ -116,18 +117,18 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
         },
         child: ListView(
           key: PageStorageKey("category_articles_list"),
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.w),
           children: [
             // Category title
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),  
               child: Row(
                 children: [
                   Expanded(
                     child: Text(
                       widget.categoryTitle,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 18.f,
                         fontFamily: FontFamily.tajawal,
                         fontWeight: FontWeight.bold,
                         color: AppColors.black,
@@ -144,7 +145,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
             // Loading indicator for pagination
             if (state.status.isLoading() && state.subCategories.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding:  EdgeInsets.all(16.w),
                 child: Center(
                   child: Column(
                     children: [
@@ -153,7 +154,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                           AppColors.primary,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Text(
                         'جاري تحميل المزيد...',
                         style: TextStyle(
@@ -196,14 +197,14 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
     return Column(
       children: articlePairs.map((pair) {
         return Padding(
-          padding: EdgeInsets.only(bottom: 16),
+          padding: EdgeInsets.only(bottom: 16.h),
           child: Row(
             children: [
               // First card
               Expanded(
                 child: _buildCategoryArticleCard(context, pair[0], 0),
               ),
-              SizedBox(width: 12),
+              SizedBox(width: 12.w),
               // Second card (if exists)
               if (pair.length > 1)
                 Expanded(
@@ -226,19 +227,19 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              height: 120, // Fixed height for image area
+              height: 120.h, // Fixed height for image area
               child: Stack(
                 clipBehavior: Clip.antiAlias,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 4),
+                    padding: EdgeInsets.only(top: 4.h),
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: Image.asset(
                         Assets.images.mohhamed.path,
                         fit: BoxFit.cover,
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                       ),
                     ),
                   ),
@@ -249,8 +250,8 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                       child: Image.asset(
                         Assets.images.candleBig.path,
                         fit: BoxFit.contain,
-                        width: 50,
-                        height: 80,
+                        width: 50.w,
+                        height: 80.h,
                       ),
                     ),
                   ),
@@ -261,8 +262,8 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                       child: Image.asset(
                         Assets.images.candleSmall.path,
                         fit: BoxFit.contain,
-                        width: 60,
-                        height: 60,
+                        width: 60.w,
+                        height: 60.h,
                       ),
                     ),
                   ),
@@ -273,8 +274,8 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                       child: Image.asset(
                         Assets.images.candleBig.path,
                         fit: BoxFit.contain,
-                        width: 50,
-                        height: 80,
+                        width: 50.w,
+                        height: 80.h,
                       ),
                     ),
                   ),
@@ -285,19 +286,19 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                       child: Image.asset(
                         Assets.images.candleSmall.path,
                         fit: BoxFit.contain,
-                        width: 60,
-                        height: 60,
+                        width: 60.w,
+                        height: 60.h, 
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 40),
+                    padding: EdgeInsets.only(top: 40.h),
                     child: Center(
                       child: Text(
                         "فضيلة الشيخ",
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 13,
+                          fontSize: 13.f,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
                         ),
@@ -322,7 +323,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                       child: Text(
                         "الدرس:",
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 13.f,
                           fontFamily: FontFamily.tajawal,
                           color: AppColors.grey,
                           fontWeight: FontWeight.bold,
@@ -363,12 +364,12 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                SizedBox(height: 20), // Add space between lesson title and button
+                SizedBox(height: 20),   // Add space between lesson title and button
                 GestureDetector(
                   onTap: _loadingArticleId == article.articleId ? null : () => _onArticleCardClick(context, article),
                   child: Container(
                     margin: EdgeInsets.only(bottom: 16),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(80),
                       color: _loadingArticleId == article.articleId 
@@ -380,8 +381,8 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                width: 16,
-                                height: 16,
+                                width: 16.w,
+                                height: 16.h,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
@@ -394,7 +395,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                                   fontFamily: FontFamily.tajawal,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                                  fontSize: 12.f,
                                 ),
                               ),
                             ],

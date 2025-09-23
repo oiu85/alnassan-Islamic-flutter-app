@@ -25,7 +25,7 @@ class SearchArticleModel {
     final cleanTitle = _parseAndCleanTitle(rawTitle);
     
     return SearchArticleModel(
-      id: json['id'] as int? ?? 0,
+      id: _parseInt(json['id']),
       title: cleanTitle,
       summary: json['summary'] as String? ?? '',
       image: json['image'] as String? ?? '',
@@ -34,6 +34,15 @@ class SearchArticleModel {
       type: json['type'] as String? ?? 'article',
       url: json['url'] as String? ?? '',
     );
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is String) {
+      return int.tryParse(value) ?? 0;
+    }
+    return 0;
   }
 
   /// Parse and clean the article title to remove HTML entities and format properly

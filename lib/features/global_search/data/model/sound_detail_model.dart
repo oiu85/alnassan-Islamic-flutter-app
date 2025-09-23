@@ -51,13 +51,13 @@ class SoundDetailModel {
     final plays = playsValue is int ? playsValue.toString() : playsValue as String? ?? '0';
     
     return SoundDetailModel(
-      id: data['sound_id'] as int? ?? data['id'] as int? ?? 0,
+      id: _parseInt(data['sound_id'] ?? data['id']),
       title: cleanTitle,
       summary: data['sound_summary'] as String? ?? data['summary'] as String? ?? '',
       description: data['sound_des'] as String? ?? data['description'] as String? ?? '',
       image: data['sound_pic'] as String? ?? data['image'] as String? ?? '',
       date: data['sound_date'] as String? ?? data['date'] as String? ?? '',
-      categoryId: category['cat_id'] as int? ?? category['id'] as int? ?? 0,
+      categoryId: _parseInt(category['cat_id'] ?? category['id']),
       categoryName: category['cat_title'] as String? ?? category['name'] as String? ?? '',
       categoryDescription: category['cat_des'] as String? ?? category['description'] as String? ?? '',
       duration: data['sound_duration'] as String? ?? data['duration'] as String?,
@@ -69,6 +69,15 @@ class SoundDetailModel {
       type: data['type'] as String? ?? 'sound',
       url: data['url'] as String? ?? '',
     );
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is String) {
+      return int.tryParse(value) ?? 0;
+    }
+    return 0;
   }
 
   /// Parse and clean the sound title to remove HTML entities and format properly

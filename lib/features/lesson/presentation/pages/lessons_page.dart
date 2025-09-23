@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marquee/marquee.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -23,9 +23,8 @@ class LessonsPage extends StatefulWidget {
 }
 
 class _LessonsPageState extends State<LessonsPage> {
-  double _fontSize(double size) => ScreenUtil().setSp(size);
-  double _width(double size) => ScreenUtil().setWidth(size);
-  double _height(double size) => ScreenUtil().setHeight(size);
+  // Using extension methods for easier access
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +76,7 @@ class _LessonsPageState extends State<LessonsPage> {
                 ),
               );
             },
-            animationSize: 200,
+            animationSize: 200.w,
           );
         },
       ),
@@ -107,7 +106,7 @@ class _LessonsPageState extends State<LessonsPage> {
             key: PageStorageKey("lessons_list"),
             children: [
               Container(
-                padding: EdgeInsets.all(_width(20)),
+                padding: EdgeInsets.all(20.w),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,12 +123,12 @@ class _LessonsPageState extends State<LessonsPage> {
                               children: [
                                 Expanded(
                                   child: SizedBox(
-                                    height: _fontSize(22),
+                                    height: 22.f,
                                     child: LayoutBuilder(
                                       builder: (context, constraints) {
                                         final text = category.catTitle ?? "عنوان غير متوفر";
                                         final textStyle = TextStyle(
-                                          fontSize: _fontSize(18),
+                                          fontSize: 18.f,
                                           fontFamily: FontFamily.tajawal,
                                           fontWeight: FontWeight.bold,
                                           color: AppColors.black,
@@ -191,7 +190,7 @@ class _LessonsPageState extends State<LessonsPage> {
                                   child: Text(
                                     "الكل ",
                                     style: TextStyle(
-                                      fontSize: _fontSize(18),
+                                      fontSize: 18.f,
                                       fontFamily: FontFamily.tajawal,
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.black,
@@ -200,11 +199,11 @@ class _LessonsPageState extends State<LessonsPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: _height(3)),
+                            SizedBox(height: 3.h),
                             // Display lessons for this category in horizontal ListView (3 items)
                             if (categoryArticles.isNotEmpty)
                               SizedBox(
-                                height: _height(236),
+                                height: 236.h,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: categoryArticles.length,
@@ -215,9 +214,9 @@ class _LessonsPageState extends State<LessonsPage> {
                                         state.loadingArticleId ==
                                             lesson.articleId;
                                     return Container(
-                                      width: _width(161),
+                                      width: 161.w,
                                       margin: EdgeInsets.only(
-                                        right: index < categoryArticles.length - 1 ? _width(10) : 0,
+                                        right: index < categoryArticles.length - 1 ? 10.w : 0,
                                       ),
                                       child: lessonCardBuild(
                                         lesson:
@@ -228,10 +227,10 @@ class _LessonsPageState extends State<LessonsPage> {
                                         imagePath: Assets.images.backgroundZh.path,
                                         imageNamePath:
                                             Assets.images.nassanName.path,
-                                        width: _width(161),
-                                        height: _height(236),
-                                        imageWidth: _width(100),
-                                        imageHeight: _height(100),
+                                        width: 161.w,
+                                        height: 236.h,
+                                        imageWidth: 100.w,
+                                        imageHeight: 100.h,
                                         context: context,
                                         isLoading: isLoading,
                                         onTap: () {
@@ -249,12 +248,12 @@ class _LessonsPageState extends State<LessonsPage> {
                                 child: Text(
                                   'لا توجد دروس متاحة لهذه الفئة',
                                   style: TextStyle(
-                                    fontSize: _fontSize(16),
+                                    fontSize: 16.f,
                                     fontFamily: FontFamily.tajawal,
                                   ),
                                 ),
                               ),
-                            SizedBox(height: _height(20)),
+                            SizedBox(height: 20.h),
                             // Space between categories
                           ],
                         );
@@ -264,7 +263,7 @@ class _LessonsPageState extends State<LessonsPage> {
                         child: Text(
                           'لا توجد فئات متاحة',
                           style: TextStyle(
-                            fontSize: _fontSize(16),
+                            fontSize: 16.f,
                             fontFamily: FontFamily.tajawal,
                           ),
                         ),
@@ -273,7 +272,7 @@ class _LessonsPageState extends State<LessonsPage> {
                     // Loading indicator at bottom when loading more
                     if (state.isLoadingMore)
                       Padding(
-                        padding: EdgeInsets.all(_width(16)),
+                        padding: EdgeInsets.all(16.w),
                         child: Center(
                           child: CircularProgressIndicator(
                             color: AppColors.primary,

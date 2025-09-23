@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
@@ -21,21 +20,18 @@ class _AddAdvisoryState extends State<AddAdvisory> {
   final _emailController = TextEditingController();
   final _questionController = TextEditingController();
   final _captchaController = TextEditingController();
-  
-  bool _isValidating = false;
-  bool _isClearing = false;
-  Timer? _validationTimer;
 
   @override
   void initState() {
     super.initState();
+    // Reset any previous submission state
+    context.read<AdvisoryBloc>().add(const ResetAdvisorySubmissionEvent());
     // Generate initial captcha
     context.read<AdvisoryBloc>().add(const GenerateAdvisoryCaptchaEvent());
   }
 
   @override
   void dispose() {
-    _validationTimer?.cancel();
     _nameController.dispose();
     _emailController.dispose();
     _questionController.dispose();
@@ -44,397 +40,543 @@ class _AddAdvisoryState extends State<AddAdvisory> {
   }
 
   void _validateForm() {
-    // Don't validate if we're clearing the form
-    if (_isClearing) return;
-    
-    // Cancel previous timer
-    _validationTimer?.cancel();
-    
-    // Set a new timer to validate after user stops typing
-    _validationTimer = Timer(const Duration(milliseconds: 300), () {
-      if (mounted && !_isValidating && !_isClearing) {
-        _isValidating = true;
-        context.read<AdvisoryBloc>().add(
-          ValidateAdvisoryFormEvent(
-            advisoryQuestion: _questionController.text,
-            advisorySenderName: _nameController.text,
-            advisorySenderEmail: _emailController.text,
-            captchaCode: _captchaController.text,
-          ),
-        );
-        
-        // Reset validation flag after a short delay
-        Future.delayed(const Duration(milliseconds: 100), () {
-          if (mounted) {
-            _isValidating = false;
-          }
-        });
-      }
-    });
+    context.read<AdvisoryBloc>().add(ValidateAdvisoryFormEvent(
+      question: _questionController.text,
+      senderName: _nameController.text,
+      senderEmail: _emailController.text,
+      captcha: _captchaController.text,
+    ));
   }
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      context.read<AdvisoryBloc>().add(
-        SubmitAdvisoryEvent(
-          advisoryQuestion: _questionController.text,
-          advisorySenderName: _nameController.text,
-          advisorySenderEmail: _emailController.text,
-          captchaCode: _captchaController.text,
-        ),
-      );
+      context.read<AdvisoryBloc>().add(SubmitAdvisoryQuestionEvent(
+        question: _questionController.text,
+        senderName: _nameController.text,
+        senderEmail: _emailController.text,
+      ));
     }
   }
 
-  void _generateNewCaptcha() {
-    context.read<AdvisoryBloc>().add(const GenerateAdvisoryCaptchaEvent());
-    _captchaController.clear();
-  }
-
-  void _clearAllFields() {
-    if (_isClearing) return;
-    
-    _isClearing = true;
-    
-    // Cancel any pending validation
-    _validationTimer?.cancel();
-    
-    // Clear all text controllers
+  void _resetForm() {
+    _formKey.currentState?.reset();
     _nameController.clear();
     _emailController.clear();
     _questionController.clear();
     _captchaController.clear();
-    
-    // Reset form validation state
-    _formKey.currentState?.reset();
-    
-    // Reset validation flag
-    _isValidating = false;
-    
-    // Use BLoC to clear form state and generate new captcha
-    context.read<AdvisoryBloc>().add(const ClearAdvisoryFormEvent());
-    
-    // Reset clearing flag after a delay
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (mounted) {
-        _isClearing = false;
-      }
-    });
+    context.read<AdvisoryBloc>().add(const ResetAdvisorySubmissionEvent());
+    // Generate new captcha after reset
+    context.read<AdvisoryBloc>().add(const GenerateAdvisoryCaptchaEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold.clean(
-      body: BlocConsumer<AdvisoryBloc, AdvisoryState>(
-        listener: (context, state) {
-          if (state.submissionStatus.isSuccess() && state.successMessage != null && !_isClearing) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('تم إرسال سؤالك بنجاح! سنتواصل معك قريباً.'),
-                backgroundColor: Colors.green,
-                duration: const Duration(seconds: 4),
-              ),
-            );
-            // Clear form on success
-            _clearAllFields();
-          } else if (state.submissionStatus.isFail() && state.submissionError != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('حدث خطأ في إرسال السؤال. يرجى المحاولة مرة أخرى.'),
-                backgroundColor: Colors.red,
-                duration: const Duration(seconds: 4),
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                children: [
-                  const SizedBox(height: 10),
-                  Text(
-                    "إضافة فتوى:",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: FontFamily.tajawal,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      "الأخ الكريم الزائر، الأخت الكريمة الزائرة،\n"
-                      "السلام عليكم ورحمة الله وبركاته\n"
-                      "وأهلاً وسهلاً ومرحباً بكم في هذا التطبيق،\n"
-                      "ونرجو الله عز وجل أن يجعل فيه النفع لما فيه صلاح ديننا ودنيانا وآخرتنا،\n"
-                      "ونرجو منكم أن تخصونا بدعوة صالحة.\n\n"
-                      "أما بعد:\n"
-                      "فيرجى التكرم بالقيام بعملية البحث عن جواب أسئلتكم\n"
-                      "فربما أن يكون موجوداً،\n"
-                      "وإن وجدتم صعوبة في البحث فأهلاً وسهلاً بكم.\n\n"
-                      "ونرجو الله أن يسددنا في أقوالنا وأفعالنا.",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: FontFamily.tajawal,
-                        height: 1,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    textDirection: TextDirection.ltr,
-                    "اخوكم أحمد شريف النعسان",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: FontFamily.tajawal,
-                      height: 1,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  
-                  // Name Field
-                  Row(
-                    children: [
-                      Text(
-                        "اسم المستخدم",
-                        style: TextStyle(
-                          fontFamily: FontFamily.tajawal,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Text('*', style: TextStyle(color: Colors.red, fontSize: 16)),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _nameController,
-                    onChanged: (_) => _validateForm(),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'يرجى إدخال الاسم';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.ftawaFiledColor,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(60),
-                      ),
-                      hintText: 'ادخل اسمك هنا',
-                      hintStyle: TextStyle(
-                        fontSize: 12,
-                        fontFamily: FontFamily.tajawal,
-                        height: 1,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  
-                  // Email Field
-                  Row(
-                    children: [
-                      Text(
-                        "البريد الإلكتروني",
-                        style: TextStyle(
-                          fontFamily: FontFamily.tajawal,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Text('*', style: TextStyle(color: Colors.red, fontSize: 16)),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (_) => _validateForm(),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'يرجى إدخال البريد الإلكتروني';
-                      }
-                      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                        return 'يرجى إدخال بريد إلكتروني صحيح';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.ftawaFiledColor,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(60),
-                      ),
-                      hintText: "uiuxcreative2021@gmail.com",
-                      hintStyle: TextStyle(
-                        fontSize: 12,
-                        fontFamily: FontFamily.tajawal,
-                        height: 1,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    "الرجاء ادخال بريدك الالكتروني هنا لكي تتم إرسال الاجابة عليه",
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontFamily: FontFamily.tajawal,
-                      color: Colors.red,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  
-                  // Question Field
-                  Row(
-                    children: [
-                      Text(
-                        "الرجاء كتابة السؤال",
-                        style: TextStyle(
-                          fontFamily: FontFamily.tajawal,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Text('*', style: TextStyle(color: Colors.red, fontSize: 16)),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _questionController,
-                    maxLines: 6,
-                    onChanged: (_) => _validateForm(),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'يرجى إدخال السؤال';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.ftawaFiledColor,
-                      border: OutlineInputBorder(
+    return BlocListener<AdvisoryBloc, AdvisoryState>(
+      listener: (context, state) {
+        if (state.submissionStatus.isSuccess()) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Container(
+                padding: EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      hintText: "اكتب سؤالك هنا",
-                      hintStyle: TextStyle(
-                        fontSize: 12,
-                        fontFamily: FontFamily.tajawal,
-                        height: 1,
+                      child: Icon(
+                        Icons.check_circle,
+                        color: Colors.white,
+                        size: 24,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 25),
-                  
-                  // Captcha Section
-                  Text(
-                    "تنويه",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: FontFamily.tajawal,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "الرجاء تأكيد كتابة رمز التسجيل الظاهر أمامك",
-                    style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: 14),
-                  ),
-                  const SizedBox(height: 10),
-                  
-                  // Captcha Display
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: AppColors.grey.withAlpha(50),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Center(
-                            child: Text(
-                              state.captchaCode,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: FontFamily.tajawal,
-                                color: AppColors.grey.withAlpha(150),
-                              ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'تم الإرسال بنجاح!',
+                            style: const TextStyle(
+                              fontFamily: FontFamily.tajawal,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      IconButton(
-                        onPressed: _generateNewCaptcha,
-                        icon: Icon(Icons.refresh),
-                        tooltip: 'تحديث الرمز',
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  
-                  // Captcha Input
-                  TextFormField(
-                    controller: _captchaController,
-                    onChanged: (_) => _validateForm(),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'يرجى إدخال رمز التحقق';
-                      }
-                      if (value.trim() != state.captchaCode) {
-                        return 'رمز التحقق غير صحيح';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColors.ftawaFiledColor,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(60),
-                      ),
-                      hintText: 'ادخل الرقم هنا',
-                      hintStyle: TextStyle(
-                        fontSize: 12,
-                        fontFamily: FontFamily.tajawal,
-                        height: 1,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  
-                  // Submit Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: state.canSubmit ? _submitForm : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: state.canSubmit 
-                            ? AppColors.primary 
-                            : AppColors.grey.withOpacity(0.5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                      child: state.submissionStatus.isLoading()
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : Text(
-                              'إرسال السؤال',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: FontFamily.tajawal,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                          SizedBox(height: 2),
+                          Text(
+                            state.successMessage.isNotEmpty 
+                                ? state.successMessage 
+                                : 'تم إرسال سؤالك بنجاح! سنتواصل معك قريباً',
+                            style: const TextStyle(
+                              fontFamily: FontFamily.tajawal,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
                             ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                  ],
+                ),
+              ),
+              backgroundColor: Colors.green.shade600,
+              duration: Duration(seconds: 5),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              margin: EdgeInsets.all(16),
+              elevation: 8,
+            ),
+          );
+          _resetForm();
+        } else if (state.submissionStatus.isFail()) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Container(
+                padding: EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Icon(
+                        Icons.error_outline,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'حدث خطأ!',
+                            style: const TextStyle(
+                              fontFamily: FontFamily.tajawal,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Text(
+                            state.submissionError ?? 'عذراً، حدث خطأ أثناء إرسال السؤال. يرجى المحاولة مرة أخرى',
+                            style: const TextStyle(
+                              fontFamily: FontFamily.tajawal,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              backgroundColor: Colors.red.shade600,
+              duration: Duration(seconds: 6),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              margin: EdgeInsets.all(16),
+              elevation: 8,
+              action: SnackBarAction(
+                label: 'إعادة المحاولة',
+                textColor: Colors.white,
+                backgroundColor: Colors.white.withValues(alpha: 0.2),
+                onPressed: () {
+                  context.read<AdvisoryBloc>().add(SubmitAdvisoryQuestionEvent(
+                    question: _questionController.text,
+                    senderName: _nameController.text,
+                    senderEmail: _emailController.text,
+                  ));
+                },
               ),
             ),
           );
-        },
+        }
+      },
+      child: AppScaffold.clean(
+        body: BlocBuilder<AdvisoryBloc, AdvisoryState>(
+          builder: (context, state) {
+            // Show form for initial and success states, loading only when actually submitting
+            if (state.submissionStatus.isLoading()) {
+              return Stack(
+                children: [
+                  _buildForm(context, state),
+                  Container(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    child: Center(
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.1),
+                              blurRadius: 10,
+                              spreadRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              'جاري إرسال سؤالك...',
+                              style: TextStyle(
+                                fontFamily: FontFamily.tajawal,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black87,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'يرجى الانتظار قليلاً',
+                              style: TextStyle(
+                                fontFamily: FontFamily.tajawal,
+                                fontSize: 12,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              // Show form for initial, success, and fail states
+              return _buildForm(context, state);
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildForm(BuildContext context, AdvisoryState state) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Form(
+        key: _formKey,
+        child: ListView(
+          children: [
+            const SizedBox(height: 10),
+            Text(
+              "إضافة فتوى:",
+              style: TextStyle(
+                fontSize: 18,
+                fontFamily: FontFamily.tajawal,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+                "الأخ الكريم الزائر، الأخت الكريمة الزائرة،\n"
+                "السلام عليكم ورحمة الله وبركاته\n"
+                "وأهلاً وسهلاً ومرحباً بكم في هذا التطبيق،\n"
+                "ونرجو الله عز وجل أن يجعل فيه النفع لما فيه صلاح ديننا ودنيانا وآخرتنا،\n"
+                "ونرجو منكم أن تخصونا بدعوة صالحة.\n\n"
+                "أما بعد:\n"
+                "فيرجى التكرم بالقيام بعملية البحث عن جواب أسئلتكم\n"
+                "فربما أن يكون موجوداً،\n"
+                "وإن وجدتم صعوبة في البحث فأهلاً وسهلاً بكم.\n\n"
+                "ونرجو الله أن يسددنا في أقوالنا وأفعالنا.",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: FontFamily.tajawal,
+                  height: 1,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              textDirection: TextDirection.ltr,
+              "اخوكم أحمد شريف النعسان",
+              style: TextStyle(
+                fontSize: 15,
+                fontFamily: FontFamily.tajawal,
+                height: 1,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Text(
+                  "اسم المستخدم",
+                  style: TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                    fontSize: 14,
+                  ),
+                ),
+                Text('*', style: TextStyle(color: Colors.red, fontSize: 16)),
+              ],
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              controller: _nameController,
+              onChanged: (_) => _validateForm(),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'يرجى إدخال اسمك الكامل';
+                }
+                if (value.trim().length < 2) {
+                  return 'الاسم قصير جداً. يرجى إدخال اسم صحيح';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppColors.ftawaFiledColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(60),
+                ),
+                hintText: 'ادخل اسمك هنا',
+                hintStyle: TextStyle(
+                  fontSize: 12,
+                  fontFamily: FontFamily.tajawal,
+                  height: 1,
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Text(
+                  "البريد الإلكتروني",
+                  style: TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                    fontSize: 14,
+                  ),
+                ),
+                Text('*', style: TextStyle(color: Colors.red, fontSize: 16)),
+              ],
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              onChanged: (_) => _validateForm(),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'يرجى إدخال بريدك الإلكتروني';
+                }
+                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                  return 'البريد الإلكتروني غير صحيح. مثال: example@gmail.com';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppColors.ftawaFiledColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(60),
+                ),
+                hintText: "uiuxcreative2021@gmail.com",
+                hintStyle: TextStyle(
+                  fontSize: 12,
+                  fontFamily: FontFamily.tajawal,
+                  height: 1,
+                ),
+              ),
+            ),
+            SizedBox(height: 2),
+            Text(
+              "الرجاء ادخال بريدك الالكتروني هنا لكي تتم إرسال الاجابة عليه",
+              style: TextStyle(
+                fontSize: 10,
+                fontFamily: FontFamily.tajawal,
+                color: Colors.red,
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Text(
+                  "الرجاء كتابة السؤال",
+                  style: TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                    fontSize: 14,
+                  ),
+                ),
+                Text('*', style: TextStyle(color: Colors.red, fontSize: 16)),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  controller: _questionController,
+              maxLines: 6,
+                  onChanged: (_) {
+                    _validateForm();
+                    setState(() {}); // Update character counter
+                  },
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'يرجى إدخال السؤال';
+                    }
+                    if (value.trim().length < 10) {
+                      return 'يجب أن يكون السؤال 10 أحرف على الأقل';
+                    }
+                    return null;
+                  },
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppColors.ftawaFiledColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                    hintText: "اكتب سؤالك هنا (10 أحرف على الأقل)",
+                hintStyle: TextStyle(
+                  fontSize: 12,
+                  fontFamily: FontFamily.tajawal,
+                  height: 1,
+                ),
+              ),
+            ),
+                const SizedBox(height: 5),
+            Text(
+                  '${_questionController.text.length}/10 أحرف',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontFamily: FontFamily.tajawal,
+                    color: _questionController.text.length >= 10 ? Colors.green : Colors.red,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 25),
+            Text(
+              "تنويه",
+              style: TextStyle(
+                fontSize: 18,
+                fontFamily: FontFamily.tajawal,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              "الرجاء تأكيد كتابة رمز التسجيل الظاهر أمامك",
+              style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: 14),
+            ),
+            Container(
+              width: double.infinity,
+              height: 60,
+              decoration: BoxDecoration(
+                color: AppColors.grey.withAlpha(50),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Center(
+                child: Text(
+                  state.captchaCode,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: FontFamily.tajawal,
+                    color: AppColors.grey.withAlpha(150),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              controller: _captchaController,
+              onChanged: (_) => _validateForm(),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'يرجى إدخال رمز التحقق الظاهر أعلاه';
+                }
+                if (value.trim() != state.captchaCode) {
+                  return 'رمز التحقق غير صحيح. يرجى إعادة المحاولة';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppColors.ftawaFiledColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(60),
+                ),
+                hintText: 'ادخل الرقم هنا ',
+                hintStyle: TextStyle(
+                  fontSize: 12,
+                  fontFamily: FontFamily.tajawal,
+                  height: 1,
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.read<AdvisoryBloc>().add(const GenerateAdvisoryCaptchaEvent());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: Text(
+                      'تحديث الرمز',
+                      style: TextStyle(
+                        fontFamily: FontFamily.tajawal,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: state.isFormValid && state.isCaptchaValid ? _submitForm : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: state.isFormValid && state.isCaptchaValid
+                          ? AppColors.primary
+                          : Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                    ),
+                    child: Text(
+                      'إرسال السؤال',
+                      style: TextStyle(
+                        fontFamily: FontFamily.tajawal,
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

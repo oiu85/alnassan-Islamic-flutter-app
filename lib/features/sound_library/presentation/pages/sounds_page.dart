@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
@@ -83,28 +83,28 @@ class _SoundsPageState extends State<SoundsPage> {
         // Main Content
         SliverToBoxAdapter(
           child: Container(
-            padding: EdgeInsets.only(right: 10.sp),
+            padding: EdgeInsets.only(right: 10.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Title with loading indicator
                 Padding(
-                  padding:  EdgeInsets.only(right: 15.0.sp,left: 15.sp, top: 32.sp, bottom: 30.sp),
+                  padding:  EdgeInsets.only(right: 15.0.w,left: 15.w, top: 32.h, bottom: 30.h),
                   child: Row(
                     children: [
                       Text(
                         "المكتبة الصوتية",
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 20,
+                          fontSize: 20.f,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       if (state.status.isLoading()) ...[
-                        const SizedBox(width: 10),
+                        SizedBox(width: 10.w),
                         SizedBox(
-                          width: 20,
-                          height: 20,
+                          width: 20.w,
+                          height: 20.h,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
                             valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
@@ -129,7 +129,7 @@ class _SoundsPageState extends State<SoundsPage> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 if (bloc.shouldShowSelectedCategory())
                   _buildSelectedCategory(context, state, bloc)
@@ -151,7 +151,7 @@ class _SoundsPageState extends State<SoundsPage> {
         // Direct sounds section
         if (bloc.shouldShowDirectSounds()) ...[
           _buildDirectSoundsSection(context, state, bloc),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
         ],
 
         // Subcategories section
@@ -178,7 +178,7 @@ class _SoundsPageState extends State<SoundsPage> {
                 state.selectedLevel1Category?.catTitle ?? "الأصوات المباشرة",
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 18,
+                  fontSize: 18.f,
                   fontWeight: FontWeight.w600,
                   color: AppColors.black.withValues(alpha: 0.8),
                 ),
@@ -191,7 +191,7 @@ class _SoundsPageState extends State<SoundsPage> {
                     "الكل",
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: 12,
+                      fontSize: 12.f,
                       fontWeight: FontWeight.w600,
                       color: AppColors.black,
                     ),
@@ -200,7 +200,7 @@ class _SoundsPageState extends State<SoundsPage> {
             ],
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -213,7 +213,7 @@ class _SoundsPageState extends State<SoundsPage> {
                 .toList(),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
       ],
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../data/model/search_article_model.dart';
@@ -18,27 +18,27 @@ class SearchArticleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(16),
-        vertical: ScreenUtil().setHeight(8),
+        horizontal: 16.w,
+        vertical: 8.h,
       ),
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
+        borderRadius: BorderRadius.circular(12.r),
         child: Padding(
-          padding: EdgeInsets.all(ScreenUtil().setWidth(16)),
+          padding: EdgeInsets.all(16.w),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Article Image
               Container(
-                width: ScreenUtil().setWidth(80),
-                height: ScreenUtil().setHeight(80),
+                width: 80.w,
+                height: 80.h,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(ScreenUtil().setWidth(8)),
+                  borderRadius: BorderRadius.circular(8.r),
                   image: article.image.startsWith('http')
                       ? DecorationImage(
                           image: NetworkImage(article.image),
@@ -56,17 +56,17 @@ class SearchArticleCard extends StatelessWidget {
                     ? Container(
                         decoration: BoxDecoration(
                           color: AppColors.grey.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(8)),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Icon(
                           Icons.article_outlined,
                           color: AppColors.grey,
-                          size: ScreenUtil().setWidth(32),
+                          size: 32.f,
                         ),
                       )
                     : null,
               ),
-              SizedBox(width: ScreenUtil().setWidth(12)),
+              SizedBox(width: 12.w),
               // Article Content
               Expanded(
                 child: Column(
@@ -77,7 +77,7 @@ class SearchArticleCard extends StatelessWidget {
                       article.title,
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: ScreenUtil().setSp(16),
+                        fontSize: 16.f,
                         fontWeight: FontWeight.bold,
                         color: AppColors.black,
                         height: 1.3,
@@ -85,56 +85,56 @@ class SearchArticleCard extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: ScreenUtil().setHeight(8)),
+                    SizedBox(height: 8.h),
                     // Summary
                     Text(
                       article.summary,
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: ScreenUtil().setSp(14),
+                        fontSize: 14.f,
                         color: AppColors.grey,
                         height: 1.4,
                       ),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: ScreenUtil().setHeight(12)),
+                    SizedBox(height: 12.h),
                     // Category and Date
                     Row(
                       children: [
                         // Category
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(8),
-                            vertical: ScreenUtil().setHeight(4),
+                            horizontal: 8.w,
+                            vertical: 4.h,
                           ),
                           decoration: BoxDecoration(
                             color: AppColors.primary.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(ScreenUtil().setWidth(12)),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: Text(
                             article.category,
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: ScreenUtil().setSp(12),
+                              fontSize: 12.f,
                               color: AppColors.primary,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
-                        SizedBox(width: ScreenUtil().setWidth(8)),
+                        SizedBox(width: 8.w),
                         // Date
                         Icon(
                           Icons.calendar_today,
-                          size: ScreenUtil().setWidth(16),
+                          size: 16.f,
                           color: AppColors.grey,
                         ),
-                        SizedBox(width: ScreenUtil().setWidth(4)),
+                        SizedBox(width: 4.w),
                         Text(
                           _formatDate(article.date),
                           style: TextStyle(
                             fontFamily: FontFamily.tajawal,
-                            fontSize: ScreenUtil().setSp(12),
+                            fontSize: 12.f,
                             color: AppColors.grey,
                           ),
                         ),
@@ -146,7 +146,7 @@ class SearchArticleCard extends StatelessWidget {
               // Arrow Icon
               Icon(
                 Icons.arrow_forward_ios,
-                size: ScreenUtil().setWidth(16),
+                size: 16.f,
                 color: AppColors.grey,
               ),
             ],

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
 import 'package:nassan_app/core/responsive/responsive_builder.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import '../../../../config/appconfig/app_colors.dart';
-import '../../../../core/responsive/responsive_scaling.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
@@ -75,7 +75,7 @@ class HabibMustafa extends StatelessWidget {
                 onRetry: () => context.read<HabibMustafaBloc>().add(
                   const FetchHabibMustafaDataEvent(),
                 ),
-                animationSize: 200,
+                animationSize: 200.w,
               );
             },
           ),
@@ -110,7 +110,7 @@ class HabibMustafa extends StatelessWidget {
           key: PageStorageKey("lessons_list"),
           children: [
             Container(
-              padding: EdgeInsets.only(right: 20),
+              padding: EdgeInsets.only(right: 20.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,18 +121,18 @@ class HabibMustafa extends StatelessWidget {
                       children: [
                         // Sub-category title with "الكل" button
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 14,),
+                          padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 14.w,),
                           width: double.infinity,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
                                 child: SizedBox(
-                                  height: 30,
+                                  height: 30.h,
                                   child: Marquee(
                                     text: subCategory.catTitle ?? "عنوان غير محدد",
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.f,
                                       fontFamily: FontFamily.tajawal,
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.black,
@@ -165,7 +165,7 @@ class HabibMustafa extends StatelessWidget {
                                 child: Text(
                                   "الكل",
                                   style: TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 25.f,
                                     fontFamily: FontFamily.tajawal,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
@@ -189,7 +189,7 @@ class HabibMustafa extends StatelessWidget {
                             }).toList(),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 20.h),
                         // Space between sub-categories
                       ],
                     );
@@ -198,7 +198,7 @@ class HabibMustafa extends StatelessWidget {
                   if (state.status.isLoadingMore() &&
                       state.subCategories.isNotEmpty)
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(16.w),
                       child: Center(
                         child: Column(
                           children: [
@@ -207,7 +207,7 @@ class HabibMustafa extends StatelessWidget {
                                 AppColors.primary,
                               ),
                             ),
-                            SizedBox(height: 8),
+                            SizedBox(height: 8.h),
                             Text(
                               'جاري تحميل المزيد...',
                               style: TextStyle(
@@ -234,8 +234,8 @@ Widget cardBuild({
   required HabibArticle article,
 }) {
   return Container(
-    width: 190,
-    margin: EdgeInsets.only(right: 12),
+    width: 190.w,
+    margin: EdgeInsets.only(right: 12.w),
     child: Card(
       color: Colors.white,
       child: Column(
@@ -243,78 +243,78 @@ Widget cardBuild({
         children: [
           //Fixed height container for image stack
           Container(
-            height: 120, //Fixed height for image area
+            height: 120.h, //Fixed height for image area
             child: Stack(
               clipBehavior: Clip.antiAlias,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 4),
+                  padding: EdgeInsets.only(top: 4.h),
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: Image.asset(
                       Assets.images.mohhamed.path,
                       fit: BoxFit.cover,
-                      width: 50,
-                      height: 50,
+                      width: 50.w,
+                      height: 50.h,
                     ),
                   ),
                 ),
                 Positioned(
-                  left: -10,
+                  left: (-10).w,
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Image.asset(
                       Assets.images.candleBig.path,
                       fit: BoxFit.contain,
-                      width: 50,
-                      height: 80,
+                      width: 50.w,
+                      height: 80.h,
                     ),
                   ),
                 ),
                 Positioned(
-                  left: -4,
+                  left: (-4).w,
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Image.asset(
                       Assets.images.candleSmall.path,
                       fit: BoxFit.contain,
-                      width: 60,
-                      height: 60,
+                      width: 60.w,
+                      height: 60.h,
                     ),
                   ),
                 ),
                 Positioned(
-                  right: -10,
+                  right: (-10).w,
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Image.asset(
                       Assets.images.candleBig.path,
                       fit: BoxFit.contain,
-                      width: 50,
-                      height: 80,
+                      width: 50.w,
+                      height: 80.h,
                     ),
                   ),
                 ),
                 Positioned(
-                  right: -4,
+                  right: (-4).w,
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Image.asset(
                       Assets.images.candleSmall.path,
                       fit: BoxFit.contain,
-                      width: 60,
-                      height: 60,
+                      width: 60.w,
+                      height: 60.h,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 40),
+                  padding: EdgeInsets.only(top: 40.h),
                   child: Center(
                     child: Text(
                       "فضيلة الشيخ",
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 13,
+                        fontSize: 13.f,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
                       ),
@@ -335,11 +335,11 @@ Widget cardBuild({
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: EdgeInsets.only(right: 8.w),
                     child: Text(
                       "الدرس:",
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: 13.f,
                         fontFamily: FontFamily.tajawal,
                         color: AppColors.grey,
                         fontWeight: FontWeight.bold,
@@ -352,7 +352,7 @@ Widget cardBuild({
                       Text(
                         article.articleVisitor ?? "0",
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 12.f,
                           fontFamily: FontFamily.tajawal,
                           color: AppColors.grey,
                         ),
@@ -360,7 +360,7 @@ Widget cardBuild({
                       IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.remove_red_eye_outlined),
-                        iconSize: 22,
+                        iconSize: 22.f,
                         color: AppColors.grey,
                       ),
                     ],
@@ -368,11 +368,11 @@ Widget cardBuild({
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
                 child: Text(
                   article.articleTitle ?? "لا يوجد عنوان",
                   style: TextStyle(
-                    fontSize: ResponsiveScaling.scale(context, 12),
+                    fontSize: 12.f,
                     fontFamily: FontFamily.tajawal,
                     color: AppColors.grey,
                   ),
@@ -380,14 +380,14 @@ Widget cardBuild({
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              SizedBox(height: 20), // Add space between lesson title and button
+              SizedBox(height: 20.h), // Add space between lesson title and button
               GestureDetector(
                 onTap: () => _navigateToArticle(context, article),
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 16),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  margin: EdgeInsets.only(bottom: 16.h),
+                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(80),
+                    borderRadius: BorderRadius.circular(80.r),
                     color: AppColors.primary,
                   ),
                   child: Text(

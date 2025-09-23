@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../config/appconfig/app_colors.dart';
 
@@ -26,12 +26,12 @@ class FatwaCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(4),
-        vertical: ScreenUtil().setHeight(8),
+        horizontal: 4.w,
+        vertical: 8.h,
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(20),
-        vertical: ScreenUtil().setHeight(20),
+        horizontal: 20.w,
+        vertical: 20.h,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -50,13 +50,13 @@ class FatwaCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildCategoryBadge(context),
-          SizedBox(height: ScreenUtil().setHeight(12)),
+          SizedBox(height: 12.h),
           _buildQuestionLabel(context),
-          SizedBox(height: ScreenUtil().setHeight(8)),
+          SizedBox(height: 8.h),
           _buildQuestionText(context),
-          SizedBox(height: ScreenUtil().setHeight(12)),
+          SizedBox(height: 12.h),
           _buildStatsRow(context),
-          SizedBox(height: ScreenUtil().setHeight(12)),
+          SizedBox(height: 12.h),
           _buildActionButton(context),
         ],
       ),
@@ -66,8 +66,8 @@ class FatwaCardWidget extends StatelessWidget {
   Widget _buildCategoryBadge(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(8),
-        vertical: ScreenUtil().setHeight(4),
+        horizontal: 8.w,
+        vertical: 4.h,
       ),
       decoration: BoxDecoration(
         color: AppColors.primary.withOpacity(0.1),
@@ -78,16 +78,16 @@ class FatwaCardWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.lightbulb_outline,
-            size: ScreenUtil().setWidth(14),
+            size: 14.f,
             color: AppColors.primary,
           ),
-          SizedBox(width: ScreenUtil().setWidth(4)),
+          SizedBox(width: 4.w),
           Text(
             category,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontFamily: FontFamily.tajawal,
-              fontSize: ScreenUtil().setSp(12),
+              fontSize: 12.f,
               color: AppColors.primary,
             ),
           ),
@@ -99,8 +99,8 @@ class FatwaCardWidget extends StatelessWidget {
   Widget _buildQuestionLabel(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(8),
-        vertical: ScreenUtil().setHeight(2),
+        horizontal: 8.w,
+        vertical: 2.h,
       ),
       decoration: BoxDecoration(
         color: AppColors.primary,
@@ -112,7 +112,7 @@ class FatwaCardWidget extends StatelessWidget {
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontFamily: FontFamily.tajawal,
-          fontSize: ScreenUtil().setSp(12),
+          fontSize: 12.f,
         ),
       ),
     );
@@ -122,12 +122,10 @@ class FatwaCardWidget extends StatelessWidget {
     return Text(
       question,
       style: TextStyle(
-        fontSize: ScreenUtil().setSp(
-          context.deviceValue(
-            mobile: 13.0,
-            tablet: 15.0,
-            desktop: 17.0,
-          ),
+        fontSize: context.deviceValue(
+          mobile: 13.0.f,
+          tablet: 15.0.f,
+          desktop: 17.0.f,
         ),
         fontFamily: FontFamily.tajawal,
         height: 1.5,
@@ -142,7 +140,7 @@ class FatwaCardWidget extends StatelessWidget {
         _buildFatwaNumber(context),
         const Spacer(),
         _buildDateChip(context),
-        SizedBox(width: ScreenUtil().setWidth(8)),
+        SizedBox(width: 8.w),
         _buildViewsChip(context),
       ],
     );
@@ -151,8 +149,8 @@ class FatwaCardWidget extends StatelessWidget {
   Widget _buildFatwaNumber(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(8),
-        vertical: ScreenUtil().setHeight(4),
+        horizontal: 8.w,
+        vertical: 4.h,
       ),
       decoration: BoxDecoration(
         color: AppColors.primary.withOpacity(0.1),
@@ -166,7 +164,7 @@ class FatwaCardWidget extends StatelessWidget {
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
               fontWeight: FontWeight.bold,
-              fontSize: ScreenUtil().setSp(12),
+              fontSize: 12.f,
               color: AppColors.primary,
             ),
           ),
@@ -174,7 +172,7 @@ class FatwaCardWidget extends StatelessWidget {
             fatwaNumber,
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: ScreenUtil().setSp(12),
+              fontSize: 12.f,
               fontWeight: FontWeight.w600,
               color: AppColors.primary,
             ),
@@ -187,8 +185,8 @@ class FatwaCardWidget extends StatelessWidget {
   Widget _buildDateChip(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(6),
-        vertical: ScreenUtil().setHeight(4),
+        horizontal: 6.w,
+        vertical: 4.h,
       ),
       decoration: BoxDecoration(
         color: Colors.grey[100],
@@ -199,14 +197,14 @@ class FatwaCardWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.calendar_month_outlined,
-            size: ScreenUtil().setWidth(14),
+            size: 14.f,
             color: Colors.grey[600],
           ),
-          SizedBox(width: ScreenUtil().setWidth(4)),
+          SizedBox(width: 4.w),
           Text(
             date,
             style: TextStyle(
-              fontSize: ScreenUtil().setSp(11),
+              fontSize: 11.f,
               fontFamily: FontFamily.tajawal,
               color: Colors.grey[600],
             ),
@@ -219,8 +217,8 @@ class FatwaCardWidget extends StatelessWidget {
   Widget _buildViewsChip(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: ScreenUtil().setWidth(6),
-        vertical: ScreenUtil().setHeight(4),
+        horizontal: 6.w,
+        vertical: 4.h,
       ),
       decoration: BoxDecoration(
         color: Colors.grey[100],
@@ -231,15 +229,15 @@ class FatwaCardWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.remove_red_eye_outlined,
-            size: ScreenUtil().setWidth(14),
+            size: 14.f,
             color: Colors.grey[600],
           ),
-          SizedBox(width: ScreenUtil().setWidth(4)),
+          SizedBox(width: 4.w),
           Text(
             views,
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: ScreenUtil().setSp(11),
+              fontSize: 11.f,
               color: Colors.grey[600],
             ),
           ),
@@ -255,8 +253,8 @@ class FatwaCardWidget extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(
-          horizontal: ScreenUtil().setWidth(16),
-          vertical: ScreenUtil().setHeight(14),
+          horizontal: 16.w,
+          vertical: 14.h,
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -286,20 +284,18 @@ class FatwaCardWidget extends StatelessWidget {
                 fontFamily: FontFamily.tajawal,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: ScreenUtil().setSp(
-                  context.deviceValue(
-                    mobile: 14.0,
-                    tablet: 16.0,
-                    desktop: 18.0,
-                  ),
+                fontSize: context.deviceValue(
+                  mobile: 14.0.f,
+                  tablet: 16.0.f,
+                  desktop: 18.0.f,
                 ),
               ),
             ),
-            SizedBox(width: ScreenUtil().setWidth(8)),
+            SizedBox(width: 8.w),
             Icon(
               Icons.arrow_forward_ios,
               color: Colors.white,
-              size: ScreenUtil().setWidth(16),
+              size: 16.f,
             ),
           ],
         ),

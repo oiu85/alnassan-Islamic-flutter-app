@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 
 import '../../../../gen/assets.gen.dart';
@@ -20,17 +21,17 @@ class BooksPage extends StatelessWidget {
             child: Row(
               children: [
                 Image.asset(Assets.images.books.path),
-                SizedBox(width:  10,),
+                SizedBox(width: 10.w),
                 Column(
                   children: [
                     Text("book title"), //Todo : add book title
                     Row(
                       children: [
                         Icon(Icons.calendar_month_outlined, color: AppColors.primary,),
-                        SizedBox(width: 3,),
+                        SizedBox(width: 3.w),
                         Text("date"), //Todo : add date
                         Icon(Icons.remove_red_eye, color: AppColors.primary,),
-                        SizedBox(width: 3,),
+                        SizedBox(width: 3.w),
                         Text("views"), //Todo : add views
                       ],
                     ),

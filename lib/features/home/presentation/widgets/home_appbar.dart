@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/shared/wdigets/app_drawer.dart';
 
 class HomeAppbar extends StatelessWidget {
   const HomeAppbar({super.key});
 
-  // Helper method for font sizes
-  // Helper methods for responsive sizing
-  double _fontSize(double size) => ScreenUtil().setSp(size);
-  double _width(double size) => ScreenUtil().setWidth(size);
-  double _height(double size) => ScreenUtil().setHeight(size);
-  double _radius(double size) => ScreenUtil().radius(size);
+  // Using extension methods for easier access
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +15,8 @@ class HomeAppbar extends StatelessWidget {
         Builder(
           builder: (BuildContext context) {
             return IconButton(
-              padding: EdgeInsets.symmetric(horizontal: _width(14)),
-              icon: Icon(Icons.menu, size: ScreenUtil().setSp(30)),
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              icon: Icon(Icons.menu, size: 30.f),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -29,7 +25,7 @@ class HomeAppbar extends StatelessWidget {
         ),
         IconButton(
           onPressed: () {},
-          icon: Icon(Icons.notifications_outlined, size: ScreenUtil().setSp(30)),
+          icon: Icon(Icons.notifications_outlined, size: 30.f),
         ),
         Drawer(
           child: AppDrawer(),

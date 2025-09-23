@@ -112,10 +112,19 @@ class SearchInfoModel {
 
   factory SearchInfoModel.fromJson(Map<String, dynamic> json) {
     return SearchInfoModel(
-      query: json['query'] as String,
-      typeFilter: json['type_filter'] as String,
-      resultsPerType: json['results_per_type'] as int,
+      query: json['query'] as String? ?? '',
+      typeFilter: json['type_filter'] as String? ?? '',
+      resultsPerType: _parseInt(json['results_per_type']),
     );
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is String) {
+      return int.tryParse(value) ?? 0;
+    }
+    return 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -142,10 +151,10 @@ class SearchResponseInfoModel {
 
   factory SearchResponseInfoModel.fromJson(Map<String, dynamic> json) {
     return SearchResponseInfoModel(
-      timestamp: json['timestamp'] as String,
-      apiVersion: json['api_version'] as String,
-      endpoint: json['endpoint'] as String,
-      contentType: json['content_type'] as String,
+      timestamp: json['timestamp'] as String? ?? '',
+      apiVersion: json['api_version'] as String? ?? '',
+      endpoint: json['endpoint'] as String? ?? '',
+      contentType: json['content_type'] as String? ?? '',
     );
   }
 

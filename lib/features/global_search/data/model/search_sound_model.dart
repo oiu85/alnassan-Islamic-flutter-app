@@ -33,7 +33,7 @@ class SearchSoundModel {
     final plays = playsValue is int ? playsValue.toString() : playsValue as String? ?? '0';
     
     return SearchSoundModel(
-      id: json['id'] as int? ?? 0,
+      id: _parseInt(json['id']),
       title: cleanTitle,
       summary: json['summary'] as String? ?? '',
       image: json['image'] as String? ?? '',
@@ -44,6 +44,15 @@ class SearchSoundModel {
       type: json['type'] as String? ?? 'sound',
       url: json['url'] as String? ?? '',
     );
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is String) {
+      return int.tryParse(value) ?? 0;
+    }
+    return 0;
   }
 
   /// Parse and clean the sound title to remove HTML entities and format properly

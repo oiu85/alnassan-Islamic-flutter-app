@@ -9,6 +9,8 @@ import 'core/responsive/device_type.dart';
 import 'core/navigation/bloc/shared_bloc.dart';
 import 'features/biography/presentation/bloc/biography_bloc.dart';
 import 'features/sound_library/presentation/bloc/sound_library_bloc.dart';
+import 'features/advisory_fatwa/presentation/bloc/advisory_bloc.dart';
+import 'features/global_search/presentation/bloc/global_search_bloc.dart';
 import 'features/splash_screen/presentation/pages/splash_screen.dart';
 
 void main() {
@@ -40,6 +42,12 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider<SoundLibraryBloc>(
               create: (context) => getIt<SoundLibraryBloc>(),
+            ),
+            BlocProvider<AdvisoryBloc>(
+              create: (context) => getIt<AdvisoryBloc>(),
+            ),
+            BlocProvider<GlobalSearchBloc>(
+              create: (context) => getIt<GlobalSearchBloc>(),
             ),
           ],
           child: MaterialApp(

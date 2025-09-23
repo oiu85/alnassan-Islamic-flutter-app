@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
 import '../widgets/compact_audio_player.dart';
@@ -54,32 +55,32 @@ class _SoundCardState extends State<SoundCard> {
           child: GestureDetector(
             onTap: () => _navigateToMusicPlayer(context),
             child: Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r)),
             color: Colors.white,
             child: Container(
-        width: widget.width ?? 200,
-        height: widget.height ?? 144,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        width: widget.width ?? 200.w,
+        height: widget.height ?? 144.h,
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             // Fixed height title section
             SizedBox(
-              height: 40,
+              height: 40.h,
               child: Row(
                 children: [
                   Image.asset(
                     Assets.images.headphone.path,
-                    width: 20,
-                    height: 20,
+                    width: 20.w,
+                    height: 20.h,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
                       widget.sound.soundTitle,
-                      style: const TextStyle(
-                        fontSize: 12,
+                      style:  TextStyle(
+                        fontSize: 12.f,
                         fontWeight: FontWeight.w600,
                         color: AppColors.black,
                       ),
@@ -92,32 +93,32 @@ class _SoundCardState extends State<SoundCard> {
             ),
             // Fixed height info section
             Padding(
-              padding: const EdgeInsets.only(right: 4),
+              padding: EdgeInsets.only(right: 4.w),
               child: SizedBox(
-                height: 20,
+                height: 20.h,
                 child: Row(
                   children: [
-                    Icon(Icons.visibility, size: 15, color: AppColors.primary),
-                    const SizedBox(width: 4),
+                    Icon(Icons.visibility, size: 15.f, color: AppColors.primary),
+                    SizedBox(width: 4.w),
                     Text(
                       widget.sound.soundVisitor ?? '0',
-                      style: const TextStyle(
-                        fontSize: 11,
+                      style:  TextStyle(
+                        fontSize: 11.f,
                         color: AppColors.grey,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Icon(
                       Icons.access_time,
-                      size: 14,
+                      size: 14.f,
                       color: AppColors.primary,
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4.w),
                     Expanded(
                       child: Text(
                         _formatDate(widget.sound.soundDate),
-                        style: const TextStyle(
-                          fontSize: 11,
+                        style:  TextStyle(
+                          fontSize: 11.f,
                           color: AppColors.grey,
                         ),
                         maxLines: 1,
@@ -128,10 +129,10 @@ class _SoundCardState extends State<SoundCard> {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             // Fixed height audio player section
             SizedBox(
-              height: 30,
+              height: 30.h,
               child: _cachedUrl.isNotEmpty
                   ? CompactAudioPlayer(
                       soundId: widget.sound.soundId.toString(),
@@ -142,11 +143,11 @@ class _SoundCardState extends State<SoundCard> {
                   : Center(
                     child: widget.sound.soundFile != null && widget.sound.soundFile!.toLowerCase().endsWith('.rar')
                         ? audioState.isFileDownloading
-                            ? const SizedBox(
-                                width: 20,
-                                height: 20,
+                            ?  SizedBox(
+                                width: 20.w,
+                                height: 20.h,
                                 child: CircularProgressIndicator(
-                                  strokeWidth: 2,
+                                  strokeWidth: 2.w,
                                   valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
                                 ),
                               )
@@ -161,33 +162,33 @@ class _SoundCardState extends State<SoundCard> {
                                     ),
                                   );
                                 },
-                            icon: const Icon(
+                            icon:  Icon(
                               Icons.download,
-                              size: 16,
+                              size: 16.f,
                               color: Colors.white,
                             ),
-                            label: const Text(
+                            label:  Text(
                               'تحميل',
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 12.f,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                               minimumSize: Size.zero,
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(12.r),
                               ),
                             ),
                           )
                         : Text(
                             'لا يوجد ملف صوتي',
-                            style: const TextStyle(
-                              fontSize: 12,
+                            style:  TextStyle(
+                              fontSize: 12.f,
                               color: AppColors.grey,
                             ),
                           ),

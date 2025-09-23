@@ -35,18 +35,27 @@ class ArticleDetailModel {
     final cleanTitle = _parseAndCleanTitle(rawTitle);
     
     return ArticleDetailModel(
-      id: data['article_id'] as int? ?? data['id'] as int? ?? 0,
+      id: _parseInt(data['article_id'] ?? data['id']),
       title: cleanTitle,
       summary: data['article_summary'] as String? ?? data['summary'] as String? ?? '',
       description: data['article_des'] as String? ?? data['description'] as String? ?? '',
       image: data['article_pic'] as String? ?? data['image'] as String? ?? '',
       date: data['article_date'] as String? ?? data['date'] as String? ?? '',
-      categoryId: category['cat_id'] as int? ?? category['id'] as int? ?? 0,
+      categoryId: _parseInt(category['cat_id'] ?? category['id']),
       categoryName: category['cat_title'] as String? ?? category['name'] as String? ?? '',
       categoryDescription: category['cat_des'] as String? ?? category['description'] as String? ?? '',
       type: data['type'] as String? ?? 'article',
       url: data['url'] as String? ?? '',
     );
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is String) {
+      return int.tryParse(value) ?? 0;
+    }
+    return 0;
   }
 
   /// Parse and clean the article title to remove HTML entities and format properly

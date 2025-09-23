@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/responsive/responsive_builder.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -31,10 +31,8 @@ class CategoryLessonsPage extends StatefulWidget {
 }
 
 class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
-  // Helper methods for responsive sizing
-  double _fontSize(double size) => ScreenUtil().setSp(size);
-  double _width(double size) => ScreenUtil().setWidth(size);
-  double _height(double size) => ScreenUtil().setHeight(size);
+  // Using extension methods for easier access
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
   @override
   Widget build(BuildContext context) {
@@ -115,18 +113,18 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
         slivers: [
           SliverToBoxAdapter(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: _width(12), vertical: _height(30)),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 30.h),
               child: Row(
                 children: [
                   Text(
                     widget.categoryTitle,
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: _fontSize(20),
+                      fontSize: 20.f,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: _width(8)),
+                  SizedBox(width: 8.w),
                   // Filter button for pagination
                   context.read<LessonBloc>().buildFilterButton(
                     context: context,
@@ -139,7 +137,7 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
           ),
           // Articles grid
           SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: _width(20)),
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
             sliver: SliverGrid(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: context.deviceValue(
@@ -152,8 +150,8 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
                   tablet: 0.8,
                   desktop: 0.9,
                 ),
-                crossAxisSpacing: _width(10),
-                mainAxisSpacing: _height(10),
+                crossAxisSpacing: 10.w,
+                mainAxisSpacing: 10.h,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
@@ -170,10 +168,10 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
                     title: 'فضيلة الشيخ',
                     imagePath: Assets.images.backgroundZh.path,
                     imageNamePath: Assets.images.nassanName.path,
-                    width: _width(161),
-                    height: _height(236),
-                    imageWidth: _width(100),
-                    imageHeight: _height(100),
+                    width: 161.w,
+                    height: 236.h,
+                    imageWidth: 100.w,
+                    imageHeight: 100.h,
                     context: context,
                     isLoading: isLoading,
                     onTap: () {

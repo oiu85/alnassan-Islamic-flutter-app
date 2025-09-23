@@ -9,7 +9,8 @@ import '../../features/biographies_and_hadiths/di/injection.dart';
 import '../../features/hadith_almawduea/di/injection.dart';
 import '../../features/lesson/di/injection.dart';
 import '../../features/advisory_fatwa/di/injection.dart';
-import '../../features/contact_us/di/injection.dart';
+import '../../features/contact_us/di/contact_injection.dart';
+import '../../features/global_search/di/injection.dart';
 
 /// Global GetIt instance
 final GetIt getIt = GetIt.instance;
@@ -28,5 +29,6 @@ void setupAppDependencies() {
   registerSoundLibraryDependencies(getIt);
   registerVideoLibraryDependencies(getIt);
   registerAdvisoryFatwaDependencies(getIt);
-  registerContactUsDependencies(getIt);
+  registerContactDependencies(getIt);
+  registerGlobalSearchDependencies(getIt);
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
@@ -86,14 +86,12 @@ class _CategoriesSectionWidgetState extends State<CategoriesSectionWidget> {
 
   Widget _buildLoadingState(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(
-        context.deviceValue(mobile: 100, tablet: 120, desktop: 140),
-      ),
+      height: context.deviceValue(mobile: 100.h, tablet: 120.h, desktop: 140.h),
       child: Center(
         child: Lottie.asset(
           Assets.lottie.loading,
-          height: ScreenUtil().setHeight(60),
-          width: ScreenUtil().setWidth(60),
+          height: 60.h,
+          width: 60.w,
           fit: BoxFit.contain,
           repeat: true,
         ),
@@ -103,14 +101,12 @@ class _CategoriesSectionWidgetState extends State<CategoriesSectionWidget> {
 
   Widget _buildErrorState(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(
-        context.deviceValue(mobile: 100, tablet: 120, desktop: 140),
-      ),
+      height: context.deviceValue(mobile: 100.h, tablet: 120.h, desktop: 140.h),
       child: Center(
         child: Lottie.asset(
           Assets.lottie.notFound,
-          height: ScreenUtil().setHeight(60),
-          width: ScreenUtil().setWidth(60),
+          height: 60.h,
+          width: 60.w,
           fit: BoxFit.contain,
           repeat: true,
         ),
@@ -120,14 +116,12 @@ class _CategoriesSectionWidgetState extends State<CategoriesSectionWidget> {
 
   Widget _buildEmptyState(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(
-        context.deviceValue(mobile: 100, tablet: 120, desktop: 140),
-      ),
+      height: context.deviceValue(mobile: 100.h, tablet: 120.h, desktop: 140.h),
       child: Center(
         child: Lottie.asset(
           Assets.lottie.noData,
-          height: ScreenUtil().setHeight(60),
-          width: ScreenUtil().setWidth(60),
+          height: 60.h,
+          width: 60.w,
           fit: BoxFit.contain,
           repeat: true,
         ),
@@ -153,13 +147,9 @@ class _CategoriesSectionWidgetState extends State<CategoriesSectionWidget> {
 
   Widget _buildCategoryCard(BuildContext context, category) {
     return Container(
-      margin: EdgeInsets.only(left: ScreenUtil().setWidth(8)),
-      height: ScreenUtil().setHeight(
-        context.deviceValue(mobile: 100, tablet: 120, desktop: 140),
-      ),
-      width: ScreenUtil().setWidth(
-        context.deviceValue(mobile: 120, tablet: 140, desktop: 160),
-      ),
+      margin: EdgeInsets.only(left: 8.w),
+      height: context.deviceValue(mobile: 100.h, tablet: 120.h, desktop: 140.h),
+      width: context.deviceValue(mobile: 120.w, tablet: 140.w, desktop: 160.w),
       child: Card(
         elevation: 0,
         color: AppColors.secondary.withOpacity(0.8),
@@ -183,8 +173,8 @@ class _CategoriesSectionWidgetState extends State<CategoriesSectionWidget> {
                   ),
                   child: Image.asset(
                     Assets.images.circulerZh.path,
-                    width: ScreenUtil().setWidth(40),
-                    height: ScreenUtil().setHeight(40),
+                    width: 40.w,
+                    height: 40.h,
                   ),
                 ),
               ),
@@ -196,26 +186,24 @@ class _CategoriesSectionWidgetState extends State<CategoriesSectionWidget> {
                   ),
                   child: Image.asset(
                     Assets.images.circulerZh.path,
-                    width: ScreenUtil().setWidth(40),
-                    height: ScreenUtil().setHeight(40),
+                    width: 40.w,
+                    height: 40.h,
                   ),
                 ),
               ),
               Align(
                 alignment: const Alignment(-0.5, 0.2),
                 child: Padding(
-                  padding: EdgeInsets.all(ScreenUtil().setWidth(8)),
+                  padding: EdgeInsets.all(8.w),
                   child: Text(
                     category.catTitle ?? 'قسم',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: ScreenUtil().setSp(
-                        context.deviceValue(
-                          mobile: 12.0,
-                          tablet: 14.0,
-                          desktop: 16.0,
-                        ),
+                      fontSize: context.deviceValue(
+                        mobile: 12.0.f,
+                        tablet: 14.0.f,
+                        desktop: 16.0.f,
                       ),
                     ),
                     maxLines: 3,
@@ -232,16 +220,14 @@ class _CategoriesSectionWidgetState extends State<CategoriesSectionWidget> {
 
   Widget _buildLoadingMoreIndicator(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: ScreenUtil().setWidth(8)),
-      height: ScreenUtil().setHeight(
-        context.deviceValue(mobile: 100, tablet: 120, desktop: 140),
-      ),
-      width: ScreenUtil().setWidth(60),
+      margin: EdgeInsets.only(left: 8.w),
+      height: context.deviceValue(mobile: 100.h, tablet: 120.h, desktop: 140.h),
+      width: 60.w,
       child: Center(
         child: Lottie.asset(
           Assets.lottie.loading,
-          height: ScreenUtil().setHeight(40),
-          width: ScreenUtil().setWidth(40),
+          height: 40.h,
+          width: 40.w,
           fit: BoxFit.contain,
           repeat: true,
         ),

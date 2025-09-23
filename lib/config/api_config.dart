@@ -208,12 +208,13 @@ class ApiConfig {
   /// Get popular advisories
   static const String getPopularAdvisories = '$baseUrl/public/advisories/popular';
 
-  /// Submit advisory question
-  static const String submitAdvisoryUrl = '$baseUrl/public/advisories';
-
   // ===== CONTACT US ENDPOINTS =====
   /// Contact us form submission endpoint
   static const String contactUsUrl = '$baseUrl/public/contact';
+
+  // ===== ADVISORY ENDPOINTS =====
+  /// Submit advisory question endpoint
+  static const String submitAdvisoryUrl = '$baseUrl/public/advisories';
 
   // ===== LEGACY ENDPOINTS (for backward compatibility) =====
   @Deprecated('Use getArticlesByCategory instead')

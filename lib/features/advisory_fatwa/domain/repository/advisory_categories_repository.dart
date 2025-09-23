@@ -11,4 +11,8 @@ abstract class AdvisoryCategoriesRepository {
   Future<Either<String, AdvisoryModel>> getRecentAdvisories();
 
   Future<Either<String, AdvisoryModel>> getPopularAdvisories();
+
+  Future<Either<String, AdvisorySubmissionResponse>> submitAdvisoryQuestion(
+    AdvisorySubmissionRequest request,
+  );
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/responsive_scaling.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 
 import '../../../../core/shared/wdigets/app_drawer.dart';
@@ -99,7 +99,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
     return Scaffold(
       drawer: const Drawer(child: AppDrawer()),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 12),
+        margin: EdgeInsets.symmetric(horizontal: 12.w),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(Assets.images.viewerBackground.path),
@@ -119,7 +119,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                   const FetchWordsOnOccasionsDataEvent(),
                 );
               },
-              animationSize: 200,
+              animationSize: 200.w,
             );
           },
         ),
@@ -147,12 +147,12 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
         ),
         SliverToBoxAdapter(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 30),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 30.h),
             child: Text(
               "كلمات في مناسبات",
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 24,
+                fontSize: 24.f,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -173,9 +173,9 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
         ),
         // Loading indicator for pagination
         if (state.status.isLoadingMore() && state.subCategories.isNotEmpty)
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.w),
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -187,13 +187,13 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
 
   Widget _buildSubCategorySection(BuildContext context, WordsOnOccasionsCategory subCategory) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.only(bottom: 20.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Sub-category title with "الكل" button
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -202,7 +202,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                     subCategory.catTitle ?? "كلمات في مناسبات",
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: 18,
+                      fontSize: 18.f,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
                     ),
@@ -224,7 +224,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                   child: Text(
                     "الكل",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 20.f,
                       fontFamily: FontFamily.tajawal,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -243,7 +243,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
               }).toList(),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 20.h),
         ],
       ),
     );
@@ -251,8 +251,8 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
 
   Widget _buildArticleCard(BuildContext context, WordsOnOccasionsArticle article) {
     return Container(
-      width: 190,
-      margin: EdgeInsets.only(right: 12),
+      width: 190.w,
+      margin: EdgeInsets.only(right: 12.w),
       child: Card(
         color: Colors.white,
         child: Column(
@@ -260,78 +260,78 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
           children: [
             // Fixed height container for image stack
             Container(
-              height: 120, // Fixed height for image area
+              height: 120.h, // Fixed height for image area
               child: Stack(
                 clipBehavior: Clip.antiAlias,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 4),
+                    padding: EdgeInsets.only(top: 4.h),
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: Image.asset(
                         Assets.images.mohhamed.path,
                         fit: BoxFit.cover,
-                        width: 50,
-                        height: 50,
+                        width: 50.w,
+                        height: 50.h,
                       ),
                     ),
                   ),
                   Positioned(
-                    left: -10,
+                    left: (-10).w,
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Image.asset(
                         Assets.images.candleBig.path,
                         fit: BoxFit.contain,
-                        width: 50,
-                        height: 80,
+                        width: 50.w,
+                        height: 80.h,
                       ),
                     ),
                   ),
                   Positioned(
-                    left: -4,
+                    left: (-4).w,
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Image.asset(
                         Assets.images.candleSmall.path,
                         fit: BoxFit.contain,
-                        width: 60,
-                        height: 60,
+                        width: 60.w,
+                        height: 60.h,
                       ),
                     ),
                   ),
                   Positioned(
-                    right: -10,
+                    right: (-10).w,
                     child: Align(
                       alignment: Alignment.topRight,
                       child: Image.asset(
                         Assets.images.candleBig.path,
                         fit: BoxFit.contain,
-                        width: 50,
-                        height: 80,
+                        width: 50.w,
+                        height: 80.h,
                       ),
                     ),
                   ),
                   Positioned(
-                    right: -4,
+                    right: (-4).w,
                     child: Align(
                       alignment: Alignment.topRight,
                       child: Image.asset(
                         Assets.images.candleSmall.path,
                         fit: BoxFit.contain,
-                        width: 60,
-                        height: 60,
+                        width: 60.w,
+                        height: 60.h,
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 40),
+                    padding: EdgeInsets.only(top: 40.h),
                     child: Center(
                       child: Text(
                         "فضيلة الشيخ",
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 13,
+                          fontSize: 13.f,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
                         ),
@@ -352,11 +352,11 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
+                      padding: EdgeInsets.only(right: 8.w),
                       child: Text(
                         "الكلمة:",
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 13.f,
                           fontFamily: FontFamily.tajawal,
                           color: AppColors.grey,
                           fontWeight: FontWeight.bold,
@@ -369,7 +369,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                         Text(
                           article.articleVisitor ?? "0",
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 12.f,
                             fontFamily: FontFamily.tajawal,
                             color: AppColors.grey,
                           ),
@@ -377,7 +377,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                         IconButton(
                           onPressed: () {},
                           icon: Icon(Icons.remove_red_eye_outlined),
-                          iconSize: 22,
+                          iconSize: 22.f,
                           color: AppColors.grey,
                         ),
                       ],
@@ -385,11 +385,11 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
                   child: Text(
                     article.articleTitle ?? "لا يوجد عنوان",
                     style: TextStyle(
-                      fontSize: ResponsiveScaling.scale(context, 12),
+                      fontSize: 12.f,
                       fontFamily: FontFamily.tajawal,
                       color: AppColors.grey,
                     ),
@@ -397,14 +397,14 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                SizedBox(height: 20), // Add space between lesson title and button
+                SizedBox(height: 20.h), // Add space between lesson title and button
                 GestureDetector(
                   onTap: _loadingArticleId == article.articleId ? null : () => _onArticleCardClick(context, article),
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 16),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    margin: EdgeInsets.only(bottom: 16.h),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(80),
+                      borderRadius: BorderRadius.circular(80.r),
                       color: _loadingArticleId == article.articleId 
                           ? AppColors.primary.withOpacity(0.7)
                           : AppColors.primary,
@@ -414,21 +414,21 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                width: 16,
-                                height: 16,
+                                width: 16.w,
+                                height: 16.h,
                                 child: CircularProgressIndicator(
-                                  strokeWidth: 2,
+                                  strokeWidth: 2.w,
                                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                 ),
                               ),
-                              SizedBox(width: 8),
+                              SizedBox(width: 8.w),
                               Text(
                                 "جاري التحميل...",
                                 style: TextStyle(
                                   fontFamily: FontFamily.tajawal,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                                  fontSize: 12.f,
                                 ),
                               ),
                             ],

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/di/app_dependencies.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/network/network_client.dart';
 import 'package:nassan_app/features/lesson/presentation/bloc/lesson_bloc.dart';
 import 'package:nassan_app/features/lesson/presentation/pages/lessons_page.dart';
@@ -40,23 +40,21 @@ class ContentCard extends StatelessWidget {
     required this.paddingRight,
   });
   
-  // Helper methods for responsive sizing
-  double _fontSize(BuildContext context, double size) => ScreenUtil().setSp(size);
-  double _width(double size) => ScreenUtil().setWidth(size);
-  double _height(double size) => ScreenUtil().setHeight(size);
+  // Using extension methods for easier access
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: cardColor,
-        borderRadius: BorderRadius.circular(23)
+        borderRadius: BorderRadius.circular(23.r)
       ),
       child: Stack(
         fit: StackFit.expand,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.only(bottomRight: Radius.circular(23)),
+            borderRadius: BorderRadius.only(bottomRight: Radius.circular(23.r)),
             child: SvgPicture.asset(
               Assets.svg.cardBackground.path,
               color: waveColor,
@@ -64,23 +62,26 @@ class ContentCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top:  _height(13), left: _width(34), right: _width(12)),
+            padding: EdgeInsets.only(top: 13.h, left: 34.w, right: 12.w),
             child: Text(
               title,
               textAlign: TextAlign.center,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: _fontSize(context, context.deviceValue(
-                  mobile: 14.0,
-                  tablet: 22.0,
-                  desktop: 26.0,
-                )),
+                fontSize: context.deviceValue(
+                  mobile: 14.f,
+                  tablet: 22.f,
+                  desktop: 26.f,
+                ),
               ),
             ),
           ),
           Positioned(
-            top: _height(paddingTop),
-            right: _width(paddingRight),
+            top: paddingTop.h,
+            right: paddingRight.w,
             child: SizedBox(
               width: context.deviceValue(
                 mobile: cardMainImage.width,
@@ -104,9 +105,8 @@ class ContentCard extends StatelessWidget {
 class BottomCards extends StatelessWidget {
   const BottomCards({super.key});
   
-  // Helper methods for responsive sizing
-  double _width(double size) => ScreenUtil().setWidth(size);
-  double _height(double size) => ScreenUtil().setHeight(size);
+  // Using extension methods for easier access
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
   @override
   Widget build(BuildContext context) {
@@ -119,16 +119,16 @@ class BottomCards extends StatelessWidget {
     
     return StaggeredGrid.count(
       crossAxisCount: crossAxisCount,
-      mainAxisSpacing: _height(20),
-      crossAxisSpacing: _width(20),
+      mainAxisSpacing: 20.h,
+      crossAxisSpacing: 20.w,
       children: [
 
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
-            mobile: _height(191),
-            tablet: _height(270),
-            desktop: _height(300),
+            mobile: 191.h,
+            tablet: 270.h,
+            desktop: 300.h,
           ),
           child: InkWell(
             onTap: (){
@@ -137,12 +137,12 @@ class BottomCards extends StatelessWidget {
               ));
             },
             child: ContentCard(
-              paddingRight: ScreenUtil().setWidth(60),
-              paddingTop: ScreenUtil().setHeight(65),
+              paddingRight: 60.w,
+              paddingTop: 65.h,
               cardMainImage: Image.asset(
                 Assets.images.qurane.path,
-                width: ScreenUtil().setWidth(80),
-                height: ScreenUtil().setHeight(80),
+                width: 80.w,
+                height: 80.h,
               ),
               title: "الفتاوى الشرعية",
               cardColor: AppColors.bottomCardColor.withAlpha(70),
@@ -157,9 +157,9 @@ class BottomCards extends StatelessWidget {
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
-            mobile: _height(191),
-            tablet: _height(270),
-            desktop: _height(300),
+            mobile: 191.h,
+            tablet: 270.h,
+            desktop: 300.h,
           ),
           child: InkWell(
             onTap: (){
@@ -172,18 +172,18 @@ class BottomCards extends StatelessWidget {
                 ),
               ));
             },
-              child: ContentCard(
-                paddingRight: ScreenUtil().setWidth(80),
-                paddingTop: ScreenUtil().setHeight(65),
-                cardMainImage: Image.asset(
-                  Assets.images.mousqe.path,
-                  width: ScreenUtil().setWidth(70),
-                  height: ScreenUtil().setHeight(70),
-                ),
-                title: "الخطب والدروس",
-                cardColor: AppColors.bottomCardColor2.withAlpha(125),
-                waveColor: AppColors.waveCardColor2,
+            child: ContentCard(
+              paddingRight: 80.w,
+              paddingTop: 65.h,
+              cardMainImage: Image.asset(
+                Assets.images.mousqe.path,
+                width: 70.w,
+                height: 70.h,
               ),
+              title: "الخطب والدروس",
+              cardColor: AppColors.bottomCardColor2.withAlpha(125),
+              waveColor: AppColors.waveCardColor2,
+            ),
           ),
         ),
 
@@ -194,9 +194,9 @@ class BottomCards extends StatelessWidget {
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
-            mobile: _height(191),
-            tablet: _height(270),
-            desktop: _height(300),
+            mobile: 191.h,
+            tablet: 270.h,
+            desktop: 300.h,
           ),
           child: InkWell(
             onTap: (){
@@ -205,12 +205,12 @@ class BottomCards extends StatelessWidget {
               ));
             },
             child: ContentCard(
-              paddingRight: ScreenUtil().setWidth(79),
-              paddingTop: ScreenUtil().setHeight(65),
+              paddingRight: 79.w,
+              paddingTop: 65.h,
               cardMainImage: Image.asset(
                 Assets.images.tablet.path,
-                width: ScreenUtil().setWidth(70),
-                height: ScreenUtil().setHeight(70),
+                width: 70.w,
+                height: 70.h,
               ),
               title: "المكتبة المرئية",
               cardColor: AppColors.bottomCardColor2.withAlpha(125),
@@ -221,9 +221,9 @@ class BottomCards extends StatelessWidget {
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
-            mobile: _height(191),
-            tablet: _height(270),
-            desktop: _height(300),
+            mobile: 191.h,
+            tablet: 270.h,
+            desktop: 300.h,
           ),
           child: InkWell(
             onTap: (){
@@ -235,12 +235,12 @@ class BottomCards extends StatelessWidget {
               ));
             },
             child: ContentCard(
-              paddingRight: ScreenUtil().setWidth(70),
-              paddingTop: ScreenUtil().setHeight(65),
+              paddingRight: 70.w,
+              paddingTop: 65.h,
               cardMainImage: Image.asset(
                 Assets.images.headphone.path,
-                width: ScreenUtil().setWidth(70),
-                height: ScreenUtil().setHeight(70),
+                width: 70.w,
+                height: 70.h,
               ),
               title: "المكتبة الصوتية",
               cardColor: AppColors.bottomCardColor.withAlpha(75),
@@ -252,9 +252,9 @@ class BottomCards extends StatelessWidget {
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
-            mobile: _height(191),
-            tablet: _height(270),
-            desktop: _height(300),
+            mobile: 191.h,
+            tablet: 270.h,
+            desktop: 300.h,
           ),
           child: InkWell(
             onTap: (){
@@ -268,12 +268,12 @@ class BottomCards extends StatelessWidget {
               ));
             },
             child: ContentCard(
-              paddingRight: ScreenUtil().setWidth(60),
-              paddingTop: ScreenUtil().setHeight(65),
+              paddingRight: 60.w,
+              paddingTop: 65.h,
               cardMainImage: Image.asset(
                 Assets.images.helal.path,
-                width: ScreenUtil().setWidth(80),
-                height: ScreenUtil().setHeight(75),
+                width: 80.w,
+                height: 75.h,
               ),
               title: "كلمات في مناسبات",
               cardColor: AppColors.bottomCardColor.withAlpha(70),
