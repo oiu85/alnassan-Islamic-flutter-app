@@ -125,6 +125,19 @@ class UpdateAudioPositionEvent extends SoundLibraryEvent {
   List<Object?> get props => [soundId, position];
 }
 
+class SeekAudioEvent extends SoundLibraryEvent {
+  final String soundId;
+  final Duration position;
+
+  const SeekAudioEvent({
+    required this.soundId,
+    required this.position,
+  });
+
+  @override
+  List<Object?> get props => [soundId, position];
+}
+
 class UpdateAudioDurationEvent extends SoundLibraryEvent {
   final String soundId;
   final Duration duration;
@@ -177,15 +190,17 @@ class DownloadAudioEvent extends SoundLibraryEvent {
   final String soundId;
   final String audioUrl;
   final String fileName;
+  final String soundTitle;
 
   const DownloadAudioEvent({
     required this.soundId,
     required this.audioUrl,
     required this.fileName,
+    required this.soundTitle,
   });
 
   @override
-  List<Object?> get props => [soundId, audioUrl, fileName];
+  List<Object?> get props => [soundId, audioUrl, fileName, soundTitle];
 }
 
 class ShowDownloadMessageEvent extends SoundLibraryEvent {
@@ -199,4 +214,66 @@ class ShowDownloadMessageEvent extends SoundLibraryEvent {
 
   @override
   List<Object?> get props => [message, isSuccess];
+}
+
+class UpdateDownloadProgressEvent extends SoundLibraryEvent {
+  final String soundId;
+  final double progress;
+  final int downloadedBytes;
+  final int totalBytes;
+
+  const UpdateDownloadProgressEvent({
+    required this.soundId,
+    required this.progress,
+    required this.downloadedBytes,
+    required this.totalBytes,
+  });
+
+  @override
+  List<Object?> get props => [soundId, progress, downloadedBytes, totalBytes];
+}
+
+// MusicPlayer specific events
+class InitializeMusicPlayerEvent extends SoundLibraryEvent {
+  final SoundData sound;
+
+  const InitializeMusicPlayerEvent({required this.sound});
+
+  @override
+  List<Object?> get props => [sound];
+}
+
+class MusicPlayerTogglePlayPauseEvent extends SoundLibraryEvent {
+  final String soundId;
+  final SoundData sound;
+
+  const MusicPlayerTogglePlayPauseEvent({
+    required this.soundId,
+    required this.sound,
+  });
+
+  @override
+  List<Object?> get props => [soundId, sound];
+}
+
+class MusicPlayerSeekEvent extends SoundLibraryEvent {
+  final String soundId;
+  final double progress;
+
+  const MusicPlayerSeekEvent({
+    required this.soundId,
+    required this.progress,
+  });
+
+  @override
+  List<Object?> get props => [soundId, progress];
+}
+
+class MusicPlayerDownloadEvent extends SoundLibraryEvent {
+  final SoundData sound;
+
+  const MusicPlayerDownloadEvent({required this.sound});
+
+  @override
+  List<Object?> get props => [sound];
 }

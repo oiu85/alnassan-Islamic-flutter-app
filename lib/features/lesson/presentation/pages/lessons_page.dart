@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:marquee/marquee.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
@@ -24,8 +23,6 @@ class LessonsPage extends StatefulWidget {
 }
 
 class _LessonsPageState extends State<LessonsPage> {
-  static const List<int> initialCategoryIds = [21, 2, 5];
-  static const int perPage = 2;
   double _fontSize(double size) => ScreenUtil().setSp(size);
   double _width(double size) => ScreenUtil().setWidth(size);
   double _height(double size) => ScreenUtil().setHeight(size);
@@ -36,10 +33,12 @@ class _LessonsPageState extends State<LessonsPage> {
       create: (context) {
         final bloc = getIt<LessonBloc>();
         bloc.add(
-          FetchLessonsEvent(
-            categoryIds: initialCategoryIds,
-            page: 1,
-            perPage: perPage,
+          FetchLessonsSubCategoriesEvent(
+            catMenus: 21,
+            articlesPerPage: 3,
+            categoriesPerPage: 3,
+            articlesPage: 1,
+            categoriesPage: 1,
           ),
         );
         return bloc;
@@ -64,15 +63,17 @@ class _LessonsPageState extends State<LessonsPage> {
           return SimpleLottieHandler(
             blocStatus: state.status,
             successWidget: _buildLessonsContent(context, state),
-            isEmpty: state.status.isSuccess() && state.categories.isEmpty,
+            isEmpty: state.status.isSuccess() && state.subCategories.isEmpty,
             emptyMessage: 'لا توجد دروس متاحة',
             loadingMessage: 'جاري تحميل الدروس...',
             onRetry: () {
               context.read<LessonBloc>().add(
-                FetchLessonsEvent(
-                  categoryIds: initialCategoryIds,
-                  page: 1,
-                  perPage: perPage,
+                FetchLessonsSubCategoriesEvent(
+                  catMenus: 21,
+                  articlesPerPage: 3,
+                  categoriesPerPage: 3,
+                  articlesPage: 1,
+                  categoriesPage: 1,
                 ),
               );
             },
@@ -98,7 +99,7 @@ class _LessonsPageState extends State<LessonsPage> {
                 !state.hasReachedMax &&
                 scrollInfo.metrics.pixels ==
                     scrollInfo.metrics.maxScrollExtent) {
-              context.read<LessonBloc>().add(LoadMoreLessonsEvent());
+              context.read<LessonBloc>().add(LoadMoreLessonsSubCategoriesEvent());
             }
             return false;
           },
@@ -111,9 +112,10 @@ class _LessonsPageState extends State<LessonsPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (state.categories.isNotEmpty)
-                      ...state.categories.map((category) {
-                        final categoryArticles = category.articles ?? [];
+                    // Display sub-categories with their articles
+                    if (state.subCategories.isNotEmpty)
+                      ...state.subCategories.map((category) {
+                        final categoryArticles = category.articles?.data ?? [];
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -199,55 +201,48 @@ class _LessonsPageState extends State<LessonsPage> {
                               ],
                             ),
                             SizedBox(height: _height(3)),
-                            // Display lessons for this category in a grid
+                            // Display lessons for this category in horizontal ListView (3 items)
                             if (categoryArticles.isNotEmpty)
-                              GridView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: context.deviceValue(
-                                        mobile: 2,
-                                        tablet: 3,
-                                        desktop: 4,
+                              SizedBox(
+                                height: _height(236),
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: categoryArticles.length,
+                                  itemBuilder: (context, index) {
+                                    final lesson = categoryArticles[index];
+                                    final isLoading =
+                                        state.articleDetailStatus.isLoading() &&
+                                        state.loadingArticleId ==
+                                            lesson.articleId;
+                                    return Container(
+                                      width: _width(161),
+                                      margin: EdgeInsets.only(
+                                        right: index < categoryArticles.length - 1 ? _width(10) : 0,
                                       ),
-                                      childAspectRatio: context.deviceValue(
-                                        mobile: 0.7,
-                                        tablet: 0.8,
-                                        desktop: 0.9,
+                                      child: lessonCardBuild(
+                                        lesson:
+                                            lesson.articleTitle ??
+                                            'عنوان غير متوفر',
+                                        viewCont: lesson.articleVisitor?.toString() ?? '0',
+                                        title: 'فضيلة الشيخ',
+                                        imagePath: Assets.images.backgroundZh.path,
+                                        imageNamePath:
+                                            Assets.images.nassanName.path,
+                                        width: _width(161),
+                                        height: _height(236),
+                                        imageWidth: _width(100),
+                                        imageHeight: _height(100),
+                                        context: context,
+                                        isLoading: isLoading,
+                                        onTap: () {
+                                          context.read<LessonBloc>().add(
+                                            LessonSubCategoryCardClickEvent(lesson: lesson),
+                                          );
+                                        },
                                       ),
-                                      crossAxisSpacing: _width(10),
-                                      mainAxisSpacing: _height(10),
-                                    ),
-                                itemCount: categoryArticles.length,
-                                itemBuilder: (context, index) {
-                                  final lesson = categoryArticles[index];
-                                  final isLoading =
-                                      state.articleDetailStatus.isLoading() &&
-                                      state.loadingArticleId ==
-                                          lesson.articleId;
-                                  return lessonCardBuild(
-                                    lesson:
-                                        lesson.articleTitle ??
-                                        'عنوان غير متوفر',
-                                    viewCont: lesson.articleVisitor ?? '0',
-                                    title: 'فضيلة الشيخ',
-                                    imagePath: Assets.images.backgroundZh.path,
-                                    imageNamePath:
-                                        Assets.images.nassanName.path,
-                                    width: _width(161),
-                                    height: _height(236),
-                                    imageWidth: _width(100),
-                                    imageHeight: _height(100),
-                                    context: context,
-                                    isLoading: isLoading,
-                                    onTap: () {
-                                      context.read<LessonBloc>().add(
-                                        LessonCardClickEvent(lesson: lesson),
-                                      );
-                                    },
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               )
                             else
                               Center(
@@ -295,3 +290,5 @@ class _LessonsPageState extends State<LessonsPage> {
     );
   }
 }
+
+

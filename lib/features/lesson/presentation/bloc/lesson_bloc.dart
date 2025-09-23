@@ -23,8 +23,11 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
     on<ChangePageEvent>(_onChangePage);
     on<FetchLessonArticleDetailEvent>(_onFetchLessonArticleDetail);
     on<LessonCardClickEvent>(_onLessonCardClick);
+    on<LessonSubCategoryCardClickEvent>(_onLessonSubCategoryCardClick);
     on<FetchAllLessonsFromCategoryEvent>(_onFetchAllLessonsFromCategory);
     on<MarkArticleNavigatedEvent>(_onMarkArticleNavigated);
+    on<FetchLessonsSubCategoriesEvent>(_onFetchLessonsSubCategories);
+    on<LoadMoreLessonsSubCategoriesEvent>(_onLoadMoreLessonsSubCategories);
   }
 
   // ===== FILTER BUTTON LOGIC =====
@@ -109,6 +112,31 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
   // ===== CARD CLICK HANDLER =====
   Future<void> _onLessonCardClick(
     LessonCardClickEvent event,
+    Emitter<LessonState> emit,
+  ) async {
+    // Validate article has required ID
+    if (event.lesson.articleId == null) {
+      emit(state.copyWith(
+        articleDetailStatus: const BlocStatus.fail(error: 'Article ID missing'),
+        articleDetailError: 'خطأ: معرف المقال غير متوفر',
+      ));
+      return;
+    }
+    emit(state.copyWith(
+      articleDetailStatus: const BlocStatus.loading(),
+      articleDetail: null,
+      htmlContent: null,
+      articleDetailError: null,
+      loadingArticleId: event.lesson.articleId,
+      hasNavigatedToArticle: false,
+    ));
+
+    // Trigger article detail fetch
+    add(FetchLessonArticleDetailEvent(articleId: event.lesson.articleId!));
+  }
+
+  Future<void> _onLessonSubCategoryCardClick(
+    LessonSubCategoryCardClickEvent event,
     Emitter<LessonState> emit,
   ) async {
     // Validate article has required ID
@@ -478,5 +506,151 @@ class LessonBloc extends Bloc<LessonEvent, LessonState> {
     emit(state.copyWith(
       hasNavigatedToArticle: true,
     ));
+  }
+
+  // ===== SUB-CATEGORIES HANDLERS =====
+  Future<void> _onFetchLessonsSubCategories(
+    FetchLessonsSubCategoriesEvent event,
+    Emitter<LessonState> emit,
+  ) async {
+    AppLogger.business('Initiating lessons sub-categories fetch', {'catMenus': event.catMenus});
+    
+    emit(state.copyWith(
+      status: const BlocStatus.loading(),
+      hasReachedMax: false,
+    ));
+
+    final result = await _lessonRepository.getLessonsSubCategories(
+      catMenus: event.catMenus,
+      articlesPerPage: event.articlesPerPage,
+      categoriesPerPage: event.categoriesPerPage,
+      articlesPage: event.articlesPage,
+      categoriesPage: event.categoriesPage,
+    );
+
+    result.fold(
+      // Left side - Error case
+      (error) {
+        AppLogger.error('Lessons sub-categories fetch error: $error');
+        emit(
+          state.copyWith(
+            status: BlocStatus.fail(error: error),
+          ),
+        );
+      },
+      // Right side - Success case
+      (subCategoriesModel) {
+        AppLogger.apiResponse('LessonBloc - Processed SubCategories Model', subCategoriesModel);
+
+        if (subCategoriesModel.data == null) {
+          AppLogger.error('No data in sub-categories response');
+          emit(
+            state.copyWith(
+              status: const BlocStatus.fail(
+                error: 'Invalid response format',
+              ),
+            ),
+          );
+          return;
+        }
+
+        final subCategories = subCategoriesModel.data?.subCategories ?? [];
+        
+        if (subCategories.isEmpty) {
+          AppLogger.warning('No sub-categories found');
+          emit(
+            state.copyWith(
+              status: const BlocStatus.fail(
+                error: 'No sub-categories found',
+              ),
+            ),
+          );
+          return;
+        }
+
+        // Calculate total articles across all sub-categories
+        final totalArticles = subCategories.fold<int>(0, (sum, category) => 
+          sum + (category.articles?.data?.length ?? 0)
+        );
+        
+        // Calculate pagination info from the first sub-category's articles pagination
+        final firstCategoryArticles = subCategories.isNotEmpty ? subCategories.first.articles : null;
+        final pagination = firstCategoryArticles?.pagination;
+        final totalPages = pagination?.lastPage ?? 1;
+        final totalItems = pagination?.total ?? 0;
+        final hasReachedMax = subCategories.length < event.categoriesPerPage;
+
+        AppLogger.business('Lessons sub-categories fetch successful', {
+          'subCategoriesCount': subCategories.length,
+          'totalArticles': totalArticles,
+        });
+        
+        emit(
+          state.copyWith(
+            status: const BlocStatus.success(),
+            subCategories: subCategories,
+            currentPage: event.categoriesPage,
+            perPage: event.categoriesPerPage,
+            totalPages: totalPages,
+            totalItems: totalItems,
+            hasReachedMax: hasReachedMax,
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _onLoadMoreLessonsSubCategories(
+    LoadMoreLessonsSubCategoriesEvent event,
+    Emitter<LessonState> emit,
+  ) async {
+    if (state.hasReachedMax || state.isLoadingMore) return;
+
+    emit(state.copyWith(isLoadingMore: true));
+
+    // Calculate next page for categories
+    final nextCategoriesPage = state.currentPage + 1;
+    
+    final result = await _lessonRepository.getLessonsSubCategories(
+      catMenus: 21, // Default cat_menus for lessons
+      articlesPerPage: 3,
+      categoriesPerPage: 3,
+      articlesPage: 1,
+      categoriesPage: nextCategoriesPage,
+    );
+
+    result.fold(
+      // Left side - Error case
+      (error) {
+        emit(state.copyWith(
+          isLoadingMore: false,
+          error: 'Failed to load more sub-categories: $error',
+        ));
+      },
+      // Right side - Success case
+      (subCategoriesModel) {
+        if (subCategoriesModel.data != null) {
+          final newSubCategories = subCategoriesModel.data?.subCategories ?? [];
+
+          // Combine with existing data
+          final updatedSubCategories = [...state.subCategories, ...newSubCategories];
+
+          // Check if we've reached the end
+          final hasReachedMax = newSubCategories.length < 3; // 3 categories per page
+
+          emit(state.copyWith(
+            subCategories: updatedSubCategories,
+            isLoadingMore: false,
+            hasReachedMax: hasReachedMax,
+            currentPage: nextCategoriesPage,
+          ));
+        } else {
+          emit(state.copyWith(
+            isLoadingMore: false,
+            hasReachedMax: true,
+          ));
+        }
+      },
+    );
   }
 }

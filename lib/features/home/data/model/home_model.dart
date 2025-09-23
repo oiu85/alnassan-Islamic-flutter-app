@@ -20,6 +20,8 @@ abstract class Data with _$Data {
     Article? article,
     @JsonKey(name: 'article_categories') 
     List<ArticleCategory>? articleCategories,
+    @JsonKey(name: 'important_topics')
+    ImportantTopics? importantTopics,
   }) = _Data;
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -56,7 +58,7 @@ abstract class Article with _$Article {
 @freezed
 abstract class ArticleCategory with _$ArticleCategory {
   const factory ArticleCategory({
-    @JsonKey(name: 'cat_id') 
+    @JsonKey(name: 'cat_id', fromJson: _stringToInt) 
     int? catId,
     @JsonKey(name: 'cat_title') 
     String? catTitle,
@@ -64,11 +66,11 @@ abstract class ArticleCategory with _$ArticleCategory {
     String? catNote,
     @JsonKey(name: 'cat_pic') 
     String? catPic,
-    @JsonKey(name: 'cat_menus') 
+    @JsonKey(name: 'cat_menus', fromJson: _intToString) 
     String? catMenus,
-    @JsonKey(name: 'cat_pos') 
+    @JsonKey(name: 'cat_pos', fromJson: _intToString) 
     String? catPos,
-    @JsonKey(name: 'cat_in_sub_menu') 
+    @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) 
     String? catInSubMenu,
   }) = _ArticleCategory;
 
@@ -101,4 +103,65 @@ abstract class Category with _$Category {
 
   factory Category.fromJson(Map<String, dynamic> json) =>
       _$CategoryFromJson(json);
+}
+
+@freezed
+abstract class ImportantTopics with _$ImportantTopics {
+  const factory ImportantTopics({
+    List<ImportantTopic>? data,
+  }) = _ImportantTopics;
+
+  factory ImportantTopics.fromJson(Map<String, dynamic> json) =>
+      _$ImportantTopicsFromJson(json);
+}
+
+@freezed
+abstract class ImportantTopic with _$ImportantTopic {
+  const factory ImportantTopic({
+    int? id,
+    String? title,
+    String? summary,
+    String? content,
+    ImportantTopicCategory? category,
+    String? image,
+    @JsonKey(name: 'visitor_count', fromJson: _intToString) String? visitorCount,
+    String? date,
+    @JsonKey(fromJson: _intToString) String? priority,
+    String? type,
+    int? order,
+    @JsonKey(name: 'question') String? question,
+    @JsonKey(name: 'answer') String? answer,
+    @JsonKey(name: 'answer_date') String? answerDate,
+    @JsonKey(name: 'sender_name') String? senderName,
+  }) = _ImportantTopic;
+
+  factory ImportantTopic.fromJson(Map<String, dynamic> json) =>
+      _$ImportantTopicFromJson(json);
+}
+
+// Helper function to convert int to String
+String? _intToString(dynamic value) {
+  if (value == null) return null;
+  if (value is String) return value;
+  if (value is int) return value.toString();
+  return value.toString();
+}
+
+// Helper function to convert String to int
+int? _stringToInt(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  if (value is String) return int.tryParse(value);
+  return null;
+}
+
+@freezed
+abstract class ImportantTopicCategory with _$ImportantTopicCategory {
+  const factory ImportantTopicCategory({
+    int? id,
+    String? title,
+  }) = _ImportantTopicCategory;
+
+  factory ImportantTopicCategory.fromJson(Map<String, dynamic> json) =>
+      _$ImportantTopicCategoryFromJson(json);
 }

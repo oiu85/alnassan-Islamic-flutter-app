@@ -9,6 +9,10 @@ import '../../../features/biographies_and_hadiths/presentation/bloc/biographies_
 import '../../../features/hadith_almawduea/presentation/pages/almawduea_page.dart';
 import '../../../features/hadith_almawduea/presentation/bloc/almawduea_bloc.dart';
 import '../../../features/with_habib_almustafa/presentation/pages/habib_mustafa.dart';
+import '../../../features/word_of_the_month/presentation/pages/word_of_the_month_page.dart';
+import '../../../features/word_of_the_month/presentation/bloc/word_of_the_month_bloc.dart';
+import '../../../features/word_of_the_month/data/repository/word_of_the_month_repository_impl.dart';
+import '../../../core/network/network_client.dart';
 import '../../../gen/assets.gen.dart';
 
 import '../../../features/biography/presentation/adapters/drawer_to_biography_adapter.dart';
@@ -52,8 +56,13 @@ class AppDrawer extends StatelessWidget {
             children: [
               // Use API categories if available, otherwise use original static items
               if (categories != null && categories!.isNotEmpty) ...[
-                // Map API categories to original functionality
-                ...categories!.map((category) {
+                // Filter out unwanted categories and map API categories to original functionality
+                ...categories!.where((category) {
+                  // Filter out unwanted categories
+                  String title = category.catTitle ?? '';
+                  return !title.contains('كلمات في مناسبات') && // Filter out "كلمات في مناسبات" (Words for Occasions)
+                         !title.contains('خطب و دروس'); // Filter out "خطب و دروس" (Sermons and Lessons)
+                }).map((category) {
                   // Map category titles to original functionality
                   String title = category.catTitle ?? '';
                   VoidCallback onTap;
@@ -98,6 +107,24 @@ class AppDrawer extends StatelessWidget {
                             articlesPage: 1,
                             categoriesPage: 1,
                           )));
+                    };
+                  } else if (title.contains('كلمة الشهر')) {
+                    onTap = () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => WordOfTheMonthBloc(
+                              WordOfTheMonthRepositoryImpl(NetworkClient())
+                            ),
+                            child: WordOfTheMonthPage(
+                              catId: category.catId ?? 1,
+                              catMenus: category.catMenus ?? '56',
+                              articlesPerPage: 4,
+                            ),
+                          ),
+                        ),
+                      );
                     };
                   } else {
                     // Default action for unknown categories

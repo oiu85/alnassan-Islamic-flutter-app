@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_utils.dart';
 import 'package:nassan_app/features/splash_screen/presentation/bloc/splash_bloc.dart';
 import 'package:nassan_app/features/splash_screen/presentation/bloc/splash_event.dart';
 import 'package:nassan_app/features/splash_screen/presentation/bloc/splash_state.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
 
-import '../../../home/presentation/pages/home_page.dart';
+import '../../../../core/navigation/main_navigation.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -22,7 +20,7 @@ class SplashScreen extends StatelessWidget {
         listener: (context, state) {
           if (state.status.isSuccess()) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const HomePage()),
+              MaterialPageRoute(builder: (_) => const MainNavigation()),
             );
           }
         },

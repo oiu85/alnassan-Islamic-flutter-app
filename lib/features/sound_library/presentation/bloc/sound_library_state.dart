@@ -12,6 +12,9 @@ class AudioPlayerState extends Equatable {
   final Duration duration;
   final Duration position;
   final String? currentUrl;
+  final double downloadProgress;
+  final int downloadedBytes;
+  final int totalBytes;
 
   const AudioPlayerState({
     this.isPlaying = false,
@@ -22,6 +25,9 @@ class AudioPlayerState extends Equatable {
     this.duration = Duration.zero,
     this.position = Duration.zero,
     this.currentUrl,
+    this.downloadProgress = 0.0,
+    this.downloadedBytes = 0,
+    this.totalBytes = 0,
   });
 
   AudioPlayerState copyWith({
@@ -33,6 +39,9 @@ class AudioPlayerState extends Equatable {
     Duration? duration,
     Duration? position,
     String? currentUrl,
+    double? downloadProgress,
+    int? downloadedBytes,
+    int? totalBytes,
   }) {
     return AudioPlayerState(
       isPlaying: isPlaying ?? this.isPlaying,
@@ -43,6 +52,9 @@ class AudioPlayerState extends Equatable {
       duration: duration ?? this.duration,
       position: position ?? this.position,
       currentUrl: currentUrl ?? this.currentUrl,
+      downloadProgress: downloadProgress ?? this.downloadProgress,
+      downloadedBytes: downloadedBytes ?? this.downloadedBytes,
+      totalBytes: totalBytes ?? this.totalBytes,
     );
   }
 
@@ -56,6 +68,9 @@ class AudioPlayerState extends Equatable {
         duration,
         position,
         currentUrl,
+        downloadProgress,
+        downloadedBytes,
+        totalBytes,
       ];
 }
 

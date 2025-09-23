@@ -34,6 +34,12 @@ class LessonCardClickEvent extends LessonEvent {
   LessonCardClickEvent({required this.lesson});
 }
 
+class LessonSubCategoryCardClickEvent extends LessonEvent {
+  final LessonSubCategoryArticle lesson;
+
+  LessonSubCategoryCardClickEvent({required this.lesson});
+}
+
 class FetchAllLessonsFromCategoryEvent extends LessonEvent {
   final int categoryId;
   final int page;
@@ -47,3 +53,21 @@ class FetchAllLessonsFromCategoryEvent extends LessonEvent {
 }
 
 class MarkArticleNavigatedEvent extends LessonEvent {}
+
+class FetchLessonsSubCategoriesEvent extends LessonEvent {
+  final int catMenus;
+  final int articlesPerPage;
+  final int categoriesPerPage;
+  final int articlesPage;
+  final int categoriesPage;
+
+  FetchLessonsSubCategoriesEvent({
+    required this.catMenus,
+    this.articlesPerPage = 3,
+    this.categoriesPerPage = 3,
+    this.articlesPage = 1,
+    this.categoriesPage = 1,
+  });
+}
+
+class LoadMoreLessonsSubCategoriesEvent extends LessonEvent {}

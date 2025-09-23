@@ -7,12 +7,15 @@ import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/di/app_dependencies.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/network/network_client.dart';
+import 'package:nassan_app/features/lesson/presentation/bloc/lesson_bloc.dart';
 import 'package:nassan_app/features/lesson/presentation/pages/lessons_page.dart';
+import 'package:nassan_app/features/lesson/presentation/bloc/lesson_event.dart';
 import 'package:nassan_app/features/sound_library/presentation/pages/sounds_page.dart';
 import 'package:nassan_app/features/sound_library/presentation/bloc/sound_library_bloc.dart';
 import 'package:nassan_app/features/words_on_occasions/presentation/pages/words_on_occasions_page.dart';
 import 'package:nassan_app/features/words_on_occasions/presentation/bloc/words_on_occasions_bloc.dart';
 import 'package:nassan_app/features/words_on_occasions/data/repository/words_on_occasions_repository_impl.dart';
+import 'package:nassan_app/features/video_library/presentation/pages/video_page.dart';
 
 import '../../../../gen/assets.gen.dart';
 
@@ -40,7 +43,6 @@ class ContentCard extends StatelessWidget {
   double _fontSize(BuildContext context, double size) => ScreenUtil().setSp(size);
   double _width(double size) => ScreenUtil().setWidth(size);
   double _height(double size) => ScreenUtil().setHeight(size);
-  double _radius(double size) => ScreenUtil().radius(size);
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +155,14 @@ class BottomCards extends StatelessWidget {
           ),
           child: InkWell(
             onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (_)=> LessonsPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => BlocProvider(
+                  create: (context) => getIt<LessonBloc>()..add(
+                    FetchLessonsSubCategoriesEvent(catMenus: 21)
+                  ),
+                  child: LessonsPage(),
+                ),
+              ));
             },
               child: ContentCard(
                 paddingRight: ScreenUtil().setWidth(80),
@@ -181,17 +190,24 @@ class BottomCards extends StatelessWidget {
             tablet: _height(270),
             desktop: _height(300),
           ),
-          child: ContentCard(
-            paddingRight: ScreenUtil().setWidth(79),
-            paddingTop: ScreenUtil().setHeight(65),
-            cardMainImage: Image.asset(
-              Assets.images.tablet.path,
-              width: ScreenUtil().setWidth(70),
-              height: ScreenUtil().setHeight(70),
+          child: InkWell(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const VideoPage(),
+              ));
+            },
+            child: ContentCard(
+              paddingRight: ScreenUtil().setWidth(79),
+              paddingTop: ScreenUtil().setHeight(65),
+              cardMainImage: Image.asset(
+                Assets.images.tablet.path,
+                width: ScreenUtil().setWidth(70),
+                height: ScreenUtil().setHeight(70),
+              ),
+              title: "المكتبة المرئية",
+              cardColor: AppColors.bottomCardColor2.withAlpha(125),
+              waveColor: AppColors.waveCardColor2,
             ),
-            title: "المكتبة المرئية",
-            cardColor: AppColors.bottomCardColor2.withAlpha(125),
-            waveColor: AppColors.waveCardColor2,
           ),
         ),
         StaggeredGridTile.extent(

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nassan_app/core/responsive/screen_utils.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../bloc/sound_library_bloc.dart';
 import '../bloc/sound_library_event.dart';
@@ -13,6 +10,7 @@ class CompactAudioPlayer extends StatelessWidget {
   final String soundId;
   final String audioUrl;
   final List<String>? alternativeUrls;
+  final String soundTitle;
   final double width;
   final double height;
   
@@ -30,6 +28,7 @@ class CompactAudioPlayer extends StatelessWidget {
     super.key,
     required this.soundId,
     required this.audioUrl,
+    required this.soundTitle,
     this.alternativeUrls,
     this.width = 200,
     this.height = 40,
@@ -230,6 +229,7 @@ class CompactAudioPlayer extends StatelessWidget {
       soundId: soundId,
       audioUrl: audioUrl,
       fileName: fileName,
+      soundTitle: soundTitle,
     ));
   }
 

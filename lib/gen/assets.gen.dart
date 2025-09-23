@@ -29,6 +29,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/book.png
   AssetGenImage get book => const AssetGenImage('assets/images/book.png');
 
+  /// File path: assets/images/books.png
+  AssetGenImage get books => const AssetGenImage('assets/images/books.png');
+
   /// File path: assets/images/candleBig.png
   AssetGenImage get candleBig => const AssetGenImage('assets/images/candleBig.png');
 
@@ -74,8 +77,17 @@ class $AssetsImagesGen {
   /// File path: assets/images/mousqe.png
   AssetGenImage get mousqe => const AssetGenImage('assets/images/mousqe.png');
 
+  /// File path: assets/images/music_player_image.png
+  AssetGenImage get musicPlayerImage => const AssetGenImage('assets/images/music_player_image.png');
+
   /// File path: assets/images/nassanName.png
   AssetGenImage get nassanName => const AssetGenImage('assets/images/nassanName.png');
+
+  /// File path: assets/images/nassan_image.png
+  AssetGenImage get nassanImage => const AssetGenImage('assets/images/nassan_image.png');
+
+  /// File path: assets/images/nassan_image2.png
+  AssetGenImage get nassanImage2 => const AssetGenImage('assets/images/nassan_image2.png');
 
   /// File path: assets/images/qurane.png
   AssetGenImage get qurane => const AssetGenImage('assets/images/qurane.png');
@@ -110,6 +122,7 @@ class $AssetsImagesGen {
     backgroundCandlesZh,
     backgroundZh,
     book,
+    books,
     candleBig,
     candleSmall,
     circulerZh,
@@ -125,7 +138,10 @@ class $AssetsImagesGen {
     message,
     mohhamed,
     mousqe,
+    musicPlayerImage,
     nassanName,
+    nassanImage,
+    nassanImage2,
     qurane,
     search,
     settings,
@@ -196,14 +212,23 @@ class $AssetsSvgGen {
   /// File path: assets/svg/mohammed.svg
   SvgGenImage get mohammed => const SvgGenImage('assets/svg/mohammed.svg');
 
+  /// File path: assets/svg/music_payer_image.svg
+  SvgGenImage get musicPayerImage => const SvgGenImage('assets/svg/music_payer_image.svg');
+
   /// File path: assets/svg/musqe.svg
   SvgGenImage get musqe => const SvgGenImage('assets/svg/musqe.svg');
 
   /// File path: assets/svg/nassanName.svg
   SvgGenImage get nassanName => const SvgGenImage('assets/svg/nassanName.svg');
 
+  /// File path: assets/svg/note.svg
+  SvgGenImage get note => const SvgGenImage('assets/svg/note.svg');
+
   /// File path: assets/svg/quran.svg
   SvgGenImage get quran => const SvgGenImage('assets/svg/quran.svg');
+
+  /// File path: assets/svg/sound_waves.svg
+  SvgGenImage get soundWaves => const SvgGenImage('assets/svg/sound_waves.svg');
 
   /// File path: assets/svg/tablet.svg
   SvgGenImage get tablet => const SvgGenImage('assets/svg/tablet.svg');
@@ -222,9 +247,12 @@ class $AssetsSvgGen {
     headphone,
     helal,
     mohammed,
+    musicPayerImage,
     musqe,
     nassanName,
+    note,
     quran,
+    soundWaves,
     tablet,
   ];
 }

@@ -56,4 +56,35 @@ class LessonRepositoryImpl implements LessonRepository {
       return Left('Unexpected error: $e');
     }
   }
+
+  @override
+  Future<Either<String, LessonSubCategoriesModel>> getLessonsSubCategories({
+    required int catMenus,
+    int articlesPerPage = 3,
+    int categoriesPerPage = 3,
+    int articlesPage = 1,
+    int categoriesPage = 1,
+  }) async {
+    try {
+      final url = ApiConfig.getLessonsSubCategories(
+        catMenus: catMenus,
+        articlesPerPage: articlesPerPage,
+        categoriesPerPage: categoriesPerPage,
+        articlesPage: articlesPage,
+        categoriesPage: categoriesPage,
+      );
+      
+      final response = await _networkClient.get(url);
+      
+      if (response.statusCode == 200) {
+        return Right(LessonSubCategoriesModel.fromJson(response.data));
+      } else {
+        return Left('Failed to fetch lessons sub-categories: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      return Left(e.message ?? 'Connection attempt failed');
+    } catch (e) {
+      return Left('Unexpected error: $e');
+    }
+  }
 }

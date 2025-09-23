@@ -6,48 +6,58 @@ import 'package:nassan_app/gen/fonts.gen.dart';
 
 import '../../../../gen/assets.gen.dart';
 
-class BottomNavBarWidget extends StatelessWidget {
-  final bool index;
+class BottomNavBarWidget extends StatefulWidget {
+  final int currentIndex;
+  final Function(int) onTap;
 
-  BottomNavBarWidget({super.key, required this.index});
+  const BottomNavBarWidget({
+    super.key, 
+    required this.currentIndex,
+    required this.onTap,
+  });
+
+  @override
+  State<BottomNavBarWidget> createState() => _BottomNavBarWidgetState();
+}
+
+class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
 
   // Helper methods for responsive sizing
   double _width(double size) => ScreenUtil().setWidth(size);
-
   double _height(double size) => ScreenUtil().setHeight(size);
-
   double _radius(double size) => ScreenUtil().radius(size);
 
   Widget buildNavItem(
     String title,
     String imagePath,
-    VoidCallback onTap,
-    bool isActive,
+    int index,
     double iconSize,
   ) {
-    return Container(
-      height: _height(52),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: onTap,
-            child: Image.asset(
+    final isActive = widget.currentIndex == index;
+    
+    return GestureDetector(
+      onTap: () => widget.onTap(index),
+      child: SizedBox(
+        height: _height(52),
+        child: Column(
+          children: [
+            Image.asset(
               imagePath,
               width: _width(iconSize),
               height: _height(iconSize),
               color: isActive ? AppColors.primary : AppColors.grey,
             ),
-          ),
-          SizedBox(height: _height(2)),
-          Text(
-            title,
-            style: TextStyle(
-              fontFamily: FontFamily.tajawal,
-              color: isActive ? AppColors.primary : AppColors.grey,
-              fontWeight: FontWeight.bold,
+            SizedBox(height: _height(2)),
+            Text(
+              title,
+              style: TextStyle(
+                fontFamily: FontFamily.tajawal,
+                color: isActive ? AppColors.primary : AppColors.grey,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -66,7 +76,7 @@ class BottomNavBarWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(_radius(20)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.6),
+                    color: Colors.black.withValues(alpha: 0.6),
             spreadRadius: _radius(5),
             blurRadius: _radius(12),
             offset: Offset(0, _height(9)),
@@ -88,29 +98,25 @@ class BottomNavBarWidget extends StatelessWidget {
           buildNavItem(
             "الرئيسية",
             Assets.images.home2.path,
-            () {},
-            index, // Set active state based on index
+            0,
             iconSize,
           ),
           buildNavItem(
             "البحث",
             Assets.images.search.path,
-            () {},
-            false,
+            1,
             iconSize,
           ),
           buildNavItem(
             "إضافة فتوى",
             Assets.images.messageAdd.path,
-            () {},
-            false,
+            2,
             iconSize,
           ),
           buildNavItem(
             "الكتب والمؤلفات",
             Assets.images.book.path,
-            () {},
-            false,
+            3,
             iconSize,
           ),
         ],

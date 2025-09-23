@@ -7,6 +7,8 @@ class LessonState {
   final BlocStatus articleDetailStatus;
   final List<LessonArticle> articles;
   final List<LessonCategoryWithArticles> categories;
+  final List<LessonSubCategory> subCategories;
+  final List<LessonSubCategoryArticle> subCategoryArticles;
   final List<int> allCategoryIds;
   final List<int> loadedCategoryIds;
   final int currentPage;
@@ -29,6 +31,8 @@ class LessonState {
     this.articleDetailStatus = const BlocStatus.initial(),
     this.articles = const [],
     this.categories = const [],
+    this.subCategories = const [],
+    this.subCategoryArticles = const [],
     this.allCategoryIds = const [],
     this.loadedCategoryIds = const [],
     this.currentPage = 1,
@@ -52,6 +56,8 @@ class LessonState {
     BlocStatus? articleDetailStatus,
     List<LessonArticle>? articles,
     List<LessonCategoryWithArticles>? categories,
+    List<LessonSubCategory>? subCategories,
+    List<LessonSubCategoryArticle>? subCategoryArticles,
     List<int>? allCategoryIds,
     List<int>? loadedCategoryIds,
     int? currentPage,
@@ -74,6 +80,8 @@ class LessonState {
       articleDetailStatus: articleDetailStatus ?? this.articleDetailStatus,
       articles: articles ?? this.articles,
       categories: categories ?? this.categories,
+      subCategories: subCategories ?? this.subCategories,
+      subCategoryArticles: subCategoryArticles ?? this.subCategoryArticles,
       allCategoryIds: allCategoryIds ?? this.allCategoryIds,
       loadedCategoryIds: loadedCategoryIds ?? this.loadedCategoryIds,
       currentPage: currentPage ?? this.currentPage,

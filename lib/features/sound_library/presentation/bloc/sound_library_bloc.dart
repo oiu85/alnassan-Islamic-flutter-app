@@ -34,12 +34,20 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     on<PauseAudioEvent>(_onPauseAudio);
     on<StopAudioEvent>(_onStopAudio);
     on<UpdateAudioPositionEvent>(_onUpdateAudioPosition);
+    on<SeekAudioEvent>(_onSeekAudio);
     on<UpdateAudioDurationEvent>(_onUpdateAudioDuration);
     on<AudioErrorEvent>(_onAudioError);
     on<ResetAudioStateEvent>(_onResetAudioState);
     on<UpdateAudioPlayerStateEvent>(_onUpdateAudioPlayerState);
     on<DownloadAudioEvent>(_onDownloadAudio);
     on<ShowDownloadMessageEvent>(_onShowDownloadMessage);
+    on<UpdateDownloadProgressEvent>(_onUpdateDownloadProgress);
+    
+    // MusicPlayer events
+    on<InitializeMusicPlayerEvent>(_onInitializeMusicPlayer);
+    on<MusicPlayerTogglePlayPauseEvent>(_onMusicPlayerTogglePlayPause);
+    on<MusicPlayerSeekEvent>(_onMusicPlayerSeek);
+    on<MusicPlayerDownloadEvent>(_onMusicPlayerDownload);
   }
 
   /// Fetches hierarchical sound categories from the API
@@ -637,6 +645,33 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     emit(state.copyWith(audioPlayerStates: updatedStates));
   }
 
+  /// Seeks to a specific position in the audio
+  Future<void> _onSeekAudio(
+    SeekAudioEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) async {
+    final soundId = event.soundId;
+    final position = event.position;
+    
+    final audioPlayer = _audioPlayers[soundId];
+    if (audioPlayer != null) {
+      try {
+        await audioPlayer.seek(position);
+        print('Seeked to position: $position for sound: $soundId');
+        
+        // Update the state immediately
+        final currentState = state.audioPlayerStates[soundId] ?? const AudioPlayerState();
+        final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
+        updatedStates[soundId] = currentState.copyWith(position: position);
+        
+        emit(state.copyWith(audioPlayerStates: updatedStates));
+      } catch (e) {
+        print('Error seeking audio: $e');
+        // Handle seek error if needed
+      }
+    }
+  }
+
   /// Updates audio duration for a specific sound
   void _onUpdateAudioDuration(
     UpdateAudioDurationEvent event,
@@ -712,9 +747,17 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
   ) async {
     final soundId = event.soundId;
     final audioUrl = event.audioUrl;
-    final fileName = event.fileName;
+    final originalFileName = event.fileName;
+    final soundTitle = event.soundTitle;
     
-    print('🎵 Starting download for $soundId: $fileName');
+    // Create filename from sound title
+    final cleanTitle = _cleanFileName(soundTitle);
+    final fileExtension = _getFileExtension(originalFileName);
+    final finalFileName = '$cleanTitle$fileExtension';
+    
+    print('🎵 Starting download for $soundId: $soundTitle');
+    print('📁 Original filename: $originalFileName');
+    print('📁 Final filename: $finalFileName');
     print('📥 Download URL: $audioUrl');
     
     // Set downloading state
@@ -723,8 +766,13 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     updatedStates[soundId] = currentState.copyWith(
       isFileDownloading: true,
       hasError: false,
+      downloadProgress: 0.0,
+      downloadedBytes: 0,
+      totalBytes: 0,
     );
     emit(state.copyWith(audioPlayerStates: updatedStates));
+    
+    print('🚀 Download started for $soundId - isFileDownloading set to true');
     
     try {
       // Create Dio instance with timeout
@@ -746,7 +794,7 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
         await appDir.create(recursive: true);
       }
       
-      final filePath = '${appDir.path}/$fileName';
+      final filePath = '${appDir.path}/$finalFileName';
       
       print('📁 Downloading to: $filePath');
       
@@ -756,8 +804,20 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
         filePath,
         onReceiveProgress: (received, total) {
           if (total != -1) {
-            final progress = (received / total * 100).round();
-            print('📊 Download progress: $progress% (${received}/${total} bytes)');
+            final progress = received / total;
+            print('📊 Download progress: ${(progress * 100).round()}% (${received}/${total} bytes)');
+            
+            // Update progress state
+            final progressStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
+            progressStates[soundId] = currentState.copyWith(
+              isFileDownloading: true,  // Keep downloading state true
+              downloadProgress: progress,
+              downloadedBytes: received,
+              totalBytes: total,
+              hasError: false,
+            );
+            emit(state.copyWith(audioPlayerStates: progressStates));
+            print('🔄 Progress updated for $soundId - isFileDownloading: true, progress: ${(progress * 100).round()}%');
           }
         },
       );
@@ -770,12 +830,14 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
       successStates[soundId] = currentState.copyWith(
         isFileDownloading: false,
         hasError: false,
+        downloadProgress: 1.0,
       );
       emit(state.copyWith(audioPlayerStates: successStates));
+      print('✅ Download completed for $soundId - isFileDownloading set to false');
       
       // Show success message with file path
       add(ShowDownloadMessageEvent(
-        message: 'تم تحميل الملف بنجاح: $fileName\nالمسار: $filePath',
+        message: 'تم تحميل الملف بنجاح: $finalFileName\nالمسار: $filePath',
         isSuccess: true,
       ));
       
@@ -792,7 +854,7 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
       
       // Show error message
       add(ShowDownloadMessageEvent(
-        message: 'فشل في تحميل الملف: $fileName',
+        message: 'فشل في تحميل الملف: $finalFileName',
         isSuccess: false,
       ));
     }
@@ -807,6 +869,55 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
       downloadMessage: event.message,
       isDownloadSuccess: event.isSuccess,
     ));
+  }
+
+  /// Updates download progress for a specific sound
+  void _onUpdateDownloadProgress(
+    UpdateDownloadProgressEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    final soundId = event.soundId;
+    final currentState = state.audioPlayerStates[soundId] ?? const AudioPlayerState();
+    
+    final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
+    updatedStates[soundId] = currentState.copyWith(
+      downloadProgress: event.progress,
+      downloadedBytes: event.downloadedBytes,
+      totalBytes: event.totalBytes,
+    );
+    
+    emit(state.copyWith(audioPlayerStates: updatedStates));
+  }
+
+  /// Cleans a filename by removing invalid characters and limiting length
+  String _cleanFileName(String title) {
+    // Remove invalid characters for filenames
+    String clean = title
+        .replaceAll(RegExp(r'[<>:"/\\|?*]'), '') // Remove invalid chars
+        .replaceAll(RegExp(r'\s+'), ' ') // Replace multiple spaces with single space
+        .trim(); // Remove leading/trailing spaces
+    
+    // Limit length to avoid filesystem issues (max 100 characters)
+    if (clean.length > 100) {
+      clean = clean.substring(0, 100).trim();
+    }
+    
+    // If empty after cleaning, use default name
+    if (clean.isEmpty) {
+      clean = 'Sound_${DateTime.now().millisecondsSinceEpoch}';
+    }
+    
+    return clean;
+  }
+
+  /// Gets file extension from original filename
+  String _getFileExtension(String fileName) {
+    final lastDot = fileName.lastIndexOf('.');
+    if (lastDot != -1 && lastDot < fileName.length - 1) {
+      return fileName.substring(lastDot);
+    }
+    // Default to .rar for RAR files, .mp3 for others
+    return fileName.toLowerCase().contains('rar') ? '.rar' : '.mp3';
   }
 
   /// Configures audio player for better Android compatibility
@@ -844,6 +955,157 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
   /// Gets audio player state for a specific sound
   AudioPlayerState getAudioPlayerState(String soundId) {
     return state.audioPlayerStates[soundId] ?? const AudioPlayerState();
+  }
+
+  // ===== MUSIC PLAYER EVENT HANDLERS =====
+
+  /// Initializes music player with sound data
+  void _onInitializeMusicPlayer(
+    InitializeMusicPlayerEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    final sound = event.sound;
+    final soundId = sound.soundId.toString();
+    
+    // Initialize audio player state if not exists
+    if (!state.audioPlayerStates.containsKey(soundId)) {
+      final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
+      updatedStates[soundId] = const AudioPlayerState();
+      emit(state.copyWith(audioPlayerStates: updatedStates));
+    }
+  }
+
+  /// Handles play/pause toggle for music player
+  void _onMusicPlayerTogglePlayPause(
+    MusicPlayerTogglePlayPauseEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    final soundId = event.soundId;
+    final sound = event.sound;
+    final audioState = getAudioPlayerState(soundId);
+    
+    if (audioState.isLoading || audioState.isDownloading) {
+      print('Audio is currently being loaded, please wait...');
+      return;
+    }
+
+    if (audioState.isPlaying) {
+      add(PauseAudioEvent(soundId: soundId));
+    } else {
+      // If there's an error or no URL loaded, load it first
+      if (audioState.hasError || audioState.currentUrl == null || audioState.currentUrl!.isEmpty) {
+        // Use the sound data directly from the event
+        final audioUrl = _buildSoundUrl(sound);
+        final alternativeUrls = _getAlternativeUrls(sound);
+        
+        print('Loading audio for MusicPlayer: $audioUrl');
+        
+        if (audioUrl.isNotEmpty) {
+          add(LoadAudioEvent(
+            soundId: soundId,
+            audioUrl: audioUrl,
+            alternativeUrls: alternativeUrls,
+          ));
+        } else {
+          print('No valid audio URL found for sound: ${sound.soundFile}');
+        }
+        return;
+      }
+
+      // Just play the already loaded audio
+      add(PlayAudioEvent(soundId: soundId));
+    }
+  }
+
+  /// Handles seeking in music player
+  void _onMusicPlayerSeek(
+    MusicPlayerSeekEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    final soundId = event.soundId;
+    final progress = event.progress;
+    final audioState = getAudioPlayerState(soundId);
+    
+    if (audioState.duration.inMilliseconds > 0) {
+      final position = Duration(
+        milliseconds: (progress * audioState.duration.inMilliseconds).round(),
+      );
+      add(SeekAudioEvent(soundId: soundId, position: position));
+    }
+  }
+
+  /// Handles download for music player
+  void _onMusicPlayerDownload(
+    MusicPlayerDownloadEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    final sound = event.sound;
+    String downloadUrl;
+    String fileName;
+    
+    // Check if it's a RAR file
+    if (sound.soundFile != null && sound.soundFile!.toLowerCase().endsWith('.rar')) {
+      // For RAR files, build the download URL directly
+      fileName = sound.soundFile!;
+      downloadUrl = "https://www.naasan.net/files/sound/$fileName";
+    } else {
+      // For MP3 files, build the URL
+      final audioUrl = _buildSoundUrl(sound);
+      if (audioUrl.isNotEmpty) {
+        final uri = Uri.parse(audioUrl);
+        fileName = uri.pathSegments.last;
+        downloadUrl = audioUrl;
+      } else {
+        print('No valid URL available for download');
+        return;
+      }
+    }
+    
+    print('Downloading file: $fileName from $downloadUrl');
+    
+    add(DownloadAudioEvent(
+      soundId: sound.soundId.toString(),
+      audioUrl: downloadUrl,
+      fileName: fileName,
+      soundTitle: sound.soundTitle,
+    ));
+  }
+
+  // ===== HELPER METHODS =====
+
+
+  /// Builds the complete sound URL from API response data
+  String _buildSoundUrl(SoundData sound) {
+    // Only use MP3 files, skip RAR files
+    if (sound.soundFile != null && sound.soundFile!.toLowerCase().endsWith('.mp3')) {
+      // Use HTTPS with WWW as primary URL format
+      final fileName = sound.soundFile!;
+      return "https://www.naasan.net/files/sound/$fileName";
+    }
+    
+    // If it's a RAR file or other format, return empty
+    return "";
+  }
+
+  /// Gets alternative URLs to try if the main URL fails
+  List<String> _getAlternativeUrls(SoundData sound) {
+    if (sound.soundFile != null && sound.soundFile!.toLowerCase().endsWith('.mp3')) {
+      final fileName = sound.soundFile!;
+      return [
+        "https://naasan.net/files/sound/$fileName",
+        "http://www.naasan.net/files/sound/$fileName",
+        "http://naasan.net/files/sound/$fileName",
+      ];
+    }
+    return [];
+  }
+
+  /// Formats duration to show minutes:seconds
+  String formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return '$minutes:$seconds';
   }
 
   /// Disposes all audio players

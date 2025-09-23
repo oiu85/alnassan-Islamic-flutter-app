@@ -306,3 +306,205 @@ Map<String, dynamic> _$LessonArticleDetailCategoryToJson(
   'cat_pos': instance.catPos,
   'cat_father_id': instance.catFatherId,
 };
+
+_LessonSubCategoriesModel _$LessonSubCategoriesModelFromJson(
+  Map<String, dynamic> json,
+) => _LessonSubCategoriesModel(
+  status: json['status'] as String?,
+  data: json['data'] == null
+      ? null
+      : LessonSubCategoriesData.fromJson(json['data'] as Map<String, dynamic>),
+  meta: json['meta'] == null
+      ? null
+      : LessonSubCategoriesMeta.fromJson(json['meta'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$LessonSubCategoriesModelToJson(
+  _LessonSubCategoriesModel instance,
+) => <String, dynamic>{
+  'status': instance.status,
+  'data': instance.data,
+  'meta': instance.meta,
+};
+
+_LessonSubCategoriesData _$LessonSubCategoriesDataFromJson(
+  Map<String, dynamic> json,
+) => _LessonSubCategoriesData(
+  subCategories: (json['sub_categories'] as List<dynamic>?)
+      ?.map((e) => LessonSubCategory.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$LessonSubCategoriesDataToJson(
+  _LessonSubCategoriesData instance,
+) => <String, dynamic>{'sub_categories': instance.subCategories};
+
+_LessonSubCategory _$LessonSubCategoryFromJson(Map<String, dynamic> json) =>
+    _LessonSubCategory(
+      catId: _stringToInt(json['cat_id']),
+      catTitle: json['cat_title'] as String?,
+      catNote: json['cat_note'] as String?,
+      catPic: json['cat_pic'] as String?,
+      catPos: _stringToInt(json['cat_pos']),
+      catMenus: _stringToInt(json['cat_menus']),
+      catInSubMenu: _stringToInt(json['cat_in_sub_menu']),
+      articles: json['articles'] == null
+          ? null
+          : LessonSubCategoryArticles.fromJson(
+              json['articles'] as Map<String, dynamic>,
+            ),
+    );
+
+Map<String, dynamic> _$LessonSubCategoryToJson(_LessonSubCategory instance) =>
+    <String, dynamic>{
+      'cat_id': instance.catId,
+      'cat_title': instance.catTitle,
+      'cat_note': instance.catNote,
+      'cat_pic': instance.catPic,
+      'cat_pos': instance.catPos,
+      'cat_menus': instance.catMenus,
+      'cat_in_sub_menu': instance.catInSubMenu,
+      'articles': instance.articles,
+    };
+
+_LessonSubCategoryArticles _$LessonSubCategoryArticlesFromJson(
+  Map<String, dynamic> json,
+) => _LessonSubCategoryArticles(
+  data: (json['data'] as List<dynamic>?)
+      ?.map((e) => LessonSubCategoryArticle.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  pagination: json['pagination'] == null
+      ? null
+      : LessonSubCategoriesPagination.fromJson(
+          json['pagination'] as Map<String, dynamic>,
+        ),
+);
+
+Map<String, dynamic> _$LessonSubCategoryArticlesToJson(
+  _LessonSubCategoryArticles instance,
+) => <String, dynamic>{
+  'data': instance.data,
+  'pagination': instance.pagination,
+};
+
+_LessonSubCategoryArticle _$LessonSubCategoryArticleFromJson(
+  Map<String, dynamic> json,
+) => _LessonSubCategoryArticle(
+  articleId: _stringToInt(json['article_id']),
+  articleTitle: json['article_title'] as String?,
+  articleSummary: json['article_summary'] as String?,
+  articleDes: json['article_des'] as String?,
+  articleCatId: _stringToInt(json['article_cat_id']),
+  articlePic: json['article_pic'] as String?,
+  articleVisitor: _stringToInt(json['article_visitor']),
+  articlePriority: _stringToInt(json['article_priority']),
+  articleDate: json['article_date'] as String?,
+  articleActive: _stringToInt(json['article_active']),
+  category: json['category'] == null
+      ? null
+      : LessonSubCategoryArticleCategory.fromJson(
+          json['category'] as Map<String, dynamic>,
+        ),
+);
+
+Map<String, dynamic> _$LessonSubCategoryArticleToJson(
+  _LessonSubCategoryArticle instance,
+) => <String, dynamic>{
+  'article_id': instance.articleId,
+  'article_title': instance.articleTitle,
+  'article_summary': instance.articleSummary,
+  'article_des': instance.articleDes,
+  'article_cat_id': instance.articleCatId,
+  'article_pic': instance.articlePic,
+  'article_visitor': instance.articleVisitor,
+  'article_priority': instance.articlePriority,
+  'article_date': instance.articleDate,
+  'article_active': instance.articleActive,
+  'category': instance.category,
+};
+
+_LessonSubCategoryArticleCategory _$LessonSubCategoryArticleCategoryFromJson(
+  Map<String, dynamic> json,
+) => _LessonSubCategoryArticleCategory(
+  catId: _stringToInt(json['cat_id']),
+  catTitle: json['cat_title'] as String?,
+  catNote: json['cat_note'] as String?,
+  catPic: json['cat_pic'] as String?,
+  catPos: _stringToInt(json['cat_pos']),
+  catFatherId: _stringToInt(json['cat_father_id']),
+);
+
+Map<String, dynamic> _$LessonSubCategoryArticleCategoryToJson(
+  _LessonSubCategoryArticleCategory instance,
+) => <String, dynamic>{
+  'cat_id': instance.catId,
+  'cat_title': instance.catTitle,
+  'cat_note': instance.catNote,
+  'cat_pic': instance.catPic,
+  'cat_pos': instance.catPos,
+  'cat_father_id': instance.catFatherId,
+};
+
+_LessonSubCategoriesMeta _$LessonSubCategoriesMetaFromJson(
+  Map<String, dynamic> json,
+) => _LessonSubCategoriesMeta(
+  pagination: json['pagination'] == null
+      ? null
+      : LessonSubCategoriesPagination.fromJson(
+          json['pagination'] as Map<String, dynamic>,
+        ),
+  responseInfo: json['response_info'] == null
+      ? null
+      : LessonSubCategoriesResponseInfo.fromJson(
+          json['response_info'] as Map<String, dynamic>,
+        ),
+);
+
+Map<String, dynamic> _$LessonSubCategoriesMetaToJson(
+  _LessonSubCategoriesMeta instance,
+) => <String, dynamic>{
+  'pagination': instance.pagination,
+  'response_info': instance.responseInfo,
+};
+
+_LessonSubCategoriesPagination _$LessonSubCategoriesPaginationFromJson(
+  Map<String, dynamic> json,
+) => _LessonSubCategoriesPagination(
+  total: _stringToInt(json['total']),
+  count: _stringToInt(json['count']),
+  perPage: _stringToInt(json['per_page']),
+  currentPage: _stringToInt(json['current_page']),
+  lastPage: _stringToInt(json['last_page']),
+  from: _stringToInt(json['from']),
+  to: _stringToInt(json['to']),
+);
+
+Map<String, dynamic> _$LessonSubCategoriesPaginationToJson(
+  _LessonSubCategoriesPagination instance,
+) => <String, dynamic>{
+  'total': instance.total,
+  'count': instance.count,
+  'per_page': instance.perPage,
+  'current_page': instance.currentPage,
+  'last_page': instance.lastPage,
+  'from': instance.from,
+  'to': instance.to,
+};
+
+_LessonSubCategoriesResponseInfo _$LessonSubCategoriesResponseInfoFromJson(
+  Map<String, dynamic> json,
+) => _LessonSubCategoriesResponseInfo(
+  timestamp: json['timestamp'] as String?,
+  apiVersion: json['api_version'] as String?,
+  endpoint: json['endpoint'] as String?,
+  contentType: json['content_type'] as String?,
+);
+
+Map<String, dynamic> _$LessonSubCategoriesResponseInfoToJson(
+  _LessonSubCategoriesResponseInfo instance,
+) => <String, dynamic>{
+  'timestamp': instance.timestamp,
+  'api_version': instance.apiVersion,
+  'endpoint': instance.endpoint,
+  'content_type': instance.contentType,
+};

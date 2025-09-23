@@ -114,6 +114,41 @@ class ApiConfig {
     return '$baseUrl/public/sub-categories?$queryString';
   }
 
+  /// Get sub-categories for lessons with specific cat_menus parameter
+  /// Parameters: cat_menus, articles_per_page, categories_per_page, articles_page, categories_page
+  static String getLessonsSubCategories({
+    required int catMenus,
+    int articlesPerPage = 3,
+    int categoriesPerPage = 3,
+    int articlesPage = 1,
+    int categoriesPage = 1,
+  }) {
+    final params = <String, String>{
+      'cat_menus': catMenus.toString(),
+      'articles_per_page': articlesPerPage.toString(),
+      'categories_per_page': categoriesPerPage.toString(),
+      'articles_page': articlesPage.toString(),
+      'categories_page': categoriesPage.toString(),
+    };
+    
+    final queryString = params.entries
+        .map((e) => '${e.key}=${e.value}')
+        .join('&');
+    
+    return '$baseUrl/public/sub-categories?$queryString';
+  }
+
+  // ===== VIDEO LIBRARY ENDPOINTS =====
+  /// Get videos with pagination and sorting
+  /// Parameters: sort, page, perpage
+  static String getVideos({
+    String sort = '-video_priority',
+    int page = 1,
+    int perpage = 8,
+  }) {
+    return '$baseUrl/public/videos?sort=$sort&page=$page&perpage=$perpage';
+  }
+
   // ===== LEGACY ENDPOINTS (for backward compatibility) =====
   @Deprecated('Use getArticlesByCategory instead')
   static const String biographiesUrl = '$baseUrl/public/categories/articles';

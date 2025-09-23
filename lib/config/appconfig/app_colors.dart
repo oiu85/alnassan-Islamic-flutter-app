@@ -8,7 +8,6 @@ class AppColors {
   // Secondary colors
   static const Color secondary = Color(0xFFF4D99F);  // لون أصفر فاتح
   static const Color secondaryLight = Color(0xFFFAEFDC);  // لون كريمي دافئ
-
   // Accent colors
   static const Color accent = Color(0xFFF4D99F);  // لون أصفر فاتح
   static const Color accentDark = Color(0xFFF0E7DC);  // لون كريمي فاتح
@@ -27,7 +26,7 @@ class AppColors {
   static const Color background = Color(0xFFFFFFFF);
   static const Color scaffoldBackground = Color(0xFFF5F5F5);
 
-
+  static  Color ftawaFiledColor = Color(0xfae6b333).withOpacity(0.2);
 //* ================ Home Bottom Cards Color===============*//
   static const Color bottomCardColor = Color(0xFFE3B260);
   static  Color waveCardColor = Color(0xFFFFFAF0);

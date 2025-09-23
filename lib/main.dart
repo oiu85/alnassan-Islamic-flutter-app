@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/di/app_dependencies.dart';
 import 'core/responsive/device_type.dart';
+import 'core/navigation/bloc/shared_bloc.dart';
 import 'features/biography/presentation/bloc/biography_bloc.dart';
 import 'features/sound_library/presentation/bloc/sound_library_bloc.dart';
 import 'features/splash_screen/presentation/pages/splash_screen.dart';
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MultiBlocProvider(
           providers: [
+            BlocProvider<SharedBloc>(
+              create: (context) => SharedBloc(),
+            ),
             BlocProvider<BiographyBloc>(
               create: (context) => getIt<BiographyBloc>(),
             ),
@@ -49,7 +53,6 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: const [Locale('ar')],
           locale: const Locale('ar'),
-          // Add builder to handle responsive sizing based on device width
           builder: (context, widget) {
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/shared/wdigets/app_drawer.dart';
 import 'package:nassan_app/features/home/presentation/widgets/bottom_bar.dart';
+import 'package:nassan_app/features/advisory_fatwa/presentation/pages/add_advisory.dart';
 
 
 class AppScaffold extends StatelessWidget {
@@ -114,7 +115,7 @@ class AppScaffold extends StatelessWidget {
   }
 
   static Widget _defaultBottomBar() {
-    return BottomNavBarWidget(index: true);
+    return const SizedBox.shrink(); // Hide bottom bar by default
   }
 
   static PreferredSizeWidget _defaultCustomAppBar() {
@@ -135,3 +136,50 @@ class AppScaffold extends StatelessWidget {
     );
   }
 }
+
+class _DefaultBottomNavBar extends StatefulWidget {
+  @override
+  State<_DefaultBottomNavBar> createState() => _DefaultBottomNavBarState();
+}
+
+class _DefaultBottomNavBarState extends State<_DefaultBottomNavBar> {
+  int _currentIndex = 0;
+
+  void _onBottomNavTap(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+
+    // Handle navigation based on index
+    switch (index) {
+      case 0:
+        // Home - already on home page
+        break;
+      case 1:
+        // Search - implement search functionality
+        break;
+      case 2:
+        // Add Advisory - navigate to advisory page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AddAdvisory(),
+          ),
+        );
+        break;
+      case 3:
+        // Books - implement books functionality
+        break;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavBarWidget(
+      currentIndex: _currentIndex,
+      onTap: _onBottomNavTap,
+    );
+  }
+}
+
+

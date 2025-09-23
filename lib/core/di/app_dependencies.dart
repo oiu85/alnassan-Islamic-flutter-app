@@ -1,7 +1,8 @@
 import 'package:get_it/get_it.dart';
 
 import '../../features/html_viewer/injection.dart';
-import '../../features/sound_library/injection.dart';
+import '../../features/sound_library/di/injection.dart';
+import '../../features/video_library/di/injection.dart';
 import '../network/network_client.dart';
 import '../../features/biography/di/injection.dart';
 import '../../features/biographies_and_hadiths/di/injection.dart';
@@ -22,5 +23,6 @@ void setupAppDependencies() {
   registerBiographiesDependencies(getIt);
   registerAlmawdueaDependencies(getIt);
   registerLessonDependencies(getIt);
-  configureSoundLibraryDependencies(getIt);
+  registerSoundLibraryDependencies(getIt);
+  registerVideoLibraryDependencies(getIt);
 }

@@ -1,38 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
 import '../widgets/compact_audio_player.dart';
+import '../widgets/floating_download_progress.dart';
+import '../widgets/music_player.dart';
 import '../../data/model.dart';
+import '../bloc/sound_library_bloc.dart';
+import '../bloc/sound_library_event.dart';
+import '../bloc/sound_library_state.dart';
 
 /// Reusable sound card widget used across all sound library pages
-class SoundCard extends StatelessWidget {
+class SoundCard extends StatefulWidget {
   final SoundData sound;
   final double? width;
   final double? height;
-  
+
+  const SoundCard({super.key, required this.sound, this.width, this.height});
+
+  @override
+  State<SoundCard> createState() => _SoundCardState();
+}
+
+class _SoundCardState extends State<SoundCard> {
   // Cache the URL to avoid multiple constructions
   late final String _cachedUrl;
   late final List<String> _cachedAlternativeUrls;
 
-  SoundCard({super.key, required this.sound, this.width, this.height}) {
-    _cachedUrl = _buildSoundUrl(sound);
-    _cachedAlternativeUrls = _getAlternativeUrls(sound);
+  @override
+  void initState() {
+    super.initState();
+    _cachedUrl = _buildSoundUrl(widget.sound);
+    _cachedAlternativeUrls = _getAlternativeUrls(widget.sound);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      color: Colors.white,
-      child: Container(
-        width: width ?? 200,
-        height: height ?? 144,
+    return BlocBuilder<SoundLibraryBloc, SoundLibraryState>(
+      builder: (context, state) {
+        final audioState = state.audioPlayerStates[widget.sound.soundId.toString()] ?? const AudioPlayerState();
+        
+        // Debug logging
+        if (audioState.isFileDownloading) {
+          debugPrint('🎯 SoundCard: isFileDownloading = true for ${widget.sound.soundId}, progress: ${(audioState.downloadProgress * 100).toInt()}%');
+        }
+        
+        return FloatingDownloadOverlay(
+          showProgress: audioState.isFileDownloading,
+          progress: audioState.downloadProgress,
+          downloadedBytes: audioState.downloadedBytes,
+          totalBytes: audioState.totalBytes,
+          fileName: widget.sound.soundFile ?? 'file.rar',
+          child: GestureDetector(
+            onTap: () => _navigateToMusicPlayer(context),
+            child: Card(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            color: Colors.white,
+            child: Container(
+        width: widget.width ?? 200,
+        height: widget.height ?? 144,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             // Fixed height title section
-            Container(
+            SizedBox(
               height: 40,
               child: Row(
                 children: [
@@ -44,7 +77,7 @@ class SoundCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      sound.soundTitle,
+                      widget.sound.soundTitle,
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -60,14 +93,14 @@ class SoundCard extends StatelessWidget {
             // Fixed height info section
             Padding(
               padding: const EdgeInsets.only(right: 4),
-              child: Container(
+              child: SizedBox(
                 height: 20,
                 child: Row(
                   children: [
                     Icon(Icons.visibility, size: 15, color: AppColors.primary),
                     const SizedBox(width: 4),
                     Text(
-                      sound.soundVisitor ?? '0',
+                      widget.sound.soundVisitor ?? '0',
                       style: const TextStyle(
                         fontSize: 11,
                         color: AppColors.grey,
@@ -82,7 +115,7 @@ class SoundCard extends StatelessWidget {
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
-                        _formatDate(sound.soundDate),
+                        _formatDate(widget.sound.soundDate),
                         style: const TextStyle(
                           fontSize: 11,
                           color: AppColors.grey,
@@ -97,59 +130,76 @@ class SoundCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             // Fixed height audio player section
-            Container(
+            SizedBox(
               height: 30,
               child: _cachedUrl.isNotEmpty
                   ? CompactAudioPlayer(
-                      soundId: sound.soundId.toString(),
+                      soundId: widget.sound.soundId.toString(),
                       audioUrl: _cachedUrl,
+                      soundTitle: widget.sound.soundTitle,
                       alternativeUrls: _cachedAlternativeUrls,
                     )
-                  : Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: AppColors.grey.withOpacity(0.1),
-                      ),
-                      child: Center(
-                        child: Text(
-                          sound.soundFile != null && sound.soundFile!.toLowerCase().endsWith('.rar')
-                              ? 'ملف مضغوط (RAR)'
-                              : 'لا يوجد ملف صوتي',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColors.grey,
+                  : Center(
+                    child: widget.sound.soundFile != null && widget.sound.soundFile!.toLowerCase().endsWith('.rar')
+                        ? audioState.isFileDownloading
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                                ),
+                              )
+                            : ElevatedButton.icon(
+                                onPressed: () {
+                                  context.read<SoundLibraryBloc>().add(
+                                    DownloadAudioEvent(
+                                      soundId: widget.sound.soundId.toString(),
+                                      audioUrl: _buildRarDownloadUrl(widget.sound.soundFile!),
+                                      fileName: widget.sound.soundFile!,
+                                      soundTitle: widget.sound.soundTitle,
+                                    ),
+                                  );
+                                },
+                            icon: const Icon(
+                              Icons.download,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                            label: const Text(
+                              'تحميل',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          )
+                        : Text(
+                            'لا يوجد ملف صوتي',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.grey,
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-            ),
-            
-            // Simple debug info
-            const SizedBox(height: 4),
-            GestureDetector(
-              onTap: () {
-                print('Sound: ${sound.soundTitle}');
-                print('File: ${sound.soundFile}');
-                print('URL: ${_buildSoundUrl(sound)}');
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColors.primary.withOpacity(0.1),
-                ),
-                child: const Text(
-                  'DEBUG',
-                  style: TextStyle(
-                    fontSize: 8,
-                    color: AppColors.primary,
                   ),
-                ),
-              ),
             ),
           ],
         ),
       ),
+    ),
+          ),
+        );
+      },
     );
   }
 
@@ -190,5 +240,19 @@ class SoundCard extends StatelessWidget {
     return [];
   }
 
+  /// Builds the download URL for RAR files
+  String _buildRarDownloadUrl(String fileName) {
+    return "https://www.naasan.net/files/sound/$fileName";
+  }
+
+  /// Navigates to the MusicPlayer page
+  void _navigateToMusicPlayer(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MusicPlayer(sound: widget.sound),
+      ),
+    );
+  }
 
 }
