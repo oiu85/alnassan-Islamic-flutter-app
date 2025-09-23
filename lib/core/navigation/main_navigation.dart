@@ -3,7 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/features/home/presentation/pages/home_page.dart';
 import 'package:nassan_app/features/home/presentation/widgets/bottom_bar.dart';
 import 'package:nassan_app/features/advisory_fatwa/presentation/pages/add_advisory.dart';
+import 'package:nassan_app/features/advisory_fatwa/presentation/bloc/advisory_bloc.dart';
 import 'package:nassan_app/features/book_library/presentation/pages/books_page.dart';
+import 'package:nassan_app/features/global_search/presentation/pages/global_search.dart';
+import 'package:nassan_app/features/global_search/presentation/bloc/global_search_bloc.dart';
+import 'package:nassan_app/core/di/app_dependencies.dart';
 import 'bloc/shared_bloc.dart';
 import 'bloc/shared_event.dart';
 import 'bloc/shared_state.dart';
@@ -19,12 +23,25 @@ class _MainNavigationState extends State<MainNavigation> {
   // List of pages for bottom navigation
   final List<Widget> _pages = [
     const HomePage(),
-    const SearchPage(), // Placeholder for search
-    const AddAdvisory(),
-    const BooksPage(), // Placeholder for books
+    const GlobalSearchPage(), // Global search page
+    BlocProvider(
+      create: (context) => getIt<AdvisoryBloc>(),
+      child: const AddAdvisory(),
+    ),
+    const BooksPage(),
   ];
 
   void _onBottomNavTap(int index) {
+    // Clear search state when navigating away from search page (index 1)
+    if (index != 1) {
+      try {
+        context.read<GlobalSearchBloc>().clearSearchState();
+      } catch (e) {
+        // GlobalSearchBloc might not be available if not on search page
+        // This is expected and safe to ignore
+      }
+    }
+    
     context.read<SharedBloc>().add(ChangePageEvent(pageIndex: index));
   }
 
@@ -47,25 +64,4 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 }
 
-// Placeholder pages for search and books
-class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('البحث'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: const Center(
-        child: Text(
-          'صفحة البحث',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
-  }
-}
 

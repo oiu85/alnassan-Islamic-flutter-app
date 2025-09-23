@@ -16,6 +16,7 @@ import 'package:nassan_app/features/words_on_occasions/presentation/pages/words_
 import 'package:nassan_app/features/words_on_occasions/presentation/bloc/words_on_occasions_bloc.dart';
 import 'package:nassan_app/features/words_on_occasions/data/repository/words_on_occasions_repository_impl.dart';
 import 'package:nassan_app/features/video_library/presentation/pages/video_page.dart';
+import 'package:nassan_app/features/advisory_fatwa/presentation/pages/advisors_page.dart';
 
 import '../../../../gen/assets.gen.dart';
 
@@ -129,17 +130,24 @@ class BottomCards extends StatelessWidget {
             tablet: _height(270),
             desktop: _height(300),
           ),
-          child: ContentCard(
-            paddingRight: ScreenUtil().setWidth(60),
-            paddingTop: ScreenUtil().setHeight(65),
-            cardMainImage: Image.asset(
-              Assets.images.qurane.path,
-              width: ScreenUtil().setWidth(80),
-              height: ScreenUtil().setHeight(80),
+          child: InkWell(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const AdvisorsPage(),
+              ));
+            },
+            child: ContentCard(
+              paddingRight: ScreenUtil().setWidth(60),
+              paddingTop: ScreenUtil().setHeight(65),
+              cardMainImage: Image.asset(
+                Assets.images.qurane.path,
+                width: ScreenUtil().setWidth(80),
+                height: ScreenUtil().setHeight(80),
+              ),
+              title: "الفتاوى الشرعية",
+              cardColor: AppColors.bottomCardColor.withAlpha(70),
+              waveColor: AppColors.waveCardColor,
             ),
-            title: "الفتاوى الشرعية",
-            cardColor: AppColors.bottomCardColor.withAlpha(70),
-            waveColor: AppColors.waveCardColor,
           ),
         ),
         // cardColor: Color(0xFFE3B260).withOpacity(0.3),

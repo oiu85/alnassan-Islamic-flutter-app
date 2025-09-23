@@ -19,6 +19,8 @@ import '../../../features/biography/presentation/adapters/drawer_to_biography_ad
 import '../../../features/biography/presentation/bloc/biography_bloc.dart';
 import '../../di/app_dependencies.dart';
 import '../../../features/home/data/model/home_model.dart';
+import '../../../features/contact_us/presentation/pages/contact_us.dart';
+import '../../../features/contact_us/presentation/bloc/contact_bloc.dart';
 
 class AppDrawer extends StatelessWidget {
   final List<ArticleCategory>? categories;
@@ -152,7 +154,16 @@ class AppDrawer extends StatelessWidget {
               SizedBox(height: _height(35)),
               buildDrawerItem(
                 context,"اتصل بنا", Assets.images.contactUs.path, () {
-              }),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                        create: (context) => getIt<ContactBloc>(),
+                        child: const ContactUs(),
+                      ),
+                    ),
+                  );
+                }),
               SizedBox(height: _height(25)),
               buildDrawerItem(
                 context,"قناة التلغرام", Assets.images.telegram.path, () {

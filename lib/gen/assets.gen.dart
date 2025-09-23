@@ -20,6 +20,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/Frame 1321317284.png
   AssetGenImage get frame1321317284 => const AssetGenImage('assets/images/Frame 1321317284.png');
 
+  /// File path: assets/images/Search_empty.png
+  AssetGenImage get searchEmpty => const AssetGenImage('assets/images/Search_empty.png');
+
   /// File path: assets/images/background_candles_zh.png
   AssetGenImage get backgroundCandlesZh => const AssetGenImage('assets/images/background_candles_zh.png');
 
@@ -119,6 +122,7 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
     frame1321317284,
+    searchEmpty,
     backgroundCandlesZh,
     backgroundZh,
     book,

@@ -17,15 +17,6 @@ class ApiConfig {
     return '$baseUrl/public/categories/articles/with-articles?category_ids=$categoryIds&page=$page&per_page=$perPage';
   }
 
-  /// Get single article detail by ID
-  /// Parameters: articleId, include (optional)
-  static String getArticleDetail({
-    required int articleId,
-    String include = 'category',
-  }) {
-    return '$baseUrl/public/articles/$articleId?include=$include';
-  }
-
   // ===== SPECIFIC ARTICLE ENDPOINTS =====
   /// Biography article endpoint (hardcoded ID: 27)
   static const String biographyArticleUrl = '$baseUrl/public/articles/27';
@@ -148,6 +139,81 @@ class ApiConfig {
   }) {
     return '$baseUrl/public/videos?sort=$sort&page=$page&perpage=$perpage';
   }
+
+  // ===== GLOBAL SEARCH ENDPOINTS =====
+  /// Global search endpoint
+  /// Parameters: q (query), type (optional), page, per_page
+  static String getGlobalSearch({
+    required String query,
+    String? type,
+    int page = 1,
+    int perPage = 10,
+  }) {
+    final params = <String, String>{
+      'q': query,
+      'page': page.toString(),
+      'per_page': perPage.toString(),
+    };
+    
+    if (type != null && type != 'جميع الأقسام') {
+      final typeMapping = {
+        'قسم المقالات': 'articles',
+        'قسم الفتاوى': 'advisories',
+        'قسم الصوتيات': 'sounds',
+      };
+      params['type'] = typeMapping[type] ?? type;
+    }
+    
+    final queryString = params.entries
+        .map((e) => '${e.key}=${e.value}')
+        .join('&');
+    
+    return '$baseUrl/public/search?$queryString';
+  }
+
+  // ===== ARTICLE DETAIL ENDPOINTS =====
+  /// Get article detail by ID with category information
+  /// Parameters: articleId, include (optional)
+  static String getArticleDetail({
+    required int articleId,
+    String include = 'category',
+  }) {
+    return '$baseUrl/public/articles/$articleId?include=$include';
+  }
+
+  // ===== SOUND DETAIL ENDPOINTS =====
+  /// Get sound detail by ID with category information
+  /// Parameters: soundId, include (optional)
+  static String getSoundDetail({
+    required int soundId,
+    String include = 'category',
+  }) {
+    return '$baseUrl/public/sounds/$soundId?include=$include';
+  }
+
+  // ===== ADVISORY CATEGORIES ENDPOINTS =====
+  /// Get advisory categories with pagination
+  /// Parameters: categories_per_page, categories_page
+  static String getAdvisoryCategories({
+    int categoriesPerPage = 3,
+    int categoriesPage = 1,
+  }) {
+    return '$baseUrl/public/categories/advisories?categories_per_page=$categoriesPerPage&categories_page=$categoriesPage';
+  }
+
+  // ===== ADVISORY FATWAS ENDPOINTS =====
+  /// Get recent advisories
+  static const String getRecentAdvisories = '$baseUrl/public/advisories/recent';
+
+  /// Get popular advisories
+  static const String getPopularAdvisories = '$baseUrl/public/advisories/popular';
+
+  /// Submit advisory question
+  static const String submitAdvisoryUrl = '$baseUrl/public/advisories';
+
+  // ===== CONTACT US ENDPOINTS =====
+  /// Contact us form submission endpoint
+  static const String contactUsUrl = '$baseUrl/public/contact';
 
   // ===== LEGACY ENDPOINTS (for backward compatibility) =====
   @Deprecated('Use getArticlesByCategory instead')
