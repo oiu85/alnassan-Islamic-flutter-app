@@ -21,6 +21,7 @@ import '../../../features/biography/presentation/adapters/drawer_to_biography_ad
 import '../../../features/biography/presentation/bloc/biography_bloc.dart';
 import '../../di/app_dependencies.dart';
 import '../../../features/home/data/model/home_model.dart';
+import '../../settings/presentation/pages/settings_page.dart';
 import '../../utils/url_launcher_utils.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -210,6 +211,12 @@ class AppDrawer extends StatelessWidget {
                 "إعدادات التطبيق",
                 Assets.images.settings.path,
                 () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SettingsPage(),
+                    ),
+                  );
                 },
               ),
             ],

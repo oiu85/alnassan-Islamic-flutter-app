@@ -1,33 +1,46 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../settings/domain/services/settings_service.dart';
+
 /// Centralized Screen Utility Library
 /// This file provides a single point of access for all screen utilities
 /// and font size calculations across the entire application
 class ScreenUtilRes {
-  // Font size multiplier - change this value to adjust all app fonts globally
-  static const double _fontSizeMultiplier = 1.0;
+  // Settings service instance
+  static final SettingsService _settingsService = SettingsService();
+  
+  // Font size multiplier - now dynamic from settings
+  static double get _fontSizeMultiplier => _settingsService.fontSizeMultiplier;
+  
+  // UI scale multiplier - fixed at 1.0 (no UI scaling)
+  static double get _uiScaleMultiplier => 1.0;
+  
+  // Initialize settings service
+  static Future<void> initialize() async {
+    await _settingsService.initialize();
+  }
   
   // Screen utility instance
   static ScreenUtil get _screenUtil => ScreenUtil();
   
-  /// Get responsive width
-  static double width(double size) => _screenUtil.setWidth(size);
+  /// Get responsive width with UI scale multiplier
+  static double width(double size) => _screenUtil.setWidth(size) * _uiScaleMultiplier;
   
-  /// Get responsive height
-  static double height(double size) => _screenUtil.setHeight(size);
+  /// Get responsive height with UI scale multiplier
+  static double height(double size) => _screenUtil.setHeight(size) * _uiScaleMultiplier;
   
-  /// Get responsive radius
-  static double radius(double size) => _screenUtil.radius(size);
+  /// Get responsive radius with UI scale multiplier
+  static double radius(double size) => _screenUtil.radius(size) * _uiScaleMultiplier;
   
   /// Get responsive font size with global multiplier
   /// This is the centralized font size calculation for the entire app
   static double fontSize(double size) => _screenUtil.setSp(size) * _fontSizeMultiplier;
   
-  /// Get responsive padding/margin
-  static double padding(double size) => _screenUtil.setWidth(size);
+  /// Get responsive padding/margin with UI scale multiplier
+  static double padding(double size) => _screenUtil.setWidth(size) * _uiScaleMultiplier;
   
-  /// Get responsive spacing
-  static double spacing(double size) => _screenUtil.setHeight(size);
+  /// Get responsive spacing with UI scale multiplier
+  static double spacing(double size) => _screenUtil.setHeight(size) * _uiScaleMultiplier;
   
   /// Get screen width
   static double get screenWidth => _screenUtil.screenWidth;
