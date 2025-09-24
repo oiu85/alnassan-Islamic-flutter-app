@@ -42,9 +42,12 @@ class HomePage extends StatelessWidget {
   }
 
   Widget homeContent(BuildContext context, HomeState state) {
-    return CloseAppWillPopScope(
-      child: AppScaffold.home(
-        body: Padding(
+    // Make sure the HomeBloc is accessible to the AppDrawer
+    return BlocProvider.value(
+      value: context.read<HomeBloc>(),
+      child: CloseAppWillPopScope(
+        child: AppScaffold.home(
+          body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 27.w),
           child: SingleChildScrollView(
             child: ConstrainedBox(
@@ -129,6 +132,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

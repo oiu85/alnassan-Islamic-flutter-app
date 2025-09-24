@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/shared/wdigets/app_drawer.dart';
+import 'package:nassan_app/features/home/data/model/home_model.dart';
+import 'package:nassan_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:nassan_app/features/home/presentation/widgets/bottom_bar.dart';
 import 'package:nassan_app/features/advisory_fatwa/presentation/pages/add_advisory.dart';
 import 'package:nassan_app/features/notifications/presentation/pages/notifications_page.dart';
@@ -118,7 +121,20 @@ class AppScaffold extends StatelessWidget {
   }
 
   static Widget _defaultDrawer() {
-    return const Drawer(child: AppDrawer());
+    return Builder(
+      builder: (context) {
+        // Try to get categories from HomeBloc if available
+        List<ArticleCategory>? categories;
+        try {
+          final homeBloc = BlocProvider.of<HomeBloc>(context, listen: false);
+          categories = homeBloc.state.homeData?.data?.articleCategories;
+        } catch (e) {
+          // HomeBloc might not be available, that's okay
+        }
+        
+        return Drawer(child: AppDrawer(categories: categories));
+      }
+    );
   }
 
   static Widget _defaultBottomBar() {

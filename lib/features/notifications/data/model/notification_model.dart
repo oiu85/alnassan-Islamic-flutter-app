@@ -90,3 +90,5 @@ abstract class NotificationResponseInfo with _$NotificationResponseInfo {
   factory NotificationResponseInfo.fromJson(Map<String, dynamic> json) =>
       _$NotificationResponseInfoFromJson(json);
 }
+
+

@@ -199,3 +199,5 @@ extension BookCategoryExtensions on BookCategory {
   /// Check if category should show in main
   bool get shouldShowInMain => catShowMain == '1';
 }
+
+

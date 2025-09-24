@@ -47,3 +47,5 @@ class NotificationState extends Equatable {
         currentPage,
       ];
 }
+
+

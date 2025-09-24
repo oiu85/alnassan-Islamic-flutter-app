@@ -39,3 +39,5 @@ class RefreshFatwaListEvent extends FatwaListEvent {
   @override
   List<Object?> get props => [];
 }
+
+

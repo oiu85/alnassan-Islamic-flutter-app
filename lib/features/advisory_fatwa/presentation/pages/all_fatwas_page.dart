@@ -162,3 +162,5 @@ class _AllFatwasPageState extends State<AllFatwasPage> {
     );
   }
 }
+
+

@@ -21,3 +21,5 @@ abstract class BooksEvent with _$BooksEvent {
   /// Resets the books state
   const factory BooksEvent.resetBooks() = ResetBooksEvent;
 }
+
+

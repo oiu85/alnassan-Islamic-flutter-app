@@ -14,3 +14,5 @@ void registerNotificationDependencies(GetIt getIt) {
   // BLoC
   getIt.registerFactory(() => NotificationBloc(getIt<NotificationRepository>()));
 }
+
+
