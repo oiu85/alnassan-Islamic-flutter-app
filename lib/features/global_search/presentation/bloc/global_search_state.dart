@@ -14,6 +14,8 @@ class GlobalSearchState extends Equatable {
   final SearchResponseModel? searchResults;
   final int currentPage;
   final bool hasMoreResults;
+  final bool noResultsFound;
+  final List<String> searchHistory;
 
   const GlobalSearchState({
     this.searchText = '',
@@ -28,6 +30,8 @@ class GlobalSearchState extends Equatable {
     this.searchResults,
     this.currentPage = 1,
     this.hasMoreResults = false,
+    this.noResultsFound = false,
+    this.searchHistory = const [],
   });
 
   GlobalSearchState copyWith({
@@ -43,6 +47,8 @@ class GlobalSearchState extends Equatable {
     SearchResponseModel? searchResults,
     int? currentPage,
     bool? hasMoreResults,
+    bool? noResultsFound,
+    List<String>? searchHistory,
   }) {
     return GlobalSearchState(
       searchText: searchText ?? this.searchText,
@@ -57,6 +63,8 @@ class GlobalSearchState extends Equatable {
       searchResults: searchResults ?? this.searchResults,
       currentPage: currentPage ?? this.currentPage,
       hasMoreResults: hasMoreResults ?? this.hasMoreResults,
+      noResultsFound: noResultsFound ?? this.noResultsFound,
+      searchHistory: searchHistory ?? this.searchHistory,
     );
   }
 
@@ -74,5 +82,7 @@ class GlobalSearchState extends Equatable {
         searchResults,
         currentPage,
         hasMoreResults,
+        noResultsFound,
+        searchHistory,
       ];
 }

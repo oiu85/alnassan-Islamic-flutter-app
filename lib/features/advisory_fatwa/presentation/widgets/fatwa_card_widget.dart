@@ -65,14 +65,6 @@ class FatwaCardWidget extends StatelessWidget {
 
   Widget _buildCategoryBadge(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 8.w,
-        vertical: 4.h,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -88,7 +80,7 @@ class FatwaCardWidget extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontFamily: FontFamily.tajawal,
               fontSize: 12.f,
-              color: AppColors.primary,
+              color: AppColors.black,
             ),
           ),
         ],

@@ -142,30 +142,13 @@ class SettingsPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: AppColors.white,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Theme Section
-            _buildSectionCard(
-              context,
-              state,
-              title: 'المظهر',
-              icon: Icons.palette,
-              children: [
-                _buildThemeToggle(context, state),
-                SizedBox(height: 16.h),
-                _buildLanguageSelector(context, state),
-              ],
-            ),
-            
-            SizedBox(height: 20.h),
-            
             // Font Size Section
             _buildSectionCard(
               context,
@@ -179,11 +162,10 @@ class SettingsPage extends StatelessWidget {
               ],
             ),
             
-            
             SizedBox(height: 20.h),
             
-            
-            SizedBox(height: 40.h),
+            // Submit Button Section
+            _buildSubmitButton(context, state),
           ],
         ),
       ),
@@ -204,15 +186,7 @@ class SettingsPage extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: state.isDarkMode ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 8.r,
-            offset: Offset(0, 2.h),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,61 +217,6 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildThemeToggle(BuildContext context, SettingsState state) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'الوضع المظلم',
-          style: TextStyle(
-            fontFamily: FontFamily.tajawal,
-            fontSize: 16.f,
-            color: state.isDarkMode ? Colors.white : Colors.black,
-          ),
-        ),
-        Switch(
-          value: state.isDarkMode,
-          onChanged: (value) {
-            context.read<SettingsBloc>().add(UpdateDarkModeEvent(value));
-          },
-          activeColor: AppColors.primary,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLanguageSelector(BuildContext context, SettingsState state) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'اللغة',
-          style: TextStyle(
-            fontFamily: FontFamily.tajawal,
-            fontSize: 16.f,
-            color: state.isDarkMode ? Colors.white : Colors.black,
-          ),
-        ),
-        SizedBox(height: 8.h),
-        DropdownButton<String>(
-          value: state.selectedLanguage,
-          isExpanded: true,
-          style: TextStyle(
-            fontFamily: FontFamily.tajawal,
-            fontSize: 14.f,
-            color: state.isDarkMode ? Colors.white : Colors.black,
-          ),
-          items: [
-            DropdownMenuItem(value: 'ar', child: Text('العربية')),
-            DropdownMenuItem(value: 'en', child: Text('English')),
-          ],
-          onChanged: (value) {
-            context.read<SettingsBloc>().add(UpdateLanguageEvent(value!));
-          },
-        ),
-      ],
-    );
-  }
 
   Widget _buildFontSizeSlider(BuildContext context, SettingsState state) {
     // Get screen type and set appropriate min/max values
@@ -392,7 +311,164 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-
+  Widget _buildSubmitButton(BuildContext context, SettingsState state) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(20.w),
+      decoration: BoxDecoration(
+        color: state.isDarkMode ? Colors.grey[800] : Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 8.r,
+            offset: Offset(0, 2.h),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: state.isSaving ? null : () {
+                context.read<SettingsBloc>().add(SubmitSettingsEvent());
+                _showSuccessDialog(context);
+              },
+              icon: state.isSaving
+                  ? SizedBox(
+                      width: 20.w,
+                      height: 20.h,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.w,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : Icon(Icons.save, size: 20.f),
+              label: Text(
+                state.isSaving ? 'جاري الحفظ...' : 'حفظ الإعدادات',
+                style: TextStyle(
+                  fontFamily: FontFamily.tajawal,
+                  fontSize: 16.f,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 16.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                elevation: 2,
+              ),
+            ),
+          ),
+          SizedBox(height: 12.h),
+          Text(
+            'اضغط على حفظ لتطبيق التغييرات. ستحتاج إلى إعادة تشغيل التطبيق لرؤية التغييرات.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: FontFamily.tajawal,
+              fontSize: 12.f,
+              color: AppColors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  void _showSuccessDialog(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: '',
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) => Container(
+        color: Colors.black54,
+        child: Center(
+          child: Container(
+            margin: EdgeInsets.all(20.w),
+            padding: EdgeInsets.all(24.w),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.r),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 10.r,
+                  offset: Offset(0, 4.h),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(16.w),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.check_circle,
+                    color: Colors.green,
+                    size: 48.f,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Text(
+                  'تم حفظ الإعدادات بنجاح!',
+                  style: TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                    fontSize: 20.f,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                Text(
+                  'تم حفظ جميع الإعدادات بنجاح. يرجى إعادة تشغيل التطبيق لرؤية التغييرات.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                    fontSize: 14.f,
+                    color: Colors.grey[600],
+                    height: 1.5,
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
+                    child: Text(
+                      'موافق',
+                      style: TextStyle(
+                        fontFamily: FontFamily.tajawal,
+                        fontSize: 16.f,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
 }
 

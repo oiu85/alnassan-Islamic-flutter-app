@@ -69,3 +69,35 @@ class PerformSearch extends GlobalSearchEvent {
 class LoadMoreResults extends GlobalSearchEvent {
   const LoadMoreResults();
 }
+
+// Search history events
+class AddToSearchHistory extends GlobalSearchEvent {
+  final String query;
+  
+  const AddToSearchHistory(this.query);
+  
+  @override
+  List<Object?> get props => [query];
+}
+
+class RemoveFromSearchHistory extends GlobalSearchEvent {
+  final String query;
+  
+  const RemoveFromSearchHistory(this.query);
+  
+  @override
+  List<Object?> get props => [query];
+}
+
+class ClearSearchHistory extends GlobalSearchEvent {
+  const ClearSearchHistory();
+}
+
+class UpdateSearchHistory extends GlobalSearchEvent {
+  final List<String> history;
+  
+  const UpdateSearchHistory(this.history);
+  
+  @override
+  List<Object?> get props => [history];
+}

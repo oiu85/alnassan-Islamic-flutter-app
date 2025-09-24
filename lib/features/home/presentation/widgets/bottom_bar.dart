@@ -26,33 +26,26 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
   // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
   Widget buildNavItem(
-    String title,
     String imagePath,
     int index,
     double iconSize,
   ) {
     final isActive = widget.currentIndex == index;
     
-    return GestureDetector(
+    return InkWell(
       onTap: () => widget.onTap(index),
       child: SizedBox(
         height: 52.h,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+
           children: [
             Image.asset(
               imagePath,
               width: iconSize.w,
               height: iconSize.h,
               color: isActive ? AppColors.primary : AppColors.grey,
-            ),
-            SizedBox(height: 2.h),
-            Text(
-              title,
-              style: TextStyle(
-                fontFamily: FontFamily.tajawal,
-                color: isActive ? AppColors.primary : AppColors.grey,
-                fontWeight: FontWeight.bold,
-              ),
             ),
           ],
         ),
@@ -86,33 +79,29 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
         vertical: 3.h,
       ),
       margin: EdgeInsets.only(
-        right: 12.w,
-        left: 12.w,
+        right: 20.w,
+        left: 20.w,
         bottom: 20.h,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           buildNavItem(
-            "الرئيسية",
             Assets.images.home2.path,
             0,
             iconSize,
           ),
           buildNavItem(
-            "البحث",
             Assets.images.search.path,
             1,
             iconSize,
           ),
           buildNavItem(
-            "إضافة فتوى",
             Assets.images.messageAdd.path,
             2,
             iconSize,
           ),
           buildNavItem(
-            "الكتب والمؤلفات",
             Assets.images.book.path,
             3,
             iconSize,

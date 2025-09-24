@@ -1,23 +1,26 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../settings/domain/services/settings_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Centralized Screen Utility Library
 /// This file provides a single point of access for all screen utilities
 /// and font size calculations across the entire application
 class ScreenUtilRes {
-  // Settings service instance
-  static final SettingsService _settingsService = SettingsService();
-  
-  // Font size multiplier - now dynamic from settings
-  static double get _fontSizeMultiplier => _settingsService.fontSizeMultiplier;
+  // Font size multiplier - static for now, will be updated on app restart
+  static double _fontSizeMultiplier = 1.0;
   
   // UI scale multiplier - fixed at 1.0 (no UI scaling)
   static double get _uiScaleMultiplier => 1.0;
   
-  // Initialize settings service
+  // Initialize settings service and load font size
   static Future<void> initialize() async {
-    await _settingsService.initialize();
+    // Load font size from SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    _fontSizeMultiplier = prefs.getDouble('font_size_multiplier') ?? 1.0;
+  }
+  
+  // Method to update font size multiplier (called after settings are saved)
+  static void updateFontSizeMultiplier(double multiplier) {
+    _fontSizeMultiplier = multiplier;
   }
   
   // Screen utility instance

@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
+import 'package:android_intent_plus/android_intent.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
@@ -31,6 +33,49 @@ class AppDrawer extends StatelessWidget {
 
   // Using extension methods for easier access
   // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
+
+  /// Launches the Telegram channel URL
+  /// Uses android_intent_plus for Android and copies URL to clipboard for other platforms
+  Future<void> _launchTelegramChannel(BuildContext context) async {
+    const String telegramUrl = 'https://telegram.me/ahmadnaasan';
+    
+    try {
+      if (Platform.isAndroid) {
+        // Use android_intent_plus for Android
+        final AndroidIntent intent = AndroidIntent(
+          action: 'action_view',
+          data: telegramUrl,
+        );
+        await intent.launch();
+      } else {
+        // For other platforms (iOS, Web, etc.), copy URL to clipboard
+        // This is a fallback since we don't have url_launcher configured
+        await UrlLauncherUtils.launchUrl(telegramUrl);
+        
+        // Show success message for clipboard copy
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('تم نسخ رابط قناة التلغرام إلى الحافظة'),
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      // Show error message if the launch fails
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('حدث خطأ في فتح قناة التلغرام: $e'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +219,7 @@ class AppDrawer extends StatelessWidget {
                 () async {
                   try {
                     await UrlLauncherUtils.launchWhatsApp(
-                      phoneNumber: '9639911929522',
+                      phoneNumber: '+963991192952',
                       message: 'السلام عليكم ورحمة الله وبركاته\nأريد الاستفسار عن:',
                     );
                   } catch (e) {
@@ -204,7 +249,8 @@ class AppDrawer extends StatelessWidget {
               SizedBox(height: 25.h),
               buildDrawerItem(
                 context,"قناة التلغرام", Assets.images.telegram.path, () {
-              }),
+                  _launchTelegramChannel(context);
+                }),
               SizedBox(height: 25.h),
               buildDrawerItem(
                 context,

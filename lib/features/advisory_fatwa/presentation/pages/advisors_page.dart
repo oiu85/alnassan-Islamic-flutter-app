@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/di/app_dependencies.dart';
@@ -11,6 +11,7 @@ import '../bloc/advisory_categories_state.dart';
 import '../bloc/advisory_bloc.dart';
 import '../bloc/advisory_events.dart';
 import '../widgets/widgets.dart';
+import 'all_fatwas_page.dart';
 
 class AdvisorsPage extends StatelessWidget {
   const AdvisorsPage({super.key});
@@ -71,10 +72,6 @@ class AdvisorsPage extends StatelessWidget {
           // Subject Index Section
           SectionHeaderWidget(
             title: "الفهرس الموضوعي",
-            actionText: "الكل",
-            onActionTap: () {
-              // TODO: Navigate to all categories
-            },
           ),
 
           SizedBox(height: 12.h),
@@ -87,7 +84,14 @@ class AdvisorsPage extends StatelessWidget {
             title: "الفتاوى الأكثر اطلاعا",
             actionText: "الكل",
             onActionTap: () {
-              // TODO: Navigate to most viewed fatwas
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const AllFatwasPage(
+                    title: "الفتاوى الأكثر اطلاعا",
+                    isRecent: false,
+                  ),
+                ),
+              );
             },
           ),
 
@@ -106,7 +110,14 @@ class AdvisorsPage extends StatelessWidget {
             title: "اخر الفتاوى اظافة",
             actionText: "الكل",
             onActionTap: () {
-              // TODO: Navigate to latest fatwas
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const AllFatwasPage(
+                    title: "اخر الفتاوى اظافة",
+                    isRecent: true,
+                  ),
+                ),
+              );
             },
           ),
 

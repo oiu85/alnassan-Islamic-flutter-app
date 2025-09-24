@@ -4,6 +4,9 @@ import 'package:dartz/dartz.dart';
 import '../../../../config/api_config.dart';
 import '../../../../core/network/network_client.dart';
 import '../model/advisory_categories_model.dart';
+import '../model/category_details_model.dart';
+import '../model/advisory_detail.dart';
+import '../model/fatwa_list_model.dart';
 import '../../domain/repository/advisory_categories_repository.dart';
 
 class AdvisoryCategoriesRepositoryImpl implements AdvisoryCategoriesRepository {
@@ -130,6 +133,111 @@ class AdvisoryCategoriesRepositoryImpl implements AdvisoryCategoriesRepository {
       return Left(errorMessage);
     } catch (e) {
       return Left('عذراً، حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى');
+    }
+  }
+  
+  @override
+  Future<Either<String, CategoryDetailsModel>> getCategoryDetails({
+    required int categoryId,
+    int childrenPerPage = 10,
+    int childrenPage = 1,
+    int fatwasPerChild = 3,
+  }) async {
+    try {
+      final url = ApiConfig.getAdvisoryCategoryDetails(
+        categoryId: categoryId,
+        childrenPerPage: childrenPerPage,
+        childrenPage: childrenPage,
+        fatwasPerChild: fatwasPerChild,
+      );
+
+      final response = await _networkClient.get(url);
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        final model = CategoryDetailsModel.fromJson(data);
+        return Right(model);
+      } else {
+        return Left('Failed to load category details: ${response.statusMessage}');
+      }
+    } on DioException catch (e) {
+      String errorMessage = 'حدث خطأ أثناء تحميل تفاصيل القسم';
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        errorMessage = 'انتهت مهلة الاتصال. يرجى التحقق من الإنترنت والمحاولة مرة أخرى';
+      } else if (e.type == DioExceptionType.connectionError) {
+        errorMessage = 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الاتصال والمحاولة مرة أخرى';
+      }
+      return Left(errorMessage);
+    } catch (e) {
+      return Left('حدث خطأ غير متوقع: $e');
+    }
+  }
+  
+  @override
+  Future<Either<String, AdvisoryDetailResponse>> getAdvisoryDetails(int advisoryId) async {
+    try {
+      final url = ApiConfig.getAdvisoryDetails(advisoryId);
+      final response = await _networkClient.get(url);
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        final model = AdvisoryDetailResponse.fromJson(data);
+        return Right(model);
+      } else {
+        return Left('Failed to load advisory details: ${response.statusMessage}');
+      }
+    } on DioException catch (e) {
+      String errorMessage = 'حدث خطأ أثناء تحميل تفاصيل الفتوى';
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        errorMessage = 'انتهت مهلة الاتصال. يرجى التحقق من الإنترنت والمحاولة مرة أخرى';
+      } else if (e.type == DioExceptionType.connectionError) {
+        errorMessage = 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الاتصال والمحاولة مرة أخرى';
+      }
+      return Left(errorMessage);
+    } catch (e) {
+      return Left('حدث خطأ غير متوقع: $e');
+    }
+  }
+  
+  @override
+  Future<Either<String, FatwaListModel>> getFatwasByCategory({
+    required int categoryId,
+    int perPage = 5,
+    int page = 1,
+    String sortBy = 'priority',
+    String sortOrder = 'desc',
+  }) async {
+    try {
+      final url = ApiConfig.getFatwasByCategory(
+        categoryId: categoryId,
+        perPage: perPage,
+        page: page,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
+      );
+
+      final response = await _networkClient.get(url);
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        final model = FatwaListModel.fromJson(data);
+        return Right(model);
+      } else {
+        return Left('Failed to load fatwas: ${response.statusMessage}');
+      }
+    } on DioException catch (e) {
+      String errorMessage = 'حدث خطأ أثناء تحميل الفتاوى';
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        errorMessage = 'انتهت مهلة الاتصال. يرجى التحقق من الإنترنت والمحاولة مرة أخرى';
+      } else if (e.type == DioExceptionType.connectionError) {
+        errorMessage = 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الاتصال والمحاولة مرة أخرى';
+      }
+      return Left(errorMessage);
+    } catch (e) {
+      return Left('حدث خطأ غير متوقع: $e');
     }
   }
 }

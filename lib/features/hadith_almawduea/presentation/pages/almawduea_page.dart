@@ -248,56 +248,75 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
               ),
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
-                  child: Text(
-                    // Display article summary
-                    article.articleSummary ?? 'ملخص غير متوفر',
+          // Wrap in a flexible container to prevent overflow
+          Flexible(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // Calculate if text needs expand button
+                final TextPainter textPainter = TextPainter(
+                  text: TextSpan(
+                    text: article.articleSummary ?? 'ملخص غير متوفر',
                     style: TextStyle(
                       fontSize: 14.f,
                       fontFamily: FontFamily.tajawal,
                       height: 1.4,
                     ),
-                    maxLines: isExpanded ? null : 4,
-                    overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
                   ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.h),
-          Row(children: [
-            InkWell(
-              onTap: () => _toggleArticleExpansion(article.articleId ?? 0),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                child: Row(
+                  maxLines: 4,
+                  textDirection: TextDirection.rtl,
+                )..layout(maxWidth: constraints.maxWidth);
+                
+                final bool isTextOverflowing = textPainter.didExceedMaxLines;
+                
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      isExpanded ? "عرض أقل" : "المزيد",
+                      // Display article summary
+                      article.articleSummary ?? 'ملخص غير متوفر',
                       style: TextStyle(
-                        fontWeight: FontWeight.w600,
+                        fontSize: 14.f,
                         fontFamily: FontFamily.tajawal,
-                        color: Colors.black,
-                        fontSize: 13.f,
-                        letterSpacing: 0.5,
+                        height: 1.4,
                       ),
+                      maxLines: isExpanded ? 5 : 4,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(width: 6.w),
-                    Icon(
-                      isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                      color: Colors.black,
-                      size: 16.f,
-                    ),
+                    // Only show expand button if text overflows
+                    if (isTextOverflowing)
+                      InkWell(
+                        onTap: () => _toggleArticleExpansion(article.articleId ?? 0),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                isExpanded ? "عرض أقل" : "المزيد",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: FontFamily.tajawal,
+                                  color: Colors.black,
+                                  fontSize: 13.f,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                              SizedBox(width: 6.w),
+                              Icon(
+                                isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                                color: Colors.black,
+                                size: 16.f,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                   ],
-                ),
-              ),
-            )
-          ],),
+                );
+              },
+            ),
+          ),
           Divider(
             color: AppColors.primary,
             thickness: 2.h,
@@ -305,12 +324,30 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
           Row(
             children: [
               Spacer(),
-              IconButton(onPressed: (){}, icon: Icon(Icons.calendar_month_outlined)),
-              Text(article.articleDate ?? 'غير محدد', style: TextStyle(fontSize: 12.f)),
-              IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined)),
-              Text(article.articleVisitor ?? '0', style: TextStyle(fontFamily: FontFamily.tajawal)),
+              Icon(Icons.calendar_month_outlined, size: 18.f, color: Colors.grey[600]),
+              SizedBox(width: 4.w),
+              Text(
+                article.articleDate ?? 'غير محدد', 
+                style: TextStyle(
+                  fontSize: 12.f,
+                  fontFamily: FontFamily.tajawal,
+                  color: Colors.grey[600],
+                )
+              ),
+              SizedBox(width: 12.w),
+              Icon(Icons.remove_red_eye_outlined, size: 18.f, color: Colors.grey[600]),
+              SizedBox(width: 4.w),
+              Text(
+                article.articleVisitor ?? '0', 
+                style: TextStyle(
+                  fontSize: 12.f,
+                  fontFamily: FontFamily.tajawal,
+                  color: Colors.grey[600],
+                )
+              ),
             ],
           ),
+          SizedBox(height: 20.h),
           GestureDetector(
             onTap: isLoading ? null : () => _onArticleCardClick(article),
             child: Container(

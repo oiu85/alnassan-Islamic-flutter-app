@@ -37,3 +37,5 @@ class ApplyPresetEvent extends SettingsEvent {
     required this.uiScaleMultiplier,
   });
 }
+
+class SubmitSettingsEvent extends SettingsEvent {}

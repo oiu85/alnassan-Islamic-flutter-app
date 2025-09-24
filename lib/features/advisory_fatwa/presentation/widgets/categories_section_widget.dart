@@ -9,6 +9,7 @@ import '../../../../gen/assets.gen.dart';
 import '../bloc/advisory_categories_bloc.dart';
 import '../bloc/advisory_categories_event.dart';
 import '../bloc/advisory_categories_state.dart';
+import '../pages/category_details_page.dart';
 
 class CategoriesSectionWidget extends StatefulWidget {
   const CategoriesSectionWidget({super.key});
@@ -158,7 +159,14 @@ class _CategoriesSectionWidgetState extends State<CategoriesSectionWidget> {
         ),
         child: InkWell(
           onTap: () {
-            // TODO: Navigate to category details or fatwas
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => CategoryDetailsPage(
+                  categoryId: category.catId ?? 0,
+                  categoryTitle: category.catTitle ?? 'قسم',
+                ),
+              ),
+            );
           },
           borderRadius: BorderRadius.circular(20),
           child: Stack(

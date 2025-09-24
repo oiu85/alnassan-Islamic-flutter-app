@@ -1,12 +1,11 @@
-import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../../../core/models/page_state/bloc_status.dart';
 import '../../domain/repository/sound_library_repository.dart';
 import '../../data/model.dart';
+import '../../data/services/sound_downloader.dart';
+import '../../data/services/sound_file_type_util.dart';
 import 'sound_library_event.dart';
 import 'sound_library_state.dart';
 
@@ -760,6 +759,9 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     print('📁 Final filename: $finalFileName');
     print('📥 Download URL: $audioUrl');
     
+    // Import the sound downloader service
+    final soundDownloader = SoundDownloader();
+    
     // Set downloading state
     final currentState = state.audioPlayerStates[soundId] ?? const AudioPlayerState();
     final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
@@ -775,71 +777,68 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     print('🚀 Download started for $soundId - isFileDownloading set to true');
     
     try {
-      // Create Dio instance with timeout
-      final dio = Dio();
-      dio.options.connectTimeout = const Duration(seconds: 30);
-      dio.options.receiveTimeout = const Duration(seconds: 60);
-      
-      // Get external storage directory (phone files)
-      final directory = await getExternalStorageDirectory();
-      if (directory == null) {
-        throw Exception('External storage not available');
+      // Check if file already exists
+      if (await soundDownloader.fileExists(finalFileName)) {
+        final filePath = await soundDownloader.getLocalFilePath(finalFileName);
+        
+        // Update state to show download completed
+        final successStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
+        successStates[soundId] = currentState.copyWith(
+          isFileDownloading: false,
+          hasError: false,
+          downloadProgress: 1.0,
+        );
+        emit(state.copyWith(audioPlayerStates: successStates));
+        
+        // Show success message with file path
+        add(ShowDownloadMessageEvent(
+          message: 'الملف موجود بالفعل: $finalFileName\nالمسار: $filePath',
+          isSuccess: true,
+        ));
+        
+        return;
       }
       
-      // Use the app's external storage directory
-      // This will be accessible in the phone's file manager
-      // Path: /storage/emulated/0/Android/data/com.example.app/files/AlnassanApp/Downloads/
-      final appDir = Directory('${directory.path}/AlnassanApp/Downloads');
-      if (!await appDir.exists()) {
-        await appDir.create(recursive: true);
-      }
-      
-      final filePath = '${appDir.path}/$finalFileName';
-      
-      print('📁 Downloading to: $filePath');
-      
-      // Download the file
-      await dio.download(
-        audioUrl,
-        filePath,
-        onReceiveProgress: (received, total) {
-          if (total != -1) {
-            final progress = received / total;
-            print('📊 Download progress: ${(progress * 100).round()}% (${received}/${total} bytes)');
-            
-            // Update progress state
-            final progressStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
-            progressStates[soundId] = currentState.copyWith(
-              isFileDownloading: true,  // Keep downloading state true
-              downloadProgress: progress,
-              downloadedBytes: received,
-              totalBytes: total,
-              hasError: false,
-            );
-            emit(state.copyWith(audioPlayerStates: progressStates));
-            print('🔄 Progress updated for $soundId - isFileDownloading: true, progress: ${(progress * 100).round()}%');
-          }
+      // Download the file to standard Downloads directory
+      final filePath = await soundDownloader.downloadSound(
+        url: audioUrl,
+        fileName: finalFileName,
+        onProgress: (progress) {
+          // Update progress state
+          final progressStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
+          progressStates[soundId] = currentState.copyWith(
+            isFileDownloading: true,
+            downloadProgress: progress,
+            downloadedBytes: (progress * 100).round(),
+            totalBytes: 100,
+            hasError: false,
+          );
+          emit(state.copyWith(audioPlayerStates: progressStates));
+          print('🔄 Progress updated for $soundId - progress: ${(progress * 100).round()}%');
         },
       );
       
-      print('✅ Download completed successfully for $soundId');
-      print('💾 File saved to: $filePath');
-      
-      // Update state to show download completed
-      final successStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
-      successStates[soundId] = currentState.copyWith(
-        isFileDownloading: false,
-        hasError: false,
-        downloadProgress: 1.0,
-      );
-      emit(state.copyWith(audioPlayerStates: successStates));
-      print('✅ Download completed for $soundId - isFileDownloading set to false');
-      
-      // Show success message with file path
-      add(ShowDownloadMessageEvent(
-        message: 'تم تحميل الملف بنجاح: $finalFileName\nالمسار: $filePath',
-        isSuccess: true,
-      ));
+      if (filePath != null) {
+        print('✅ Download completed successfully for $soundId');
+        print('💾 File saved to: $filePath');
+        
+        // Update state to show download completed
+        final successStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
+        successStates[soundId] = currentState.copyWith(
+          isFileDownloading: false,
+          hasError: false,
+          downloadProgress: 1.0,
+        );
+        emit(state.copyWith(audioPlayerStates: successStates));
+        
+        // Show success message with file path
+        add(ShowDownloadMessageEvent(
+          message: 'تم تحميل الملف بنجاح: $finalFileName\nالمسار: $filePath',
+          isSuccess: true,
+        ));
+      } else {
+        throw Exception('Download failed - null file path returned');
+      }
       
     } catch (e) {
       print('❌ Download failed for $soundId: $e');
@@ -1076,28 +1075,48 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
 
   /// Builds the complete sound URL from API response data
   String _buildSoundUrl(SoundData sound) {
-    // Only use MP3 files, skip RAR files
-    if (sound.soundFile != null && sound.soundFile!.toLowerCase().endsWith('.mp3')) {
-      // Use HTTPS with WWW as primary URL format
-      final fileName = sound.soundFile!;
-      return "https://www.naasan.net/files/sound/$fileName";
-    }
+    if (sound.soundFile == null) return "";
     
-    // If it's a RAR file or other format, return empty
-    return "";
+    final fileName = sound.soundFile!;
+    final fileType = SoundFileTypeUtil.getFileType(fileName);
+    
+    switch (fileType) {
+      case SoundFileType.audio:
+        // Standard audio files can be played directly
+        return "https://www.naasan.net/files/sound/$fileName";
+        
+      case SoundFileType.realMedia:
+        // RealMedia files can also be played but might need special handling
+        return "https://www.naasan.net/files/sound/$fileName";
+        
+      case SoundFileType.compressed:
+        // Compressed files can't be played, but we return the URL for download
+        return "https://www.naasan.net/files/sound/$fileName";
+        
+      case SoundFileType.unknown:
+        // For unknown types, we'll try to play them as audio
+        return "https://www.naasan.net/files/sound/$fileName";
+    }
   }
 
   /// Gets alternative URLs to try if the main URL fails
   List<String> _getAlternativeUrls(SoundData sound) {
-    if (sound.soundFile != null && sound.soundFile!.toLowerCase().endsWith('.mp3')) {
-      final fileName = sound.soundFile!;
-      return [
-        "https://naasan.net/files/sound/$fileName",
-        "http://www.naasan.net/files/sound/$fileName",
-        "http://naasan.net/files/sound/$fileName",
-      ];
+    if (sound.soundFile == null) return [];
+    
+    final fileName = sound.soundFile!;
+    final fileType = SoundFileTypeUtil.getFileType(fileName);
+    
+    // For compressed files, we don't need alternative URLs since they're only for download
+    if (fileType == SoundFileType.compressed) {
+      return [];
     }
-    return [];
+    
+    // For audio, RealMedia, and unknown types, provide alternative URLs
+    return [
+      "https://naasan.net/files/sound/$fileName",
+      "http://www.naasan.net/files/sound/$fileName",
+      "http://naasan.net/files/sound/$fileName",
+    ];
   }
 
   /// Formats duration to show minutes:seconds
@@ -1106,6 +1125,22 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
     return '$minutes:$seconds';
+  }
+  
+  /// Checks if a sound can be played directly in the app
+  bool isSoundPlayable(SoundData sound) {
+    if (sound.soundFile == null) return false;
+    
+    final fileType = SoundFileTypeUtil.getFileType(sound.soundFile);
+    
+    // Only audio and RealMedia files can be played directly
+    return fileType == SoundFileType.audio || fileType == SoundFileType.realMedia;
+  }
+  
+  /// Gets the file type of a sound
+  SoundFileType getSoundFileType(SoundData sound) {
+    if (sound.soundFile == null) return SoundFileType.unknown;
+    return SoundFileTypeUtil.getFileType(sound.soundFile);
   }
 
   /// Disposes all audio players

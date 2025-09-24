@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/services/settings_service.dart';
+import '../../../responsive/screen_util_res.dart';
 import 'settings_event.dart';
 import 'settings_state.dart';
 
@@ -16,6 +17,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<UpdateLanguageEvent>(_onUpdateLanguage);
     on<ResetToDefaultEvent>(_onResetToDefault);
     on<ApplyPresetEvent>(_onApplyPreset);
+    on<SubmitSettingsEvent>(_onSubmitSettings);
   }
 
   Future<void> _onLoadSettings(
@@ -46,84 +48,40 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     UpdateFontSizeEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(state.copyWith(isSaving: true));
-    
-    try {
-      await _settingsService.updateFontSizeMultiplier(event.fontSizeMultiplier);
-      
-      emit(state.copyWith(
-        isSaving: false,
-        fontSizeMultiplier: event.fontSizeMultiplier,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isSaving: false,
-        errorMessage: 'فشل في تحديث حجم الخط: ${e.toString()}',
-      ));
-    }
+    // Just update the state without saving to SharedPreferences
+    emit(state.copyWith(
+      fontSizeMultiplier: event.fontSizeMultiplier,
+    ));
   }
 
   Future<void> _onUpdateUiScale(
     UpdateUiScaleEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(state.copyWith(isSaving: true));
-    
-    try {
-      await _settingsService.updateUiScaleMultiplier(event.uiScaleMultiplier);
-      
-      emit(state.copyWith(
-        isSaving: false,
-        uiScaleMultiplier: event.uiScaleMultiplier,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isSaving: false,
-        errorMessage: 'فشل في تحديث حجم العناصر: ${e.toString()}',
-      ));
-    }
+    // Just update the state without saving to SharedPreferences
+    emit(state.copyWith(
+      uiScaleMultiplier: event.uiScaleMultiplier,
+    ));
   }
 
   Future<void> _onUpdateDarkMode(
     UpdateDarkModeEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(state.copyWith(isSaving: true));
-    
-    try {
-      await _settingsService.updateDarkMode(event.isDarkMode);
-      
-      emit(state.copyWith(
-        isSaving: false,
-        isDarkMode: event.isDarkMode,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isSaving: false,
-        errorMessage: 'فشل في تحديث الوضع المظلم: ${e.toString()}',
-      ));
-    }
+    // Just update the state without saving to SharedPreferences
+    emit(state.copyWith(
+      isDarkMode: event.isDarkMode,
+    ));
   }
 
   Future<void> _onUpdateLanguage(
     UpdateLanguageEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(state.copyWith(isSaving: true));
-    
-    try {
-      await _settingsService.updateLanguage(event.language);
-      
-      emit(state.copyWith(
-        isSaving: false,
-        selectedLanguage: event.language,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isSaving: false,
-        errorMessage: 'فشل في تحديث اللغة: ${e.toString()}',
-      ));
-    }
+    // Just update the state without saving to SharedPreferences
+    emit(state.copyWith(
+      selectedLanguage: event.language,
+    ));
   }
 
   Future<void> _onResetToDefault(
@@ -169,6 +127,34 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       emit(state.copyWith(
         isSaving: false,
         errorMessage: 'فشل في تطبيق الإعدادات المحددة: ${e.toString()}',
+      ));
+    }
+  }
+
+  Future<void> _onSubmitSettings(
+    SubmitSettingsEvent event,
+    Emitter<SettingsState> emit,
+  ) async {
+    emit(state.copyWith(isSaving: true));
+    
+    try {
+      // Save all current state values to SharedPreferences
+      await _settingsService.updateFontSizeMultiplier(state.fontSizeMultiplier);
+      await _settingsService.updateUiScaleMultiplier(state.uiScaleMultiplier);
+      await _settingsService.updateDarkMode(state.isDarkMode);
+      await _settingsService.updateLanguage(state.selectedLanguage);
+      
+      // Update the screen utility with the new font size
+      ScreenUtilRes.updateFontSizeMultiplier(state.fontSizeMultiplier);
+      
+      emit(state.copyWith(
+        isSaving: false,
+        errorMessage: null,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isSaving: false,
+        errorMessage: 'فشل في حفظ الإعدادات: ${e.toString()}',
       ));
     }
   }

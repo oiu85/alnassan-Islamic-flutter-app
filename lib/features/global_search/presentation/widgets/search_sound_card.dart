@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
@@ -35,8 +36,8 @@ class SearchSoundCard extends StatelessWidget {
             children: [
               // Sound Image
               Container(
-                width: 80.w,
-                height: 80.h,
+                width: MediaQuery.of(context).size.width < 360 ? 60.w : 80.w,
+                height: MediaQuery.of(context).size.width < 360 ? 60.h : 80.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
                   image: sound.image.startsWith('http')
@@ -77,7 +78,11 @@ class SearchSoundCard extends StatelessWidget {
                       sound.title,
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 16.f,
+                        fontSize: context.deviceValue(
+                          mobile: 15.f,
+                          tablet: 16.f,
+                          desktop: 18.f,
+                        ),
                         fontWeight: FontWeight.bold,
                         color: AppColors.black,
                         height: 1.3,
@@ -148,8 +153,16 @@ class SearchSoundCard extends StatelessWidget {
               ),
               // Play Button
               Container(
-                width: 40.w,
-                height: 40.h,
+                width: context.deviceValue(
+                  mobile: MediaQuery.of(context).size.width < 360 ? 36.w : 40.w,
+                  tablet: 44.w,
+                  desktop: 48.w,
+                ),
+                height: context.deviceValue(
+                  mobile: MediaQuery.of(context).size.width < 360 ? 36.h : 40.h,
+                  tablet: 44.h,
+                  desktop: 48.h,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
                   shape: BoxShape.circle,

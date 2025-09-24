@@ -420,8 +420,8 @@ ${widget.video.videoSourceUrl}
       width: 200.sp,
       margin: EdgeInsets.only(left: 8.sp),
       child: InkWell(
+        borderRadius: BorderRadius.circular(16),
         onTap: () {
-          // Navigate to the selected video
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -433,35 +433,60 @@ ${widget.video.videoSourceUrl}
           );
         },
         child: Card(
-          elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          elevation: 4,
+          shadowColor: AppColors.primary.withOpacity(0.2),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          clipBehavior: Clip.antiAlias,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Video Thumbnail
+              // Thumbnail
               Expanded(
                 flex: 2,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Image.asset(
+                        Assets.images.nassanImage2.path,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    color: AppColors.primary.withValues(alpha: 0.1),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
+                    // Gradient overlay
+                    Positioned.fill(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.black.withOpacity(0.1),
+                              Colors.black.withOpacity(0.4),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                      ),
                     ),
-                    child: Image.asset(
-                      Assets.images.nassanImage2.path,
-                      fit: BoxFit.cover,
+                    // Play icon
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.7),
+                          shape: BoxShape.circle,
+                        ),
+                        padding: EdgeInsets.all(6.sp),
+                        child: Icon(
+                          Icons.play_arrow_rounded,
+                          size: 24.sp,
+                          color: AppColors.primary,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
+
               // Video Info
               Expanded(
                 flex: 1,
@@ -474,9 +499,10 @@ ${widget.video.videoSourceUrl}
                         video.videoTitle,
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 10.sp,
+                          fontSize: 11.sp,
                           fontWeight: FontWeight.bold,
                           color: AppColors.black,
+                          height: 1.3,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -486,14 +512,14 @@ ${widget.video.videoSourceUrl}
                         children: [
                           Icon(
                             Icons.remove_red_eye_outlined,
-                            size: 12,
+                            size: 14,
                             color: AppColors.grey,
                           ),
-                          SizedBox(width: 2),
+                          SizedBox(width: 4),
                           Text(
                             video.videoVisitor,
                             style: TextStyle(
-                              fontSize: 8.sp,
+                              fontSize: 14.sp,
                               fontFamily: FontFamily.tajawal,
                               color: AppColors.grey,
                             ),
@@ -510,6 +536,7 @@ ${widget.video.videoSourceUrl}
       ),
     );
   }
+
 
   List<Video> _getRandomVideos(List<Video> videos, int count) {
     if (videos.length <= count) {

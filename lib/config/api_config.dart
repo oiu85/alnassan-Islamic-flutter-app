@@ -200,6 +200,17 @@ class ApiConfig {
   }) {
     return '$baseUrl/public/categories/advisories?categories_per_page=$categoriesPerPage&categories_page=$categoriesPage';
   }
+  
+  /// Get advisory category details with subcategories and fatwas
+  /// Parameters: id, children_per_page, children_page, fatwas_per_child
+  static String getAdvisoryCategoryDetails({
+    required int categoryId,
+    int childrenPerPage = 10,
+    int childrenPage = 1,
+    int fatwasPerChild = 3,
+  }) {
+    return '$baseUrl/public/categories/advisories/children?children_per_page=$childrenPerPage&children_page=$childrenPage&fatwas_per_child=$fatwasPerChild&id=$categoryId';
+  }
 
   // ===== ADVISORY FATWAS ENDPOINTS =====
   /// Get recent advisories
@@ -207,6 +218,20 @@ class ApiConfig {
 
   /// Get popular advisories
   static const String getPopularAdvisories = '$baseUrl/public/advisories/popular';
+  
+  /// Get advisory details by ID
+  static String getAdvisoryDetails(int advisoryId) => '$baseUrl/public/advisories/$advisoryId?include=category';
+  
+  /// Get fatwas by category ID
+  static String getFatwasByCategory({
+    required int categoryId,
+    int perPage = 5,
+    int page = 1,
+    String sortBy = 'priority',
+    String sortOrder = 'desc',
+  }) {
+    return '$baseUrl/public/categories/advisories/children/$categoryId/fatwas?per_page=$perPage&page=$page&sort_by=$sortBy&sort_order=$sortOrder';
+  }
 
   // ===== CONTACT US ENDPOINTS =====
   /// Contact us form submission endpoint
@@ -215,6 +240,26 @@ class ApiConfig {
   // ===== ADVISORY ENDPOINTS =====
   /// Submit advisory question endpoint
   static const String submitAdvisoryUrl = '$baseUrl/public/advisories';
+
+  // ===== NOTIFICATIONS ENDPOINTS =====
+  /// Get notifications with pagination
+  static String getNotifications({
+    int perPage = 10,
+    int page = 1,
+  }) {
+    return '$baseUrl/public/notifications?per_page=$perPage&page=$page';
+  }
+
+  // ===== BOOKS ENDPOINTS =====
+  /// Get books with category information
+  /// Parameters: include (optional), page, per_page
+  static String getBooks({
+    String include = 'category',
+    int page = 1,
+    int perPage = 10,
+  }) {
+    return '$baseUrl/public/books?include=$include&page=$page&per_page=$perPage';
+  }
 
   // ===== LEGACY ENDPOINTS (for backward compatibility) =====
   @Deprecated('Use getArticlesByCategory instead')

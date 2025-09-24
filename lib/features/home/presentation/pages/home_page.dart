@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/shared/wdigets/app_drawer.dart';
 import 'package:nassan_app/core/shared/widgets/close_app_button.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
@@ -44,7 +43,7 @@ class HomePage extends StatelessWidget {
 
   Widget homeContent(BuildContext context, HomeState state) {
     return CloseAppWillPopScope(
-      child: AppScaffold(
+      child: AppScaffold.home(
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 27.w),
           child: SingleChildScrollView(
@@ -128,26 +127,6 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ),
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
-              onPressed: () {
-                // TODO: Handle notifications
-              },
-              icon: Icon(
-                Icons.notifications_outlined,
-                size: 30.f,
-              ),
-            ),
-          ],
-        ),
-        drawer: Drawer(
-          child: AppDrawer(
-            categories: state.homeData?.data?.articleCategories,
           ),
         ),
       ),

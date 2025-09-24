@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
@@ -35,8 +36,8 @@ class SearchArticleCard extends StatelessWidget {
             children: [
               // Article Image
               Container(
-                width: 80.w,
-                height: 80.h,
+                width: MediaQuery.of(context).size.width < 360 ? 60.w : 80.w,
+                height: MediaQuery.of(context).size.width < 360 ? 60.h : 80.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
                   image: article.image.startsWith('http')
@@ -77,7 +78,11 @@ class SearchArticleCard extends StatelessWidget {
                       article.title,
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 16.f,
+                        fontSize: context.deviceValue(
+                          mobile: 15.f,
+                          tablet: 16.f,
+                          desktop: 18.f,
+                        ),
                         fontWeight: FontWeight.bold,
                         color: AppColors.black,
                         height: 1.3,
@@ -91,11 +96,19 @@ class SearchArticleCard extends StatelessWidget {
                       article.summary,
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 14.f,
+                        fontSize: context.deviceValue(
+                          mobile: 13.f,
+                          tablet: 14.f,
+                          desktop: 16.f,
+                        ),
                         color: AppColors.grey,
                         height: 1.4,
                       ),
-                      maxLines: 3,
+                      maxLines: context.deviceValue(
+                        mobile: MediaQuery.of(context).size.width < 360 ? 2 : 3,
+                        tablet: 4,
+                        desktop: 5,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 12.h),

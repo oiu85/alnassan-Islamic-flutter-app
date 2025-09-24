@@ -3,6 +3,7 @@ import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/shared/wdigets/app_drawer.dart';
 import 'package:nassan_app/features/home/presentation/widgets/bottom_bar.dart';
 import 'package:nassan_app/features/advisory_fatwa/presentation/pages/add_advisory.dart';
+import 'package:nassan_app/features/notifications/presentation/pages/notifications_page.dart';
 
 
 class AppScaffold extends StatelessWidget {
@@ -97,13 +98,19 @@ class AppScaffold extends StatelessWidget {
       elevation: 0,
       backgroundColor: Colors.transparent,
       actions: [
-        IconButton(
-          onPressed: () {
-
-          },
-          icon: Icon(
-            Icons.notifications_outlined,
-            size: 30.f,
+        Builder(
+          builder: (context) => IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsPage(),
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.notifications_outlined,
+              size: 30.f,
+            ),
           ),
         ),
       ],

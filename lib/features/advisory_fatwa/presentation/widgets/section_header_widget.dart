@@ -19,6 +19,7 @@ class SectionHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
@@ -33,21 +34,22 @@ class SectionHeaderWidget extends StatelessWidget {
             color: AppColors.black,
           ),
         ),
-        const Spacer(),
-        if (actionText != null)
+        if (actionText != null && onActionTap != null)
           InkWell(
             onTap: onActionTap,
             child: Text(
               actionText!,
               style: TextStyle(
                 fontSize: context.deviceValue(
-                  mobile: 14.0.f,
-                  tablet: 16.0.f,
-                  desktop: 18.0.f,
+                  mobile: 12.0.f,
+                  tablet: 14.0.f,
+                  desktop: 16.0.f,
                 ),
                 fontFamily: FontFamily.tajawal,
-                color: AppColors.black,
                 fontWeight: FontWeight.w600,
+                color: AppColors.black,
+                decoration: TextDecoration.underline,
+                decorationColor: AppColors.black,
               ),
             ),
           ),
