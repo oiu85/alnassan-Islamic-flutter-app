@@ -13,6 +13,8 @@ _SettingsState _$SettingsStateFromJson(Map<String, dynamic> json) =>
       uiScaleMultiplier: (json['uiScaleMultiplier'] as num?)?.toDouble() ?? 1.0,
       isDarkMode: json['isDarkMode'] as bool? ?? false,
       selectedLanguage: json['selectedLanguage'] as String? ?? 'ar',
+      downloadPath:
+          json['downloadPath'] as String? ?? '/storage/emulated/0/Download',
       isLoading: json['isLoading'] as bool? ?? false,
       isSaving: json['isSaving'] as bool? ?? false,
       errorMessage: json['errorMessage'] as String?,
@@ -24,6 +26,7 @@ Map<String, dynamic> _$SettingsStateToJson(_SettingsState instance) =>
       'uiScaleMultiplier': instance.uiScaleMultiplier,
       'isDarkMode': instance.isDarkMode,
       'selectedLanguage': instance.selectedLanguage,
+      'downloadPath': instance.downloadPath,
       'isLoading': instance.isLoading,
       'isSaving': instance.isSaving,
       'errorMessage': instance.errorMessage,

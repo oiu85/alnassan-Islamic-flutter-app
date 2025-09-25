@@ -26,6 +26,12 @@ class UpdateLanguageEvent extends SettingsEvent {
   UpdateLanguageEvent(this.language);
 }
 
+class UpdateDownloadPathEvent extends SettingsEvent {
+  final String downloadPath;
+  
+  UpdateDownloadPathEvent(this.downloadPath);
+}
+
 class ResetToDefaultEvent extends SettingsEvent {}
 
 class ApplyPresetEvent extends SettingsEvent {

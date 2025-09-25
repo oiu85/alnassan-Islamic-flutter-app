@@ -263,4 +263,5 @@ class BookCardWidget extends StatelessWidget {
       ),
     );
   }
+
 }

@@ -107,7 +107,7 @@ class AdvisorsPage extends StatelessWidget {
 
           // Latest Fatwas Section
           SectionHeaderWidget(
-            title: "اخر الفتاوى اظافة",
+            title: "اخر الفتاوى اضافة",
             actionText: "الكل",
             onActionTap: () {
               Navigator.of(context).push(

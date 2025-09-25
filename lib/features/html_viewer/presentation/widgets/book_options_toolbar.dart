@@ -64,21 +64,25 @@ class BookOptionsToolbar extends StatelessWidget {
                 },
                 state: state,
               ),
+              // Dark Mode Toggle
+              _buildToolbarButton(
+                context: context,
+                icon: state.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                label: state.isDarkMode ? 'فاتح' : 'داكن',
+                onPressed: () {
+                  context.read<HtmlViewerBloc>()
+                    .add(ChangeThemeEvent(!state.isDarkMode));
+                },
+                state: state,
+              ),
+
               // Share
               _buildToolbarButton(
                 context: context,
                 icon: Icons.share,
                 label: 'مشاركة',
                 onPressed: () {
-                  if (state.extractedText == null) {
-                    context.read<HtmlViewerBloc>().add(ExtractTextEvent());
-                  }
-                  final String title = state.htmlContent?.title ?? 'مشاركة المحتوى';
-                  final String text = state.extractedText ?? 'لا يوجد محتوى للمشاركة';
-                  Share.share(
-                    text,
-                    subject: title,
-                  );
+                  _shareArticle(context, state);
                 },
                 state: state,
               ),
@@ -102,6 +106,35 @@ class BookOptionsToolbar extends StatelessWidget {
 
 
 
+
+  /// Share article with URL
+  void _shareArticle(BuildContext context, HtmlViewerState state) {
+    final articleId = state.htmlContent?.articleId;
+    
+    if (articleId == null) {
+      // Show error message if no article ID is available
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'لا يمكن مشاركة المقال - معرف المقال غير متوفر',
+            style: TextStyle(fontFamily: FontFamily.tajawal),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Construct the article URL
+    final String articleUrl = 'https://www.naasan.net/article.php?id=$articleId';
+    final String title = state.htmlContent?.title ?? 'مقال من تطبيق النعسان';
+    
+    // Share the article URL
+    Share.share(
+      articleUrl,
+      subject: title,
+    );
+  }
 
   Widget _buildToolbarButton({
     required BuildContext context,

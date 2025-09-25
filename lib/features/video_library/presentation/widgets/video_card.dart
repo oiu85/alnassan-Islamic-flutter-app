@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
@@ -16,6 +17,82 @@ class VideoCard extends StatelessWidget {
     super.key,
     required this.video,
   });
+
+  /// Gets YouTube thumbnail URL for the video
+  String? _getYouTubeThumbnailUrl() {
+    // Try to get YouTube ID from videoYoutubeId first
+    String youtubeId = video.videoYoutubeId;
+    
+    // If videoYoutubeId is empty, try to extract from videoSourceUrl
+    if (youtubeId.isEmpty) {
+      youtubeId = _extractYouTubeIdFromUrl(video.videoSourceUrl) ?? '';
+    }
+    
+    if (youtubeId.isNotEmpty) {
+      // Return high quality thumbnail URL
+      return 'https://img.youtube.com/vi/$youtubeId/hqdefault.jpg';
+    }
+    
+    return null;
+  }
+
+  /// Extracts YouTube ID from YouTube URL
+  String? _extractYouTubeIdFromUrl(String url) {
+    if (url.isEmpty) return null;
+    
+    // Handle different YouTube URL formats
+    final patterns = [
+      RegExp(r'(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)'),
+      RegExp(r'youtube\.com\/v\/([^&\n?#]+)'),
+    ];
+    
+    for (final pattern in patterns) {
+      final match = pattern.firstMatch(url);
+      if (match != null && match.groupCount > 0) {
+        return match.group(1);
+      }
+    }
+    
+    return null;
+  }
+
+  /// Builds the thumbnail image with YouTube thumbnail or fallback
+  Widget _buildThumbnailImage() {
+    final youtubeThumbnailUrl = _getYouTubeThumbnailUrl();
+    
+    if (youtubeThumbnailUrl != null) {
+      return CachedNetworkImage(
+        imageUrl: youtubeThumbnailUrl,
+        width: double.infinity,
+        height: double.infinity,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          color: AppColors.primary.withValues(alpha: 0.1),
+          child: Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primary,
+              strokeWidth: 2,
+            ),
+          ),
+        ),
+        errorWidget: (context, url, error) => _buildDefaultImage(),
+        fadeInDuration: Duration(milliseconds: 300),
+        fadeOutDuration: Duration(milliseconds: 100),
+      );
+    }
+    
+    return _buildDefaultImage();
+  }
+
+  /// Builds the default image fallback
+  Widget _buildDefaultImage() {
+    return Image.asset(
+      Assets.images.nassanImage.path,
+      width: double.infinity,
+      height: double.infinity,
+      fit: BoxFit.cover,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +118,7 @@ class VideoCard extends StatelessWidget {
                   topLeft: Radius.circular(12.r),
                   topRight: Radius.circular(12.r),
                 ),
-                child: Image.asset(
-                  Assets.images.nassanImage.path,
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+                child: _buildThumbnailImage(),
               ),
             ),
           ),

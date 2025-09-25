@@ -6,12 +6,14 @@ class SettingsService extends ChangeNotifier {
   static const String _uiScaleMultiplierKey = 'ui_scale_multiplier';
   static const String _isDarkModeKey = 'is_dark_mode';
   static const String _selectedLanguageKey = 'selected_language';
+  static const String _downloadPathKey = 'download_path';
 
   // Default values
   static const double _defaultFontSizeMultiplier = 1.0;
   static const double _defaultUiScaleMultiplier = 1.0;
   static const bool _defaultIsDarkMode = false;
   static const String _defaultLanguage = 'ar';
+  static const String _defaultDownloadPath = '/storage/emulated/0/Download';
 
   // Singleton instance
   static final SettingsService _instance = SettingsService._internal();
@@ -23,12 +25,14 @@ class SettingsService extends ChangeNotifier {
   double _uiScaleMultiplier = _defaultUiScaleMultiplier;
   bool _isDarkMode = _defaultIsDarkMode;
   String _selectedLanguage = _defaultLanguage;
+  String _downloadPath = _defaultDownloadPath;
 
   // Getters
   double get fontSizeMultiplier => _fontSizeMultiplier;
   double get uiScaleMultiplier => _uiScaleMultiplier;
   bool get isDarkMode => _isDarkMode;
   String get selectedLanguage => _selectedLanguage;
+  String get downloadPath => _downloadPath;
 
   // Initialize settings from SharedPreferences
   Future<void> initialize() async {
@@ -43,6 +47,7 @@ class SettingsService extends ChangeNotifier {
     _uiScaleMultiplier = prefs.getDouble(_uiScaleMultiplierKey) ?? _defaultUiScaleMultiplier;
     _isDarkMode = prefs.getBool(_isDarkModeKey) ?? _defaultIsDarkMode;
     _selectedLanguage = prefs.getString(_selectedLanguageKey) ?? _defaultLanguage;
+    _downloadPath = prefs.getString(_downloadPathKey) ?? _defaultDownloadPath;
   }
 
   // Update font size multiplier
@@ -77,18 +82,28 @@ class SettingsService extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Update download path
+  Future<void> updateDownloadPath(String value) async {
+    _downloadPath = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_downloadPathKey, value);
+    notifyListeners();
+  }
+
   // Reset to default values
   Future<void> resetToDefault() async {
     _fontSizeMultiplier = _defaultFontSizeMultiplier;
     _uiScaleMultiplier = _defaultUiScaleMultiplier;
     _isDarkMode = _defaultIsDarkMode;
     _selectedLanguage = _defaultLanguage;
+    _downloadPath = _defaultDownloadPath;
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_fontSizeMultiplierKey, _defaultFontSizeMultiplier);
     await prefs.setDouble(_uiScaleMultiplierKey, _defaultUiScaleMultiplier);
     await prefs.setBool(_isDarkModeKey, _defaultIsDarkMode);
     await prefs.setString(_selectedLanguageKey, _defaultLanguage);
+    await prefs.setString(_downloadPathKey, _defaultDownloadPath);
     notifyListeners();
   }
 
@@ -107,7 +122,8 @@ class SettingsService extends ChangeNotifier {
     return _fontSizeMultiplier == _defaultFontSizeMultiplier &&
            _uiScaleMultiplier == _defaultUiScaleMultiplier &&
            _isDarkMode == _defaultIsDarkMode &&
-           _selectedLanguage == _defaultLanguage;
+           _selectedLanguage == _defaultLanguage &&
+           _downloadPath == _defaultDownloadPath;
   }
 
   // Get settings summary
@@ -117,6 +133,7 @@ class SettingsService extends ChangeNotifier {
       'uiScaleMultiplier': _uiScaleMultiplier,
       'isDarkMode': _isDarkMode,
       'selectedLanguage': _selectedLanguage,
+      'downloadPath': _downloadPath,
       'isAtDefault': isAtDefaultSettings,
     };
   }

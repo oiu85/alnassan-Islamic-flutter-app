@@ -1,5 +1,6 @@
 import 'search_article_model.dart';
 import 'search_sound_model.dart';
+import 'search_advisory_model.dart';
 
 class SearchResponseModel {
   final String status;
@@ -46,7 +47,7 @@ class SearchResponseModel {
 class SearchDataModel {
   final List<SearchArticleModel> articles;
   final List<SearchSoundModel> sounds;
-  final List<dynamic> advisories; // For future use
+  final List<SearchAdvisoryModel> advisories;
 
   const SearchDataModel({
     this.articles = const [],
@@ -62,7 +63,9 @@ class SearchDataModel {
       sounds: (json['sounds'] as List<dynamic>?)
           ?.map((e) => SearchSoundModel.fromJson(e as Map<String, dynamic>))
           .toList() ?? [],
-      advisories: json['advisories'] as List<dynamic>? ?? [],
+      advisories: (json['advisories'] as List<dynamic>?)
+          ?.map((e) => SearchAdvisoryModel.fromJson(e as Map<String, dynamic>))
+          .toList() ?? [],
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:marquee/marquee.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
@@ -33,6 +34,17 @@ class _MusicPlayerState extends State<MusicPlayer> {
     // Initialize music player in BLoC
     context.read<SoundLibraryBloc>().add(
       InitializeMusicPlayerEvent(sound: widget.sound),
+    );
+  }
+
+  // Function to handle sharing
+  void _shareSound() {
+    final String soundUrl = 'http://naasan.net/sound.php?id=${widget.sound.soundId}';
+    final String title = widget.sound.soundTitle;
+    
+    Share.share(
+      soundUrl,
+      subject: title,
     );
   }
 
@@ -190,7 +202,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Title and download button
+                        // Title and action buttons
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -208,6 +220,24 @@ class _MusicPlayerState extends State<MusicPlayer> {
                               ),
                             ),
                             SizedBox(width: 10.w),
+                            // Share button
+                            InkWell(
+                              onTap: _shareSound,
+                              child: Container(
+                                padding: EdgeInsets.all(8.w),
+                                decoration: BoxDecoration(
+                                  color:AppColors.primary,
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Icon(
+                                  Icons.share,
+                                  size: 24.w,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                            // Download button
                             InkWell(
                               onTap: () => _handleDownload(context),
                               child: Container(

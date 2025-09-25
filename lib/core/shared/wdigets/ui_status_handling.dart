@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:lottie/lottie.dart';
 import '../../../gen/assets.gen.dart';
@@ -72,6 +73,7 @@ class SimpleLottieHandler extends StatelessWidget {
 
   Widget _buildErrorState(BuildContext context) {
     String lottieAsset = _getErrorLottieAsset(blocStatus.error);
+    bool isNetworkError = _isNetworkError(blocStatus.error);
 
     return Scaffold(
       body: Center(
@@ -85,7 +87,51 @@ class SimpleLottieHandler extends StatelessWidget {
               fit: BoxFit.contain,
               repeat: true,
             ),
-
+            SizedBox(height: 20.h),
+            if (isNetworkError) ...[
+              Text(
+                'خطأ في الاتصال',
+                style: TextStyle(
+                  fontSize: 18.f,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Tajawal',
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 10.h),
+              Text(
+                'تأكد من اتصالك بالإنترنت وحاول مرة أخرى',
+                style: TextStyle(
+                  fontSize: 14.f,
+                  fontFamily: 'Tajawal',
+                  color: Colors.grey[600],
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20.h),
+              ElevatedButton.icon(
+                onPressed: onRetry,
+                icon: Icon(Icons.refresh, size: 20.f, color: Colors.white,),
+                label: Text(
+                  'إعادة المحاولة',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.f,
+                    fontFamily: 'Tajawal',
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.r),
+                  ),
+                  elevation: 2,
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -108,6 +154,20 @@ class SimpleLottieHandler extends StatelessWidget {
       return Assets.lottie.notFound;
     }
     return Assets.lottie.notFound;
+  }
+
+  bool _isNetworkError(String? errorMessage) {
+    if (errorMessage == null) return false;
+
+    final lowerError = errorMessage.toLowerCase();
+    return lowerError.contains('network') ||
+        lowerError.contains('internet') ||
+        lowerError.contains('connection') ||
+        lowerError.contains('timeout') ||
+        lowerError.contains('no internet') ||
+        lowerError.contains('connection timeout') ||
+        lowerError.contains('receive timeout') ||
+        lowerError.contains('send timeout');
   }
 
   Widget _buildEmptyState(BuildContext context) {

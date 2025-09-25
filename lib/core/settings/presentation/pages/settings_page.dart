@@ -164,6 +164,19 @@ class SettingsPage extends StatelessWidget {
             
             SizedBox(height: 20.h),
             
+            // Download Path Section
+            _buildSectionCard(
+              context,
+              state,
+              title: 'مسار التحميل الافتراضي',
+              icon: Icons.download,
+              children: [
+                _buildDownloadPathDisplay(context, state),
+              ],
+            ),
+            
+            SizedBox(height: 20.h),
+            
             // Submit Button Section
             _buildSubmitButton(context, state),
           ],
@@ -304,6 +317,76 @@ class SettingsPage extends StatelessWidget {
               fontFamily: FontFamily.tajawal,
               fontSize: (16 * state.fontSizeMultiplier).f,
               color: AppColors.primary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDownloadPathDisplay(BuildContext context, SettingsState state) {
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: state.isDarkMode ? Colors.grey[800] : Colors.grey[100],
+        borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(
+          color: AppColors.primary.withValues(alpha: 0.3),
+          width: 1.w,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.folder,
+                color: AppColors.primary,
+                size: 20.f,
+              ),
+              SizedBox(width: 8.w),
+              Text(
+                'المسار الحالي:',
+                style: TextStyle(
+                  fontFamily: FontFamily.tajawal,
+                  fontSize: 14.f,
+                  fontWeight: FontWeight.bold,
+                  color: state.isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.h),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(12.w),
+            decoration: BoxDecoration(
+              color: state.isDarkMode ? Colors.grey[700] : Colors.white,
+              borderRadius: BorderRadius.circular(6.r),
+              border: Border.all(
+                color: AppColors.grey.withValues(alpha: 0.3),
+                width: 1.w,
+              ),
+            ),
+            child: Text(
+              state.downloadPath,
+              style: TextStyle(
+                fontFamily: FontFamily.tajawal,
+                fontSize: 13.f,
+                color: AppColors.primary,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          SizedBox(height: 8.h),
+          Text(
+            'ملاحظة: هذا المسار للعرض فقط حالياً.',
+            style: TextStyle(
+              fontFamily: FontFamily.tajawal,
+              fontSize: 12.f,
+              color: AppColors.grey,
+              fontStyle: FontStyle.italic,
             ),
           ),
         ],

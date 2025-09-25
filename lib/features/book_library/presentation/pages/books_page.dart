@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
@@ -389,6 +390,19 @@ class _BooksPageState extends State<BooksPage> {
     _showBookOptions(book);
   }
 
+  /// Handles book share action
+  void _onShareBook(BookData book) {
+    // Construct the book URL
+    final String bookUrl = 'https://www.naasan.net/book.php?id=${book.bookId}';
+    final String subject = book.bookTitle;
+    
+    // Share the book URL
+    Share.share(
+      bookUrl,
+      subject: subject,
+    );
+  }
+
   /// Shows download progress dialog
   void _showDownloadDialog(BookData book, String fileName, {bool openAfterDownload = false}) {
     showDialog(
@@ -489,6 +503,18 @@ class _BooksPageState extends State<BooksPage> {
                 },
               ),
             ],
+            
+            ListTile(
+              leading: Icon(Icons.share, color: AppColors.primary),
+              title: Text(
+                'مشاركة الكتاب',
+                style: TextStyle(fontFamily: FontFamily.tajawal),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                _onShareBook(book);
+              },
+            ),
             
             ListTile(
               leading: Icon(Icons.info_outline, color: AppColors.primary),

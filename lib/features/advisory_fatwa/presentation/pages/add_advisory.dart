@@ -559,7 +559,6 @@ class _AddAdvisoryState extends State<AddAdvisory> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 15),
                     ),
                     child: Text(
                       'إرسال السؤال',

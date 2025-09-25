@@ -8,6 +8,8 @@ import '../../../../features/html_viewer/domain/models/html_content.dart';
 import '../../../../features/html_viewer/presentation/pages/html_book_viewer_page.dart';
 import '../../../../features/sound_library/data/model.dart';
 import '../../../../features/sound_library/presentation/widgets/music_player.dart';
+import '../../../../features/advisory_fatwa/domain/model/advisory_detail.dart';
+import '../../../../features/advisory_fatwa/presentation/pages/advisory_viewer_page.dart';
 
 class SearchNavigationService {
   static final GlobalSearchRepositoryImpl _repository = 
@@ -151,6 +153,69 @@ class SearchNavigationService {
       context,
       MaterialPageRoute(
         builder: (context) => MusicPlayer(sound: soundData),
+      ),
+    );
+  }
+
+  /// Navigate to advisory viewer for an advisory
+  static Future<void> navigateToAdvisory(BuildContext context, int advisoryId) async {
+    try {
+      AppLogger.business('Navigating to advisory', {'advisoryId': advisoryId});
+      
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      final result = await _repository.getAdvisoryDetail(advisoryId: advisoryId);
+      
+      // Hide loading indicator
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+
+      result.fold(
+        (error) {
+          AppLogger.error('Failed to load advisory: $error');
+          if (context.mounted) {
+            _showErrorDialog(context, 'فشل في تحميل الفتوى', error);
+          }
+        },
+        (advisoryDetail) {
+          if (context.mounted) {
+            _navigateToAdvisoryViewer(context, advisoryDetail);
+          }
+        },
+      );
+    } catch (e) {
+      AppLogger.error('Error navigating to advisory: $e');
+      if (context.mounted) {
+        Navigator.of(context).pop(); // Hide loading indicator
+        _showErrorDialog(context, 'خطأ في التنقل', e.toString());
+      }
+    }
+  }
+
+  /// Navigate to advisory viewer with advisory detail
+  static void _navigateToAdvisoryViewer(BuildContext context, AdvisoryDetail advisoryDetail) {
+    AppLogger.business('Navigating to advisory viewer', {
+      'advisoryId': advisoryDetail.advisoryId,
+    });
+    
+    if (advisoryDetail.advisoryId == null || advisoryDetail.advisoryId == 0) {
+      AppLogger.error('Invalid advisory ID: ${advisoryDetail.advisoryId}');
+      _showErrorDialog(context, 'خطأ في البيانات', 'معرف الفتوى غير صحيح');
+      return;
+    }
+    
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AdvisoryViewerPage(advisoryId: advisoryDetail.advisoryId!),
       ),
     );
   }

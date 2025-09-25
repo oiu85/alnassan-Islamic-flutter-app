@@ -222,6 +222,9 @@ class ApiConfig {
   /// Get advisory details by ID
   static String getAdvisoryDetails(int advisoryId) => '$baseUrl/public/advisories/$advisoryId?include=category';
   
+  /// Get advisory detail by ID (for search navigation)
+  static String getAdvisoryDetail({required int advisoryId}) => '$baseUrl/public/advisories/$advisoryId?include=category';
+  
   /// Get fatwas by category ID
   static String getFatwasByCategory({
     required int categoryId,

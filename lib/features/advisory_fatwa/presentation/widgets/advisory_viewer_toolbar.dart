@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/gen/fonts.gen.dart';
 import '../bloc/advisory_viewer_bloc.dart';
 import '../bloc/advisory_viewer_event.dart';
 import '../bloc/advisory_viewer_state.dart';
@@ -26,6 +28,8 @@ class AdvisoryViewerToolbar extends StatelessWidget {
                   _buildTextSizeButton(context, state, false),
                   SizedBox(width: 16.w),
                   _buildTextSizeButton(context, state, true),
+                  SizedBox(width: 16.w),
+                  _buildShareButton(context, state),
                   SizedBox(width: 16.w),
                   _buildNightModeButton(context, state),
                 ],
@@ -64,6 +68,27 @@ class AdvisoryViewerToolbar extends StatelessWidget {
     );
   }
 
+  Widget _buildShareButton(BuildContext context, AdvisoryViewerState state) {
+    return InkWell(
+      onTap: () => _shareAdvisory(context, state),
+      child: Container(
+        padding: EdgeInsets.all(8.w),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.8),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              Icons.share,
+              size: 20.w,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildNightModeButton(BuildContext context, AdvisoryViewerState state) {
     return InkWell(
       onTap: () {
@@ -84,6 +109,35 @@ class AdvisoryViewerToolbar extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  /// Share advisory with URL
+  void _shareAdvisory(BuildContext context, AdvisoryViewerState state) {
+    final advisoryId = state.advisory?.advisoryId;
+    
+    if (advisoryId == null) {
+      // Show error message if no advisory ID is available
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'لا يمكن مشاركة الفتوى - معرف الفتوى غير متوفر',
+            style: TextStyle(fontFamily: FontFamily.tajawal),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Construct the advisory URL
+    final String advisoryUrl = 'https://www.naasan.net/advisory.php?id=$advisoryId';
+    final String title = state.advisory?.advisoryTitle ?? 'فتوى من تطبيق النعسان';
+    
+    // Share the advisory URL
+    Share.share(
+      advisoryUrl,
+      subject: title,
     );
   }
 }

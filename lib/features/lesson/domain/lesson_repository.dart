@@ -7,7 +7,8 @@ abstract class LessonRepository {
   /// [categoryIds] - List of category IDs to fetch articles from
   /// [page] - Page number for pagination
   /// [perPage] - Number of items per page
-  /// Returns [Right<LessonModel>] on success, [Left<String>] on failure
+  /// Returns [Right<LessonModel>] on success,
+  /// [Left<String>] on failure
   Future<Either<String, LessonModel>> getLessons({
     required List<int> categoryIds,
     required int page,

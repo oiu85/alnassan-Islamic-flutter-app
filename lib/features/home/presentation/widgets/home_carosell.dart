@@ -8,6 +8,7 @@ import '../../../../gen/fonts.gen.dart';
 import '../../data/model/home_model.dart';
 import '../../../html_viewer/domain/models/html_content.dart';
 import '../../../html_viewer/presentation/pages/html_book_viewer_page.dart';
+import '../../../advisory_fatwa/presentation/pages/advisory_viewer_page.dart';
 
 class HomeCarousel extends StatefulWidget {
   final List<ImportantTopic>? importantTopics;
@@ -79,6 +80,37 @@ class _HomeCarouselState extends State<HomeCarousel> {
     );
   }
 
+  void _navigateToAdvisoryViewer(ImportantTopic topic) {
+    if (topic.id != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AdvisoryViewerPage(
+            advisoryId: topic.id!,
+          ),
+        ),
+      );
+    }
+  }
+
+  void _navigateToContent(ImportantTopic topic) {
+    if (_isFatwa(topic)) {
+      _navigateToAdvisoryViewer(topic);
+    } else {
+      _navigateToHtmlViewer(topic);
+    }
+  }
+
+  bool _isFatwa(ImportantTopic topic) {
+    // Check if it has fatwa-specific fields
+    return topic.question != null || 
+           topic.answer != null || 
+           topic.answerDate != null ||
+           topic.senderName != null ||
+           (topic.type != null && topic.type!.toLowerCase().contains('fatwa')) ||
+           (topic.type != null && topic.type!.toLowerCase().contains('advisory'));
+  }
+
   // Using extension methods for easier access
   // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
   
@@ -140,19 +172,19 @@ class _HomeCarouselState extends State<HomeCarousel> {
     
     return Padding(
       padding: EdgeInsets.all(10.w),
-      child: GestureDetector(
-        onTap: () => _navigateToHtmlViewer(currentTopic),
-        child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SvgPicture.asset(
-                Assets.svg.carosellResverse.path,
-                width: svgSize.w,
-                height: svgSize.h,
-              ),
-              Expanded(
+      child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SvgPicture.asset(
+              Assets.svg.carosellResverse.path,
+              width: svgSize.w,
+              height: svgSize.h,
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () => _navigateToContent(currentTopic),
                 child: Center(
                   child: AnimatedOpacity(
                     curve: Curves.fastOutSlowIn,
@@ -177,13 +209,13 @@ class _HomeCarouselState extends State<HomeCarousel> {
                   ),
                 ),
               ),
-              SvgPicture.asset(
-                Assets.svg.carosell.path,
-                width: svgSize.w,
-                height: svgSize.h,
-              ),
-            ],
-          ),
+            ),
+            SvgPicture.asset(
+              Assets.svg.carosell.path,
+              width: svgSize.w,
+              height: svgSize.h,
+            ),
+          ],
         ),
       ),
     );

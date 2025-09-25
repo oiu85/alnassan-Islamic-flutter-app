@@ -10,6 +10,7 @@ import '../bloc/global_search_event.dart';
 import '../bloc/global_search_state.dart';
 import '../widgets/search_article_card.dart';
 import '../widgets/search_sound_card.dart';
+import '../widgets/search_advisory_card.dart';
 import '../services/search_navigation_service.dart';
 import '../../data/repository/global_search_repository_impl.dart';
 import '../../../../core/network/network_client.dart';
@@ -372,7 +373,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                     fontFamily: FontFamily.tajawal,
                     fontSize: 20.f,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.grey,
+                    color: AppColors.black,
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -384,7 +385,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
                       fontSize: 16.f,
-                      color: AppColors.grey.withValues(alpha: 0.7),
+                      color: AppColors.black.withValues(alpha: 0.7),
                     ),
                   ),
                 ),
@@ -417,7 +418,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                     foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.w),
+                      borderRadius: BorderRadius.circular(20.w),
                     ),
                   ),
                 ),
@@ -896,35 +897,18 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
     }
     currentIndex += sounds.length;
     
-    // Advisories section (placeholder for now)
+    // Advisories section
     if (index < currentIndex + advisories.length) {
-      return _buildAdvisoryPlaceholder();
+      final advisory = advisories[index - currentIndex];
+      return SearchAdvisoryCard(
+        advisory: advisory,
+        onTap: () => _onAdvisoryTap(advisory),
+      );
     }
     
     return const SizedBox.shrink();
   }
 
-  Widget _buildAdvisoryPlaceholder() {
-    return Card(
-      margin: EdgeInsets.symmetric(
-        horizontal: 16.w,
-        vertical: 8.h,
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(16.w),
-        child: Center(
-          child: Text(
-            'قريباً يمكنك البحث في هذه القسم',
-            style: TextStyle(
-              fontFamily: FontFamily.tajawal,
-              fontSize: 16.f,
-              color: AppColors.grey,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildLoadMoreButton(GlobalSearchState state) {
     if (!state.hasMoreResults) return const SizedBox.shrink();
@@ -968,6 +952,11 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   void _onSoundTap(sound) {
     // Navigate to sound player
     SearchNavigationService.navigateToSound(context, sound.id);
+  }
+
+  void _onAdvisoryTap(advisory) {
+    // Navigate to advisory viewer
+    SearchNavigationService.navigateToAdvisory(context, advisory.id);
   }
 
   Widget _buildFilterBottomSheet({

@@ -15,6 +15,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<UpdateUiScaleEvent>(_onUpdateUiScale);
     on<UpdateDarkModeEvent>(_onUpdateDarkMode);
     on<UpdateLanguageEvent>(_onUpdateLanguage);
+    on<UpdateDownloadPathEvent>(_onUpdateDownloadPath);
     on<ResetToDefaultEvent>(_onResetToDefault);
     on<ApplyPresetEvent>(_onApplyPreset);
     on<SubmitSettingsEvent>(_onSubmitSettings);
@@ -35,6 +36,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         uiScaleMultiplier: _settingsService.uiScaleMultiplier,
         isDarkMode: _settingsService.isDarkMode,
         selectedLanguage: _settingsService.selectedLanguage,
+        downloadPath: _settingsService.downloadPath,
       ));
     } catch (e) {
       emit(state.copyWith(
@@ -84,6 +86,16 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     ));
   }
 
+  Future<void> _onUpdateDownloadPath(
+    UpdateDownloadPathEvent event,
+    Emitter<SettingsState> emit,
+  ) async {
+    // Just update the state without saving to SharedPreferences
+    emit(state.copyWith(
+      downloadPath: event.downloadPath,
+    ));
+  }
+
   Future<void> _onResetToDefault(
     ResetToDefaultEvent event,
     Emitter<SettingsState> emit,
@@ -99,6 +111,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         uiScaleMultiplier: 1.0,
         isDarkMode: false,
         selectedLanguage: 'ar',
+        downloadPath: '/storage/emulated/0/Download',
       ));
     } catch (e) {
       emit(state.copyWith(
@@ -143,6 +156,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       await _settingsService.updateUiScaleMultiplier(state.uiScaleMultiplier);
       await _settingsService.updateDarkMode(state.isDarkMode);
       await _settingsService.updateLanguage(state.selectedLanguage);
+      await _settingsService.updateDownloadPath(state.downloadPath);
       
       // Update the screen utility with the new font size
       ScreenUtilRes.updateFontSizeMultiplier(state.fontSizeMultiplier);

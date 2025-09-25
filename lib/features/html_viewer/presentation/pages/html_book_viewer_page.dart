@@ -39,9 +39,11 @@ class _HtmlBookViewerContent extends StatelessWidget {
       builder: (context, state) {
 
         return Scaffold(
+          backgroundColor: state.isDarkMode ? Colors.grey[900] : Colors.white,
           body: Container(
             decoration: BoxDecoration(
-              image: DecorationImage(
+              color: state.isDarkMode ? Colors.grey[900] : null,
+              image: state.isDarkMode ? null : DecorationImage(
                 image: AssetImage(Assets.images.viewerBackground.path),
                 fit: BoxFit.fill,
               ),

@@ -8,6 +8,7 @@ import '../../domain/repository/global_search_repository.dart';
 import '../model/search_response_model.dart';
 import '../model/article_detail_model.dart';
 import '../model/sound_detail_model.dart';
+import '../../../../features/advisory_fatwa/domain/model/advisory_detail.dart';
 
 @Injectable(as: GlobalSearchRepository)
 class GlobalSearchRepositoryImpl implements GlobalSearchRepository {
@@ -122,6 +123,45 @@ class GlobalSearchRepositoryImpl implements GlobalSearchRepository {
     } catch (e) {
       AppLogger.error('Error fetching sound detail: $e');
       return Left('Failed to fetch sound detail: ${e.toString()}');
+    }
+  }
+
+  @override
+  Future<Either<String, AdvisoryDetail>> getAdvisoryDetail({
+    required int advisoryId,
+  }) async {
+    AppLogger.business('Fetching advisory detail', {
+      'advisoryId': advisoryId,
+    });
+
+    try {
+      final advisoryUrl = ApiConfig.getAdvisoryDetail(advisoryId: advisoryId);
+      final response = await _networkClient.get(advisoryUrl);
+
+      AppLogger.apiResponse('GlobalSearchRepository - getAdvisoryDetail', {
+        'statusCode': response.statusCode,
+        'data': response.data,
+      });
+
+      if (response.data == null || (response.data as Map).isEmpty) {
+        AppLogger.warning('No data received from API for advisory ID: $advisoryId');
+        return const Left('No data received from server');
+      }
+
+      // Extract the data field from the response
+      final responseData = response.data as Map<String, dynamic>;
+      final advisoryData = responseData['data'] as Map<String, dynamic>?;
+      
+      if (advisoryData == null) {
+        AppLogger.warning('No advisory data found in API response for advisory ID: $advisoryId');
+        return const Left('No advisory data found in server response');
+      }
+      
+      final advisoryDetail = AdvisoryDetail.fromJson(advisoryData);
+      return Right(advisoryDetail);
+    } catch (e) {
+      AppLogger.error('Error fetching advisory detail: $e');
+      return Left('Failed to fetch advisory detail: ${e.toString()}');
     }
   }
 }

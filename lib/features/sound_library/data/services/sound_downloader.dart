@@ -1,14 +1,15 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:nassan_app/core/settings/domain/services/settings_service.dart';
 
 /// Service to handle sound download functionality
 class SoundDownloader {
   final Dio _dio = Dio();
+  final SettingsService _settingsService = SettingsService();
   
-  /// Default download directory - always use Android Downloads folder
+  /// Get download directory from settings
   String get _downloadDirectory {
-    // Android standard Downloads directory path
-    return '/storage/emulated/0/Download';
+    return _settingsService.downloadPath;
   }
 
   /// Download a sound from URL
@@ -63,5 +64,6 @@ class SoundDownloader {
     return '$_downloadDirectory/$fileName';
   }
 }
+
 
 

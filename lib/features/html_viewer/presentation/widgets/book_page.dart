@@ -69,7 +69,8 @@ class BookPage extends StatelessWidget {
                 0.98, // 95% of screen width in portrait
           ),
           decoration: BoxDecoration(
-            image: DecorationImage(
+            color: state.isDarkMode ? Colors.grey[800] : null,
+            image: state.isDarkMode ? null : DecorationImage(
               image: AssetImage(Assets.images.viewerBackground.path),
               fit: BoxFit.fill,
             ),
@@ -100,7 +101,7 @@ class BookPage extends StatelessWidget {
                                 desktop: 2.4,
                               ),
                               fontWeight: FontWeight.bold,
-                              color: AppColors.primary,
+                              color: state.isDarkMode ? Colors.amber : AppColors.primary,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -118,6 +119,7 @@ class BookPage extends StatelessWidget {
                             fontFamily: FontFamily.amiri,
                             fontSize: FontSize(fontSize * 1.5),
                             fontWeight: FontWeight.bold,
+                            color: state.isDarkMode ? Colors.white : AppColors.textPrimary,
                           ),
                           "h2": Style(
                             fontFamily: FontFamily.amiri,
@@ -130,12 +132,14 @@ class BookPage extends StatelessWidget {
                             fontFamily: FontFamily.tajawal,
                             fontSize: FontSize(fontSize),
                             lineHeight: LineHeight(lineHeight),
+                            color: state.isDarkMode ? Colors.white70 : AppColors.textPrimary,
                           ),
                           "span": Style(
                             fontFamily: FontFamily.tajawal,
                             fontSize: FontSize(fontSize),
                             lineHeight: LineHeight(lineHeight),
                             textAlign: TextAlign.start,
+                            color: state.isDarkMode ? Colors.white70 : AppColors.textPrimary,
                             //? For Adding Shadow To The Text :
                             // textShadow: [
                             //   Shadow(
