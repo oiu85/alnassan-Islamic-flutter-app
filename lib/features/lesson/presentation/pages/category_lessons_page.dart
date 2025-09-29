@@ -146,7 +146,7 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
                   desktop: 4,
                 ),
                 childAspectRatio: context.deviceValue(
-                  mobile: 0.7,
+                  mobile: 0.6,
                   tablet: 0.8,
                   desktop: 0.9,
                 ),
@@ -169,7 +169,7 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
                     imagePath: Assets.images.backgroundZh.path,
                     imageNamePath: Assets.images.nassanName.path,
                     width: 161.w,
-                    height: 236.h,
+                    height: 240.h,
                     imageWidth: 100.w,
                     imageHeight: 100.h,
                     context: context,

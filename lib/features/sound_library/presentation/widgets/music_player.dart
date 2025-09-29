@@ -17,6 +17,7 @@ import '../bloc/sound_library_event.dart';
 import '../bloc/sound_library_state.dart';
 import 'floating_download_progress.dart';
 import 'sound_permission_handler.dart';
+import 'real_media_player.dart';
 
 class MusicPlayer extends StatefulWidget {
   final SoundData sound;
@@ -149,7 +150,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
           widget.sound.category?.catTitle ?? 'مشغل الصوت',
           style:  TextStyle(
             fontFamily: FontFamily.tajawal,
-            fontSize: 18.f,
+            fontSize: 20.f,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -173,17 +174,17 @@ class _MusicPlayerState extends State<MusicPlayer> {
             totalBytes: audioState.totalBytes,
             fileName: widget.sound.soundFile ?? 'file.rar',
             child: Container(
-              padding: EdgeInsets.all(20.w),
+              padding: EdgeInsets.all(24.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    width: 250.w,
-                    height: 250.h,
+                    width: 280.w,
+                    height: 280.h,
                     child: widget.sound.soundPicUrl != null
                         ? ClipRRect(
-                            borderRadius: BorderRadius.circular(20.r),
+                            borderRadius: BorderRadius.circular(24.r),
                             child: Image.network(
                               widget.sound.soundPicUrl!,
                               fit: BoxFit.cover,
@@ -197,7 +198,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                   
                   // Sound information and controls
                   Container(
-                    padding: EdgeInsets.all(20.w),
+                    padding: EdgeInsets.all(24.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -211,7 +212,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                                 widget.sound.soundTitle,
                                 style:  TextStyle(
                                   fontFamily: FontFamily.tajawal,
-                                  fontSize: 18.f,
+                                  fontSize: 20.f,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.center,
@@ -219,37 +220,37 @@ class _MusicPlayerState extends State<MusicPlayer> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            SizedBox(width: 10.w),
+                            SizedBox(width: 12.w),
                             // Share button
                             InkWell(
                               onTap: _shareSound,
                               child: Container(
-                                padding: EdgeInsets.all(8.w),
+                                padding: EdgeInsets.all(10.w),
                                 decoration: BoxDecoration(
                                   color:AppColors.primary,
-                                  borderRadius: BorderRadius.circular(8.r),
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
                                 child: Icon(
                                   Icons.share,
-                                  size: 24.w,
+                                  size: 26.w,
                                   color: Colors.white,
                                 ),
                               ),
                             ),
-                            SizedBox(width: 8.w),
+                            SizedBox(width: 12.w),
                             // Download button
                             InkWell(
                               onTap: () => _handleDownload(context),
                               child: Container(
-                                padding: EdgeInsets.all(8.w),
+                                padding: EdgeInsets.all(10.w),
                                 decoration: BoxDecoration(
                                   color: AppColors.primary,
-                                  borderRadius: BorderRadius.circular(8.r),
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
                                 child: SvgPicture.asset(
                                   Assets.svg.downloadButton.path,
-                                  width: 24.w,
-                                  height: 24.h,
+                                  width: 26.w,
+                                  height: 26.h,
                                   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                                 ),
                               ),
@@ -257,7 +258,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                           ],
                         ),
                         
-                        SizedBox(height: 20.h),
+                        SizedBox(height: 24.h),
                         
                         // Get file type and render appropriate UI
                         _buildFileTypeSpecificUI(context, bloc, audioState),
@@ -375,6 +376,66 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   // UI for RealMedia files (.rm, .ra)
   Widget _buildRealMediaFileUI(BuildContext context) {
+    // Try to build the Real Media player URL
+    final rmUrl = _buildRealMediaUrl();
+    
+    if (rmUrl.isNotEmpty) {
+      return Container(
+        padding: EdgeInsets.all(20.w),
+        margin: EdgeInsets.symmetric(horizontal: 20.w),
+        decoration: BoxDecoration(
+          color: AppColors.primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(
+            color: AppColors.primary.withValues(alpha: 0.3),
+            width: 1.w,
+          ),
+        ),
+        child: Column(
+          children: [
+            // Real Media Player
+            RealMediaPlayer(
+              sound: widget.sound,
+              audioUrl: rmUrl,
+              alternativeUrls: _getRealMediaAlternativeUrls(),
+              width: 300.w,
+              height: 100.h,
+            ),
+            SizedBox(height: 15.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () => _handleDownload(context),
+                  icon: Icon(
+                    Icons.download,
+                    size: 20.f,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    'تحميل الملف',
+                    style:  TextStyle(
+                      fontSize: 14.f,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.r),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+    
+    // Fallback UI if URL cannot be built
     return Container(
       padding: EdgeInsets.all(20.w),
       margin: EdgeInsets.symmetric(horizontal: 20.w),
@@ -502,7 +563,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
             // Previous button (disabled for now)
             IconButton(
               onPressed: null, // TODO: Implement previous track functionality
-              icon: Icon(Icons.skip_previous, size: 40.f),
+              icon: Icon(Icons.skip_previous, size: 44.f),
               color: AppColors.grey,
             ),
             
@@ -522,49 +583,49 @@ class _MusicPlayerState extends State<MusicPlayer> {
                   children: [
                     if (audioState.isLoading || audioState.isDownloading)
                       SizedBox(
-                        width: 30.w,
-                        height: 30.h,
+                        width: 32.w,
+                        height: 32.h,
                         child: CircularProgressIndicator(
-                          strokeWidth: 3.w,
+                          strokeWidth: 3.5.w,
                           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       ),
                     if (!audioState.isLoading && !audioState.isDownloading)
                       Icon(
                         audioState.isPlaying ? Icons.pause : Icons.play_arrow,
-                        size: 50.f,
+                        size: 54.f,
                         color: Colors.white,
                       ),
                   ],
                 ),
-                iconSize: 50.f,
+                iconSize: 54.f,
               ),
             ),
             
             // Next button (disabled for now)
             IconButton(
               onPressed: null, // TODO: Implement next track functionality
-              icon: Icon(Icons.skip_next, size: 40.f),
+              icon: Icon(Icons.skip_next, size: 44.f),
               color: AppColors.grey,
             ),
           ],
         ),
         
-        SizedBox(height: 20.h),
+        SizedBox(height: 24.h),
         
         // Sound info
         if (widget.sound.soundSummary != null && widget.sound.soundSummary!.isNotEmpty)
           Container(
-            padding: EdgeInsets.all(15.w),
+            padding: EdgeInsets.all(18.w),
             decoration: BoxDecoration(
               color: AppColors.grey.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(10.r),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Text(
               widget.sound.soundSummary!,
               style: const TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 14,
+                fontSize: 15,
                 color: AppColors.black,
               ),
               textAlign: TextAlign.center,
@@ -572,6 +633,30 @@ class _MusicPlayerState extends State<MusicPlayer> {
           ),
       ],
     );
+  }
+
+  /// Builds the Real Media URL from sound data
+  String _buildRealMediaUrl() {
+    if (widget.sound.soundFile != null && 
+        SoundFileTypeUtil.isRealMediaFile(widget.sound.soundFile)) {
+      final fileName = widget.sound.soundFile!;
+      return "https://www.naasan.net/files/sound/$fileName";
+    }
+    return "";
+  }
+
+  /// Gets alternative URLs for Real Media files
+  List<String> _getRealMediaAlternativeUrls() {
+    if (widget.sound.soundFile != null && 
+        SoundFileTypeUtil.isRealMediaFile(widget.sound.soundFile)) {
+      final fileName = widget.sound.soundFile!;
+      return [
+        "https://naasan.net/files/sound/$fileName",
+        "http://www.naasan.net/files/sound/$fileName",
+        "http://naasan.net/files/sound/$fileName",
+      ];
+    }
+    return [];
   }
 }
 

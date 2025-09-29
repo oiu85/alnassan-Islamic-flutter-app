@@ -36,9 +36,13 @@ class DirectSoundsPage extends StatelessWidget {
               pinned: false,
               floating: true,
               actions: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_forward_outlined),
-                  onPressed: () => Navigator.of(context).maybePop(),
+                Padding(
+                  padding: EdgeInsets.only(right: 16.w),
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_forward_outlined),
+                    iconSize: 28.f,
+                    onPressed: () => Navigator.of(context).maybePop(),
+                  ),
                 ),
               ],
             ),
@@ -46,10 +50,12 @@ class DirectSoundsPage extends StatelessWidget {
             // Title
             SliverToBoxAdapter(
               child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
                 child: Text(
                   category.catTitle,
                   style: TextStyle(
-                    fontSize: 20.f,
+                    fontFamily: FontFamily.tajawal,
+                    fontSize: 24.f,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -62,31 +68,34 @@ class DirectSoundsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (category.directSounds.isNotEmpty) ...[
-                      SizedBox(height: 8.h),
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 1.4,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 8,
-                            ),
-                        itemCount: category.directSounds.length,
-                        itemBuilder: (context, index) {
-                          final sound = category.directSounds[index];
-                          return SoundCard(sound: sound);
-                        },
+                      SizedBox(height: 12.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 1.3,
+                                crossAxisSpacing: 12.w,
+                                mainAxisSpacing: 12.h,
+                              ),
+                          itemCount: category.directSounds.length,
+                          itemBuilder: (context, index) {
+                            final sound = category.directSounds[index];
+                            return SoundCard(sound: sound);
+                          },
+                        ),
                       ),
                     ] else ...[
                       Padding(
-                        padding: EdgeInsets.all(20.w),
+                        padding: EdgeInsets.all(24.w),
                         child: Center(
                           child: Text(
                             'لا توجد أصوات متاحة',
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 16.f,
+                              fontSize: 18.f,
                               color: AppColors.grey,
                             ),
                           ),

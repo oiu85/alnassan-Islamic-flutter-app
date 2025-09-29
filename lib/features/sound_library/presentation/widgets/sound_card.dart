@@ -6,7 +6,9 @@ import 'package:nassan_app/gen/assets.gen.dart';
 import '../widgets/compact_audio_player.dart';
 import '../widgets/floating_download_progress.dart';
 import '../widgets/music_player.dart';
+import '../widgets/real_media_player.dart';
 import '../../data/model.dart';
+import '../../data/services/sound_file_type_util.dart';
 import '../bloc/sound_library_bloc.dart';
 import '../bloc/sound_library_event.dart';
 import '../bloc/sound_library_state.dart';
@@ -55,32 +57,33 @@ class _SoundCardState extends State<SoundCard> {
           child: GestureDetector(
             onTap: () => _navigateToMusicPlayer(context),
             child: Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.r)),
             color: Colors.white,
+            elevation: 2,
             child: Container(
-        width: widget.width ?? 200.w,
-        height: widget.height ?? 144.h,
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+        width: widget.width ?? 220.w,
+        height: widget.height ?? 160.h,
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             // Fixed height title section
             SizedBox(
-              height: 40.h,
+              height: 44.h,
               child: Row(
                 children: [
                   Image.asset(
                     Assets.images.headphone.path,
-                    width: 20.w,
-                    height: 20.h,
+                    width: 24.w,
+                    height: 24.h,
                   ),
-                  SizedBox(width: 8.w),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       widget.sound.soundTitle,
                       style:  TextStyle(
-                        fontSize: 12.f,
+                        fontSize: 14.f,
                         fontWeight: FontWeight.w600,
                         color: AppColors.black,
                       ),
@@ -93,32 +96,32 @@ class _SoundCardState extends State<SoundCard> {
             ),
             // Fixed height info section
             Padding(
-              padding: EdgeInsets.only(right: 4.w),
+              padding: EdgeInsets.only(right: 8.w),
               child: SizedBox(
-                height: 20.h,
+                height: 24.h,
                 child: Row(
                   children: [
-                    Icon(Icons.visibility, size: 15.f, color: AppColors.primary),
-                    SizedBox(width: 4.w),
+                    Icon(Icons.visibility, size: 18.f, color: AppColors.primary),
+                    SizedBox(width: 6.w),
                     Text(
                       widget.sound.soundVisitor ?? '0',
                       style:  TextStyle(
-                        fontSize: 11.f,
+                        fontSize: 12.f,
                         color: AppColors.grey,
                       ),
                     ),
-                    SizedBox(width: 12.w),
+                    SizedBox(width: 16.w),
                     Icon(
                       Icons.access_time,
-                      size: 14.f,
+                      size: 16.f,
                       color: AppColors.primary,
                     ),
-                    SizedBox(width: 4.w),
+                    SizedBox(width: 6.w),
                     Expanded(
                       child: Text(
                         _formatDate(widget.sound.soundDate),
                         style:  TextStyle(
-                          fontSize: 11.f,
+                          fontSize: 12.f,
                           color: AppColors.grey,
                         ),
                         maxLines: 1,
@@ -129,76 +132,104 @@ class _SoundCardState extends State<SoundCard> {
                 ),
               ),
             ),
-            SizedBox(height: 8.h),
+            SizedBox(height: 12.h),
             // Fixed height audio player section
             SizedBox(
-              height: 30.h,
-              child: _cachedUrl.isNotEmpty
-                  ? CompactAudioPlayer(
-                      soundId: widget.sound.soundId.toString(),
-                      audioUrl: _cachedUrl,
-                      soundTitle: widget.sound.soundTitle,
-                      alternativeUrls: _cachedAlternativeUrls,
-                    )
-                  : Center(
-                    child: widget.sound.soundFile != null && widget.sound.soundFile!.toLowerCase().endsWith('.rar')
-                        ? audioState.isFileDownloading
-                            ?  SizedBox(
-                                width: 20.w,
-                                height: 20.h,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2.w,
-                                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
-                                ),
-                              )
-                            : ElevatedButton.icon(
-                                onPressed: () {
-                                  context.read<SoundLibraryBloc>().add(
-                                    DownloadAudioEvent(
-                                      soundId: widget.sound.soundId.toString(),
-                                      audioUrl: _buildRarDownloadUrl(widget.sound.soundFile!),
-                                      fileName: widget.sound.soundFile!,
-                                      soundTitle: widget.sound.soundTitle,
-                                    ),
-                                  );
-                                },
-                            icon:  Icon(
-                              Icons.download,
-                              size: 16.f,
-                              color: Colors.white,
-                            ),
-                            label:  Text(
-                              'تحميل',
-                              style: TextStyle(
-                                fontSize: 12.f,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
-                              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                              minimumSize: Size.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.r),
-                              ),
-                            ),
-                          )
-                        : Text(
-                            'لا يوجد ملف صوتي',
-                            style:  TextStyle(
-                              fontSize: 12.f,
-                              color: AppColors.grey,
-                            ),
-                          ),
-                  ),
+              height: 36.h,
+              child: _buildAudioPlayer(),
             ),
           ],
         ),
       ),
     ),
           ),
+        );
+      },
+    );
+  }
+
+  /// Builds the appropriate audio player based on file type
+  Widget _buildAudioPlayer() {
+    final fileType = SoundFileTypeUtil.getFileType(widget.sound.soundFile);
+    
+    // For Real Media files, use the Real Media player
+    if (fileType == SoundFileType.realMedia && _cachedUrl.isNotEmpty) {
+      return RealMediaPlayer(
+        sound: widget.sound,
+        audioUrl: _cachedUrl,
+        alternativeUrls: _cachedAlternativeUrls,
+        width: widget.width ?? 220.w,
+        height: 36.h,
+      );
+    }
+    
+    // For standard audio files, use the compact audio player
+    if (_cachedUrl.isNotEmpty) {
+      return CompactAudioPlayer(
+        soundId: widget.sound.soundId.toString(),
+        audioUrl: _cachedUrl,
+        soundTitle: widget.sound.soundTitle,
+        alternativeUrls: _cachedAlternativeUrls,
+      );
+    }
+    
+    // Fallback for files without URL
+    return BlocBuilder<SoundLibraryBloc, SoundLibraryState>(
+      builder: (context, state) {
+        final audioState = state.audioPlayerStates[widget.sound.soundId.toString()] ?? const AudioPlayerState();
+        
+        return Center(
+          child: widget.sound.soundFile != null && widget.sound.soundFile!.toLowerCase().endsWith('.rar')
+              ? audioState.isFileDownloading
+                  ?  SizedBox(
+                      width: 20.w,
+                      height: 20.h,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.w,
+                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                      ),
+                    )
+                  : ElevatedButton.icon(
+                      onPressed: () {
+                        context.read<SoundLibraryBloc>().add(
+                          DownloadAudioEvent(
+                            soundId: widget.sound.soundId.toString(),
+                            audioUrl: _buildRarDownloadUrl(widget.sound.soundFile!),
+                            fileName: widget.sound.soundFile!,
+                            soundTitle: widget.sound.soundTitle,
+                          ),
+                        );
+                      },
+                  icon:  Icon(
+                    Icons.download,
+                    size: 18.f,
+                    color: Colors.white,
+                  ),
+                  label:  Text(
+                    'تحميل',
+                    style: TextStyle(
+                      fontSize: 13.f,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                  ),
+                )
+              : Text(
+                  'لا يوجد ملف صوتي',
+                  style:  TextStyle(
+                    fontSize: 13.f,
+                    color: AppColors.grey,
+                  ),
+                ),
         );
       },
     );
@@ -217,26 +248,35 @@ class _SoundCardState extends State<SoundCard> {
 
   /// Builds the complete sound URL from API response data
   String _buildSoundUrl(SoundData sound) {
-    // Only use MP3 files, skip RAR files
-    if (sound.soundFile != null && sound.soundFile!.toLowerCase().endsWith('.mp3')) {
-      // Use HTTPS with WWW as primary URL format
+    if (sound.soundFile != null) {
       final fileName = sound.soundFile!;
-      return "https://www.naasan.net/files/sound/$fileName";
+      final fileType = SoundFileTypeUtil.getFileType(fileName);
+      
+      // Support both audio files and Real Media files
+      if (fileType == SoundFileType.audio || fileType == SoundFileType.realMedia) {
+        // Use HTTPS with WWW as primary URL format
+        return "https://www.naasan.net/files/sound/$fileName";
+      }
     }
     
-    // If it's a RAR file or other format, return empty
+    // If it's a RAR file or other unsupported format, return empty
     return "";
   }
 
   /// Gets alternative URLs to try if the main URL fails
   List<String> _getAlternativeUrls(SoundData sound) {
-    if (sound.soundFile != null && sound.soundFile!.toLowerCase().endsWith('.mp3')) {
+    if (sound.soundFile != null) {
       final fileName = sound.soundFile!;
-      return [
-        "https://naasan.net/files/sound/$fileName",
-        "http://www.naasan.net/files/sound/$fileName",
-        "http://naasan.net/files/sound/$fileName",
-      ];
+      final fileType = SoundFileTypeUtil.getFileType(fileName);
+      
+      // Support both audio files and Real Media files
+      if (fileType == SoundFileType.audio || fileType == SoundFileType.realMedia) {
+        return [
+          "https://naasan.net/files/sound/$fileName",
+          "http://www.naasan.net/files/sound/$fileName",
+          "http://naasan.net/files/sound/$fileName",
+        ];
+      }
     }
     return [];
   }

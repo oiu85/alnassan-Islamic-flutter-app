@@ -84,8 +84,15 @@ class CompactAudioPlayer extends StatelessWidget {
       width: effectiveWidth,
       height: effectiveHeight,
       decoration: BoxDecoration(
-        color: AppColors.grey.withAlpha(100),
+        color: AppColors.grey.withAlpha(120),
         borderRadius: BorderRadius.circular(effectiveHeight / 2), // Pill shape
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 4.r,
+            offset: Offset(0, 2.h),
+          ),
+        ],
       ),
       child: Row(
         children: [
@@ -98,6 +105,13 @@ class CompactAudioPlayer extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xFFD4AF37),
                 shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFD4AF37).withValues(alpha: 0.3),
+                    blurRadius: 6.r,
+                    offset: Offset(0, 2.h),
+                  ),
+                ],
               ),
               child: Stack(
                 alignment: Alignment.center,

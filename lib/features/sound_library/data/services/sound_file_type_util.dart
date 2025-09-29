@@ -77,8 +77,8 @@ class SoundFileTypeUtil {
   static bool canPlayFile(String? fileName) {
     if (fileName == null) return false;
     
-    // Only audio files can be played directly
-    return isAudioFile(fileName);
+    // Both audio files and RealMedia files can be played
+    return isAudioFile(fileName) || isRealMediaFile(fileName);
   }
 
   /// Gets the appropriate icon for the file type

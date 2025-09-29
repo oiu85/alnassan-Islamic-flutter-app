@@ -42,13 +42,13 @@ Widget lessonCardBuild({
                 ),
 
                 Padding(
-                  padding: EdgeInsets.only(top: 40.h),
+                  padding: EdgeInsets.only(top: 50.h),
                   child: Center(
                     child: Text(
                       title,
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 13.f,
+                        fontSize: 15.f,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
                       ),
@@ -63,14 +63,14 @@ Widget lessonCardBuild({
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "الدرس:",
                   style: TextStyle(
-                    fontSize: 13.f,
+                    fontSize: 14.f,
                     fontFamily: FontFamily.tajawal,
                     color: AppColors.grey,
                     fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ Widget lessonCardBuild({
                     Text(
                       viewCont,
                       style: TextStyle(
-                        fontSize: 12.f,
+                        fontSize: 13.f,
                         fontFamily: FontFamily.tajawal,
                         color: AppColors.grey,
                       ),
@@ -89,7 +89,7 @@ Widget lessonCardBuild({
                     IconButton(
                       onPressed: () {},
                       icon: Icon(Icons.remove_red_eye_outlined),
-                      iconSize: 24.f,
+                      iconSize: 26.f,
                       color: AppColors.grey,
                     ),
                   ],
@@ -98,11 +98,11 @@ Widget lessonCardBuild({
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: Text(
               lesson,
               style: TextStyle(
-                fontSize: 12.f,
+                fontSize: 13.f,
                 fontFamily: FontFamily.tajawal,
                 color: AppColors.grey,
               ),
@@ -113,18 +113,18 @@ Widget lessonCardBuild({
           GestureDetector(
             onTap: isLoading ? null : onTap,
             child: Container(
-              margin: EdgeInsets.only(bottom: 4.h),
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+              margin: EdgeInsets.only(bottom: 8.h, left: 12.w, right: 12.w),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(80.r),
                 color: isLoading ? AppColors.grey : AppColors.primary,
               ),
               child: isLoading
                   ? SizedBox(
-                width: 20.w,
-                height: 20.h,
+                width: 22.w,
+                height: 22.h,
                 child: CircularProgressIndicator(
-                  strokeWidth: 2.w,
+                  strokeWidth: 2.5.w,
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
               )
@@ -139,6 +139,7 @@ Widget lessonCardBuild({
               ),
             ),
           ),
+          SizedBox(height: 8.h),
         ],
       ),
     ),

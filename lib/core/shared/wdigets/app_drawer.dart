@@ -211,47 +211,11 @@ class AppDrawer extends StatelessWidget {
                     ),
                   );
                 }),
-              SizedBox(height: 25.h),
-              buildDrawerItem(
-                context,
-                "اسئل سؤالا",
-                Assets.images.message.path,
-                () async {
-                  try {
-                    await UrlLauncherUtils.launchWhatsApp(
-                      phoneNumber: '+963991192952',
-                      message: 'السلام عليكم ورحمة الله وبركاته\nأريد الاستفسار عن:',
-                    );
-                  } catch (e) {
-                    // Show message if WhatsApp URL was copied to clipboard
-                    if (context.mounted) {
-                      String message = e.toString();
-                      if (message.contains('نسخ رابط واتساب')) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(message),
-                            backgroundColor: Colors.green,
-                            duration: const Duration(seconds: 4),
-                          ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('حدث خطأ في فتح واتساب: $e'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      }
-                    }
-                  }
-                },
-              ),
-              SizedBox(height: 25.h),
               buildDrawerItem(
                 context,"قناة التلغرام", Assets.images.telegram.path, () {
                   _launchTelegramChannel(context);
                 }),
-              SizedBox(height: 25.h),
+           
               buildDrawerItem(
                 context,
                 "إعدادات التطبيق",

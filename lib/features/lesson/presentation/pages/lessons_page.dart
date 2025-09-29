@@ -106,7 +106,7 @@ class _LessonsPageState extends State<LessonsPage> {
             key: PageStorageKey("lessons_list"),
             children: [
               Container(
-                padding: EdgeInsets.all(20.w),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -123,12 +123,12 @@ class _LessonsPageState extends State<LessonsPage> {
                               children: [
                                 Expanded(
                                   child: SizedBox(
-                                    height: 22.f,
+                                    height: 28.f,
                                     child: LayoutBuilder(
                                       builder: (context, constraints) {
                                         final text = category.catTitle ?? "عنوان غير متوفر";
                                         final textStyle = TextStyle(
-                                          fontSize: 18.f,
+                                          fontSize: 22.f,
                                           fontFamily: FontFamily.tajawal,
                                           fontWeight: FontWeight.bold,
                                           color: AppColors.black,
@@ -190,7 +190,7 @@ class _LessonsPageState extends State<LessonsPage> {
                                   child: Text(
                                     "الكل ",
                                     style: TextStyle(
-                                      fontSize: 18.f,
+                                      fontSize: 20.f,
                                       fontFamily: FontFamily.tajawal,
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.black,
@@ -199,11 +199,11 @@ class _LessonsPageState extends State<LessonsPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 3.h),
+                            SizedBox(height: 8.h),
                             // Display lessons for this category in horizontal ListView (3 items)
                             if (categoryArticles.isNotEmpty)
                               SizedBox(
-                                height: 236.h,
+                                height: 260.h,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: categoryArticles.length,
@@ -214,9 +214,9 @@ class _LessonsPageState extends State<LessonsPage> {
                                         state.loadingArticleId ==
                                             lesson.articleId;
                                     return Container(
-                                      width: 161.w,
+                                      width: 180.w,
                                       margin: EdgeInsets.only(
-                                        right: index < categoryArticles.length - 1 ? 10.w : 0,
+                                        right: index < categoryArticles.length - 1 ? 16.w : 0,
                                       ),
                                       child: lessonCardBuild(
                                         lesson:
@@ -227,10 +227,10 @@ class _LessonsPageState extends State<LessonsPage> {
                                         imagePath: Assets.images.backgroundZh.path,
                                         imageNamePath:
                                             Assets.images.nassanName.path,
-                                        width: 161.w,
-                                        height: 236.h,
-                                        imageWidth: 100.w,
-                                        imageHeight: 100.h,
+                                        width: 180.w,
+                                        height: 260.h,
+                                        imageWidth: 110.w,
+                                        imageHeight: 110.h,
                                         context: context,
                                         isLoading: isLoading,
                                         onTap: () {
@@ -253,7 +253,7 @@ class _LessonsPageState extends State<LessonsPage> {
                                   ),
                                 ),
                               ),
-                            SizedBox(height: 20.h),
+                            SizedBox(height: 32.h),
                             // Space between categories
                           ],
                         );
@@ -272,7 +272,7 @@ class _LessonsPageState extends State<LessonsPage> {
                     // Loading indicator at bottom when loading more
                     if (state.isLoadingMore)
                       Padding(
-                        padding: EdgeInsets.all(16.w),
+                        padding: EdgeInsets.all(24.w),
                         child: Center(
                           child: CircularProgressIndicator(
                             color: AppColors.primary,
