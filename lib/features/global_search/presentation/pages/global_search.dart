@@ -133,7 +133,8 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                 }
               },
               child: Scaffold(
-                backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
+        
                 body: GestureDetector(
                   onTap: () {
                     // Only dismiss keyboard when tapping outside the search field

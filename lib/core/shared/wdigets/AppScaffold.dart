@@ -91,7 +91,7 @@ class AppScaffold extends StatelessWidget {
       body: body,
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor ?? Colors.white, // Default to white if not specified
     );
   }
 
@@ -132,7 +132,10 @@ class AppScaffold extends StatelessWidget {
           // HomeBloc might not be available, that's okay
         }
         
-        return Drawer(child: AppDrawer(categories: categories,),backgroundColor: Colors.white,);
+        return Drawer(
+          child: AppDrawer(categories: categories),
+          backgroundColor: Colors.white,
+        );
       }
     );
   }

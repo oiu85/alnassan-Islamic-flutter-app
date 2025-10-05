@@ -45,6 +45,7 @@ class _MainNavigationState extends State<MainNavigation> {
     return BlocBuilder<SharedBloc, SharedState>(
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Colors.white,
           body: IndexedStack(
             index: state.currentPageIndex,
             children: _pages,

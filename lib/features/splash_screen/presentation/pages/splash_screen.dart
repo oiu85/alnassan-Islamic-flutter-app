@@ -25,6 +25,7 @@ class SplashScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
+        backgroundColor: Colors.white,
           body: Center(
             child: FractionallySizedBox(
               widthFactor: context.deviceValue(
