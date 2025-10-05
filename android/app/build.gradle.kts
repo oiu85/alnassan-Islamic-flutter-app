@@ -21,7 +21,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("C:\\abdullah\\keystore\\nassan")
+            storeFile = file("../nassan")
             storePassword = "0504481163"
             keyAlias = "mykey"
             keyPassword = "0504481163"
