@@ -56,7 +56,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
     // Show permission handler that will trigger download when permission is granted
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       isScrollControlled: true,
       builder: (context) => SoundPermissionHandler(
         onPermissionGranted: () {

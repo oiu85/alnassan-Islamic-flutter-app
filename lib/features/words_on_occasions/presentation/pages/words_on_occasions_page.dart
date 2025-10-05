@@ -132,7 +132,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
       controller: _scrollController,
       slivers: [
         SliverAppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           elevation: 0,
           pinned: false,
           floating: true,

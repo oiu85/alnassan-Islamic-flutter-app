@@ -102,7 +102,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   void _showFilterBottomSheet() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       isScrollControlled: true,
       builder: (context) => _buildFilterBottomSheet(
         filterOptions: _searchBloc.filterOptions,

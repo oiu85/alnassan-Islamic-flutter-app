@@ -48,6 +48,7 @@ class AdvisorsPage extends StatelessWidget {
 
   Widget _buildMainContent(BuildContext context) {
     return AppScaffold.custom(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: SearchBarWidget(
           hintText: 'البحث في الفتاوى...',

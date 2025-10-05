@@ -107,7 +107,7 @@ class _HadithPageState extends State<HadithPage> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           elevation: 0,
           pinned: false,
           floating: true,

@@ -211,6 +211,7 @@ class _AddAdvisoryState extends State<AddAdvisory> {
         }
       },
       child: AppScaffold.clean(
+        backgroundColor: Colors.white,
         body: BlocBuilder<AdvisoryBloc, AdvisoryState>(
           builder: (context, state) {
             // Show form for initial and success states, loading only when actually submitting

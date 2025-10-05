@@ -42,7 +42,7 @@ class AppScaffold extends StatelessWidget {
       drawer: _defaultDrawer(),
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: _defaultBottomBar(),
-      backgroundColor: backgroundColor,
+      backgroundColor: Colors.white,
     );
   }
 
@@ -63,7 +63,7 @@ class AppScaffold extends StatelessWidget {
       drawer: drawer,
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
-      backgroundColor: backgroundColor,
+      backgroundColor: Colors.white,
     );
   }
 
@@ -79,7 +79,7 @@ class AppScaffold extends StatelessWidget {
       body: body,
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
-      backgroundColor: backgroundColor,
+      backgroundColor: Colors.white,
     );
   }
 
@@ -99,7 +99,7 @@ class AppScaffold extends StatelessWidget {
   static PreferredSizeWidget _defaultAppBar() {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       actions: [
         Builder(
           builder: (context) => IconButton(
@@ -132,7 +132,7 @@ class AppScaffold extends StatelessWidget {
           // HomeBloc might not be available, that's okay
         }
         
-        return Drawer(child: AppDrawer(categories: categories));
+        return Drawer(child: AppDrawer(categories: categories,),backgroundColor: Colors.white,);
       }
     );
   }
@@ -144,7 +144,7 @@ class AppScaffold extends StatelessWidget {
   static PreferredSizeWidget _defaultCustomAppBar() {
     return AppBar(
       scrolledUnderElevation: 0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
       actions: [
         Builder(
@@ -199,6 +199,7 @@ class _DefaultBottomNavBarState extends State<_DefaultBottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavBarWidget(
+
       currentIndex: _currentIndex,
       onTap: _onBottomNavTap,
     );

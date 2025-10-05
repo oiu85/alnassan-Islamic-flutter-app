@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,24 +20,22 @@ import 'features/splash_screen/presentation/pages/splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupAppDependencies();
-
-  // Initialize settings service
   await ScreenUtilRes.initialize();
-
   GestureBinding.instance.resamplingEnabled =
       true; //? this is for prevent mouse from throw errors in flutter stack tree
+   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widgets is the root of your application.
+
   @override
   Widget build(BuildContext context) {
-    // Design size is set for standard mobile size, will scale for other devices
+
     return ScreenUtilInit(
-      designSize: const Size(375, 812), // iPhone X design size as reference
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
@@ -61,7 +60,8 @@ class MyApp extends StatelessWidget {
           ],
           child: SettingsListener(
             child: MaterialApp(
-              title: 'Nassan App',
+              color: Colors.white,
+              title: ' الشيخ احمد النعسان',
               home: const SplashScreen(),
               debugShowCheckedModeBanner: false,
               localizationsDelegates: const [
