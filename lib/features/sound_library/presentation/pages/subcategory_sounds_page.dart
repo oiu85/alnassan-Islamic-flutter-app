@@ -61,6 +61,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       drawer: const Drawer(child: AppDrawer()),
       body: BlocBuilder<SoundLibraryBloc, SoundLibraryState>(
         builder: (context, state) {
@@ -153,7 +154,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 1.4,
+                            childAspectRatio: 0.9,
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
                           ),
@@ -177,7 +178,6 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                 .toList(),
                           ),
                         ),
-                  SizedBox(height: 16.h),
                 ],
 
                 // Subcategories with their sounds
@@ -189,7 +189,6 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10.0,
-                            vertical: 8,
                           ),
                           child: Row(
                             children: [
@@ -219,7 +218,6 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 4.h),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
@@ -234,7 +232,6 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                 .toList(),
                           ),
                         ),
-                        SizedBox(height: 16.h),
                       ],
                     ),
                   ),

@@ -19,52 +19,55 @@ class SubcategorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
-          child: Row(
-            children: [
-              Text(
-                bloc.getSubcategoryTitle(subcategory),
-                style: TextStyle(
-                  fontSize: 18.f,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.black.withOpacity(0.8),
-                ),
-              ),
-              const Spacer(),
-              if (bloc.shouldShowAllButtonForSubcategory(subcategory))
-                InkWell(
-                  onTap: () => _navigateToSubcategory(context, subcategory),
-                  child: Text(
-                    "الكل",
-                    style: TextStyle(
-                      fontSize: 12.f,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                    ),
+    return Container(
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
+            child: Row(
+              children: [
+                Text(
+                  bloc.getSubcategoryTitle(subcategory),
+                  style: TextStyle(
+                    fontSize: 18.f,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.black.withOpacity(0.8),
                   ),
                 ),
-            ],
+                const Spacer(),
+                if (bloc.shouldShowAllButtonForSubcategory(subcategory))
+                  InkWell(
+                    onTap: () => _navigateToSubcategory(context, subcategory),
+                    child: Text(
+                      "الكل",
+                      style: TextStyle(
+                        fontSize: 12.f,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 4.h),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: bloc.getPreviewSounds(subcategory)
-                .take(3)
-                .map((sound) => Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: SoundCard(sound: sound),
-                ))
-                .toList(),
+          SizedBox(height: 4.h),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: bloc.getPreviewSounds(subcategory)
+                  .take(3)
+                  .map((sound) => Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: SoundCard(sound: sound),
+                  ))
+                  .toList(),
+            ),
           ),
-        ),
-        SizedBox(height: 16.h),
-      ],
+          SizedBox(height: 16.h),
+        ],
+      ),
     );
   }
 

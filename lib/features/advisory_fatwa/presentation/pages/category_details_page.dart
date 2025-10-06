@@ -69,6 +69,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
     final childCategories = state.childCategories;
 
     return AppScaffold.custom(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           parentCategory?.catTitle ?? widget.categoryTitle,

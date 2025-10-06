@@ -52,6 +52,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
 
   Widget _buildLoadingState(BuildContext context) {
     return Container(
+      color: Colors.white,
       height: context.deviceValue(mobile: 200.h, tablet: 240.h, desktop: 280.h),
       child: Center(
         child: Lottie.asset(
@@ -137,6 +138,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
     );
 
     return Container(
+      color: Colors.white,
       height: containerHeight,
             child: ListView.builder(
         scrollDirection: Axis.horizontal,

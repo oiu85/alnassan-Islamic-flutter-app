@@ -130,39 +130,20 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
     if (!_isInitialized || _controller == null) {
       return Container(
         width: widget.width ?? 200.w,
-        height: widget.height ?? 40.h,
+        height: widget.height ?? 60.h,
         decoration: BoxDecoration(
           color: AppColors.grey.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(
-                color: AppColors.primary,
-                strokeWidth: 2.w,
-              ),
-              SizedBox(height: 4.h),
-              Text(
-                'جاري التحميل...',
-                style: TextStyle(
-                  fontFamily: FontFamily.tajawal,
-                  fontSize: 10.f,
-                  color: AppColors.primary,
-                ),
-              ),
-            ],
-          ),
-        ),
+        child:Center(child: Text("صيغة صوتية خاطئة\n يمكن التحميل فقط"))
       );
     }
 
     return Container(
       width: widget.width ?? 200.w,
-      height: widget.height ?? 40.h,
+      height: widget.height ?? 60.h,
       decoration: BoxDecoration(
-        color: AppColors.grey.withValues(alpha: 0.1),
+        color: AppColors.lightGrey,
         borderRadius: BorderRadius.circular(8.r),
         boxShadow: [
           BoxShadow(

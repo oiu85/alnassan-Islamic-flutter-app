@@ -50,6 +50,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
           ),
       child: ResponsiveBuilder(
         builder: (context, responsive) => Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             actions: [
               IconButton(
@@ -97,6 +98,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
 
     return Container(
       decoration: BoxDecoration(
+        color: Colors.white,
         image: DecorationImage(
           image: AssetImage(Assets.images.viewerBackground.path),
         ),
@@ -221,6 +223,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
 
   Widget _buildCategoryArticleCard(BuildContext context, WordsOnOccasionsArticle article, int index) {
     return Container(
+      color: Colors.white,
       child: Card(
         color: Colors.white,
         child: Column(

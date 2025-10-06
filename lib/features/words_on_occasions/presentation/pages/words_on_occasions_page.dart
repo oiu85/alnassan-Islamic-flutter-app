@@ -97,6 +97,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       drawer: const Drawer(child: AppDrawer()),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 12.w),

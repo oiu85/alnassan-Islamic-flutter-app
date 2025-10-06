@@ -65,6 +65,7 @@ class _HadithPageState extends State<HadithPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       drawer: const Drawer(child: AppDrawer()),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 12.w),

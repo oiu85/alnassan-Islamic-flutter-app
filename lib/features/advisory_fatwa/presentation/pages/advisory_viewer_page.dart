@@ -36,6 +36,7 @@ class _AdvisoryViewerContent extends StatelessWidget {
     return BlocBuilder<AdvisoryViewerBloc, AdvisoryViewerState>(
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Colors.white,
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(

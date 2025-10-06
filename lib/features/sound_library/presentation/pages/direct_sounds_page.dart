@@ -19,6 +19,7 @@ class DirectSoundsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       drawer: const Drawer(child: AppDrawer()),
       body: Container(
         decoration: BoxDecoration(
@@ -50,7 +51,7 @@ class DirectSoundsPage extends StatelessWidget {
             // Title
             SliverToBoxAdapter(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+                padding: EdgeInsets.symmetric(horizontal: 20.w,),
                 child: Text(
                   category.catTitle,
                   style: TextStyle(
@@ -68,7 +69,6 @@ class DirectSoundsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (category.directSounds.isNotEmpty) ...[
-                      SizedBox(height: 12.h),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: GridView.builder(
@@ -76,9 +76,9 @@ class DirectSoundsPage extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
-                                childAspectRatio: 1.3,
-                                crossAxisSpacing: 12.w,
-                                mainAxisSpacing: 12.h,
+                                childAspectRatio: 0.89,
+                                crossAxisSpacing: 2.w,
+                                mainAxisSpacing: 2.h,
                               ),
                           itemCount: category.directSounds.length,
                           itemBuilder: (context, index) {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -15,6 +16,7 @@ import 'sound_library_state.dart';
 class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
   final SoundLibraryRepository _repository;
   final Map<String, AudioPlayer> _audioPlayers = {};
+  final Map<String, List<StreamSubscription>> _audioSubscriptions = {};
 
   SoundLibraryBloc(this._repository) : super(const SoundLibraryState()) {
     on<FetchHierarchicalCategoriesEvent>(_onFetchHierarchicalCategories);
@@ -417,13 +419,7 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
 
   /// Debug method to log sound URL information
   void logSoundUrlInfo(SoundData sound) {
-    print('=== SOUND URL DEBUG INFO ===');
-    print('Sound ID: ${sound.soundId}');
-    print('Sound Title: ${sound.soundTitle}');
-    print('Sound File URL: ${sound.soundFileUrl}');
-    print('Sound File: ${sound.soundFile}');
-    print('Sound Source URL: ${sound.soundSourceUrl}');
-    print('============================');
+    // Debug info for sound URL configuration
   }
 
   // ==================== AUDIO PLAYER EVENT HANDLERS ====================
@@ -442,13 +438,11 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     
     // Prevent duplicate downloads
     if (currentState.isDownloading || currentState.isLoading) {
-      print('Audio is already being downloaded for $soundId, skipping...');
       return;
     }
 
     // Check if we already have this URL loaded
     if (currentState.currentUrl == audioUrl && currentState.duration > Duration.zero) {
-      print('Audio already loaded for $soundId, skipping download...');
       return;
     }
 
@@ -462,8 +456,6 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
       );
       
       emit(state.copyWith(audioPlayerStates: updatedStates));
-
-      print('Loading audio for $soundId...');
 
       // Get or create audio player
       AudioPlayer audioPlayer = _audioPlayers[soundId] ?? AudioPlayer();
@@ -492,15 +484,12 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
         while (!loaded && attempts < maxAttempts) {
           try {
             attempts++;
-            print('Loading attempt $attempts for $soundId...');
 
             await audioPlayer.setSourceUrl(url);
             loaded = true;
-            print('Successfully loaded audio for $soundId');
 
             // Get duration immediately after loading
             final duration = await audioPlayer.getDuration();
-            print('Audio duration for $soundId: $duration');
 
             // Update state with successful load and duration
             final successStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
@@ -662,10 +651,9 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
         final currentState = state.audioPlayerStates[soundId] ?? const AudioPlayerState();
         final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
         updatedStates[soundId] = currentState.copyWith(position: position);
-        
-        emit(state.copyWith(audioPlayerStates: updatedStates));
-      } catch (e) {
-        print('Error seeking audio: $e');
+      
+      emit(state.copyWith(audioPlayerStates: updatedStates));
+    } catch (e) {
         // Handle seek error if needed
       }
     }
@@ -678,8 +666,6 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
   ) {
     final soundId = event.soundId;
     final duration = event.duration;
-    
-    print('Updating duration for $soundId: $duration');
     
     final currentState = state.audioPlayerStates[soundId] ?? const AudioPlayerState();
     final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
@@ -771,10 +757,8 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
       downloadProgress: 0.0,
       downloadedBytes: 0,
       totalBytes: 0,
-    );
-    emit(state.copyWith(audioPlayerStates: updatedStates));
-    
-    print('🚀 Download started for $soundId - isFileDownloading set to true');
+    );      
+      emit(state.copyWith(audioPlayerStates: updatedStates));
     
     try {
       // Check if file already exists
@@ -932,23 +916,55 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
       ),
     ));
 
-    // Set up listeners
-    audioPlayer.onDurationChanged.listen((duration) {
-      print('Duration changed for $soundId: $duration');
-      add(UpdateAudioDurationEvent(soundId: soundId, duration: duration));
-    });
+    // Cancel any existing subscriptions for this sound
+    _cancelSubscriptionsForSound(soundId);
 
-    audioPlayer.onPositionChanged.listen((position) {
-      print('Position changed for $soundId: $position');
-      add(UpdateAudioPositionEvent(soundId: soundId, position: position));
-    });
+    // Set up listeners with safety checks
+    final subscriptions = <StreamSubscription>[];
+    
+    subscriptions.add(
+      audioPlayer.onDurationChanged.listen((duration) {
+        if (!isClosed) {
+          // Duration changed for sound: $soundId
+          add(UpdateAudioDurationEvent(soundId: soundId, duration: duration));
+        }
+      }),
+    );
 
-    audioPlayer.onPlayerStateChanged.listen((state) {
-      add(UpdateAudioPlayerStateEvent(
-        soundId: soundId,
-        isPlaying: state == PlayerState.playing,
-      ));
-    });
+    subscriptions.add(
+      audioPlayer.onPositionChanged.listen((position) {
+        if (!isClosed) {
+          // Position updated for sound: $soundId
+          add(UpdateAudioPositionEvent(soundId: soundId, position: position));
+        }
+      }),
+    );
+
+    subscriptions.add(
+      audioPlayer.onPlayerStateChanged.listen((state) {
+        if (!isClosed) {
+          // Player state changed for sound: $soundId
+          add(UpdateAudioPlayerStateEvent(
+            soundId: soundId,
+            isPlaying: state == PlayerState.playing,
+          ));
+        }
+      }),
+    );
+
+    // Store subscriptions for cleanup
+    _audioSubscriptions[soundId] = subscriptions;
+  }
+
+  /// Cancels all stream subscriptions for a specific sound
+  void _cancelSubscriptionsForSound(String soundId) {
+    final subscriptions = _audioSubscriptions[soundId];
+    if (subscriptions != null) {
+      for (final subscription in subscriptions) {
+        subscription.cancel();
+      }
+      _audioSubscriptions.remove(soundId);
+    }
   }
 
   /// Gets audio player state for a specific sound
@@ -966,12 +982,14 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     final sound = event.sound;
     final soundId = sound.soundId.toString();
     
-    // Initialize audio player state if not exists
-    if (!state.audioPlayerStates.containsKey(soundId)) {
-      final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
-      updatedStates[soundId] = const AudioPlayerState();
-      emit(state.copyWith(audioPlayerStates: updatedStates));
-    }
+    // Initialize audio player state with sound metadata
+    final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
+    updatedStates[soundId] = AudioPlayerState(
+      soundTitle: sound.soundTitle,
+      soundFile: sound.soundFile,
+      soundData: sound,
+    );
+    emit(state.copyWith(audioPlayerStates: updatedStates));
   }
 
   /// Handles play/pause toggle for music player
@@ -984,7 +1002,6 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     final audioState = getAudioPlayerState(soundId);
     
     if (audioState.isLoading || audioState.isDownloading) {
-      print('Audio is currently being loaded, please wait...');
       return;
     }
 
@@ -997,16 +1014,12 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
         final audioUrl = _buildSoundUrl(sound);
         final alternativeUrls = _getAlternativeUrls(sound);
         
-        print('Loading audio for MusicPlayer: $audioUrl');
-        
         if (audioUrl.isNotEmpty) {
           add(LoadAudioEvent(
             soundId: soundId,
             audioUrl: audioUrl,
             alternativeUrls: alternativeUrls,
           ));
-        } else {
-          print('No valid audio URL found for sound: ${sound.soundFile}');
         }
         return;
       }
@@ -1055,13 +1068,10 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
         fileName = uri.pathSegments.last;
         downloadUrl = audioUrl;
       } else {
-        print('No valid URL available for download');
         return;
       }
     }
-    
-    print('Downloading file: $fileName from $downloadUrl');
-    
+
     add(DownloadAudioEvent(
       soundId: sound.soundId.toString(),
       audioUrl: downloadUrl,
@@ -1145,11 +1155,24 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
 
   /// Disposes all audio players
   @override
-  Future<void> close() {
+  Future<void> close() async {
+    // Cancel all stream subscriptions first
+    for (final soundId in _audioSubscriptions.keys.toList()) {
+      _cancelSubscriptionsForSound(soundId);
+    }
+    _audioSubscriptions.clear();
+
+    // Then dispose audio players
     for (final audioPlayer in _audioPlayers.values) {
-      audioPlayer.dispose();
+      try {
+        await audioPlayer.stop();
+        await audioPlayer.dispose();
+      } catch (e) {
+        // Error disposing audio player
+      }
     }
     _audioPlayers.clear();
+    
     return super.close();
   }
 

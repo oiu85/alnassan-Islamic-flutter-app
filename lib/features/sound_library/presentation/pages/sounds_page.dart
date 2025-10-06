@@ -87,6 +87,7 @@ class _SoundsPageState extends State<SoundsPage> {
         // Main Content
         SliverToBoxAdapter(
           child: Container(
+            color: Colors.white,
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

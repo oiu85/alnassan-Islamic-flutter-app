@@ -12,6 +12,7 @@ import 'core/navigation/bloc/shared_bloc.dart';
 import 'core/settings/presentation/widgets/settings_listener.dart';
 import 'features/biography/presentation/bloc/biography_bloc.dart';
 import 'features/sound_library/presentation/bloc/sound_library_bloc.dart';
+import 'features/sound_library/presentation/widgets/global_audio_player.dart';
 import 'features/advisory_fatwa/presentation/bloc/advisory_bloc.dart';
 import 'features/book_library/presentation/bloc/books_bloc.dart';
 import 'features/global_search/presentation/bloc/global_search_bloc.dart';
@@ -83,7 +84,9 @@ class MyApp extends StatelessWidget {
                       ),
                     ),
                   ),
-                  child: widget!,
+                  child: GlobalAudioPlayer(
+                    child: widget!,
+                  ),
                 );
               },
             ),

@@ -67,6 +67,7 @@ class _FatwaListContentState extends State<_FatwaListContent> {
     return BlocBuilder<FatwaListBloc, FatwaListState>(
       builder: (context, state) {
         return AppScaffold.custom(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             title: Text(
               state.category?.catTitle ?? 'الفتاوى',

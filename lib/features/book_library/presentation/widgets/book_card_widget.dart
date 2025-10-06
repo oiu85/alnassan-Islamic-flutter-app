@@ -24,6 +24,7 @@ class BookCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       margin: EdgeInsets.symmetric(
         horizontal: 16.w,
         vertical: 8.h,

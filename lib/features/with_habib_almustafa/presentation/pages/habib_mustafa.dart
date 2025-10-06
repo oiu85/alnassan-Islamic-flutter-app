@@ -52,7 +52,9 @@ class HabibMustafa extends StatelessWidget {
           ),
       child: ResponsiveBuilder(
         builder: (context, responsive) => Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
+            backgroundColor: Colors.white,
             actions: [
               IconButton(
                 onPressed: () {

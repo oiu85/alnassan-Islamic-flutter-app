@@ -67,6 +67,7 @@ class _AllFatwasPageState extends State<AllFatwasPage> {
           final status = widget.isRecent ? state.recentStatus : state.popularStatus;
 
           return AppScaffold.custom(
+            backgroundColor: Colors.white,
             appBar: AppBar(
               title: Text(
                 widget.title,
