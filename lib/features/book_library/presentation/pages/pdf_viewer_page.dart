@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
+import '../../../../core/services/storage_permission_service.dart';
 import '../../../../gen/fonts.gen.dart';
 import '../../data/model/book_model.dart';
 
@@ -24,17 +25,64 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
   final PdfViewerController _pdfViewerController = PdfViewerController();
   bool _isLoading = true;
   String? _errorMessage;
+  bool _permissionChecked = false;
   
   @override
   void initState() {
     super.initState();
-    // Set loading to false after a short delay if it's still true
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted && _isLoading) {
+    _checkPermissionsAndFile();
+  }
+
+  /// Check permissions and file accessibility before attempting to open
+  Future<void> _checkPermissionsAndFile() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    // If we're loading from network, no permission check needed
+    if (widget.localFilePath == null) {
+      setState(() {
+        _isLoading = false;
+        _permissionChecked = true;
+      });
+      return;
+    }
+
+    // Check storage permission
+    final hasPermission = await StoragePermissionService.hasStoragePermission();
+    if (!hasPermission) {
+      // Request permission
+      final granted = await StoragePermissionService.requestStoragePermission(context);
+      if (!mounted) return;
+      
+      if (!granted) {
         setState(() {
           _isLoading = false;
+          _errorMessage = 'يرجى منح إذن التخزين للوصول إلى الملف';
+          _permissionChecked = true;
         });
+        return;
       }
+    }
+
+    // Check if file is accessible
+    final canAccess = await StoragePermissionService.canAccessFile(widget.localFilePath!);
+    if (!canAccess) {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _errorMessage = 'لا يمكن الوصول إلى الملف. قد يكون محذوفاً أو لا توجد صلاحية للوصول إليه';
+        _permissionChecked = true;
+      });
+      return;
+    }
+
+    // All checks passed
+    if (!mounted) return;
+    setState(() {
+      _isLoading = false;
+      _permissionChecked = true;
     });
   }
 
@@ -73,40 +121,53 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     // Show error if any
     if (_errorMessage != null) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.error_outline,
-              color: Colors.red,
-              size: 48,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              _errorMessage!,
-              style: TextStyle(
-                fontFamily: FontFamily.tajawal,
-                fontSize: 16,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.error_outline,
+                color: Colors.red,
+                size: 48,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                'العودة',
+              const SizedBox(height: 16),
+              Text(
+                _errorMessage!,
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () async {
+                  // Try to request permission again if it was denied
+                  if (_errorMessage!.contains('إذن التخزين')) {
+                    final granted = await StoragePermissionService.requestStoragePermission(context);
+                    if (granted && mounted) {
+                      _checkPermissionsAndFile();
+                    }
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text(
+                  _errorMessage!.contains('إذن التخزين') ? 'إعادة المحاولة' : 'العودة',
+                  style: TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     }
 
-    // Loading indicator
-    if (_isLoading) {
+    // Loading indicator or permission check
+    if (_isLoading || !_permissionChecked) {
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -122,17 +183,12 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
           enableDoubleTapZooming: true,
           enableTextSelection: true,
           onDocumentLoaded: (PdfDocumentLoadedDetails details) {
-            if (mounted) {
-              setState(() {
-                _isLoading = false;
-              });
-            }
+            // Document loaded successfully
           },
           onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
             if (mounted) {
               setState(() {
-                _isLoading = false;
-                _errorMessage = 'فشل في تحميل الملف: ${details.error}';
+                _errorMessage = 'فشل في تحميل الملف: ${details.error}\n\nتأكد من وجود الملف ومن صلاحية الوصول إليه';
               });
             }
           },
@@ -145,16 +201,11 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
           enableDoubleTapZooming: true,
           enableTextSelection: true,
           onDocumentLoaded: (PdfDocumentLoadedDetails details) {
-            if (mounted) {
-              setState(() {
-                _isLoading = false;
-              });
-            }
+            // Document loaded successfully
           },
           onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
             if (mounted) {
               setState(() {
-                _isLoading = false;
                 _errorMessage = 'فشل في تحميل الملف: ${details.error}';
               });
             }
@@ -174,34 +225,37 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     } catch (e) {
       // Handle any unexpected errors
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.error_outline,
-              color: Colors.red,
-              size: 48,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'حدث خطأ غير متوقع: ${e.toString()}',
-              style: TextStyle(
-                fontFamily: FontFamily.tajawal,
-                fontSize: 16,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.error_outline,
+                color: Colors.red,
+                size: 48,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                'العودة',
+              const SizedBox(height: 16),
+              Text(
+                'حدث خطأ غير متوقع: ${e.toString()}',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  'العودة',
+                  style: TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     }

@@ -1,5 +1,13 @@
 import 'package:equatable/equatable.dart';
 
+// Helper function to convert int to String
+String? _toStringOrNull(dynamic value) {
+  if (value == null) return null;
+  if (value is String) return value;
+  if (value is int) return value.toString();
+  return value.toString();
+}
+
 class AdvisoryDetail extends Equatable {
   final int? advisoryId;
   final String? advisoryCatId;
@@ -62,29 +70,29 @@ class AdvisoryDetail extends Equatable {
   factory AdvisoryDetail.fromJson(Map<String, dynamic> json) {
     return AdvisoryDetail(
       advisoryId: json['advisory_id'],
-      advisoryCatId: json['advisory_cat_id'],
-      advisorySoundId: json['advisory_sound_id'],
+      advisoryCatId: _toStringOrNull(json['advisory_cat_id']),
+      advisorySoundId: _toStringOrNull(json['advisory_sound_id']),
       advisoryTitle: json['advisory_title'],
       advisoryQuestion: json['advisory_question'],
       advisoryQuestionDate: json['advisory_question_date'],
       advisoryAnswer: json['advisory_answer'],
       advisoryAnswerDate: json['advisory_answer_date'],
       advisoryVisitor: json['advisory_visitor'],
-      advisoryLastAdvisory: json['advisory_last_advisory'],
-      advisoryPriority: json['advisory_priority'],
-      advisoryActiveVote: json['advisory_active_vote'],
-      advisoryActiveHint: json['advisory_active_hint'],
+      advisoryLastAdvisory: _toStringOrNull(json['advisory_last_advisory']),
+      advisoryPriority: _toStringOrNull(json['advisory_priority']),
+      advisoryActiveVote: _toStringOrNull(json['advisory_active_vote']),
+      advisoryActiveHint: _toStringOrNull(json['advisory_active_hint']),
       advisoryPic: json['advisory_pic'],
       advisoryPicActive: json['advisory_pic_active'],
-      advisoryPicPos: json['advisory_pic_pos'],
+      advisoryPicPos: _toStringOrNull(json['advisory_pic_pos']),
       advisorySenderName: json['advisory_sender_name'],
       advisorySenderEmail: json['advisory_sender_email'],
-      advisoryPublisherId: json['advisory_publisher_id'],
+      advisoryPublisherId: _toStringOrNull(json['advisory_publisher_id']),
       advisorySource: json['advisory_source'],
       advisorySourceUrl: json['advisory_source_url'],
       advisoryYoutubeId: json['advisory_youtube_id'],
       advisoryFile: json['advisory_file'],
-      advisoryUserAddHintNsup: json['advisory_user_add_hint_nsup'],
+      advisoryUserAddHintNsup: _toStringOrNull(json['advisory_user_add_hint_nsup']),
       advisoryIsNew: json['advisory_is_new'],
       advisoryActive: json['advisory_active'],
       category: json['category'] != null ? AdvisoryCategory.fromJson(json['category']) : null,
@@ -143,19 +151,19 @@ class AdvisoryCategory extends Equatable {
   factory AdvisoryCategory.fromJson(Map<String, dynamic> json) {
     return AdvisoryCategory(
       catId: json['cat_id'],
-      catFatherId: json['cat_father_id'],
-      catMenus: json['cat_menus'],
+      catFatherId: _toStringOrNull(json['cat_father_id']),
+      catMenus: _toStringOrNull(json['cat_menus']),
       catTitle: json['cat_title'],
       catNote: json['cat_note'],
       catPic: json['cat_pic'],
-      catSup: json['cat_sup'],
+      catSup: _toStringOrNull(json['cat_sup']),
       catDate: json['cat_date'],
-      catPicActive: json['cat_pic_active'],
+      catPicActive: _toStringOrNull(json['cat_pic_active']),
       catLan: json['cat_lan'],
-      catPos: json['cat_pos'],
-      catActive: json['cat_active'],
-      catShowMenu: json['cat_show_menu'],
-      catShowMain: json['cat_show_main'],
+      catPos: _toStringOrNull(json['cat_pos']),
+      catActive: _toStringOrNull(json['cat_active']),
+      catShowMenu: _toStringOrNull(json['cat_show_menu']),
+      catShowMain: _toStringOrNull(json['cat_show_main']),
       catAgent: json['cat_agent'],
     );
   }

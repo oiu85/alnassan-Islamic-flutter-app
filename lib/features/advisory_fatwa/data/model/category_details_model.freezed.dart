@@ -657,7 +657,7 @@ $ParentCategoryCopyWith<$Res>? get parentCategory {
 /// @nodoc
 mixin _$ChildCategory {
 
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_father_id') String? get catFatherId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_pos') String? get catPos;@JsonKey(name: 'cat_active') String? get catActive; List<AdvisoryItem>? get fatwas;@JsonKey(name: 'fatwas_count') int? get fatwasCount;@JsonKey(name: 'debug_info') ChildCategoryDebugInfo? get debugInfo;
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? get catFatherId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_pos', fromJson: _intToString) String? get catPos;@JsonKey(name: 'cat_active', fromJson: _intToString) String? get catActive; List<AdvisoryItem>? get fatwas;@JsonKey(name: 'fatwas_count') int? get fatwasCount;@JsonKey(name: 'debug_info') ChildCategoryDebugInfo? get debugInfo;
 /// Create a copy of ChildCategory
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -690,7 +690,7 @@ abstract mixin class $ChildCategoryCopyWith<$Res>  {
   factory $ChildCategoryCopyWith(ChildCategory value, $Res Function(ChildCategory) _then) = _$ChildCategoryCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id') String? catFatherId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos') String? catPos,@JsonKey(name: 'cat_active') String? catActive, List<AdvisoryItem>? fatwas,@JsonKey(name: 'fatwas_count') int? fatwasCount,@JsonKey(name: 'debug_info') ChildCategoryDebugInfo? debugInfo
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? catFatherId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,@JsonKey(name: 'cat_active', fromJson: _intToString) String? catActive, List<AdvisoryItem>? fatwas,@JsonKey(name: 'fatwas_count') int? fatwasCount,@JsonKey(name: 'debug_info') ChildCategoryDebugInfo? debugInfo
 });
 
 
@@ -816,7 +816,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive,  List<AdvisoryItem>? fatwas, @JsonKey(name: 'fatwas_count')  int? fatwasCount, @JsonKey(name: 'debug_info')  ChildCategoryDebugInfo? debugInfo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive,  List<AdvisoryItem>? fatwas, @JsonKey(name: 'fatwas_count')  int? fatwasCount, @JsonKey(name: 'debug_info')  ChildCategoryDebugInfo? debugInfo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChildCategory() when $default != null:
 return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.catActive,_that.fatwas,_that.fatwasCount,_that.debugInfo);case _:
@@ -837,7 +837,7 @@ return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive,  List<AdvisoryItem>? fatwas, @JsonKey(name: 'fatwas_count')  int? fatwasCount, @JsonKey(name: 'debug_info')  ChildCategoryDebugInfo? debugInfo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive,  List<AdvisoryItem>? fatwas, @JsonKey(name: 'fatwas_count')  int? fatwasCount, @JsonKey(name: 'debug_info')  ChildCategoryDebugInfo? debugInfo)  $default,) {final _that = this;
 switch (_that) {
 case _ChildCategory():
 return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.catActive,_that.fatwas,_that.fatwasCount,_that.debugInfo);case _:
@@ -857,7 +857,7 @@ return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive,  List<AdvisoryItem>? fatwas, @JsonKey(name: 'fatwas_count')  int? fatwasCount, @JsonKey(name: 'debug_info')  ChildCategoryDebugInfo? debugInfo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive,  List<AdvisoryItem>? fatwas, @JsonKey(name: 'fatwas_count')  int? fatwasCount, @JsonKey(name: 'debug_info')  ChildCategoryDebugInfo? debugInfo)?  $default,) {final _that = this;
 switch (_that) {
 case _ChildCategory() when $default != null:
 return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.catActive,_that.fatwas,_that.fatwasCount,_that.debugInfo);case _:
@@ -872,16 +872,16 @@ return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that
 @JsonSerializable()
 
 class _ChildCategory implements ChildCategory {
-  const _ChildCategory({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_father_id') this.catFatherId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_pos') this.catPos, @JsonKey(name: 'cat_active') this.catActive, final  List<AdvisoryItem>? fatwas, @JsonKey(name: 'fatwas_count') this.fatwasCount, @JsonKey(name: 'debug_info') this.debugInfo}): _fatwas = fatwas;
+  const _ChildCategory({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString) this.catFatherId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString) this.catPos, @JsonKey(name: 'cat_active', fromJson: _intToString) this.catActive, final  List<AdvisoryItem>? fatwas, @JsonKey(name: 'fatwas_count') this.fatwasCount, @JsonKey(name: 'debug_info') this.debugInfo}): _fatwas = fatwas;
   factory _ChildCategory.fromJson(Map<String, dynamic> json) => _$ChildCategoryFromJson(json);
 
 @override@JsonKey(name: 'cat_id', fromJson: _stringToInt) final  int? catId;
-@override@JsonKey(name: 'cat_father_id') final  String? catFatherId;
+@override@JsonKey(name: 'cat_father_id', fromJson: _intToString) final  String? catFatherId;
 @override@JsonKey(name: 'cat_title') final  String? catTitle;
 @override@JsonKey(name: 'cat_note') final  String? catNote;
 @override@JsonKey(name: 'cat_pic') final  String? catPic;
-@override@JsonKey(name: 'cat_pos') final  String? catPos;
-@override@JsonKey(name: 'cat_active') final  String? catActive;
+@override@JsonKey(name: 'cat_pos', fromJson: _intToString) final  String? catPos;
+@override@JsonKey(name: 'cat_active', fromJson: _intToString) final  String? catActive;
  final  List<AdvisoryItem>? _fatwas;
 @override List<AdvisoryItem>? get fatwas {
   final value = _fatwas;
@@ -927,7 +927,7 @@ abstract mixin class _$ChildCategoryCopyWith<$Res> implements $ChildCategoryCopy
   factory _$ChildCategoryCopyWith(_ChildCategory value, $Res Function(_ChildCategory) _then) = __$ChildCategoryCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id') String? catFatherId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos') String? catPos,@JsonKey(name: 'cat_active') String? catActive, List<AdvisoryItem>? fatwas,@JsonKey(name: 'fatwas_count') int? fatwasCount,@JsonKey(name: 'debug_info') ChildCategoryDebugInfo? debugInfo
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? catFatherId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,@JsonKey(name: 'cat_active', fromJson: _intToString) String? catActive, List<AdvisoryItem>? fatwas,@JsonKey(name: 'fatwas_count') int? fatwasCount,@JsonKey(name: 'debug_info') ChildCategoryDebugInfo? debugInfo
 });
 
 

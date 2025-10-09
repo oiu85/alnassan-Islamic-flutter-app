@@ -71,6 +71,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
     return AppScaffold.custom(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           parentCategory?.catTitle ?? widget.categoryTitle,
           style: TextStyle(
@@ -94,8 +95,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
               );
             },
           ),
-          
-          // Main content
+
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -144,11 +144,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
               
               return Container(
                 // Use a dynamic height that adjusts to content
-                height: context.deviceValue(
-                  mobile: 400.h,  // More height on mobile for expanded text
-                  tablet: 380.h,  // Medium height on tablets
-                  desktop: 350.h, // Less height needed on desktop due to width
-                ),
+                height: 300.h,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: childCategory.fatwas.length,

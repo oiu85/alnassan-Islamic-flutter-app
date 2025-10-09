@@ -36,7 +36,7 @@ abstract class ChildCategory with _$ChildCategory {
   const factory ChildCategory({
     @JsonKey(name: 'cat_id', fromJson: _stringToInt)
     int? catId,
-    @JsonKey(name: 'cat_father_id')
+    @JsonKey(name: 'cat_father_id', fromJson: _intToString)
     String? catFatherId,
     @JsonKey(name: 'cat_title')
     String? catTitle,
@@ -44,9 +44,9 @@ abstract class ChildCategory with _$ChildCategory {
     String? catNote,
     @JsonKey(name: 'cat_pic')
     String? catPic,
-    @JsonKey(name: 'cat_pos')
+    @JsonKey(name: 'cat_pos', fromJson: _intToString)
     String? catPos,
-    @JsonKey(name: 'cat_active')
+    @JsonKey(name: 'cat_active', fromJson: _intToString)
     String? catActive,
     List<AdvisoryItem>? fatwas,
     @JsonKey(name: 'fatwas_count')
@@ -119,4 +119,12 @@ int? _stringToInt(dynamic value) {
   if (value is int) return value;
   if (value is String) return int.tryParse(value);
   return null;
+}
+
+// Helper function to convert int to String
+String? _intToString(dynamic value) {
+  if (value == null) return null;
+  if (value is String) return value;
+  if (value is int) return value.toString();
+  return value.toString();
 }

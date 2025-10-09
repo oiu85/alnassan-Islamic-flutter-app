@@ -1,7 +1,7 @@
 class ApiConfig {
   // Base URL
   static const String baseUrl =
-      'https://dev-backend-alnasaanapi.daira.website/api/v1';
+      'https://api.naasan.net/api/v1';
 
   // ===== HOME ENDPOINTS =====
   static const String homeUrl = '$baseUrl/public/home';
@@ -234,6 +234,27 @@ class ApiConfig {
     String sortOrder = 'desc',
   }) {
     return '$baseUrl/public/categories/advisories/children/$categoryId/fatwas?per_page=$perPage&page=$page&sort_by=$sortBy&sort_order=$sortOrder';
+  }
+  
+  /// Search advisories by query and/or advisory ID
+  static String searchAdvisories({
+    String? query,
+    int? advisoryId,
+    int page = 1,
+    int perPage = 10,
+  }) {
+    final params = <String, String>{};
+    
+    if (query != null && query.isNotEmpty) params['q'] = query;
+    if (advisoryId != null) params['advisory_id'] = advisoryId.toString();
+    params['page'] = page.toString();
+    params['per_page'] = perPage.toString();
+    
+    final queryString = params.entries
+        .map((e) => '${e.key}=${Uri.encodeComponent(e.value)}')
+        .join('&');
+    
+    return '$baseUrl/public/advisories/search-advisories?$queryString';
   }
 
   // ===== CONTACT US ENDPOINTS =====

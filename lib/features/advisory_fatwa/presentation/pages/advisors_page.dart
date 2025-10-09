@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/di/app_dependencies.dart';
@@ -12,9 +12,22 @@ import '../bloc/advisory_bloc.dart';
 import '../bloc/advisory_events.dart';
 import '../widgets/widgets.dart';
 import 'all_fatwas_page.dart';
+import 'search_results_page.dart';
 
 class AdvisorsPage extends StatelessWidget {
   const AdvisorsPage({super.key});
+
+  /// Converts Arabic numerals (٠١٢٣٤٥٦٧٨٩) to English numerals (0123456789)
+  String _convertArabicToEnglishNumbers(String input) {
+    const arabicNumerals = '٠١٢٣٤٥٦٧٨٩';
+    const englishNumerals = '0123456789';
+    
+    String result = input;
+    for (int i = 0; i < arabicNumerals.length; i++) {
+      result = result.replaceAll(arabicNumerals[i], englishNumerals[i]);
+    }
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +60,41 @@ class AdvisorsPage extends StatelessWidget {
   }
 
   Widget _buildMainContent(BuildContext context) {
+    String currentSearchQuery = '';
+    
     return AppScaffold.custom(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        
+        backgroundColor: Colors.white,
         title: SearchBarWidget(
           hintText: 'البحث في الفتاوى...',
           onChanged: (value) {
-            // TODO: Implement search functionality
+            currentSearchQuery = value;
           },
           onSearch: () {
-            // TODO: Implement search functionality
+            final searchQuery = currentSearchQuery.trim();
+            if (searchQuery.isNotEmpty) {
+              final advisoryBloc = context.read<AdvisoryBloc>();
+              
+              // Convert Arabic numerals to English numerals
+              final convertedQuery = _convertArabicToEnglishNumbers(searchQuery);
+              
+              // Check if search query is a number (advisory ID)
+              final advisoryId = int.tryParse(convertedQuery);
+              
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                    value: advisoryBloc,
+                    child: SearchResultsPage(
+                      searchQuery: searchQuery,
+                      advisoryId: advisoryId,
+                    ),
+                  ),
+                ),
+              );
+            }
           },
         ),
         elevation: 0,
@@ -68,8 +106,6 @@ class AdvisorsPage extends StatelessWidget {
           vertical: 8.h,
         ),
         children: [
-          SizedBox(height: 16.h),
-
           // Subject Index Section
           SectionHeaderWidget(
             title: "الفهرس الموضوعي",
@@ -83,7 +119,7 @@ class AdvisorsPage extends StatelessWidget {
           // Most Viewed Fatwas Section
           SectionHeaderWidget(
             title: "الفتاوى الأكثر اطلاعا",
-            actionText: "الكل",
+            actionText: " الكل" ,
             onActionTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -95,9 +131,6 @@ class AdvisorsPage extends StatelessWidget {
               );
             },
           ),
-
-          SizedBox(height: 12.h),
-
           // Popular Advisories Horizontal Scroll
           AdvisoriesSectionWidget(
             title: "الفتاوى الأكثر اطلاعا",

@@ -45,12 +45,12 @@ Map<String, dynamic> _$AdvisoryCategoriesDataToJson(
 _ParentCategory _$ParentCategoryFromJson(Map<String, dynamic> json) =>
     _ParentCategory(
       catId: _stringToInt(json['cat_id']),
-      catFatherId: json['cat_father_id'] as String?,
+      catFatherId: _intToString(json['cat_father_id']),
       catTitle: json['cat_title'] as String?,
       catNote: json['cat_note'] as String?,
       catPic: json['cat_pic'] as String?,
-      catPos: json['cat_pos'] as String?,
-      catActive: json['cat_active'] as String?,
+      catPos: _intToString(json['cat_pos']),
+      catActive: _intToString(json['cat_active']),
     );
 
 Map<String, dynamic> _$ParentCategoryToJson(_ParentCategory instance) =>
@@ -105,37 +105,56 @@ _AdvisoryModel _$AdvisoryModelFromJson(Map<String, dynamic> json) =>
       data: (json['data'] as List<dynamic>?)
           ?.map((e) => AdvisoryItem.fromJson(e as Map<String, dynamic>))
           .toList(),
+      meta: json['meta'] == null
+          ? null
+          : AdvisoryMeta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AdvisoryModelToJson(_AdvisoryModel instance) =>
-    <String, dynamic>{'status': instance.status, 'data': instance.data};
+    <String, dynamic>{
+      'status': instance.status,
+      'data': instance.data,
+      'meta': instance.meta,
+    };
+
+_AdvisoryMeta _$AdvisoryMetaFromJson(Map<String, dynamic> json) =>
+    _AdvisoryMeta(
+      pagination: json['pagination'] == null
+          ? null
+          : Pagination.fromJson(json['pagination'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$AdvisoryMetaToJson(_AdvisoryMeta instance) =>
+    <String, dynamic>{'pagination': instance.pagination};
 
 _AdvisoryItem _$AdvisoryItemFromJson(Map<String, dynamic> json) =>
     _AdvisoryItem(
       advisoryId: _stringToInt(json['advisory_id']),
-      advisoryCatId: json['advisory_cat_id'] as String?,
-      advisorySoundId: json['advisory_sound_id'] as String?,
+      advisoryCatId: _intToString(json['advisory_cat_id']),
+      advisorySoundId: _intToString(json['advisory_sound_id']),
       advisoryTitle: json['advisory_title'] as String?,
       advisoryQuestion: json['advisory_question'] as String?,
       advisoryQuestionDate: json['advisory_question_date'] as String?,
       advisoryAnswer: json['advisory_answer'] as String?,
       advisoryAnswerDate: json['advisory_answer_date'] as String?,
       advisoryVisitor: _stringToInt(json['advisory_visitor']),
-      advisoryLastAdvisory: json['advisory_last_advisory'] as String?,
-      advisoryPriority: json['advisory_priority'] as String?,
-      advisoryActiveVote: json['advisory_active_vote'] as String?,
-      advisoryActiveHint: json['advisory_active_hint'] as String?,
+      advisoryLastAdvisory: _intToString(json['advisory_last_advisory']),
+      advisoryPriority: _intToString(json['advisory_priority']),
+      advisoryActiveVote: _intToString(json['advisory_active_vote']),
+      advisoryActiveHint: _intToString(json['advisory_active_hint']),
       advisoryPic: json['advisory_pic'] as String?,
       advisoryPicActive: json['advisory_pic_active'] as bool?,
-      advisoryPicPos: json['advisory_pic_pos'] as String?,
+      advisoryPicPos: _intToString(json['advisory_pic_pos']),
       advisorySenderName: json['advisory_sender_name'] as String?,
       advisorySenderEmail: json['advisory_sender_email'] as String?,
-      advisoryPublisherId: json['advisory_publisher_id'] as String?,
+      advisoryPublisherId: _intToString(json['advisory_publisher_id']),
       advisorySource: json['advisory_source'] as String?,
       advisorySourceUrl: json['advisory_source_url'] as String?,
       advisoryYoutubeId: json['advisory_youtube_id'] as String?,
       advisoryFile: json['advisory_file'] as String?,
-      advisoryUserAddHintNsup: json['advisory_user_add_hint_nsup'] as String?,
+      advisoryUserAddHintNsup: _intToString(
+        json['advisory_user_add_hint_nsup'],
+      ),
       advisoryIsNew: json['advisory_is_new'] as bool?,
       advisoryActive: json['advisory_active'] as bool?,
       category: json['category'] == null
@@ -177,19 +196,19 @@ Map<String, dynamic> _$AdvisoryItemToJson(_AdvisoryItem instance) =>
 _AdvisoryCategory _$AdvisoryCategoryFromJson(Map<String, dynamic> json) =>
     _AdvisoryCategory(
       catId: _stringToInt(json['cat_id']),
-      catFatherId: json['cat_father_id'] as String?,
-      catMenus: json['cat_menus'] as String?,
+      catFatherId: _intToString(json['cat_father_id']),
+      catMenus: _intToString(json['cat_menus']),
       catTitle: json['cat_title'] as String?,
       catNote: json['cat_note'] as String?,
       catPic: json['cat_pic'] as String?,
-      catSup: json['cat_sup'] as String?,
+      catSup: _intToString(json['cat_sup']),
       catDate: json['cat_date'] as String?,
-      catPicActive: json['cat_pic_active'] as String?,
+      catPicActive: _intToString(json['cat_pic_active']),
       catLan: json['cat_lan'] as String?,
-      catPos: json['cat_pos'] as String?,
-      catActive: json['cat_active'] as String?,
-      catShowMenu: json['cat_show_menu'] as String?,
-      catShowMain: json['cat_show_main'] as String?,
+      catPos: _intToString(json['cat_pos']),
+      catActive: _intToString(json['cat_active']),
+      catShowMenu: _intToString(json['cat_show_menu']),
+      catShowMain: _intToString(json['cat_show_main']),
       catAgent: json['cat_agent'] as String?,
     );
 

@@ -52,12 +52,12 @@ Map<String, dynamic> _$CategoryDetailsDataToJson(
 _ChildCategory _$ChildCategoryFromJson(Map<String, dynamic> json) =>
     _ChildCategory(
       catId: _stringToInt(json['cat_id']),
-      catFatherId: json['cat_father_id'] as String?,
+      catFatherId: _intToString(json['cat_father_id']),
       catTitle: json['cat_title'] as String?,
       catNote: json['cat_note'] as String?,
       catPic: json['cat_pic'] as String?,
-      catPos: json['cat_pos'] as String?,
-      catActive: json['cat_active'] as String?,
+      catPos: _intToString(json['cat_pos']),
+      catActive: _intToString(json['cat_active']),
       fatwas: (json['fatwas'] as List<dynamic>?)
           ?.map((e) => AdvisoryItem.fromJson(e as Map<String, dynamic>))
           .toList(),

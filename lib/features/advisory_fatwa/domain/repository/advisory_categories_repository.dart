@@ -35,4 +35,11 @@ abstract class AdvisoryCategoriesRepository {
     String sortBy = 'priority',
     String sortOrder = 'desc',
   });
+  
+  Future<Either<String, AdvisoryModel>> searchAdvisories({
+    String? query,
+    int? advisoryId,
+    int page = 1,
+    int perPage = 10,
+  });
 }

@@ -120,11 +120,11 @@ abstract class HabibArticle with _$HabibArticle {
     String? articleSummary,
     @JsonKey(name: 'article_des')
     String? articleDes,
-    @JsonKey(name: 'article_cat_id')
+    @JsonKey(name: 'article_cat_id', fromJson: _intToString)
     String? articleCatId,
     @JsonKey(name: 'article_pic')
     String? articlePic,
-    @JsonKey(name: 'article_visitor')
+    @JsonKey(name: 'article_visitor', fromJson: _intToString)
     String? articleVisitor,
     @JsonKey(name: 'article_date')
     String? articleDate,
@@ -238,7 +238,7 @@ abstract class ArticleDetailData with _$ArticleDetailData {
   const factory ArticleDetailData({
     @JsonKey(name: 'article_id')
     int? articleId,
-    @JsonKey(name: 'article_cat_id')
+    @JsonKey(name: 'article_cat_id', fromJson: _intToString)
     String? articleCatId,
     @JsonKey(name: 'article_title')
     String? articleTitle,
@@ -252,7 +252,7 @@ abstract class ArticleDetailData with _$ArticleDetailData {
     String? articleDes,
     @JsonKey(name: 'article_pic_pos')
     String? articlePicPos,
-    @JsonKey(name: 'article_visitor')
+    @JsonKey(name: 'article_visitor', fromJson: _intToString)
     String? articleVisitor,
     @JsonKey(name: 'article_is_new')
     String? articleIsNew,
@@ -354,4 +354,12 @@ abstract class ArticleDetailResponseInfo with _$ArticleDetailResponseInfo {
 
   factory ArticleDetailResponseInfo.fromJson(Map<String, dynamic> json) =>
       _$ArticleDetailResponseInfoFromJson(json);
+}
+
+// Helper function to convert int to String
+String? _intToString(dynamic value) {
+  if (value == null) return null;
+  if (value is String) return value;
+  if (value is int) return value.toString();
+  return value.toString();
 }

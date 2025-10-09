@@ -126,9 +126,9 @@ _HabibArticle _$HabibArticleFromJson(Map<String, dynamic> json) =>
       articleTitle: json['article_title'] as String?,
       articleSummary: json['article_summary'] as String?,
       articleDes: json['article_des'] as String?,
-      articleCatId: json['article_cat_id'] as String?,
+      articleCatId: _intToString(json['article_cat_id']),
       articlePic: json['article_pic'] as String?,
-      articleVisitor: json['article_visitor'] as String?,
+      articleVisitor: _intToString(json['article_visitor']),
       articleDate: json['article_date'] as String?,
       articleContent: json['article_content'] as String?,
       category: json['category'] == null
@@ -261,14 +261,14 @@ Map<String, dynamic> _$ArticleDetailModelToJson(_ArticleDetailModel instance) =>
 _ArticleDetailData _$ArticleDetailDataFromJson(Map<String, dynamic> json) =>
     _ArticleDetailData(
       articleId: (json['article_id'] as num?)?.toInt(),
-      articleCatId: json['article_cat_id'] as String?,
+      articleCatId: _intToString(json['article_cat_id']),
       articleTitle: json['article_title'] as String?,
       articleTs: json['article_ts'] as String?,
       articleSummary: json['article_summary'] as String?,
       articlePic: json['article_pic'] as String?,
       articleDes: json['article_des'] as String?,
       articlePicPos: json['article_pic_pos'] as String?,
-      articleVisitor: json['article_visitor'] as String?,
+      articleVisitor: _intToString(json['article_visitor']),
       articleIsNew: json['article_is_new'] as String?,
       articlePriority: json['article_priority'] as String?,
       articleActiveVote: json['article_active_vote'] as String?,

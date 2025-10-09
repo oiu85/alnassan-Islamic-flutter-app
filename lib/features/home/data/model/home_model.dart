@@ -38,11 +38,11 @@ abstract class Article with _$Article {
     String? articleSummary,
     @JsonKey(name: 'article_des') 
     String? articleDes,
-    @JsonKey(name: 'article_cat_id') 
+    @JsonKey(name: 'article_cat_id', fromJson: _intToString) 
     String? articleCatId,
     @JsonKey(name: 'article_pic') 
     String? articlePic,
-    @JsonKey(name: 'article_visitor') 
+    @JsonKey(name: 'article_visitor', fromJson: _intToString) 
     String? articleVisitor,
     @JsonKey(name: 'article_date') 
     String? articleDate,

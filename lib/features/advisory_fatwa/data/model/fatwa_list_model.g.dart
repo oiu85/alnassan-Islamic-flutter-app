@@ -65,13 +65,13 @@ Map<String, dynamic> _$FatwaListFatwasToJson(_FatwaListFatwas instance) =>
 
 _FatwaListCategory _$FatwaListCategoryFromJson(Map<String, dynamic> json) =>
     _FatwaListCategory(
-      catId: (json['cat_id'] as num?)?.toInt(),
-      catFatherId: json['cat_father_id'] as String?,
+      catId: _stringToInt(json['cat_id']),
+      catFatherId: _intToString(json['cat_father_id']),
       catTitle: json['cat_title'] as String?,
       catNote: json['cat_note'] as String?,
       catPic: json['cat_pic'] as String?,
-      catPos: json['cat_pos'] as String?,
-      catActive: json['cat_active'] as String?,
+      catPos: _intToString(json['cat_pos']),
+      catActive: _intToString(json['cat_active']),
     );
 
 Map<String, dynamic> _$FatwaListCategoryToJson(_FatwaListCategory instance) =>

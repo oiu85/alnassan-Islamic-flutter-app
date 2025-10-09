@@ -34,40 +34,7 @@ class SearchArticleCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Article Image
-              Container(
-                width: MediaQuery.of(context).size.width < 360 ? 60.w : 80.w,
-                height: MediaQuery.of(context).size.width < 360 ? 60.h : 80.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
-                  image: article.image.startsWith('http')
-                      ? DecorationImage(
-                          image: NetworkImage(article.image),
-                          fit: BoxFit.cover,
-                          onError: (exception, stackTrace) {
-                            // Handle image load error
-                          },
-                        )
-                      : DecorationImage(
-                          image: AssetImage(article.image),
-                          fit: BoxFit.cover,
-                        ),
-                ),
-                child: article.image.isEmpty
-                    ? Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.grey.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Icon(
-                          Icons.article_outlined,
-                          color: AppColors.grey,
-                          size: 32.f,
-                        ),
-                      )
-                    : null,
-              ),
-              SizedBox(width: 12.w),
+
               // Article Content
               Expanded(
                 child: Column(
@@ -111,48 +78,7 @@ class SearchArticleCard extends StatelessWidget {
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 12.h),
-                    // Category and Date
-                    Row(
-                      children: [
-                        // Category
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.w,
-                            vertical: 4.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: Text(
-                            article.category,
-                            style: TextStyle(
-                              fontFamily: FontFamily.tajawal,
-                              fontSize: 12.f,
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 8.w),
-                        // Date
-                        Icon(
-                          Icons.calendar_today,
-                          size: 16.f,
-                          color: AppColors.grey,
-                        ),
-                        SizedBox(width: 4.w),
-                        Text(
-                          _formatDate(article.date),
-                          style: TextStyle(
-                            fontFamily: FontFamily.tajawal,
-                            fontSize: 12.f,
-                            color: AppColors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
+
                   ],
                 ),
               ),

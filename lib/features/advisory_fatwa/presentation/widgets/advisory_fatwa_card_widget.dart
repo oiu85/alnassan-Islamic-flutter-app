@@ -31,14 +31,10 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
         final double cardWidth = widget.width ?? constraints.maxWidth;
         final double effectiveWidth = cardWidth == double.infinity 
             ? constraints.maxWidth 
-            : cardWidth.clamp(200.0, constraints.maxWidth); // Minimum width of 200 to prevent NaN
+            : cardWidth.clamp(200.0, constraints.maxWidth);
         
         return Container(
           width: effectiveWidth,
-          constraints: BoxConstraints(
-            minHeight: 200.h,
-            maxWidth: effectiveWidth,
-          ),
           margin: EdgeInsets.symmetric(
             horizontal: 4.w,
             vertical: 8.h,
@@ -52,7 +48,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: AppColors.secondary.withOpacity(0.2),
+                color: AppColors.black.withOpacity(0.1),
                 spreadRadius: 2,
                 blurRadius: 8,
                 offset: const Offset(0, 2),
@@ -170,38 +166,6 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
               maxLines: _isExpanded ? 5 : 3,
               overflow: TextOverflow.ellipsis,
             ),
-            if (isTextOverflowing) // Only show expand button if text overflows
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    _isExpanded = !_isExpanded;
-                  });
-                },
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 0),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _isExpanded ? 'عرض أقل' : 'المزيد',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontFamily: FontFamily.tajawal,
-                        fontSize: 12.f,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Icon(
-                      _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                      size: 16.f,
-                      color: AppColors.primary,
-                    ),
-                  ],
-                ),
-              ),
           ],
         );
       },

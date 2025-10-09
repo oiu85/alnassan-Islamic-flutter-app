@@ -630,7 +630,7 @@ as List<ParentCategory>?,
 /// @nodoc
 mixin _$ParentCategory {
 
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_father_id') String? get catFatherId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_pos') String? get catPos;@JsonKey(name: 'cat_active') String? get catActive;
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? get catFatherId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_pos', fromJson: _intToString) String? get catPos;@JsonKey(name: 'cat_active', fromJson: _intToString) String? get catActive;
 /// Create a copy of ParentCategory
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -663,7 +663,7 @@ abstract mixin class $ParentCategoryCopyWith<$Res>  {
   factory $ParentCategoryCopyWith(ParentCategory value, $Res Function(ParentCategory) _then) = _$ParentCategoryCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id') String? catFatherId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos') String? catPos,@JsonKey(name: 'cat_active') String? catActive
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? catFatherId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,@JsonKey(name: 'cat_active', fromJson: _intToString) String? catActive
 });
 
 
@@ -774,7 +774,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ParentCategory() when $default != null:
 return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.catActive);case _:
@@ -795,7 +795,7 @@ return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive)  $default,) {final _that = this;
 switch (_that) {
 case _ParentCategory():
 return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.catActive);case _:
@@ -815,7 +815,7 @@ return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive)?  $default,) {final _that = this;
 switch (_that) {
 case _ParentCategory() when $default != null:
 return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.catActive);case _:
@@ -830,16 +830,16 @@ return $default(_that.catId,_that.catFatherId,_that.catTitle,_that.catNote,_that
 @JsonSerializable()
 
 class _ParentCategory implements ParentCategory {
-  const _ParentCategory({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_father_id') this.catFatherId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_pos') this.catPos, @JsonKey(name: 'cat_active') this.catActive});
+  const _ParentCategory({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString) this.catFatherId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString) this.catPos, @JsonKey(name: 'cat_active', fromJson: _intToString) this.catActive});
   factory _ParentCategory.fromJson(Map<String, dynamic> json) => _$ParentCategoryFromJson(json);
 
 @override@JsonKey(name: 'cat_id', fromJson: _stringToInt) final  int? catId;
-@override@JsonKey(name: 'cat_father_id') final  String? catFatherId;
+@override@JsonKey(name: 'cat_father_id', fromJson: _intToString) final  String? catFatherId;
 @override@JsonKey(name: 'cat_title') final  String? catTitle;
 @override@JsonKey(name: 'cat_note') final  String? catNote;
 @override@JsonKey(name: 'cat_pic') final  String? catPic;
-@override@JsonKey(name: 'cat_pos') final  String? catPos;
-@override@JsonKey(name: 'cat_active') final  String? catActive;
+@override@JsonKey(name: 'cat_pos', fromJson: _intToString) final  String? catPos;
+@override@JsonKey(name: 'cat_active', fromJson: _intToString) final  String? catActive;
 
 /// Create a copy of ParentCategory
 /// with the given fields replaced by the non-null parameter values.
@@ -874,7 +874,7 @@ abstract mixin class _$ParentCategoryCopyWith<$Res> implements $ParentCategoryCo
   factory _$ParentCategoryCopyWith(_ParentCategory value, $Res Function(_ParentCategory) _then) = __$ParentCategoryCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id') String? catFatherId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos') String? catPos,@JsonKey(name: 'cat_active') String? catActive
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? catFatherId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,@JsonKey(name: 'cat_active', fromJson: _intToString) String? catActive
 });
 
 
@@ -1464,7 +1464,7 @@ as int?,
 /// @nodoc
 mixin _$AdvisoryModel {
 
- String? get status; List<AdvisoryItem>? get data;
+ String? get status; List<AdvisoryItem>? get data; AdvisoryMeta? get meta;
 /// Create a copy of AdvisoryModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1477,16 +1477,16 @@ $AdvisoryModelCopyWith<AdvisoryModel> get copyWith => _$AdvisoryModelCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdvisoryModel&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.data, data));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdvisoryModel&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.meta, meta) || other.meta == meta));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(data));
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(data),meta);
 
 @override
 String toString() {
-  return 'AdvisoryModel(status: $status, data: $data)';
+  return 'AdvisoryModel(status: $status, data: $data, meta: $meta)';
 }
 
 
@@ -1497,11 +1497,11 @@ abstract mixin class $AdvisoryModelCopyWith<$Res>  {
   factory $AdvisoryModelCopyWith(AdvisoryModel value, $Res Function(AdvisoryModel) _then) = _$AdvisoryModelCopyWithImpl;
 @useResult
 $Res call({
- String? status, List<AdvisoryItem>? data
+ String? status, List<AdvisoryItem>? data, AdvisoryMeta? meta
 });
 
 
-
+$AdvisoryMetaCopyWith<$Res>? get meta;
 
 }
 /// @nodoc
@@ -1514,14 +1514,27 @@ class _$AdvisoryModelCopyWithImpl<$Res>
 
 /// Create a copy of AdvisoryModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = freezed,Object? data = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = freezed,Object? data = freezed,Object? meta = freezed,}) {
   return _then(_self.copyWith(
 status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String?,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
-as List<AdvisoryItem>?,
+as List<AdvisoryItem>?,meta: freezed == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
+as AdvisoryMeta?,
   ));
 }
+/// Create a copy of AdvisoryModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AdvisoryMetaCopyWith<$Res>? get meta {
+    if (_self.meta == null) {
+    return null;
+  }
 
+  return $AdvisoryMetaCopyWith<$Res>(_self.meta!, (value) {
+    return _then(_self.copyWith(meta: value));
+  });
+}
 }
 
 
@@ -1603,10 +1616,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? status,  List<AdvisoryItem>? data)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? status,  List<AdvisoryItem>? data,  AdvisoryMeta? meta)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AdvisoryModel() when $default != null:
-return $default(_that.status,_that.data);case _:
+return $default(_that.status,_that.data,_that.meta);case _:
   return orElse();
 
 }
@@ -1624,10 +1637,10 @@ return $default(_that.status,_that.data);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? status,  List<AdvisoryItem>? data)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? status,  List<AdvisoryItem>? data,  AdvisoryMeta? meta)  $default,) {final _that = this;
 switch (_that) {
 case _AdvisoryModel():
-return $default(_that.status,_that.data);case _:
+return $default(_that.status,_that.data,_that.meta);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1644,10 +1657,10 @@ return $default(_that.status,_that.data);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? status,  List<AdvisoryItem>? data)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? status,  List<AdvisoryItem>? data,  AdvisoryMeta? meta)?  $default,) {final _that = this;
 switch (_that) {
 case _AdvisoryModel() when $default != null:
-return $default(_that.status,_that.data);case _:
+return $default(_that.status,_that.data,_that.meta);case _:
   return null;
 
 }
@@ -1659,7 +1672,7 @@ return $default(_that.status,_that.data);case _:
 @JsonSerializable()
 
 class _AdvisoryModel implements AdvisoryModel {
-  const _AdvisoryModel({this.status, final  List<AdvisoryItem>? data}): _data = data;
+  const _AdvisoryModel({this.status, final  List<AdvisoryItem>? data, this.meta}): _data = data;
   factory _AdvisoryModel.fromJson(Map<String, dynamic> json) => _$AdvisoryModelFromJson(json);
 
 @override final  String? status;
@@ -1672,6 +1685,7 @@ class _AdvisoryModel implements AdvisoryModel {
   return EqualUnmodifiableListView(value);
 }
 
+@override final  AdvisoryMeta? meta;
 
 /// Create a copy of AdvisoryModel
 /// with the given fields replaced by the non-null parameter values.
@@ -1686,16 +1700,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdvisoryModel&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._data, _data));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdvisoryModel&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._data, _data)&&(identical(other.meta, meta) || other.meta == meta));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_data));
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_data),meta);
 
 @override
 String toString() {
-  return 'AdvisoryModel(status: $status, data: $data)';
+  return 'AdvisoryModel(status: $status, data: $data, meta: $meta)';
 }
 
 
@@ -1706,11 +1720,11 @@ abstract mixin class _$AdvisoryModelCopyWith<$Res> implements $AdvisoryModelCopy
   factory _$AdvisoryModelCopyWith(_AdvisoryModel value, $Res Function(_AdvisoryModel) _then) = __$AdvisoryModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? status, List<AdvisoryItem>? data
+ String? status, List<AdvisoryItem>? data, AdvisoryMeta? meta
 });
 
 
-
+@override $AdvisoryMetaCopyWith<$Res>? get meta;
 
 }
 /// @nodoc
@@ -1723,22 +1737,322 @@ class __$AdvisoryModelCopyWithImpl<$Res>
 
 /// Create a copy of AdvisoryModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = freezed,Object? data = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = freezed,Object? data = freezed,Object? meta = freezed,}) {
   return _then(_AdvisoryModel(
 status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String?,data: freezed == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
-as List<AdvisoryItem>?,
+as List<AdvisoryItem>?,meta: freezed == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
+as AdvisoryMeta?,
   ));
 }
 
+/// Create a copy of AdvisoryModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AdvisoryMetaCopyWith<$Res>? get meta {
+    if (_self.meta == null) {
+    return null;
+  }
 
+  return $AdvisoryMetaCopyWith<$Res>(_self.meta!, (value) {
+    return _then(_self.copyWith(meta: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$AdvisoryMeta {
+
+ Pagination? get pagination;
+/// Create a copy of AdvisoryMeta
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AdvisoryMetaCopyWith<AdvisoryMeta> get copyWith => _$AdvisoryMetaCopyWithImpl<AdvisoryMeta>(this as AdvisoryMeta, _$identity);
+
+  /// Serializes this AdvisoryMeta to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AdvisoryMeta&&(identical(other.pagination, pagination) || other.pagination == pagination));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,pagination);
+
+@override
+String toString() {
+  return 'AdvisoryMeta(pagination: $pagination)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AdvisoryMetaCopyWith<$Res>  {
+  factory $AdvisoryMetaCopyWith(AdvisoryMeta value, $Res Function(AdvisoryMeta) _then) = _$AdvisoryMetaCopyWithImpl;
+@useResult
+$Res call({
+ Pagination? pagination
+});
+
+
+$PaginationCopyWith<$Res>? get pagination;
+
+}
+/// @nodoc
+class _$AdvisoryMetaCopyWithImpl<$Res>
+    implements $AdvisoryMetaCopyWith<$Res> {
+  _$AdvisoryMetaCopyWithImpl(this._self, this._then);
+
+  final AdvisoryMeta _self;
+  final $Res Function(AdvisoryMeta) _then;
+
+/// Create a copy of AdvisoryMeta
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? pagination = freezed,}) {
+  return _then(_self.copyWith(
+pagination: freezed == pagination ? _self.pagination : pagination // ignore: cast_nullable_to_non_nullable
+as Pagination?,
+  ));
+}
+/// Create a copy of AdvisoryMeta
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PaginationCopyWith<$Res>? get pagination {
+    if (_self.pagination == null) {
+    return null;
+  }
+
+  return $PaginationCopyWith<$Res>(_self.pagination!, (value) {
+    return _then(_self.copyWith(pagination: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [AdvisoryMeta].
+extension AdvisoryMetaPatterns on AdvisoryMeta {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AdvisoryMeta value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AdvisoryMeta() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AdvisoryMeta value)  $default,){
+final _that = this;
+switch (_that) {
+case _AdvisoryMeta():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AdvisoryMeta value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AdvisoryMeta() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Pagination? pagination)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AdvisoryMeta() when $default != null:
+return $default(_that.pagination);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Pagination? pagination)  $default,) {final _that = this;
+switch (_that) {
+case _AdvisoryMeta():
+return $default(_that.pagination);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Pagination? pagination)?  $default,) {final _that = this;
+switch (_that) {
+case _AdvisoryMeta() when $default != null:
+return $default(_that.pagination);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _AdvisoryMeta implements AdvisoryMeta {
+  const _AdvisoryMeta({this.pagination});
+  factory _AdvisoryMeta.fromJson(Map<String, dynamic> json) => _$AdvisoryMetaFromJson(json);
+
+@override final  Pagination? pagination;
+
+/// Create a copy of AdvisoryMeta
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AdvisoryMetaCopyWith<_AdvisoryMeta> get copyWith => __$AdvisoryMetaCopyWithImpl<_AdvisoryMeta>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AdvisoryMetaToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AdvisoryMeta&&(identical(other.pagination, pagination) || other.pagination == pagination));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,pagination);
+
+@override
+String toString() {
+  return 'AdvisoryMeta(pagination: $pagination)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AdvisoryMetaCopyWith<$Res> implements $AdvisoryMetaCopyWith<$Res> {
+  factory _$AdvisoryMetaCopyWith(_AdvisoryMeta value, $Res Function(_AdvisoryMeta) _then) = __$AdvisoryMetaCopyWithImpl;
+@override @useResult
+$Res call({
+ Pagination? pagination
+});
+
+
+@override $PaginationCopyWith<$Res>? get pagination;
+
+}
+/// @nodoc
+class __$AdvisoryMetaCopyWithImpl<$Res>
+    implements _$AdvisoryMetaCopyWith<$Res> {
+  __$AdvisoryMetaCopyWithImpl(this._self, this._then);
+
+  final _AdvisoryMeta _self;
+  final $Res Function(_AdvisoryMeta) _then;
+
+/// Create a copy of AdvisoryMeta
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? pagination = freezed,}) {
+  return _then(_AdvisoryMeta(
+pagination: freezed == pagination ? _self.pagination : pagination // ignore: cast_nullable_to_non_nullable
+as Pagination?,
+  ));
+}
+
+/// Create a copy of AdvisoryMeta
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PaginationCopyWith<$Res>? get pagination {
+    if (_self.pagination == null) {
+    return null;
+  }
+
+  return $PaginationCopyWith<$Res>(_self.pagination!, (value) {
+    return _then(_self.copyWith(pagination: value));
+  });
+}
 }
 
 
 /// @nodoc
 mixin _$AdvisoryItem {
 
-@JsonKey(name: 'advisory_id', fromJson: _stringToInt) int? get advisoryId;@JsonKey(name: 'advisory_cat_id') String? get advisoryCatId;@JsonKey(name: 'advisory_sound_id') String? get advisorySoundId;@JsonKey(name: 'advisory_title') String? get advisoryTitle;@JsonKey(name: 'advisory_question') String? get advisoryQuestion;@JsonKey(name: 'advisory_question_date') String? get advisoryQuestionDate;@JsonKey(name: 'advisory_answer') String? get advisoryAnswer;@JsonKey(name: 'advisory_answer_date') String? get advisoryAnswerDate;@JsonKey(name: 'advisory_visitor', fromJson: _stringToInt) int? get advisoryVisitor;@JsonKey(name: 'advisory_last_advisory') String? get advisoryLastAdvisory;@JsonKey(name: 'advisory_priority') String? get advisoryPriority;@JsonKey(name: 'advisory_active_vote') String? get advisoryActiveVote;@JsonKey(name: 'advisory_active_hint') String? get advisoryActiveHint;@JsonKey(name: 'advisory_pic') String? get advisoryPic;@JsonKey(name: 'advisory_pic_active') bool? get advisoryPicActive;@JsonKey(name: 'advisory_pic_pos') String? get advisoryPicPos;@JsonKey(name: 'advisory_sender_name') String? get advisorySenderName;@JsonKey(name: 'advisory_sender_email') String? get advisorySenderEmail;@JsonKey(name: 'advisory_publisher_id') String? get advisoryPublisherId;@JsonKey(name: 'advisory_source') String? get advisorySource;@JsonKey(name: 'advisory_source_url') String? get advisorySourceUrl;@JsonKey(name: 'advisory_youtube_id') String? get advisoryYoutubeId;@JsonKey(name: 'advisory_file') String? get advisoryFile;@JsonKey(name: 'advisory_user_add_hint_nsup') String? get advisoryUserAddHintNsup;@JsonKey(name: 'advisory_is_new') bool? get advisoryIsNew;@JsonKey(name: 'advisory_active') bool? get advisoryActive; AdvisoryCategory? get category;
+@JsonKey(name: 'advisory_id', fromJson: _stringToInt) int? get advisoryId;@JsonKey(name: 'advisory_cat_id', fromJson: _intToString) String? get advisoryCatId;@JsonKey(name: 'advisory_sound_id', fromJson: _intToString) String? get advisorySoundId;@JsonKey(name: 'advisory_title') String? get advisoryTitle;@JsonKey(name: 'advisory_question') String? get advisoryQuestion;@JsonKey(name: 'advisory_question_date') String? get advisoryQuestionDate;@JsonKey(name: 'advisory_answer') String? get advisoryAnswer;@JsonKey(name: 'advisory_answer_date') String? get advisoryAnswerDate;@JsonKey(name: 'advisory_visitor', fromJson: _stringToInt) int? get advisoryVisitor;@JsonKey(name: 'advisory_last_advisory', fromJson: _intToString) String? get advisoryLastAdvisory;@JsonKey(name: 'advisory_priority', fromJson: _intToString) String? get advisoryPriority;@JsonKey(name: 'advisory_active_vote', fromJson: _intToString) String? get advisoryActiveVote;@JsonKey(name: 'advisory_active_hint', fromJson: _intToString) String? get advisoryActiveHint;@JsonKey(name: 'advisory_pic') String? get advisoryPic;@JsonKey(name: 'advisory_pic_active') bool? get advisoryPicActive;@JsonKey(name: 'advisory_pic_pos', fromJson: _intToString) String? get advisoryPicPos;@JsonKey(name: 'advisory_sender_name') String? get advisorySenderName;@JsonKey(name: 'advisory_sender_email') String? get advisorySenderEmail;@JsonKey(name: 'advisory_publisher_id', fromJson: _intToString) String? get advisoryPublisherId;@JsonKey(name: 'advisory_source') String? get advisorySource;@JsonKey(name: 'advisory_source_url') String? get advisorySourceUrl;@JsonKey(name: 'advisory_youtube_id') String? get advisoryYoutubeId;@JsonKey(name: 'advisory_file') String? get advisoryFile;@JsonKey(name: 'advisory_user_add_hint_nsup', fromJson: _intToString) String? get advisoryUserAddHintNsup;@JsonKey(name: 'advisory_is_new') bool? get advisoryIsNew;@JsonKey(name: 'advisory_active') bool? get advisoryActive; AdvisoryCategory? get category;
 /// Create a copy of AdvisoryItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1771,7 +2085,7 @@ abstract mixin class $AdvisoryItemCopyWith<$Res>  {
   factory $AdvisoryItemCopyWith(AdvisoryItem value, $Res Function(AdvisoryItem) _then) = _$AdvisoryItemCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'advisory_id', fromJson: _stringToInt) int? advisoryId,@JsonKey(name: 'advisory_cat_id') String? advisoryCatId,@JsonKey(name: 'advisory_sound_id') String? advisorySoundId,@JsonKey(name: 'advisory_title') String? advisoryTitle,@JsonKey(name: 'advisory_question') String? advisoryQuestion,@JsonKey(name: 'advisory_question_date') String? advisoryQuestionDate,@JsonKey(name: 'advisory_answer') String? advisoryAnswer,@JsonKey(name: 'advisory_answer_date') String? advisoryAnswerDate,@JsonKey(name: 'advisory_visitor', fromJson: _stringToInt) int? advisoryVisitor,@JsonKey(name: 'advisory_last_advisory') String? advisoryLastAdvisory,@JsonKey(name: 'advisory_priority') String? advisoryPriority,@JsonKey(name: 'advisory_active_vote') String? advisoryActiveVote,@JsonKey(name: 'advisory_active_hint') String? advisoryActiveHint,@JsonKey(name: 'advisory_pic') String? advisoryPic,@JsonKey(name: 'advisory_pic_active') bool? advisoryPicActive,@JsonKey(name: 'advisory_pic_pos') String? advisoryPicPos,@JsonKey(name: 'advisory_sender_name') String? advisorySenderName,@JsonKey(name: 'advisory_sender_email') String? advisorySenderEmail,@JsonKey(name: 'advisory_publisher_id') String? advisoryPublisherId,@JsonKey(name: 'advisory_source') String? advisorySource,@JsonKey(name: 'advisory_source_url') String? advisorySourceUrl,@JsonKey(name: 'advisory_youtube_id') String? advisoryYoutubeId,@JsonKey(name: 'advisory_file') String? advisoryFile,@JsonKey(name: 'advisory_user_add_hint_nsup') String? advisoryUserAddHintNsup,@JsonKey(name: 'advisory_is_new') bool? advisoryIsNew,@JsonKey(name: 'advisory_active') bool? advisoryActive, AdvisoryCategory? category
+@JsonKey(name: 'advisory_id', fromJson: _stringToInt) int? advisoryId,@JsonKey(name: 'advisory_cat_id', fromJson: _intToString) String? advisoryCatId,@JsonKey(name: 'advisory_sound_id', fromJson: _intToString) String? advisorySoundId,@JsonKey(name: 'advisory_title') String? advisoryTitle,@JsonKey(name: 'advisory_question') String? advisoryQuestion,@JsonKey(name: 'advisory_question_date') String? advisoryQuestionDate,@JsonKey(name: 'advisory_answer') String? advisoryAnswer,@JsonKey(name: 'advisory_answer_date') String? advisoryAnswerDate,@JsonKey(name: 'advisory_visitor', fromJson: _stringToInt) int? advisoryVisitor,@JsonKey(name: 'advisory_last_advisory', fromJson: _intToString) String? advisoryLastAdvisory,@JsonKey(name: 'advisory_priority', fromJson: _intToString) String? advisoryPriority,@JsonKey(name: 'advisory_active_vote', fromJson: _intToString) String? advisoryActiveVote,@JsonKey(name: 'advisory_active_hint', fromJson: _intToString) String? advisoryActiveHint,@JsonKey(name: 'advisory_pic') String? advisoryPic,@JsonKey(name: 'advisory_pic_active') bool? advisoryPicActive,@JsonKey(name: 'advisory_pic_pos', fromJson: _intToString) String? advisoryPicPos,@JsonKey(name: 'advisory_sender_name') String? advisorySenderName,@JsonKey(name: 'advisory_sender_email') String? advisorySenderEmail,@JsonKey(name: 'advisory_publisher_id', fromJson: _intToString) String? advisoryPublisherId,@JsonKey(name: 'advisory_source') String? advisorySource,@JsonKey(name: 'advisory_source_url') String? advisorySourceUrl,@JsonKey(name: 'advisory_youtube_id') String? advisoryYoutubeId,@JsonKey(name: 'advisory_file') String? advisoryFile,@JsonKey(name: 'advisory_user_add_hint_nsup', fromJson: _intToString) String? advisoryUserAddHintNsup,@JsonKey(name: 'advisory_is_new') bool? advisoryIsNew,@JsonKey(name: 'advisory_active') bool? advisoryActive, AdvisoryCategory? category
 });
 
 
@@ -1914,7 +2228,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'advisory_id', fromJson: _stringToInt)  int? advisoryId, @JsonKey(name: 'advisory_cat_id')  String? advisoryCatId, @JsonKey(name: 'advisory_sound_id')  String? advisorySoundId, @JsonKey(name: 'advisory_title')  String? advisoryTitle, @JsonKey(name: 'advisory_question')  String? advisoryQuestion, @JsonKey(name: 'advisory_question_date')  String? advisoryQuestionDate, @JsonKey(name: 'advisory_answer')  String? advisoryAnswer, @JsonKey(name: 'advisory_answer_date')  String? advisoryAnswerDate, @JsonKey(name: 'advisory_visitor', fromJson: _stringToInt)  int? advisoryVisitor, @JsonKey(name: 'advisory_last_advisory')  String? advisoryLastAdvisory, @JsonKey(name: 'advisory_priority')  String? advisoryPriority, @JsonKey(name: 'advisory_active_vote')  String? advisoryActiveVote, @JsonKey(name: 'advisory_active_hint')  String? advisoryActiveHint, @JsonKey(name: 'advisory_pic')  String? advisoryPic, @JsonKey(name: 'advisory_pic_active')  bool? advisoryPicActive, @JsonKey(name: 'advisory_pic_pos')  String? advisoryPicPos, @JsonKey(name: 'advisory_sender_name')  String? advisorySenderName, @JsonKey(name: 'advisory_sender_email')  String? advisorySenderEmail, @JsonKey(name: 'advisory_publisher_id')  String? advisoryPublisherId, @JsonKey(name: 'advisory_source')  String? advisorySource, @JsonKey(name: 'advisory_source_url')  String? advisorySourceUrl, @JsonKey(name: 'advisory_youtube_id')  String? advisoryYoutubeId, @JsonKey(name: 'advisory_file')  String? advisoryFile, @JsonKey(name: 'advisory_user_add_hint_nsup')  String? advisoryUserAddHintNsup, @JsonKey(name: 'advisory_is_new')  bool? advisoryIsNew, @JsonKey(name: 'advisory_active')  bool? advisoryActive,  AdvisoryCategory? category)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'advisory_id', fromJson: _stringToInt)  int? advisoryId, @JsonKey(name: 'advisory_cat_id', fromJson: _intToString)  String? advisoryCatId, @JsonKey(name: 'advisory_sound_id', fromJson: _intToString)  String? advisorySoundId, @JsonKey(name: 'advisory_title')  String? advisoryTitle, @JsonKey(name: 'advisory_question')  String? advisoryQuestion, @JsonKey(name: 'advisory_question_date')  String? advisoryQuestionDate, @JsonKey(name: 'advisory_answer')  String? advisoryAnswer, @JsonKey(name: 'advisory_answer_date')  String? advisoryAnswerDate, @JsonKey(name: 'advisory_visitor', fromJson: _stringToInt)  int? advisoryVisitor, @JsonKey(name: 'advisory_last_advisory', fromJson: _intToString)  String? advisoryLastAdvisory, @JsonKey(name: 'advisory_priority', fromJson: _intToString)  String? advisoryPriority, @JsonKey(name: 'advisory_active_vote', fromJson: _intToString)  String? advisoryActiveVote, @JsonKey(name: 'advisory_active_hint', fromJson: _intToString)  String? advisoryActiveHint, @JsonKey(name: 'advisory_pic')  String? advisoryPic, @JsonKey(name: 'advisory_pic_active')  bool? advisoryPicActive, @JsonKey(name: 'advisory_pic_pos', fromJson: _intToString)  String? advisoryPicPos, @JsonKey(name: 'advisory_sender_name')  String? advisorySenderName, @JsonKey(name: 'advisory_sender_email')  String? advisorySenderEmail, @JsonKey(name: 'advisory_publisher_id', fromJson: _intToString)  String? advisoryPublisherId, @JsonKey(name: 'advisory_source')  String? advisorySource, @JsonKey(name: 'advisory_source_url')  String? advisorySourceUrl, @JsonKey(name: 'advisory_youtube_id')  String? advisoryYoutubeId, @JsonKey(name: 'advisory_file')  String? advisoryFile, @JsonKey(name: 'advisory_user_add_hint_nsup', fromJson: _intToString)  String? advisoryUserAddHintNsup, @JsonKey(name: 'advisory_is_new')  bool? advisoryIsNew, @JsonKey(name: 'advisory_active')  bool? advisoryActive,  AdvisoryCategory? category)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AdvisoryItem() when $default != null:
 return $default(_that.advisoryId,_that.advisoryCatId,_that.advisorySoundId,_that.advisoryTitle,_that.advisoryQuestion,_that.advisoryQuestionDate,_that.advisoryAnswer,_that.advisoryAnswerDate,_that.advisoryVisitor,_that.advisoryLastAdvisory,_that.advisoryPriority,_that.advisoryActiveVote,_that.advisoryActiveHint,_that.advisoryPic,_that.advisoryPicActive,_that.advisoryPicPos,_that.advisorySenderName,_that.advisorySenderEmail,_that.advisoryPublisherId,_that.advisorySource,_that.advisorySourceUrl,_that.advisoryYoutubeId,_that.advisoryFile,_that.advisoryUserAddHintNsup,_that.advisoryIsNew,_that.advisoryActive,_that.category);case _:
@@ -1935,7 +2249,7 @@ return $default(_that.advisoryId,_that.advisoryCatId,_that.advisorySoundId,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'advisory_id', fromJson: _stringToInt)  int? advisoryId, @JsonKey(name: 'advisory_cat_id')  String? advisoryCatId, @JsonKey(name: 'advisory_sound_id')  String? advisorySoundId, @JsonKey(name: 'advisory_title')  String? advisoryTitle, @JsonKey(name: 'advisory_question')  String? advisoryQuestion, @JsonKey(name: 'advisory_question_date')  String? advisoryQuestionDate, @JsonKey(name: 'advisory_answer')  String? advisoryAnswer, @JsonKey(name: 'advisory_answer_date')  String? advisoryAnswerDate, @JsonKey(name: 'advisory_visitor', fromJson: _stringToInt)  int? advisoryVisitor, @JsonKey(name: 'advisory_last_advisory')  String? advisoryLastAdvisory, @JsonKey(name: 'advisory_priority')  String? advisoryPriority, @JsonKey(name: 'advisory_active_vote')  String? advisoryActiveVote, @JsonKey(name: 'advisory_active_hint')  String? advisoryActiveHint, @JsonKey(name: 'advisory_pic')  String? advisoryPic, @JsonKey(name: 'advisory_pic_active')  bool? advisoryPicActive, @JsonKey(name: 'advisory_pic_pos')  String? advisoryPicPos, @JsonKey(name: 'advisory_sender_name')  String? advisorySenderName, @JsonKey(name: 'advisory_sender_email')  String? advisorySenderEmail, @JsonKey(name: 'advisory_publisher_id')  String? advisoryPublisherId, @JsonKey(name: 'advisory_source')  String? advisorySource, @JsonKey(name: 'advisory_source_url')  String? advisorySourceUrl, @JsonKey(name: 'advisory_youtube_id')  String? advisoryYoutubeId, @JsonKey(name: 'advisory_file')  String? advisoryFile, @JsonKey(name: 'advisory_user_add_hint_nsup')  String? advisoryUserAddHintNsup, @JsonKey(name: 'advisory_is_new')  bool? advisoryIsNew, @JsonKey(name: 'advisory_active')  bool? advisoryActive,  AdvisoryCategory? category)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'advisory_id', fromJson: _stringToInt)  int? advisoryId, @JsonKey(name: 'advisory_cat_id', fromJson: _intToString)  String? advisoryCatId, @JsonKey(name: 'advisory_sound_id', fromJson: _intToString)  String? advisorySoundId, @JsonKey(name: 'advisory_title')  String? advisoryTitle, @JsonKey(name: 'advisory_question')  String? advisoryQuestion, @JsonKey(name: 'advisory_question_date')  String? advisoryQuestionDate, @JsonKey(name: 'advisory_answer')  String? advisoryAnswer, @JsonKey(name: 'advisory_answer_date')  String? advisoryAnswerDate, @JsonKey(name: 'advisory_visitor', fromJson: _stringToInt)  int? advisoryVisitor, @JsonKey(name: 'advisory_last_advisory', fromJson: _intToString)  String? advisoryLastAdvisory, @JsonKey(name: 'advisory_priority', fromJson: _intToString)  String? advisoryPriority, @JsonKey(name: 'advisory_active_vote', fromJson: _intToString)  String? advisoryActiveVote, @JsonKey(name: 'advisory_active_hint', fromJson: _intToString)  String? advisoryActiveHint, @JsonKey(name: 'advisory_pic')  String? advisoryPic, @JsonKey(name: 'advisory_pic_active')  bool? advisoryPicActive, @JsonKey(name: 'advisory_pic_pos', fromJson: _intToString)  String? advisoryPicPos, @JsonKey(name: 'advisory_sender_name')  String? advisorySenderName, @JsonKey(name: 'advisory_sender_email')  String? advisorySenderEmail, @JsonKey(name: 'advisory_publisher_id', fromJson: _intToString)  String? advisoryPublisherId, @JsonKey(name: 'advisory_source')  String? advisorySource, @JsonKey(name: 'advisory_source_url')  String? advisorySourceUrl, @JsonKey(name: 'advisory_youtube_id')  String? advisoryYoutubeId, @JsonKey(name: 'advisory_file')  String? advisoryFile, @JsonKey(name: 'advisory_user_add_hint_nsup', fromJson: _intToString)  String? advisoryUserAddHintNsup, @JsonKey(name: 'advisory_is_new')  bool? advisoryIsNew, @JsonKey(name: 'advisory_active')  bool? advisoryActive,  AdvisoryCategory? category)  $default,) {final _that = this;
 switch (_that) {
 case _AdvisoryItem():
 return $default(_that.advisoryId,_that.advisoryCatId,_that.advisorySoundId,_that.advisoryTitle,_that.advisoryQuestion,_that.advisoryQuestionDate,_that.advisoryAnswer,_that.advisoryAnswerDate,_that.advisoryVisitor,_that.advisoryLastAdvisory,_that.advisoryPriority,_that.advisoryActiveVote,_that.advisoryActiveHint,_that.advisoryPic,_that.advisoryPicActive,_that.advisoryPicPos,_that.advisorySenderName,_that.advisorySenderEmail,_that.advisoryPublisherId,_that.advisorySource,_that.advisorySourceUrl,_that.advisoryYoutubeId,_that.advisoryFile,_that.advisoryUserAddHintNsup,_that.advisoryIsNew,_that.advisoryActive,_that.category);case _:
@@ -1955,7 +2269,7 @@ return $default(_that.advisoryId,_that.advisoryCatId,_that.advisorySoundId,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'advisory_id', fromJson: _stringToInt)  int? advisoryId, @JsonKey(name: 'advisory_cat_id')  String? advisoryCatId, @JsonKey(name: 'advisory_sound_id')  String? advisorySoundId, @JsonKey(name: 'advisory_title')  String? advisoryTitle, @JsonKey(name: 'advisory_question')  String? advisoryQuestion, @JsonKey(name: 'advisory_question_date')  String? advisoryQuestionDate, @JsonKey(name: 'advisory_answer')  String? advisoryAnswer, @JsonKey(name: 'advisory_answer_date')  String? advisoryAnswerDate, @JsonKey(name: 'advisory_visitor', fromJson: _stringToInt)  int? advisoryVisitor, @JsonKey(name: 'advisory_last_advisory')  String? advisoryLastAdvisory, @JsonKey(name: 'advisory_priority')  String? advisoryPriority, @JsonKey(name: 'advisory_active_vote')  String? advisoryActiveVote, @JsonKey(name: 'advisory_active_hint')  String? advisoryActiveHint, @JsonKey(name: 'advisory_pic')  String? advisoryPic, @JsonKey(name: 'advisory_pic_active')  bool? advisoryPicActive, @JsonKey(name: 'advisory_pic_pos')  String? advisoryPicPos, @JsonKey(name: 'advisory_sender_name')  String? advisorySenderName, @JsonKey(name: 'advisory_sender_email')  String? advisorySenderEmail, @JsonKey(name: 'advisory_publisher_id')  String? advisoryPublisherId, @JsonKey(name: 'advisory_source')  String? advisorySource, @JsonKey(name: 'advisory_source_url')  String? advisorySourceUrl, @JsonKey(name: 'advisory_youtube_id')  String? advisoryYoutubeId, @JsonKey(name: 'advisory_file')  String? advisoryFile, @JsonKey(name: 'advisory_user_add_hint_nsup')  String? advisoryUserAddHintNsup, @JsonKey(name: 'advisory_is_new')  bool? advisoryIsNew, @JsonKey(name: 'advisory_active')  bool? advisoryActive,  AdvisoryCategory? category)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'advisory_id', fromJson: _stringToInt)  int? advisoryId, @JsonKey(name: 'advisory_cat_id', fromJson: _intToString)  String? advisoryCatId, @JsonKey(name: 'advisory_sound_id', fromJson: _intToString)  String? advisorySoundId, @JsonKey(name: 'advisory_title')  String? advisoryTitle, @JsonKey(name: 'advisory_question')  String? advisoryQuestion, @JsonKey(name: 'advisory_question_date')  String? advisoryQuestionDate, @JsonKey(name: 'advisory_answer')  String? advisoryAnswer, @JsonKey(name: 'advisory_answer_date')  String? advisoryAnswerDate, @JsonKey(name: 'advisory_visitor', fromJson: _stringToInt)  int? advisoryVisitor, @JsonKey(name: 'advisory_last_advisory', fromJson: _intToString)  String? advisoryLastAdvisory, @JsonKey(name: 'advisory_priority', fromJson: _intToString)  String? advisoryPriority, @JsonKey(name: 'advisory_active_vote', fromJson: _intToString)  String? advisoryActiveVote, @JsonKey(name: 'advisory_active_hint', fromJson: _intToString)  String? advisoryActiveHint, @JsonKey(name: 'advisory_pic')  String? advisoryPic, @JsonKey(name: 'advisory_pic_active')  bool? advisoryPicActive, @JsonKey(name: 'advisory_pic_pos', fromJson: _intToString)  String? advisoryPicPos, @JsonKey(name: 'advisory_sender_name')  String? advisorySenderName, @JsonKey(name: 'advisory_sender_email')  String? advisorySenderEmail, @JsonKey(name: 'advisory_publisher_id', fromJson: _intToString)  String? advisoryPublisherId, @JsonKey(name: 'advisory_source')  String? advisorySource, @JsonKey(name: 'advisory_source_url')  String? advisorySourceUrl, @JsonKey(name: 'advisory_youtube_id')  String? advisoryYoutubeId, @JsonKey(name: 'advisory_file')  String? advisoryFile, @JsonKey(name: 'advisory_user_add_hint_nsup', fromJson: _intToString)  String? advisoryUserAddHintNsup, @JsonKey(name: 'advisory_is_new')  bool? advisoryIsNew, @JsonKey(name: 'advisory_active')  bool? advisoryActive,  AdvisoryCategory? category)?  $default,) {final _that = this;
 switch (_that) {
 case _AdvisoryItem() when $default != null:
 return $default(_that.advisoryId,_that.advisoryCatId,_that.advisorySoundId,_that.advisoryTitle,_that.advisoryQuestion,_that.advisoryQuestionDate,_that.advisoryAnswer,_that.advisoryAnswerDate,_that.advisoryVisitor,_that.advisoryLastAdvisory,_that.advisoryPriority,_that.advisoryActiveVote,_that.advisoryActiveHint,_that.advisoryPic,_that.advisoryPicActive,_that.advisoryPicPos,_that.advisorySenderName,_that.advisorySenderEmail,_that.advisoryPublisherId,_that.advisorySource,_that.advisorySourceUrl,_that.advisoryYoutubeId,_that.advisoryFile,_that.advisoryUserAddHintNsup,_that.advisoryIsNew,_that.advisoryActive,_that.category);case _:
@@ -1970,33 +2284,33 @@ return $default(_that.advisoryId,_that.advisoryCatId,_that.advisorySoundId,_that
 @JsonSerializable()
 
 class _AdvisoryItem implements AdvisoryItem {
-  const _AdvisoryItem({@JsonKey(name: 'advisory_id', fromJson: _stringToInt) this.advisoryId, @JsonKey(name: 'advisory_cat_id') this.advisoryCatId, @JsonKey(name: 'advisory_sound_id') this.advisorySoundId, @JsonKey(name: 'advisory_title') this.advisoryTitle, @JsonKey(name: 'advisory_question') this.advisoryQuestion, @JsonKey(name: 'advisory_question_date') this.advisoryQuestionDate, @JsonKey(name: 'advisory_answer') this.advisoryAnswer, @JsonKey(name: 'advisory_answer_date') this.advisoryAnswerDate, @JsonKey(name: 'advisory_visitor', fromJson: _stringToInt) this.advisoryVisitor, @JsonKey(name: 'advisory_last_advisory') this.advisoryLastAdvisory, @JsonKey(name: 'advisory_priority') this.advisoryPriority, @JsonKey(name: 'advisory_active_vote') this.advisoryActiveVote, @JsonKey(name: 'advisory_active_hint') this.advisoryActiveHint, @JsonKey(name: 'advisory_pic') this.advisoryPic, @JsonKey(name: 'advisory_pic_active') this.advisoryPicActive, @JsonKey(name: 'advisory_pic_pos') this.advisoryPicPos, @JsonKey(name: 'advisory_sender_name') this.advisorySenderName, @JsonKey(name: 'advisory_sender_email') this.advisorySenderEmail, @JsonKey(name: 'advisory_publisher_id') this.advisoryPublisherId, @JsonKey(name: 'advisory_source') this.advisorySource, @JsonKey(name: 'advisory_source_url') this.advisorySourceUrl, @JsonKey(name: 'advisory_youtube_id') this.advisoryYoutubeId, @JsonKey(name: 'advisory_file') this.advisoryFile, @JsonKey(name: 'advisory_user_add_hint_nsup') this.advisoryUserAddHintNsup, @JsonKey(name: 'advisory_is_new') this.advisoryIsNew, @JsonKey(name: 'advisory_active') this.advisoryActive, this.category});
+  const _AdvisoryItem({@JsonKey(name: 'advisory_id', fromJson: _stringToInt) this.advisoryId, @JsonKey(name: 'advisory_cat_id', fromJson: _intToString) this.advisoryCatId, @JsonKey(name: 'advisory_sound_id', fromJson: _intToString) this.advisorySoundId, @JsonKey(name: 'advisory_title') this.advisoryTitle, @JsonKey(name: 'advisory_question') this.advisoryQuestion, @JsonKey(name: 'advisory_question_date') this.advisoryQuestionDate, @JsonKey(name: 'advisory_answer') this.advisoryAnswer, @JsonKey(name: 'advisory_answer_date') this.advisoryAnswerDate, @JsonKey(name: 'advisory_visitor', fromJson: _stringToInt) this.advisoryVisitor, @JsonKey(name: 'advisory_last_advisory', fromJson: _intToString) this.advisoryLastAdvisory, @JsonKey(name: 'advisory_priority', fromJson: _intToString) this.advisoryPriority, @JsonKey(name: 'advisory_active_vote', fromJson: _intToString) this.advisoryActiveVote, @JsonKey(name: 'advisory_active_hint', fromJson: _intToString) this.advisoryActiveHint, @JsonKey(name: 'advisory_pic') this.advisoryPic, @JsonKey(name: 'advisory_pic_active') this.advisoryPicActive, @JsonKey(name: 'advisory_pic_pos', fromJson: _intToString) this.advisoryPicPos, @JsonKey(name: 'advisory_sender_name') this.advisorySenderName, @JsonKey(name: 'advisory_sender_email') this.advisorySenderEmail, @JsonKey(name: 'advisory_publisher_id', fromJson: _intToString) this.advisoryPublisherId, @JsonKey(name: 'advisory_source') this.advisorySource, @JsonKey(name: 'advisory_source_url') this.advisorySourceUrl, @JsonKey(name: 'advisory_youtube_id') this.advisoryYoutubeId, @JsonKey(name: 'advisory_file') this.advisoryFile, @JsonKey(name: 'advisory_user_add_hint_nsup', fromJson: _intToString) this.advisoryUserAddHintNsup, @JsonKey(name: 'advisory_is_new') this.advisoryIsNew, @JsonKey(name: 'advisory_active') this.advisoryActive, this.category});
   factory _AdvisoryItem.fromJson(Map<String, dynamic> json) => _$AdvisoryItemFromJson(json);
 
 @override@JsonKey(name: 'advisory_id', fromJson: _stringToInt) final  int? advisoryId;
-@override@JsonKey(name: 'advisory_cat_id') final  String? advisoryCatId;
-@override@JsonKey(name: 'advisory_sound_id') final  String? advisorySoundId;
+@override@JsonKey(name: 'advisory_cat_id', fromJson: _intToString) final  String? advisoryCatId;
+@override@JsonKey(name: 'advisory_sound_id', fromJson: _intToString) final  String? advisorySoundId;
 @override@JsonKey(name: 'advisory_title') final  String? advisoryTitle;
 @override@JsonKey(name: 'advisory_question') final  String? advisoryQuestion;
 @override@JsonKey(name: 'advisory_question_date') final  String? advisoryQuestionDate;
 @override@JsonKey(name: 'advisory_answer') final  String? advisoryAnswer;
 @override@JsonKey(name: 'advisory_answer_date') final  String? advisoryAnswerDate;
 @override@JsonKey(name: 'advisory_visitor', fromJson: _stringToInt) final  int? advisoryVisitor;
-@override@JsonKey(name: 'advisory_last_advisory') final  String? advisoryLastAdvisory;
-@override@JsonKey(name: 'advisory_priority') final  String? advisoryPriority;
-@override@JsonKey(name: 'advisory_active_vote') final  String? advisoryActiveVote;
-@override@JsonKey(name: 'advisory_active_hint') final  String? advisoryActiveHint;
+@override@JsonKey(name: 'advisory_last_advisory', fromJson: _intToString) final  String? advisoryLastAdvisory;
+@override@JsonKey(name: 'advisory_priority', fromJson: _intToString) final  String? advisoryPriority;
+@override@JsonKey(name: 'advisory_active_vote', fromJson: _intToString) final  String? advisoryActiveVote;
+@override@JsonKey(name: 'advisory_active_hint', fromJson: _intToString) final  String? advisoryActiveHint;
 @override@JsonKey(name: 'advisory_pic') final  String? advisoryPic;
 @override@JsonKey(name: 'advisory_pic_active') final  bool? advisoryPicActive;
-@override@JsonKey(name: 'advisory_pic_pos') final  String? advisoryPicPos;
+@override@JsonKey(name: 'advisory_pic_pos', fromJson: _intToString) final  String? advisoryPicPos;
 @override@JsonKey(name: 'advisory_sender_name') final  String? advisorySenderName;
 @override@JsonKey(name: 'advisory_sender_email') final  String? advisorySenderEmail;
-@override@JsonKey(name: 'advisory_publisher_id') final  String? advisoryPublisherId;
+@override@JsonKey(name: 'advisory_publisher_id', fromJson: _intToString) final  String? advisoryPublisherId;
 @override@JsonKey(name: 'advisory_source') final  String? advisorySource;
 @override@JsonKey(name: 'advisory_source_url') final  String? advisorySourceUrl;
 @override@JsonKey(name: 'advisory_youtube_id') final  String? advisoryYoutubeId;
 @override@JsonKey(name: 'advisory_file') final  String? advisoryFile;
-@override@JsonKey(name: 'advisory_user_add_hint_nsup') final  String? advisoryUserAddHintNsup;
+@override@JsonKey(name: 'advisory_user_add_hint_nsup', fromJson: _intToString) final  String? advisoryUserAddHintNsup;
 @override@JsonKey(name: 'advisory_is_new') final  bool? advisoryIsNew;
 @override@JsonKey(name: 'advisory_active') final  bool? advisoryActive;
 @override final  AdvisoryCategory? category;
@@ -2034,7 +2348,7 @@ abstract mixin class _$AdvisoryItemCopyWith<$Res> implements $AdvisoryItemCopyWi
   factory _$AdvisoryItemCopyWith(_AdvisoryItem value, $Res Function(_AdvisoryItem) _then) = __$AdvisoryItemCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'advisory_id', fromJson: _stringToInt) int? advisoryId,@JsonKey(name: 'advisory_cat_id') String? advisoryCatId,@JsonKey(name: 'advisory_sound_id') String? advisorySoundId,@JsonKey(name: 'advisory_title') String? advisoryTitle,@JsonKey(name: 'advisory_question') String? advisoryQuestion,@JsonKey(name: 'advisory_question_date') String? advisoryQuestionDate,@JsonKey(name: 'advisory_answer') String? advisoryAnswer,@JsonKey(name: 'advisory_answer_date') String? advisoryAnswerDate,@JsonKey(name: 'advisory_visitor', fromJson: _stringToInt) int? advisoryVisitor,@JsonKey(name: 'advisory_last_advisory') String? advisoryLastAdvisory,@JsonKey(name: 'advisory_priority') String? advisoryPriority,@JsonKey(name: 'advisory_active_vote') String? advisoryActiveVote,@JsonKey(name: 'advisory_active_hint') String? advisoryActiveHint,@JsonKey(name: 'advisory_pic') String? advisoryPic,@JsonKey(name: 'advisory_pic_active') bool? advisoryPicActive,@JsonKey(name: 'advisory_pic_pos') String? advisoryPicPos,@JsonKey(name: 'advisory_sender_name') String? advisorySenderName,@JsonKey(name: 'advisory_sender_email') String? advisorySenderEmail,@JsonKey(name: 'advisory_publisher_id') String? advisoryPublisherId,@JsonKey(name: 'advisory_source') String? advisorySource,@JsonKey(name: 'advisory_source_url') String? advisorySourceUrl,@JsonKey(name: 'advisory_youtube_id') String? advisoryYoutubeId,@JsonKey(name: 'advisory_file') String? advisoryFile,@JsonKey(name: 'advisory_user_add_hint_nsup') String? advisoryUserAddHintNsup,@JsonKey(name: 'advisory_is_new') bool? advisoryIsNew,@JsonKey(name: 'advisory_active') bool? advisoryActive, AdvisoryCategory? category
+@JsonKey(name: 'advisory_id', fromJson: _stringToInt) int? advisoryId,@JsonKey(name: 'advisory_cat_id', fromJson: _intToString) String? advisoryCatId,@JsonKey(name: 'advisory_sound_id', fromJson: _intToString) String? advisorySoundId,@JsonKey(name: 'advisory_title') String? advisoryTitle,@JsonKey(name: 'advisory_question') String? advisoryQuestion,@JsonKey(name: 'advisory_question_date') String? advisoryQuestionDate,@JsonKey(name: 'advisory_answer') String? advisoryAnswer,@JsonKey(name: 'advisory_answer_date') String? advisoryAnswerDate,@JsonKey(name: 'advisory_visitor', fromJson: _stringToInt) int? advisoryVisitor,@JsonKey(name: 'advisory_last_advisory', fromJson: _intToString) String? advisoryLastAdvisory,@JsonKey(name: 'advisory_priority', fromJson: _intToString) String? advisoryPriority,@JsonKey(name: 'advisory_active_vote', fromJson: _intToString) String? advisoryActiveVote,@JsonKey(name: 'advisory_active_hint', fromJson: _intToString) String? advisoryActiveHint,@JsonKey(name: 'advisory_pic') String? advisoryPic,@JsonKey(name: 'advisory_pic_active') bool? advisoryPicActive,@JsonKey(name: 'advisory_pic_pos', fromJson: _intToString) String? advisoryPicPos,@JsonKey(name: 'advisory_sender_name') String? advisorySenderName,@JsonKey(name: 'advisory_sender_email') String? advisorySenderEmail,@JsonKey(name: 'advisory_publisher_id', fromJson: _intToString) String? advisoryPublisherId,@JsonKey(name: 'advisory_source') String? advisorySource,@JsonKey(name: 'advisory_source_url') String? advisorySourceUrl,@JsonKey(name: 'advisory_youtube_id') String? advisoryYoutubeId,@JsonKey(name: 'advisory_file') String? advisoryFile,@JsonKey(name: 'advisory_user_add_hint_nsup', fromJson: _intToString) String? advisoryUserAddHintNsup,@JsonKey(name: 'advisory_is_new') bool? advisoryIsNew,@JsonKey(name: 'advisory_active') bool? advisoryActive, AdvisoryCategory? category
 });
 
 
@@ -2103,7 +2417,7 @@ $AdvisoryCategoryCopyWith<$Res>? get category {
 /// @nodoc
 mixin _$AdvisoryCategory {
 
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_father_id') String? get catFatherId;@JsonKey(name: 'cat_menus') String? get catMenus;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_sup') String? get catSup;@JsonKey(name: 'cat_date') String? get catDate;@JsonKey(name: 'cat_pic_active') String? get catPicActive;@JsonKey(name: 'cat_lan') String? get catLan;@JsonKey(name: 'cat_pos') String? get catPos;@JsonKey(name: 'cat_active') String? get catActive;@JsonKey(name: 'cat_show_menu') String? get catShowMenu;@JsonKey(name: 'cat_show_main') String? get catShowMain;@JsonKey(name: 'cat_agent') String? get catAgent;
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? get catFatherId;@JsonKey(name: 'cat_menus', fromJson: _intToString) String? get catMenus;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_sup', fromJson: _intToString) String? get catSup;@JsonKey(name: 'cat_date') String? get catDate;@JsonKey(name: 'cat_pic_active', fromJson: _intToString) String? get catPicActive;@JsonKey(name: 'cat_lan') String? get catLan;@JsonKey(name: 'cat_pos', fromJson: _intToString) String? get catPos;@JsonKey(name: 'cat_active', fromJson: _intToString) String? get catActive;@JsonKey(name: 'cat_show_menu', fromJson: _intToString) String? get catShowMenu;@JsonKey(name: 'cat_show_main', fromJson: _intToString) String? get catShowMain;@JsonKey(name: 'cat_agent') String? get catAgent;
 /// Create a copy of AdvisoryCategory
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2136,7 +2450,7 @@ abstract mixin class $AdvisoryCategoryCopyWith<$Res>  {
   factory $AdvisoryCategoryCopyWith(AdvisoryCategory value, $Res Function(AdvisoryCategory) _then) = _$AdvisoryCategoryCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id') String? catFatherId,@JsonKey(name: 'cat_menus') String? catMenus,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_sup') String? catSup,@JsonKey(name: 'cat_date') String? catDate,@JsonKey(name: 'cat_pic_active') String? catPicActive,@JsonKey(name: 'cat_lan') String? catLan,@JsonKey(name: 'cat_pos') String? catPos,@JsonKey(name: 'cat_active') String? catActive,@JsonKey(name: 'cat_show_menu') String? catShowMenu,@JsonKey(name: 'cat_show_main') String? catShowMain,@JsonKey(name: 'cat_agent') String? catAgent
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? catFatherId,@JsonKey(name: 'cat_menus', fromJson: _intToString) String? catMenus,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_sup', fromJson: _intToString) String? catSup,@JsonKey(name: 'cat_date') String? catDate,@JsonKey(name: 'cat_pic_active', fromJson: _intToString) String? catPicActive,@JsonKey(name: 'cat_lan') String? catLan,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,@JsonKey(name: 'cat_active', fromJson: _intToString) String? catActive,@JsonKey(name: 'cat_show_menu', fromJson: _intToString) String? catShowMenu,@JsonKey(name: 'cat_show_main', fromJson: _intToString) String? catShowMain,@JsonKey(name: 'cat_agent') String? catAgent
 });
 
 
@@ -2255,7 +2569,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_menus')  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup')  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active')  String? catPicActive, @JsonKey(name: 'cat_lan')  String? catLan, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive, @JsonKey(name: 'cat_show_menu')  String? catShowMenu, @JsonKey(name: 'cat_show_main')  String? catShowMain, @JsonKey(name: 'cat_agent')  String? catAgent)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_menus', fromJson: _intToString)  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup', fromJson: _intToString)  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active', fromJson: _intToString)  String? catPicActive, @JsonKey(name: 'cat_lan')  String? catLan, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive, @JsonKey(name: 'cat_show_menu', fromJson: _intToString)  String? catShowMenu, @JsonKey(name: 'cat_show_main', fromJson: _intToString)  String? catShowMain, @JsonKey(name: 'cat_agent')  String? catAgent)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AdvisoryCategory() when $default != null:
 return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_that.catNote,_that.catPic,_that.catSup,_that.catDate,_that.catPicActive,_that.catLan,_that.catPos,_that.catActive,_that.catShowMenu,_that.catShowMain,_that.catAgent);case _:
@@ -2276,7 +2590,7 @@ return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_menus')  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup')  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active')  String? catPicActive, @JsonKey(name: 'cat_lan')  String? catLan, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive, @JsonKey(name: 'cat_show_menu')  String? catShowMenu, @JsonKey(name: 'cat_show_main')  String? catShowMain, @JsonKey(name: 'cat_agent')  String? catAgent)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_menus', fromJson: _intToString)  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup', fromJson: _intToString)  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active', fromJson: _intToString)  String? catPicActive, @JsonKey(name: 'cat_lan')  String? catLan, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive, @JsonKey(name: 'cat_show_menu', fromJson: _intToString)  String? catShowMenu, @JsonKey(name: 'cat_show_main', fromJson: _intToString)  String? catShowMain, @JsonKey(name: 'cat_agent')  String? catAgent)  $default,) {final _that = this;
 switch (_that) {
 case _AdvisoryCategory():
 return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_that.catNote,_that.catPic,_that.catSup,_that.catDate,_that.catPicActive,_that.catLan,_that.catPos,_that.catActive,_that.catShowMenu,_that.catShowMain,_that.catAgent);case _:
@@ -2296,7 +2610,7 @@ return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_menus')  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup')  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active')  String? catPicActive, @JsonKey(name: 'cat_lan')  String? catLan, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive, @JsonKey(name: 'cat_show_menu')  String? catShowMenu, @JsonKey(name: 'cat_show_main')  String? catShowMain, @JsonKey(name: 'cat_agent')  String? catAgent)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_menus', fromJson: _intToString)  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup', fromJson: _intToString)  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active', fromJson: _intToString)  String? catPicActive, @JsonKey(name: 'cat_lan')  String? catLan, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive, @JsonKey(name: 'cat_show_menu', fromJson: _intToString)  String? catShowMenu, @JsonKey(name: 'cat_show_main', fromJson: _intToString)  String? catShowMain, @JsonKey(name: 'cat_agent')  String? catAgent)?  $default,) {final _that = this;
 switch (_that) {
 case _AdvisoryCategory() when $default != null:
 return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_that.catNote,_that.catPic,_that.catSup,_that.catDate,_that.catPicActive,_that.catLan,_that.catPos,_that.catActive,_that.catShowMenu,_that.catShowMain,_that.catAgent);case _:
@@ -2311,23 +2625,23 @@ return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_tha
 @JsonSerializable()
 
 class _AdvisoryCategory implements AdvisoryCategory {
-  const _AdvisoryCategory({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_father_id') this.catFatherId, @JsonKey(name: 'cat_menus') this.catMenus, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_sup') this.catSup, @JsonKey(name: 'cat_date') this.catDate, @JsonKey(name: 'cat_pic_active') this.catPicActive, @JsonKey(name: 'cat_lan') this.catLan, @JsonKey(name: 'cat_pos') this.catPos, @JsonKey(name: 'cat_active') this.catActive, @JsonKey(name: 'cat_show_menu') this.catShowMenu, @JsonKey(name: 'cat_show_main') this.catShowMain, @JsonKey(name: 'cat_agent') this.catAgent});
+  const _AdvisoryCategory({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString) this.catFatherId, @JsonKey(name: 'cat_menus', fromJson: _intToString) this.catMenus, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_sup', fromJson: _intToString) this.catSup, @JsonKey(name: 'cat_date') this.catDate, @JsonKey(name: 'cat_pic_active', fromJson: _intToString) this.catPicActive, @JsonKey(name: 'cat_lan') this.catLan, @JsonKey(name: 'cat_pos', fromJson: _intToString) this.catPos, @JsonKey(name: 'cat_active', fromJson: _intToString) this.catActive, @JsonKey(name: 'cat_show_menu', fromJson: _intToString) this.catShowMenu, @JsonKey(name: 'cat_show_main', fromJson: _intToString) this.catShowMain, @JsonKey(name: 'cat_agent') this.catAgent});
   factory _AdvisoryCategory.fromJson(Map<String, dynamic> json) => _$AdvisoryCategoryFromJson(json);
 
 @override@JsonKey(name: 'cat_id', fromJson: _stringToInt) final  int? catId;
-@override@JsonKey(name: 'cat_father_id') final  String? catFatherId;
-@override@JsonKey(name: 'cat_menus') final  String? catMenus;
+@override@JsonKey(name: 'cat_father_id', fromJson: _intToString) final  String? catFatherId;
+@override@JsonKey(name: 'cat_menus', fromJson: _intToString) final  String? catMenus;
 @override@JsonKey(name: 'cat_title') final  String? catTitle;
 @override@JsonKey(name: 'cat_note') final  String? catNote;
 @override@JsonKey(name: 'cat_pic') final  String? catPic;
-@override@JsonKey(name: 'cat_sup') final  String? catSup;
+@override@JsonKey(name: 'cat_sup', fromJson: _intToString) final  String? catSup;
 @override@JsonKey(name: 'cat_date') final  String? catDate;
-@override@JsonKey(name: 'cat_pic_active') final  String? catPicActive;
+@override@JsonKey(name: 'cat_pic_active', fromJson: _intToString) final  String? catPicActive;
 @override@JsonKey(name: 'cat_lan') final  String? catLan;
-@override@JsonKey(name: 'cat_pos') final  String? catPos;
-@override@JsonKey(name: 'cat_active') final  String? catActive;
-@override@JsonKey(name: 'cat_show_menu') final  String? catShowMenu;
-@override@JsonKey(name: 'cat_show_main') final  String? catShowMain;
+@override@JsonKey(name: 'cat_pos', fromJson: _intToString) final  String? catPos;
+@override@JsonKey(name: 'cat_active', fromJson: _intToString) final  String? catActive;
+@override@JsonKey(name: 'cat_show_menu', fromJson: _intToString) final  String? catShowMenu;
+@override@JsonKey(name: 'cat_show_main', fromJson: _intToString) final  String? catShowMain;
 @override@JsonKey(name: 'cat_agent') final  String? catAgent;
 
 /// Create a copy of AdvisoryCategory
@@ -2363,7 +2677,7 @@ abstract mixin class _$AdvisoryCategoryCopyWith<$Res> implements $AdvisoryCatego
   factory _$AdvisoryCategoryCopyWith(_AdvisoryCategory value, $Res Function(_AdvisoryCategory) _then) = __$AdvisoryCategoryCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id') String? catFatherId,@JsonKey(name: 'cat_menus') String? catMenus,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_sup') String? catSup,@JsonKey(name: 'cat_date') String? catDate,@JsonKey(name: 'cat_pic_active') String? catPicActive,@JsonKey(name: 'cat_lan') String? catLan,@JsonKey(name: 'cat_pos') String? catPos,@JsonKey(name: 'cat_active') String? catActive,@JsonKey(name: 'cat_show_menu') String? catShowMenu,@JsonKey(name: 'cat_show_main') String? catShowMain,@JsonKey(name: 'cat_agent') String? catAgent
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? catFatherId,@JsonKey(name: 'cat_menus', fromJson: _intToString) String? catMenus,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_sup', fromJson: _intToString) String? catSup,@JsonKey(name: 'cat_date') String? catDate,@JsonKey(name: 'cat_pic_active', fromJson: _intToString) String? catPicActive,@JsonKey(name: 'cat_lan') String? catLan,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,@JsonKey(name: 'cat_active', fromJson: _intToString) String? catActive,@JsonKey(name: 'cat_show_menu', fromJson: _intToString) String? catShowMenu,@JsonKey(name: 'cat_show_main', fromJson: _intToString) String? catShowMain,@JsonKey(name: 'cat_agent') String? catAgent
 });
 
 

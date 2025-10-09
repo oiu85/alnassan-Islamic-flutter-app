@@ -45,9 +45,9 @@ _WordsOnOccasionsCategory _$WordsOnOccasionsCategoryFromJson(
   catTitle: json['cat_title'] as String?,
   catNote: json['cat_note'] as String?,
   catPic: json['cat_pic'] as String?,
-  catMenus: json['cat_menus'] as String?,
-  catPos: json['cat_pos'] as String?,
-  catInSubMenu: json['cat_in_sub_menu'] as String?,
+  catMenus: _intToString(json['cat_menus']),
+  catPos: _intToString(json['cat_pos']),
+  catInSubMenu: _intToString(json['cat_in_sub_menu']),
   articles: json['articles'] == null
       ? null
       : WordsOnOccasionsArticlesWrapper.fromJson(
@@ -94,10 +94,10 @@ _WordsOnOccasionsArticle _$WordsOnOccasionsArticleFromJson(
   articleId: (json['article_id'] as num?)?.toInt(),
   articleTitle: json['article_title'] as String?,
   articleSummary: json['article_summary'] as String?,
-  articleCatId: json['article_cat_id'] as String?,
+  articleCatId: _intToString(json['article_cat_id']),
   articleDes: json['article_des'] as String?,
   articlePic: json['article_pic'] as String?,
-  articleVisitor: json['article_visitor'] as String?,
+  articleVisitor: _intToString(json['article_visitor']),
   articleDate: json['article_date'] as String?,
 );
 

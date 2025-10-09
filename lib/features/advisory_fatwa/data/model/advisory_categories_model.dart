@@ -32,7 +32,7 @@ abstract class ParentCategory with _$ParentCategory {
   const factory ParentCategory({
     @JsonKey(name: 'cat_id', fromJson: _stringToInt)
     int? catId,
-    @JsonKey(name: 'cat_father_id')
+    @JsonKey(name: 'cat_father_id', fromJson: _intToString)
     String? catFatherId,
     @JsonKey(name: 'cat_title')
     String? catTitle,
@@ -40,9 +40,9 @@ abstract class ParentCategory with _$ParentCategory {
     String? catNote,
     @JsonKey(name: 'cat_pic')
     String? catPic,
-    @JsonKey(name: 'cat_pos')
+    @JsonKey(name: 'cat_pos', fromJson: _intToString)
     String? catPos,
-    @JsonKey(name: 'cat_active')
+    @JsonKey(name: 'cat_active', fromJson: _intToString)
     String? catActive,
   }) = _ParentCategory;
 
@@ -91,6 +91,7 @@ abstract class AdvisoryModel with _$AdvisoryModel {
   const factory AdvisoryModel({
     String? status,
     List<AdvisoryItem>? data,
+    AdvisoryMeta? meta,
   }) = _AdvisoryModel;
 
   factory AdvisoryModel.fromJson(Map<String, dynamic> json) =>
@@ -98,13 +99,23 @@ abstract class AdvisoryModel with _$AdvisoryModel {
 }
 
 @freezed
+abstract class AdvisoryMeta with _$AdvisoryMeta {
+  const factory AdvisoryMeta({
+    Pagination? pagination,
+  }) = _AdvisoryMeta;
+
+  factory AdvisoryMeta.fromJson(Map<String, dynamic> json) =>
+      _$AdvisoryMetaFromJson(json);
+}
+
+@freezed
 abstract class AdvisoryItem with _$AdvisoryItem {
   const factory AdvisoryItem({
     @JsonKey(name: 'advisory_id', fromJson: _stringToInt)
     int? advisoryId,
-    @JsonKey(name: 'advisory_cat_id')
+    @JsonKey(name: 'advisory_cat_id', fromJson: _intToString)
     String? advisoryCatId,
-    @JsonKey(name: 'advisory_sound_id')
+    @JsonKey(name: 'advisory_sound_id', fromJson: _intToString)
     String? advisorySoundId,
     @JsonKey(name: 'advisory_title')
     String? advisoryTitle,
@@ -118,25 +129,25 @@ abstract class AdvisoryItem with _$AdvisoryItem {
     String? advisoryAnswerDate,
     @JsonKey(name: 'advisory_visitor', fromJson: _stringToInt)
     int? advisoryVisitor,
-    @JsonKey(name: 'advisory_last_advisory')
+    @JsonKey(name: 'advisory_last_advisory', fromJson: _intToString)
     String? advisoryLastAdvisory,
-    @JsonKey(name: 'advisory_priority')
+    @JsonKey(name: 'advisory_priority', fromJson: _intToString)
     String? advisoryPriority,
-    @JsonKey(name: 'advisory_active_vote')
+    @JsonKey(name: 'advisory_active_vote', fromJson: _intToString)
     String? advisoryActiveVote,
-    @JsonKey(name: 'advisory_active_hint')
+    @JsonKey(name: 'advisory_active_hint', fromJson: _intToString)
     String? advisoryActiveHint,
     @JsonKey(name: 'advisory_pic')
     String? advisoryPic,
     @JsonKey(name: 'advisory_pic_active')
     bool? advisoryPicActive,
-    @JsonKey(name: 'advisory_pic_pos')
+    @JsonKey(name: 'advisory_pic_pos', fromJson: _intToString)
     String? advisoryPicPos,
     @JsonKey(name: 'advisory_sender_name')
     String? advisorySenderName,
     @JsonKey(name: 'advisory_sender_email')
     String? advisorySenderEmail,
-    @JsonKey(name: 'advisory_publisher_id')
+    @JsonKey(name: 'advisory_publisher_id', fromJson: _intToString)
     String? advisoryPublisherId,
     @JsonKey(name: 'advisory_source')
     String? advisorySource,
@@ -146,7 +157,7 @@ abstract class AdvisoryItem with _$AdvisoryItem {
     String? advisoryYoutubeId,
     @JsonKey(name: 'advisory_file')
     String? advisoryFile,
-    @JsonKey(name: 'advisory_user_add_hint_nsup')
+    @JsonKey(name: 'advisory_user_add_hint_nsup', fromJson: _intToString)
     String? advisoryUserAddHintNsup,
     @JsonKey(name: 'advisory_is_new')
     bool? advisoryIsNew,
@@ -164,9 +175,9 @@ abstract class AdvisoryCategory with _$AdvisoryCategory {
   const factory AdvisoryCategory({
     @JsonKey(name: 'cat_id', fromJson: _stringToInt)
     int? catId,
-    @JsonKey(name: 'cat_father_id')
+    @JsonKey(name: 'cat_father_id', fromJson: _intToString)
     String? catFatherId,
-    @JsonKey(name: 'cat_menus')
+    @JsonKey(name: 'cat_menus', fromJson: _intToString)
     String? catMenus,
     @JsonKey(name: 'cat_title')
     String? catTitle,
@@ -174,21 +185,21 @@ abstract class AdvisoryCategory with _$AdvisoryCategory {
     String? catNote,
     @JsonKey(name: 'cat_pic')
     String? catPic,
-    @JsonKey(name: 'cat_sup')
+    @JsonKey(name: 'cat_sup', fromJson: _intToString)
     String? catSup,
     @JsonKey(name: 'cat_date')
     String? catDate,
-    @JsonKey(name: 'cat_pic_active')
+    @JsonKey(name: 'cat_pic_active', fromJson: _intToString)
     String? catPicActive,
     @JsonKey(name: 'cat_lan')
     String? catLan,
-    @JsonKey(name: 'cat_pos')
+    @JsonKey(name: 'cat_pos', fromJson: _intToString)
     String? catPos,
-    @JsonKey(name: 'cat_active')
+    @JsonKey(name: 'cat_active', fromJson: _intToString)
     String? catActive,
-    @JsonKey(name: 'cat_show_menu')
+    @JsonKey(name: 'cat_show_menu', fromJson: _intToString)
     String? catShowMenu,
-    @JsonKey(name: 'cat_show_main')
+    @JsonKey(name: 'cat_show_main', fromJson: _intToString)
     String? catShowMain,
     @JsonKey(name: 'cat_agent')
     String? catAgent,
@@ -251,4 +262,12 @@ int? _stringToInt(dynamic value) {
   if (value is int) return value;
   if (value is String) return int.tryParse(value);
   return null;
+}
+
+// Helper function to convert int to String
+String? _intToString(dynamic value) {
+  if (value == null) return null;
+  if (value is String) return value;
+  if (value is int) return value.toString();
+  return value.toString();
 }

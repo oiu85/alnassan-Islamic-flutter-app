@@ -630,7 +630,7 @@ $ImportantTopicsCopyWith<$Res>? get importantTopics {
 /// @nodoc
 mixin _$Article {
 
-@JsonKey(name: 'article_id') int? get articleId;@JsonKey(name: 'article_title') String? get articleTitle;@JsonKey(name: 'article_summary') String? get articleSummary;@JsonKey(name: 'article_des') String? get articleDes;@JsonKey(name: 'article_cat_id') String? get articleCatId;@JsonKey(name: 'article_pic') String? get articlePic;@JsonKey(name: 'article_visitor') String? get articleVisitor;@JsonKey(name: 'article_date') String? get articleDate; Category? get category;@JsonKey(name: 'monthly_info') MonthlyInfo? get monthlyInfo;
+@JsonKey(name: 'article_id') int? get articleId;@JsonKey(name: 'article_title') String? get articleTitle;@JsonKey(name: 'article_summary') String? get articleSummary;@JsonKey(name: 'article_des') String? get articleDes;@JsonKey(name: 'article_cat_id', fromJson: _intToString) String? get articleCatId;@JsonKey(name: 'article_pic') String? get articlePic;@JsonKey(name: 'article_visitor', fromJson: _intToString) String? get articleVisitor;@JsonKey(name: 'article_date') String? get articleDate; Category? get category;@JsonKey(name: 'monthly_info') MonthlyInfo? get monthlyInfo;
 /// Create a copy of Article
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -663,7 +663,7 @@ abstract mixin class $ArticleCopyWith<$Res>  {
   factory $ArticleCopyWith(Article value, $Res Function(Article) _then) = _$ArticleCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'article_id') int? articleId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_des') String? articleDes,@JsonKey(name: 'article_cat_id') String? articleCatId,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_visitor') String? articleVisitor,@JsonKey(name: 'article_date') String? articleDate, Category? category,@JsonKey(name: 'monthly_info') MonthlyInfo? monthlyInfo
+@JsonKey(name: 'article_id') int? articleId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_des') String? articleDes,@JsonKey(name: 'article_cat_id', fromJson: _intToString) String? articleCatId,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_visitor', fromJson: _intToString) String? articleVisitor,@JsonKey(name: 'article_date') String? articleDate, Category? category,@JsonKey(name: 'monthly_info') MonthlyInfo? monthlyInfo
 });
 
 
@@ -801,7 +801,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_cat_id')  String? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor')  String? articleVisitor, @JsonKey(name: 'article_date')  String? articleDate,  Category? category, @JsonKey(name: 'monthly_info')  MonthlyInfo? monthlyInfo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_cat_id', fromJson: _intToString)  String? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor', fromJson: _intToString)  String? articleVisitor, @JsonKey(name: 'article_date')  String? articleDate,  Category? category, @JsonKey(name: 'monthly_info')  MonthlyInfo? monthlyInfo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Article() when $default != null:
 return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.articleDes,_that.articleCatId,_that.articlePic,_that.articleVisitor,_that.articleDate,_that.category,_that.monthlyInfo);case _:
@@ -822,7 +822,7 @@ return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.ar
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_cat_id')  String? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor')  String? articleVisitor, @JsonKey(name: 'article_date')  String? articleDate,  Category? category, @JsonKey(name: 'monthly_info')  MonthlyInfo? monthlyInfo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_cat_id', fromJson: _intToString)  String? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor', fromJson: _intToString)  String? articleVisitor, @JsonKey(name: 'article_date')  String? articleDate,  Category? category, @JsonKey(name: 'monthly_info')  MonthlyInfo? monthlyInfo)  $default,) {final _that = this;
 switch (_that) {
 case _Article():
 return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.articleDes,_that.articleCatId,_that.articlePic,_that.articleVisitor,_that.articleDate,_that.category,_that.monthlyInfo);case _:
@@ -842,7 +842,7 @@ return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.ar
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_cat_id')  String? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor')  String? articleVisitor, @JsonKey(name: 'article_date')  String? articleDate,  Category? category, @JsonKey(name: 'monthly_info')  MonthlyInfo? monthlyInfo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_cat_id', fromJson: _intToString)  String? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor', fromJson: _intToString)  String? articleVisitor, @JsonKey(name: 'article_date')  String? articleDate,  Category? category, @JsonKey(name: 'monthly_info')  MonthlyInfo? monthlyInfo)?  $default,) {final _that = this;
 switch (_that) {
 case _Article() when $default != null:
 return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.articleDes,_that.articleCatId,_that.articlePic,_that.articleVisitor,_that.articleDate,_that.category,_that.monthlyInfo);case _:
@@ -857,16 +857,16 @@ return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.ar
 @JsonSerializable()
 
 class _Article implements Article {
-  const _Article({@JsonKey(name: 'article_id') this.articleId, @JsonKey(name: 'article_title') this.articleTitle, @JsonKey(name: 'article_summary') this.articleSummary, @JsonKey(name: 'article_des') this.articleDes, @JsonKey(name: 'article_cat_id') this.articleCatId, @JsonKey(name: 'article_pic') this.articlePic, @JsonKey(name: 'article_visitor') this.articleVisitor, @JsonKey(name: 'article_date') this.articleDate, this.category, @JsonKey(name: 'monthly_info') this.monthlyInfo});
+  const _Article({@JsonKey(name: 'article_id') this.articleId, @JsonKey(name: 'article_title') this.articleTitle, @JsonKey(name: 'article_summary') this.articleSummary, @JsonKey(name: 'article_des') this.articleDes, @JsonKey(name: 'article_cat_id', fromJson: _intToString) this.articleCatId, @JsonKey(name: 'article_pic') this.articlePic, @JsonKey(name: 'article_visitor', fromJson: _intToString) this.articleVisitor, @JsonKey(name: 'article_date') this.articleDate, this.category, @JsonKey(name: 'monthly_info') this.monthlyInfo});
   factory _Article.fromJson(Map<String, dynamic> json) => _$ArticleFromJson(json);
 
 @override@JsonKey(name: 'article_id') final  int? articleId;
 @override@JsonKey(name: 'article_title') final  String? articleTitle;
 @override@JsonKey(name: 'article_summary') final  String? articleSummary;
 @override@JsonKey(name: 'article_des') final  String? articleDes;
-@override@JsonKey(name: 'article_cat_id') final  String? articleCatId;
+@override@JsonKey(name: 'article_cat_id', fromJson: _intToString) final  String? articleCatId;
 @override@JsonKey(name: 'article_pic') final  String? articlePic;
-@override@JsonKey(name: 'article_visitor') final  String? articleVisitor;
+@override@JsonKey(name: 'article_visitor', fromJson: _intToString) final  String? articleVisitor;
 @override@JsonKey(name: 'article_date') final  String? articleDate;
 @override final  Category? category;
 @override@JsonKey(name: 'monthly_info') final  MonthlyInfo? monthlyInfo;
@@ -904,7 +904,7 @@ abstract mixin class _$ArticleCopyWith<$Res> implements $ArticleCopyWith<$Res> {
   factory _$ArticleCopyWith(_Article value, $Res Function(_Article) _then) = __$ArticleCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'article_id') int? articleId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_des') String? articleDes,@JsonKey(name: 'article_cat_id') String? articleCatId,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_visitor') String? articleVisitor,@JsonKey(name: 'article_date') String? articleDate, Category? category,@JsonKey(name: 'monthly_info') MonthlyInfo? monthlyInfo
+@JsonKey(name: 'article_id') int? articleId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_des') String? articleDes,@JsonKey(name: 'article_cat_id', fromJson: _intToString) String? articleCatId,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_visitor', fromJson: _intToString) String? articleVisitor,@JsonKey(name: 'article_date') String? articleDate, Category? category,@JsonKey(name: 'monthly_info') MonthlyInfo? monthlyInfo
 });
 
 

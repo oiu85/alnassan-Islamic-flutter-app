@@ -69,6 +69,7 @@ class _AllFatwasPageState extends State<AllFatwasPage> {
           return AppScaffold.custom(
             backgroundColor: Colors.white,
             appBar: AppBar(
+              backgroundColor: Colors.white,
               title: Text(
                 widget.title,
                 style: TextStyle(

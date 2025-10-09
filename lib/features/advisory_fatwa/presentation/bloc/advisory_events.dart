@@ -54,3 +54,20 @@ class ValidateAdvisoryFormEvent extends AdvisoryEvent {
 class GenerateAdvisoryCaptchaEvent extends AdvisoryEvent {
   const GenerateAdvisoryCaptchaEvent();
 }
+
+class SearchAdvisoriesEvent extends AdvisoryEvent {
+  final String? query;
+  final int? advisoryId;
+  final int page;
+  final int perPage;
+
+  const SearchAdvisoriesEvent({
+    this.query,
+    this.advisoryId,
+    this.page = 1,
+    this.perPage = 10,
+  });
+
+  @override
+  List<Object> get props => [query ?? '', advisoryId ?? 0, page, perPage];
+}

@@ -69,6 +69,7 @@ class _FatwaListContentState extends State<_FatwaListContent> {
         return AppScaffold.custom(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            backgroundColor: Colors.white,
             title: Text(
               state.category?.catTitle ?? 'الفتاوى',
               style: TextStyle(

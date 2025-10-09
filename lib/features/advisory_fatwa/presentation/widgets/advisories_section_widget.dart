@@ -53,7 +53,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
   Widget _buildLoadingState(BuildContext context) {
     return Container(
       color: Colors.white,
-      height: context.deviceValue(mobile: 200.h, tablet: 240.h, desktop: 280.h),
+      height: context.deviceValue(mobile: 350.h, tablet: 240.h, desktop: 280.h),
       child: Center(
         child: Lottie.asset(
           Assets.lottie.loading,
@@ -131,11 +131,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
     final displayAdvisories = advisories.take(3).toList();
 
     // Set dynamic height based on screen size with extra space for expanded text
-    final containerHeight = context.deviceValue(
-      mobile: 400.h, // More height on mobile for expanded text
-      tablet: 380.h, // Medium height on tablets
-      desktop: 350.h, // Less height needed on desktop due to width
-    );
+    final containerHeight = 300.h;
 
     return Container(
       color: Colors.white,

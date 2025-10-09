@@ -1,8 +1,11 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/features/advisory_fatwa/data/model/advisory_categories_model.dart';
 
 import '../../../../core/models/page_state/bloc_status.dart';
+import '../../../../core/shared/wdigets/filter_button.dart';
+import '../../../../core/utils/logger/app_logger.dart';
 import '../../domain/repository/advisory_categories_repository.dart';
 import 'advisory_events.dart';
 import 'advisory_states.dart';
@@ -17,6 +20,7 @@ class AdvisoryBloc extends Bloc<AdvisoryEvent, AdvisoryState> {
     on<ResetAdvisorySubmissionEvent>(_onResetAdvisorySubmission);
     on<ValidateAdvisoryFormEvent>(_onValidateAdvisoryForm);
     on<GenerateAdvisoryCaptchaEvent>(_onGenerateAdvisoryCaptcha);
+    on<SearchAdvisoriesEvent>(_onSearchAdvisories);
   }
 
   Future<void> _onFetchRecentAdvisories(
@@ -184,5 +188,89 @@ class AdvisoryBloc extends Bloc<AdvisoryEvent, AdvisoryState> {
 
   bool _isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+  }
+
+  Future<void> _onSearchAdvisories(
+    SearchAdvisoriesEvent event,
+    Emitter<AdvisoryState> emit,
+  ) async {
+    emit(state.copyWith(searchStatus: const BlocStatus.loading()));
+
+    final result = await _repository.searchAdvisories(
+      query: event.query,
+      advisoryId: event.advisoryId,
+      page: event.page,
+      perPage: event.perPage,
+    );
+
+    result.fold(
+      (error) {
+        AppLogger.error('Search failed', {'error': error});
+        emit(state.copyWith(
+          searchStatus: BlocStatus.fail(error: error),
+          searchError: error,
+        ));
+      },
+      (model) {
+        final results = model.data ?? [];
+        final pagination = model.meta?.pagination;
+        AppLogger.info('Search completed', {
+          'resultsCount': results.length,
+          'page': event.page,
+          'totalPages': pagination?.lastPage,
+        });
+        emit(state.copyWith(
+          searchStatus: const BlocStatus.success(),
+          searchResults: results,
+          searchError: null,
+          searchQuery: event.query,
+          searchAdvisoryId: event.advisoryId,
+          searchCurrentPage: event.page,
+          searchPerPage: event.perPage,
+          searchPagination: pagination,
+        ));
+      },
+    );
+  }
+
+  // ===== SEARCH FILTER BUTTON LOGIC =====
+  /// Builds the filter button for search pagination
+  Widget buildSearchFilterButton({
+    required BuildContext context,
+  }) {
+    // Don't show filter button if no pagination data or only 1 page
+    if (state.searchPagination == null || 
+        state.searchPagination!.lastPage == null || 
+        state.searchPagination!.lastPage! <= 1) {
+      return const SizedBox.shrink();
+    }
+    
+    // Generate page options based on API pagination data
+    final totalPages = state.searchPagination!.lastPage!;
+    final options = List.generate(totalPages, (index) {
+      final page = index + 1;
+      return FilterOption<int>(
+        value: page,
+        label: '$page',
+      );
+    });
+    
+    return FilterButton<int>(
+      options: options,
+      selectedValue: state.searchCurrentPage,
+      label: 'اختر الصفحة',
+      onChanged: state.searchStatus.isLoading() ? null : (value) {
+        if (value != null) {
+          add(SearchAdvisoriesEvent(
+            query: state.searchQuery,
+            advisoryId: state.searchAdvisoryId,
+            page: value,
+            perPage: state.searchPerPage,
+          ));
+        }
+      },
+      width: 60,
+      hintText: '${state.searchCurrentPage}',
+    );
   }
 }

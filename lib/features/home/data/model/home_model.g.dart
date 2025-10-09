@@ -41,9 +41,9 @@ _Article _$ArticleFromJson(Map<String, dynamic> json) => _Article(
   articleTitle: json['article_title'] as String?,
   articleSummary: json['article_summary'] as String?,
   articleDes: json['article_des'] as String?,
-  articleCatId: json['article_cat_id'] as String?,
+  articleCatId: _intToString(json['article_cat_id']),
   articlePic: json['article_pic'] as String?,
-  articleVisitor: json['article_visitor'] as String?,
+  articleVisitor: _intToString(json['article_visitor']),
   articleDate: json['article_date'] as String?,
   category: json['category'] == null
       ? null

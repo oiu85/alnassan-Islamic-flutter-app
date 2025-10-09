@@ -240,4 +240,42 @@ class AdvisoryCategoriesRepositoryImpl implements AdvisoryCategoriesRepository {
       return Left('حدث خطأ غير متوقع: $e');
     }
   }
+  
+  @override
+  Future<Either<String, AdvisoryModel>> searchAdvisories({
+    String? query,
+    int? advisoryId,
+    int page = 1,
+    int perPage = 10,
+  }) async {
+    try {
+      final url = ApiConfig.searchAdvisories(
+        query: query,
+        advisoryId: advisoryId,
+        page: page,
+        perPage: perPage,
+      );
+
+      final response = await _networkClient.get(url);
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        final model = AdvisoryModel.fromJson(data);
+        return Right(model);
+      } else {
+        return Left('فشل البحث عن الفتاوى: ${response.statusMessage}');
+      }
+    } on DioException catch (e) {
+      String errorMessage = 'حدث خطأ أثناء البحث عن الفتاوى';
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        errorMessage = 'انتهت مهلة الاتصال. يرجى التحقق من الإنترنت والمحاولة مرة أخرى';
+      } else if (e.type == DioExceptionType.connectionError) {
+        errorMessage = 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الاتصال والمحاولة مرة أخرى';
+      }
+      return Left(errorMessage);
+    } catch (e) {
+      return Left('حدث خطأ غير متوقع: $e');
+    }
+  }
 }

@@ -75,13 +75,13 @@ abstract class WordOfTheMonthArticle with _$WordOfTheMonthArticle {
     String? articleTitle,
     @JsonKey(name: 'article_summary')
     String? articleSummary,
-    @JsonKey(name: 'article_cat_id')
+    @JsonKey(name: 'article_cat_id', fromJson: _intToString)
     String? articleCatId,
     @JsonKey(name: 'article_des')
     String? articleDes,
     @JsonKey(name: 'article_pic')
     String? articlePic,
-    @JsonKey(name: 'article_visitor')
+    @JsonKey(name: 'article_visitor', fromJson: _intToString)
     String? articleVisitor,
     @JsonKey(name: 'article_date')
     String? articleDate,
@@ -157,4 +157,12 @@ abstract class WordOfTheMonthResponseInfo with _$WordOfTheMonthResponseInfo {
 
   factory WordOfTheMonthResponseInfo.fromJson(Map<String, dynamic> json) =>
       _$WordOfTheMonthResponseInfoFromJson(json);
+}
+
+// Helper function to convert int to String
+String? _intToString(dynamic value) {
+  if (value == null) return null;
+  if (value is String) return value;
+  if (value is int) return value.toString();
+  return value.toString();
 }

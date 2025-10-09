@@ -40,11 +40,11 @@ abstract class WordsOnOccasionsCategory with _$WordsOnOccasionsCategory {
     String? catNote,
     @JsonKey(name: 'cat_pic')
     String? catPic,
-    @JsonKey(name: 'cat_menus')
+    @JsonKey(name: 'cat_menus', fromJson: _intToString)
     String? catMenus,
-    @JsonKey(name: 'cat_pos')
+    @JsonKey(name: 'cat_pos', fromJson: _intToString)
     String? catPos,
-    @JsonKey(name: 'cat_in_sub_menu')
+    @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)
     String? catInSubMenu,
     WordsOnOccasionsArticlesWrapper? articles,
   }) = _WordsOnOccasionsCategory;
@@ -75,13 +75,13 @@ abstract class WordsOnOccasionsArticle with _$WordsOnOccasionsArticle {
     String? articleTitle,
     @JsonKey(name: 'article_summary')
     String? articleSummary,
-    @JsonKey(name: 'article_cat_id')
+    @JsonKey(name: 'article_cat_id', fromJson: _intToString)
     String? articleCatId,
     @JsonKey(name: 'article_des')
     String? articleDes,
     @JsonKey(name: 'article_pic')
     String? articlePic,
-    @JsonKey(name: 'article_visitor')
+    @JsonKey(name: 'article_visitor', fromJson: _intToString)
     String? articleVisitor,
     @JsonKey(name: 'article_date')
     String? articleDate,
@@ -159,3 +159,10 @@ abstract class WordsOnOccasionsResponseInfo with _$WordsOnOccasionsResponseInfo 
       _$WordsOnOccasionsResponseInfoFromJson(json);
 }
 
+// Helper function to convert int to String
+String? _intToString(dynamic value) {
+  if (value == null) return null;
+  if (value is String) return value;
+  if (value is int) return value.toString();
+  return value.toString();
+}
