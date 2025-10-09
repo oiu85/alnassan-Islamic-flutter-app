@@ -597,7 +597,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
             // Play/Pause button
             Container(
-              decoration: BoxDecorat1``ion(
+              decoration: BoxDecoration(
                 color: AppColors.primary,
                 shape: BoxShape.circle,
               ),
