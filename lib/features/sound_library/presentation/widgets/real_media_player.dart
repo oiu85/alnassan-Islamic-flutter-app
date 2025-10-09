@@ -54,7 +54,16 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
     try {
       _controller?.dispose();
       _controller = VideoPlayerController.networkUrl(Uri.parse(url));
-      
+
+      // Add listener to update UI when playback position changes
+      _controller!.addListener(() {
+        if (mounted) {
+          setState(() {
+            _isPlaying = _controller!.value.isPlaying;
+          });
+        }
+      });
+
       _controller!.initialize().then((_) {
         if (mounted) {
           setState(() {
@@ -74,12 +83,12 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
   }
 
   void _tryAlternativeUrl() {
-    if (widget.alternativeUrls != null && 
+    if (widget.alternativeUrls != null &&
         _currentUrlIndex < widget.alternativeUrls!.length) {
       final alternativeUrl = widget.alternativeUrls![_currentUrlIndex];
       _currentUrlIndex++;
       _tryInitializeWithUrl(alternativeUrl);
-    } 
+    }
   }
 
   void _togglePlayPause() {
@@ -111,7 +120,7 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
         height: widget.height ?? 30.h,
         decoration: BoxDecoration(
           color: Colors.red.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(24.r),
           border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
         ),
         child: Column(
@@ -132,10 +141,10 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
         width: widget.width ?? 200.w,
         height: widget.height ?? 60.h,
         decoration: BoxDecoration(
-          color: AppColors.grey.withValues(alpha: 0.1),
+          color: AppColors.lightGrey,
           borderRadius: BorderRadius.circular(8.r),
         ),
-        child:Center(child: Text("صيغة صوتية خاطئة\n يمكن التحميل فقط"))
+        child:Center(child: Text(" يمكن التحميل فقط"))
       );
     }
 
@@ -143,15 +152,8 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
       width: widget.width ?? 200.w,
       height: widget.height ?? 60.h,
       decoration: BoxDecoration(
-        color: AppColors.lightGrey,
-        borderRadius: BorderRadius.circular(8.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 4.r,
-            offset: Offset(0, 2.h),
-          ),
-        ],
+        color: AppColors.grey,
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Row(
         children: [
@@ -165,22 +167,15 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
               decoration: BoxDecoration(
                 color: AppColors.primary,
                 shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.3),
-                    blurRadius: 4.r,
-                    offset: Offset(0, 2.h),
-                  ),
-                ],
               ),
               child: Icon(
                 _isPlaying ? Icons.pause : Icons.play_arrow,
                 color: Colors.white,
-                size: 16.f,
+                size: 24.f,
               ),
             ),
           ),
-          
+
           // Progress and time info
           Expanded(
             child: Padding(
@@ -195,13 +190,13 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
                     allowScrubbing: true,
                     colors: VideoProgressColors(
                       playedColor: AppColors.primary,
-                      backgroundColor: Colors.white.withValues(alpha: 0.3),
+                      backgroundColor: Colors.white,
                       bufferedColor: AppColors.primary.withValues(alpha: 0.3),
                     ),
                   ),
-                  
+
                   SizedBox(height: 2.h),
-                  
+
                   // Time display
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -210,7 +205,7 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
                         _formatDuration(_controller!.value.position),
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 9.f,
+                          fontSize: 12.f,
                           color: AppColors.primary,
                         ),
                       ),

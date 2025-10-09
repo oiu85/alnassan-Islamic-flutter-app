@@ -23,10 +23,7 @@ class GlobalAudioPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SoundLibraryBloc, SoundLibraryState>(
       builder: (context, state) {
-        // Find if there's any audio currently playing or paused
         final playingEntry = _findActiveAudioEntry(state);
-        
-        // If no active audio, just show the child
         if (playingEntry == null) {
           return child;
         }
@@ -109,13 +106,6 @@ class GlobalAudioPlayer extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.primary,
           shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.3),
-              blurRadius: 8.r,
-              offset: Offset(0, 4.h),
-            ),
-          ],
         ),
         child: Stack(
           alignment: Alignment.center,
@@ -148,8 +138,8 @@ class GlobalAudioPlayer extends StatelessWidget {
                         audioState.duration.inMilliseconds
                       : 0.0,
                   strokeWidth: 3.w,
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.white70),
-                  backgroundColor: Colors.white24,
+                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.black),
+                  backgroundColor: AppColors.grey,
                 ),
               ),
           ],
@@ -170,13 +160,6 @@ class GlobalAudioPlayer extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(30.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.3),
-            blurRadius: 8.r,
-            offset: Offset(0, 4.h),
-          ),
-        ],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -184,7 +167,7 @@ class GlobalAudioPlayer extends StatelessWidget {
           Icon(
             icon,
             size: 24.f,
-            color: Colors.white,
+            color: Colors.black,
           ),
           SizedBox(width: 8.w),
           Text(
@@ -307,7 +290,7 @@ class GlobalAudioPlayerExtended extends StatelessWidget {
     }
     
     return Material(
-      elevation: 8,
+      elevation: 2,
       borderRadius: BorderRadius.circular(30.r),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),

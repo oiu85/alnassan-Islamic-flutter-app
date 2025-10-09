@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
+import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
@@ -35,8 +36,7 @@ class _SoundsPageState extends State<SoundsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const Drawer(child: AppDrawer()),
+    return AppScaffold.custom(
       body: BlocBuilder<SoundLibraryBloc, SoundLibraryState>(
         builder: (context, state) {
           final bloc = context.read<SoundLibraryBloc>();
@@ -66,23 +66,6 @@ class _SoundsPageState extends State<SoundsPage> {
   Widget _buildContent(BuildContext context, SoundLibraryState state, SoundLibraryBloc bloc) {
     return CustomScrollView(
       slivers: [
-        // App Bar
-        SliverAppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          pinned: false,
-          floating: true,
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 16.w),
-              child: IconButton(
-                icon: const Icon(Icons.arrow_forward_outlined),
-                iconSize: 28.f,
-                onPressed: () => Navigator.of(context).maybePop(),
-              ),
-            ),
-          ],
-        ),
 
         // Main Content
         SliverToBoxAdapter(
@@ -94,7 +77,7 @@ class _SoundsPageState extends State<SoundsPage> {
               children: [
                 // Title with loading indicator
                 Padding(
-                  padding: EdgeInsets.only(right: 20.w, left: 20.w, top: 40.h, bottom: 36.h),
+                  padding: EdgeInsets.only(right: 20.w, left: 20.w, bottom: 12.h),
                   child: Row(
                     children: [
                       Text(
@@ -122,7 +105,7 @@ class _SoundsPageState extends State<SoundsPage> {
 
                 // Top Bar (always show main categories)
                 Padding(
-                  padding: EdgeInsets.only(right: 12.w),
+                  padding: EdgeInsets.only(right: 8.w),
                   child: SoundTopBar(
                     parentCategories: state.level1Categories,
                     selectedCategory: state.selectedLevel1Category,
@@ -134,7 +117,6 @@ class _SoundsPageState extends State<SoundsPage> {
                   ),
                 ),
 
-                SizedBox(height: 24.h),
 
                 if (bloc.shouldShowSelectedCategory())
                   _buildSelectedCategory(context, state, bloc)
@@ -156,7 +138,6 @@ class _SoundsPageState extends State<SoundsPage> {
         // Direct sounds section
         if (bloc.shouldShowDirectSounds()) ...[
           _buildDirectSoundsSection(context, state, bloc),
-          SizedBox(height: 20.h),
         ],
 
         // Subcategories section
@@ -205,7 +186,6 @@ class _SoundsPageState extends State<SoundsPage> {
             ],
           ),
         ),
-        SizedBox(height: 8.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(

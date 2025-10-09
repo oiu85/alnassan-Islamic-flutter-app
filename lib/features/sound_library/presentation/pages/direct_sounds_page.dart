@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../gen/assets.gen.dart';
@@ -18,9 +19,8 @@ class DirectSoundsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold.custom(
       backgroundColor: Colors.white,
-      drawer: const Drawer(child: AppDrawer()),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -30,24 +30,6 @@ class DirectSoundsPage extends StatelessWidget {
         ),
         child: CustomScrollView(
           slivers: [
-            // App Bar
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              pinned: false,
-              floating: true,
-              actions: [
-                Padding(
-                  padding: EdgeInsets.only(right: 16.w),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_forward_outlined),
-                    iconSize: 28.f,
-                    onPressed: () => Navigator.of(context).maybePop(),
-                  ),
-                ),
-              ],
-            ),
-
             // Title
             SliverToBoxAdapter(
               child: Container(
@@ -76,7 +58,7 @@ class DirectSoundsPage extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
-                                childAspectRatio: 0.89,
+                                childAspectRatio: 1,
                                 crossAxisSpacing: 2.w,
                                 mainAxisSpacing: 2.h,
                               ),

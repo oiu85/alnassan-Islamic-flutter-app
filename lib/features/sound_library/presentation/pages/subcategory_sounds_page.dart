@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
+import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
@@ -60,9 +61,8 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold.custom(
       backgroundColor: Colors.white,
-      drawer: const Drawer(child: AppDrawer()),
       body: BlocBuilder<SoundLibraryBloc, SoundLibraryState>(
         builder: (context, state) {
           final bloc = context.read<SoundLibraryBloc>();
@@ -93,20 +93,6 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
   Widget _buildSubcategoryContent(BuildContext context, SoundLibraryState state, SoundLibraryBloc bloc) {
     return CustomScrollView(
       slivers: [
-        // App Bar
-        SliverAppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          pinned: false,
-          floating: true,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_outlined),
-              onPressed: () => Navigator.of(context).maybePop(),
-            ),
-          ],
-        ),
-
         // Main Content
         SliverToBoxAdapter(
           child: Column(
@@ -117,7 +103,6 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10.0,
-                      vertical: 8,
                     ),
                     child: Row(
                       children: [
@@ -139,14 +124,14 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                 fontFamily: FontFamily.tajawal,
                                 fontSize: 18.f,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.primary,
+                                color: AppColors.black,
                               ),
                             ),
                           ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 8.h),
+                  SizedBox(height: 12.h),
                   // Use grid layout when no subcategories, horizontal scroll when there are subcategories
                   !bloc.shouldShowSubcategorySubcategories()
                       ? GridView.builder(
@@ -187,8 +172,8 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0,
+                          padding:  EdgeInsets.symmetric(
+                            horizontal: 12.0.p, vertical: 12.p
                           ),
                           child: Row(
                             children: [
@@ -211,7 +196,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                       fontFamily: FontFamily.tajawal,
                                       fontSize: 18.f,
                                       fontWeight: FontWeight.w600,
-                                      color: AppColors.primary,
+                                      color: AppColors.black,
                                     ),
                                   ),
                                 ),

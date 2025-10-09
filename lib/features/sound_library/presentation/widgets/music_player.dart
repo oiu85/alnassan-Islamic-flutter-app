@@ -21,7 +21,7 @@ import 'real_media_player.dart';
 
 class MusicPlayer extends StatefulWidget {
   final SoundData sound;
-  
+
   const MusicPlayer({super.key, required this.sound});
 
   @override
@@ -40,19 +40,17 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   // Function to handle sharing
   void _shareSound() {
-    final String soundUrl = 'http://naasan.net/sound.php?id=${widget.sound.soundId}';
+    final String soundUrl =
+        'http://naasan.net/sound.php?id=${widget.sound.soundId}';
     final String title = widget.sound.soundTitle;
-    
-    Share.share(
-      soundUrl,
-      subject: title,
-    );
+
+    Share.share(soundUrl, subject: title);
   }
 
   // Function to handle download with permission check
   void _handleDownload(BuildContext context) {
     final bloc = context.read<SoundLibraryBloc>();
-    
+
     // Show permission handler that will trigger download when permission is granted
     showModalBottomSheet(
       context: context,
@@ -102,7 +100,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
-                      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 12.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 30.w,
+                        vertical: 12.h,
+                      ),
                     ),
                     child: Text(
                       'إلغاء',
@@ -121,7 +122,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 12.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 30.w,
+                        vertical: 12.h,
+                      ),
                     ),
                     child: Text(
                       'تحميل',
@@ -148,25 +152,29 @@ class _MusicPlayerState extends State<MusicPlayer> {
       appBar: AppBar(
         title: Text(
           widget.sound.category?.catTitle ?? 'مشغل الصوت',
-          style:  TextStyle(
+          style: TextStyle(
             fontFamily: FontFamily.tajawal,
             fontSize: 20.f,
+            color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.white,
       ),
       body: BlocBuilder<SoundLibraryBloc, SoundLibraryState>(
         builder: (context, state) {
           final bloc = context.read<SoundLibraryBloc>();
-          final audioState = bloc.getAudioPlayerState(widget.sound.soundId.toString());
-          
+          final audioState = bloc.getAudioPlayerState(
+            widget.sound.soundId.toString(),
+          );
+
           // Debug logging for download progress
           if (audioState.isFileDownloading) {
-            debugPrint('🎵 MusicPlayer: isFileDownloading = true for ${widget.sound.soundId}, progress: ${(audioState.downloadProgress * 100).toInt()}%');
+            debugPrint(
+              '🎵 MusicPlayer: isFileDownloading = true for ${widget.sound.soundId}, progress: ${(audioState.downloadProgress * 100).toInt()}%',
+            );
           }
-          
+
           return FloatingDownloadOverlay(
             showProgress: audioState.isFileDownloading,
             progress: audioState.downloadProgress,
@@ -189,13 +197,19 @@ class _MusicPlayerState extends State<MusicPlayer> {
                               widget.sound.soundPicUrl!,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
-                                return Image.asset(Assets.images.musicPlayerImage.path, fit: BoxFit.contain , );
+                                return Image.asset(
+                                  Assets.images.musicPlayerImage.path,
+                                  fit: BoxFit.contain,
+                                );
                               },
                             ),
                           )
-                        : Image.asset(Assets.images.musicPlayerImage.path, fit: BoxFit.contain),
+                        : Image.asset(
+                            Assets.images.musicPlayerImage.path,
+                            fit: BoxFit.contain,
+                          ),
                   ),
-                  
+
                   // Sound information and controls
                   Container(
                     padding: EdgeInsets.all(24.w),
@@ -204,62 +218,75 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // Title and action buttons
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(
-                              child: Text(
-                                widget.sound.soundTitle,
-                                style:  TextStyle(
-                                  fontFamily: FontFamily.tajawal,
-                                  fontSize: 20.f,
-                                  fontWeight: FontWeight.bold,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    widget.sound.soundTitle,
+                                    style: TextStyle(
+                                      fontFamily: FontFamily.tajawal,
+                                      fontSize: 20.f,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                              ],
                             ),
-                            SizedBox(width: 12.w),
                             // Share button
-                            InkWell(
-                              onTap: _shareSound,
-                              child: Container(
-                                padding: EdgeInsets.all(10.w),
-                                decoration: BoxDecoration(
-                                  color:AppColors.primary,
-                                  borderRadius: BorderRadius.circular(12.r),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: _shareSound,
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.w),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary,
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                    child: Icon(
+                                      Icons.share,
+                                      size: 20.w,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
-                                child: Icon(
-                                  Icons.share,
-                                  size: 26.w,
-                                  color: Colors.white,
+                                SizedBox(width: 12.w),
+                                // Download button
+                                InkWell(
+                                  onTap: () => _handleDownload(context),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.w),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary,
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                    child: SvgPicture.asset(
+                                      Assets.svg.downloadButton.path,
+                                      width: 20.w,
+                                      height: 20.h,
+                                      colorFilter: const ColorFilter.mode(
+                                        Colors.white,
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            SizedBox(width: 12.w),
-                            // Download button
-                            InkWell(
-                              onTap: () => _handleDownload(context),
-                              child: Container(
-                                padding: EdgeInsets.all(10.w),
-                                decoration: BoxDecoration(
-                                  color: AppColors.primary,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                                child: SvgPicture.asset(
-                                  Assets.svg.downloadButton.path,
-                                  width: 26.w,
-                                  height: 26.h,
-                                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                                ),
-                              ),
+                              ],
                             ),
                           ],
                         ),
-                        
-                        SizedBox(height: 24.h),
-                        
+
+                        SizedBox(height: 12.h),
+
                         // Get file type and render appropriate UI
                         _buildFileTypeSpecificUI(context, bloc, audioState),
                       ],
@@ -275,12 +302,16 @@ class _MusicPlayerState extends State<MusicPlayer> {
   }
 
   // Build UI based on file type
-  Widget _buildFileTypeSpecificUI(BuildContext context, SoundLibraryBloc bloc, AudioPlayerState audioState) {
+  Widget _buildFileTypeSpecificUI(
+    BuildContext context,
+    SoundLibraryBloc bloc,
+    AudioPlayerState audioState,
+  ) {
     // Determine file type
-    final fileType = widget.sound.soundFile != null 
+    final fileType = widget.sound.soundFile != null
         ? SoundFileTypeUtil.getFileType(widget.sound.soundFile)
         : SoundFileType.audio;
-    
+
     // Render UI based on file type
     switch (fileType) {
       case SoundFileType.compressed:
@@ -294,7 +325,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
   }
 
   // UI for compressed files (RAR, ZIP, etc.)
-  Widget _buildCompressedFileUI(BuildContext context, AudioPlayerState audioState) {
+  Widget _buildCompressedFileUI(
+    BuildContext context,
+    AudioPlayerState audioState,
+  ) {
     return Container(
       padding: EdgeInsets.all(20.w),
       margin: EdgeInsets.symmetric(horizontal: 20.w),
@@ -308,15 +342,11 @@ class _MusicPlayerState extends State<MusicPlayer> {
       ),
       child: Column(
         children: [
-          Icon(
-            Icons.archive,
-            size: 40.f,
-            color: AppColors.primary,
-          ),
+          Icon(Icons.archive, size: 40.f, color: AppColors.primary),
           SizedBox(height: 10.h),
           Text(
             'هذا الملف مضغوط وهو للتحميل فقط',
-            style:  TextStyle(
+            style: TextStyle(
               fontFamily: FontFamily.tajawal,
               fontSize: 16.f,
               color: AppColors.primary,
@@ -327,7 +357,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
           SizedBox(height: 5.h),
           Text(
             'نوع الملف: ${SoundFileTypeUtil.getFileTypeDescription(widget.sound.soundFile)}',
-            style:  TextStyle(
+            style: TextStyle(
               fontFamily: FontFamily.tajawal,
               fontSize: 14.f,
               color: AppColors.primary,
@@ -336,11 +366,11 @@ class _MusicPlayerState extends State<MusicPlayer> {
           ),
           SizedBox(height: 15.h),
           ElevatedButton.icon(
-            onPressed: audioState.isFileDownloading 
-                ? null 
+            onPressed: audioState.isFileDownloading
+                ? null
                 : () => _handleDownload(context),
             icon: audioState.isFileDownloading
-                ?  SizedBox(
+                ? SizedBox(
                     width: 20.w,
                     height: 20.h,
                     child: CircularProgressIndicator(
@@ -348,14 +378,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
                   )
-                :  Icon(
-                    Icons.download,
-                    size: 20.f,
-                    color: Colors.white,
-                  ),
+                : Icon(Icons.download, size: 20.f, color: Colors.white),
             label: Text(
               audioState.isFileDownloading ? 'جاري التحميل...' : 'تحميل الملف',
-              style:  TextStyle(
+              style: TextStyle(
                 fontSize: 14.f,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
@@ -378,7 +404,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
   Widget _buildRealMediaFileUI(BuildContext context) {
     // Try to build the Real Media player URL
     final rmUrl = _buildRealMediaUrl();
-    
+
     if (rmUrl.isNotEmpty) {
       return Container(
         padding: EdgeInsets.all(20.w),
@@ -407,14 +433,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
               children: [
                 ElevatedButton.icon(
                   onPressed: () => _handleDownload(context),
-                  icon: Icon(
-                    Icons.download,
-                    size: 20.f,
-                    color: Colors.white,
-                  ),
+                  icon: Icon(Icons.download, size: 20.f, color: Colors.white),
                   label: Text(
                     'تحميل الملف',
-                    style:  TextStyle(
+                    style: TextStyle(
                       fontSize: 14.f,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -422,7 +444,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 12.h,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.r),
                     ),
@@ -434,7 +459,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
         ),
       );
     }
-    
+
     // Fallback UI if URL cannot be built
     return Container(
       padding: EdgeInsets.all(20.w),
@@ -449,15 +474,11 @@ class _MusicPlayerState extends State<MusicPlayer> {
       ),
       child: Column(
         children: [
-          Icon(
-            Icons.music_note,
-            size: 40.f,
-            color: AppColors.primary,
-          ),
+          Icon(Icons.music_note, size: 40.f, color: AppColors.primary),
           SizedBox(height: 10.h),
           Text(
             'ملف ريل ميديا',
-            style:  TextStyle(
+            style: TextStyle(
               fontFamily: FontFamily.tajawal,
               fontSize: 16.f,
               color: AppColors.primary,
@@ -468,7 +489,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
           SizedBox(height: 5.h),
           Text(
             'نوع الملف: ${SoundFileTypeUtil.getFileTypeDescription(widget.sound.soundFile)}',
-            style:  TextStyle(
+            style: TextStyle(
               fontFamily: FontFamily.tajawal,
               fontSize: 14.f,
               color: AppColors.primary,
@@ -481,14 +502,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
             children: [
               ElevatedButton.icon(
                 onPressed: () => _handleDownload(context),
-                icon: Icon(
-                  Icons.download,
-                  size: 20.f,
-                  color: Colors.white,
-                ),
+                icon: Icon(Icons.download, size: 20.f, color: Colors.white),
                 label: Text(
                   'تحميل الملف',
-                  style:  TextStyle(
+                  style: TextStyle(
                     fontSize: 14.f,
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -496,7 +513,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 12.h,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25.r),
                   ),
@@ -510,24 +530,32 @@ class _MusicPlayerState extends State<MusicPlayer> {
   }
 
   // UI for standard audio files (MP3, WAV, etc.)
-  Widget _buildStandardAudioUI(BuildContext context, SoundLibraryBloc bloc, AudioPlayerState audioState) {
+  Widget _buildStandardAudioUI(
+    BuildContext context,
+    SoundLibraryBloc bloc,
+    AudioPlayerState audioState,
+  ) {
     return Column(
       children: [
         // Progress slider with seek functionality
         Slider(
-          value: audioState.duration.inMilliseconds > 0 
-              ? audioState.position.inMilliseconds / audioState.duration.inMilliseconds 
+          value: audioState.duration.inMilliseconds > 0
+              ? (audioState.position.inMilliseconds /
+                      audioState.duration.inMilliseconds)
+                  .clamp(0.0, 1.0)
               : 0.0,
-          onChanged: audioState.duration.inMilliseconds > 0 
-              ? (value) => bloc.add(MusicPlayerSeekEvent(
-                  soundId: widget.sound.soundId.toString(),
-                  progress: value,
-                ))
+          onChanged: audioState.duration.inMilliseconds > 0
+              ? (value) => bloc.add(
+                  MusicPlayerSeekEvent(
+                    soundId: widget.sound.soundId.toString(),
+                    progress: value,
+                  ),
+                )
               : null,
           activeColor: AppColors.primary,
           inactiveColor: AppColors.grey.withValues(alpha: 0.3),
         ),
-        
+
         // Time display
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -536,15 +564,15 @@ class _MusicPlayerState extends State<MusicPlayer> {
             children: [
               Text(
                 bloc.formatDuration(audioState.position),
-                style:  TextStyle(
+                style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 14.f,
+                  fontSize: 16.f,
                   color: AppColors.grey,
                 ),
               ),
               Text(
                 bloc.formatDuration(audioState.duration),
-                style:  TextStyle(
+                style: TextStyle(
                   fontFamily: FontFamily.tajawal,
                   fontSize: 14.f,
                   color: AppColors.grey,
@@ -553,9 +581,9 @@ class _MusicPlayerState extends State<MusicPlayer> {
             ],
           ),
         ),
-        
-        SizedBox(height: 30.h),
-        
+
+        SizedBox(height: 24.h),
+
         // Control buttons
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -566,18 +594,20 @@ class _MusicPlayerState extends State<MusicPlayer> {
               icon: Icon(Icons.skip_previous, size: 44.f),
               color: AppColors.grey,
             ),
-            
+
             // Play/Pause button
             Container(
-              decoration: BoxDecoration(
+              decoration: BoxDecorat1``ion(
                 color: AppColors.primary,
                 shape: BoxShape.circle,
               ),
               child: IconButton(
-                onPressed: () => bloc.add(MusicPlayerTogglePlayPauseEvent(
-                  soundId: widget.sound.soundId.toString(),
-                  sound: widget.sound,
-                )),
+                onPressed: () => bloc.add(
+                  MusicPlayerTogglePlayPauseEvent(
+                    soundId: widget.sound.soundId.toString(),
+                    sound: widget.sound,
+                  ),
+                ),
                 icon: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -587,7 +617,9 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         height: 32.h,
                         child: CircularProgressIndicator(
                           strokeWidth: 3.5.w,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
                         ),
                       ),
                     if (!audioState.isLoading && !audioState.isDownloading)
@@ -601,7 +633,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                 iconSize: 54.f,
               ),
             ),
-            
+
             // Next button (disabled for now)
             IconButton(
               onPressed: null, // TODO: Implement next track functionality
@@ -610,11 +642,12 @@ class _MusicPlayerState extends State<MusicPlayer> {
             ),
           ],
         ),
-        
+
         SizedBox(height: 24.h),
-        
+
         // Sound info
-        if (widget.sound.soundSummary != null && widget.sound.soundSummary!.isNotEmpty)
+        if (widget.sound.soundSummary != null &&
+            widget.sound.soundSummary!.isNotEmpty)
           Container(
             padding: EdgeInsets.all(18.w),
             decoration: BoxDecoration(
@@ -637,7 +670,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   /// Builds the Real Media URL from sound data
   String _buildRealMediaUrl() {
-    if (widget.sound.soundFile != null && 
+    if (widget.sound.soundFile != null &&
         SoundFileTypeUtil.isRealMediaFile(widget.sound.soundFile)) {
       final fileName = widget.sound.soundFile!;
       return "https://www.naasan.net/files/sound/$fileName";
@@ -647,7 +680,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   /// Gets alternative URLs for Real Media files
   List<String> _getRealMediaAlternativeUrls() {
-    if (widget.sound.soundFile != null && 
+    if (widget.sound.soundFile != null &&
         SoundFileTypeUtil.isRealMediaFile(widget.sound.soundFile)) {
       final fileName = widget.sound.soundFile!;
       return [
@@ -660,9 +693,15 @@ class _MusicPlayerState extends State<MusicPlayer> {
   }
 }
 
-Widget buildDrawerItem(BuildContext context, String title, String imagePath, VoidCallback onTap) {
+Widget buildDrawerItem(
+  BuildContext context,
+  String title,
+  String imagePath,
+  VoidCallback onTap,
+) {
   // Responsive sizes based on device type
-  final iconSize = context.deviceValue(  mobile: 30.0,
+  final iconSize = context.deviceValue(
+    mobile: 30.0,
     tablet: 38.0,
     desktop: 45.0,
   );
@@ -674,28 +713,15 @@ Widget buildDrawerItem(BuildContext context, String title, String imagePath, Voi
   );
 
   return Padding(
-    padding: EdgeInsets.symmetric(
-      vertical: 12.h,
-      horizontal: 30.w,
-    ),
+    padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 30.w),
     child: InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8.r),
       child: Row(
         children: [
-          Image.asset(
-            imagePath,
-            width: iconSize.w,
-            height: iconSize.h,
-          ),
+          Image.asset(imagePath, width: iconSize.w, height: iconSize.h),
           SizedBox(width: 10.w),
-          Expanded(
-            child: _buildMarqueeText(
-              context,
-              title,
-              fontSize,
-            ),
-          ),
+          Expanded(child: _buildMarqueeText(context, title, fontSize)),
         ],
       ),
     ),
@@ -706,42 +732,33 @@ Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
   // Calculate available width (approximate)
   final screenWidth = MediaQuery.of(context).size.width;
   final availableWidth = screenWidth - 100.w; // Account for icon and padding
-  
+
   // Create a text painter to measure text width
   final textPainter = TextPainter(
     text: TextSpan(
       text: text,
-      style: TextStyle(
-        fontFamily: FontFamily.tajawal,
-        fontSize: fontSize.f,
-      ),
+      style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: fontSize.f),
     ),
     textDirection: TextDirection.rtl,
   );
   textPainter.layout();
-  
+
   // If text fits in available space, show normal text
   if (textPainter.width <= availableWidth) {
     return Text(
       text,
-      style: TextStyle(
-        fontFamily: FontFamily.tajawal,
-        fontSize: fontSize.f,
-      ),
+      style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: fontSize.f),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
   }
-  
+
   // If text is too long, use marquee
   return Container(
     height: 30.h, // Fixed height for consistent layout
     child: Marquee(
       text: text,
-      style: TextStyle(
-        fontFamily: FontFamily.tajawal,
-        fontSize: fontSize.f,
-      ),
+      style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: fontSize.f),
       scrollAxis: Axis.horizontal,
       crossAxisAlignment: CrossAxisAlignment.center,
       blankSpace: 20.0,

@@ -54,7 +54,7 @@ class _SoundCardState extends State<SoundCard> {
           downloadedBytes: audioState.downloadedBytes,
           totalBytes: audioState.totalBytes,
           fileName: widget.sound.soundFile ?? 'file.rar',
-          child: GestureDetector(
+          child: InkWell(
             onTap: () => _navigateToMusicPlayer(context),
             child: Card(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.r)),
@@ -70,7 +70,7 @@ class _SoundCardState extends State<SoundCard> {
           children: [
             // Fixed height title section
             SizedBox(
-              height: 44.h,
+              height: 52.h,
               child: Row(
                 children: [
                   Image.asset(
@@ -96,7 +96,7 @@ class _SoundCardState extends State<SoundCard> {
             ),
             // Fixed height info section
             Padding(
-              padding: EdgeInsets.only(right: 8.w),
+              padding: EdgeInsets.only(right: 2.w),
               child: SizedBox(
                 height: 24.h,
                 child: Row(
@@ -162,17 +162,18 @@ class _SoundCardState extends State<SoundCard> {
         height: 36.h,
       );
     }
-    
+
     // For standard audio files, use the compact audio player
     if (_cachedUrl.isNotEmpty) {
-      return CompactAudioPlayer(
-        soundId: widget.sound.soundId.toString(),
+      return RealMediaPlayer(
+        sound: widget.sound,
         audioUrl: _cachedUrl,
-        soundTitle: widget.sound.soundTitle,
         alternativeUrls: _cachedAlternativeUrls,
+        width: widget.width ?? 220.w,
+        height: 36.h,
       );
     }
-    
+
     // Fallback for files without URL
     return BlocBuilder<SoundLibraryBloc, SoundLibraryState>(
       builder: (context, state) {
@@ -203,18 +204,18 @@ class _SoundCardState extends State<SoundCard> {
                   icon:  Icon(
                     Icons.download,
                     size: 18.f,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                   label:  Text(
                     'تحميل',
                     style: TextStyle(
                       fontSize: 13.f,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: AppColors.lightGrey,
                     padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     minimumSize: Size.zero,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
