@@ -339,7 +339,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
               Icon(Icons.remove_red_eye_outlined, size: 18.f, color: Colors.grey[600]),
               SizedBox(width: 4.w),
               Text(
-                article.articleVisitor ?? '0', 
+                article.articleVisitor?.toString() ?? '0', 
                 style: TextStyle(
                   fontSize: 12.f,
                   fontFamily: FontFamily.tajawal,

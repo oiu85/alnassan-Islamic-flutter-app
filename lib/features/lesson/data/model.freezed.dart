@@ -1502,7 +1502,7 @@ as List<dynamic>?,
 /// @nodoc
 mixin _$LessonArticle {
 
-@JsonKey(name: 'article_id', fromJson: _stringToInt) int? get articleId;@JsonKey(name: 'article_title') String? get articleTitle;@JsonKey(name: 'article_summary') String? get articleSummary;@JsonKey(name: 'article_cat_id') String? get articleCatId;@JsonKey(name: 'article_pic') String? get articlePic;@JsonKey(name: 'article_visitor') String? get articleVisitor;@JsonKey(name: 'article_priority') String? get articlePriority;@JsonKey(name: 'article_date') String? get articleDate;@JsonKey(name: 'article_active') String? get articleActive; LessonArticleCategory? get category;
+@JsonKey(name: 'article_id', fromJson: _stringToInt) int? get articleId;@JsonKey(name: 'article_title') String? get articleTitle;@JsonKey(name: 'article_summary') String? get articleSummary;@JsonKey(name: 'article_cat_id', fromJson: _stringToInt) int? get articleCatId;@JsonKey(name: 'article_pic') String? get articlePic;@JsonKey(name: 'article_visitor', fromJson: _stringToInt) int? get articleVisitor;@JsonKey(name: 'article_priority', fromJson: _stringToInt) int? get articlePriority;@JsonKey(name: 'article_date') String? get articleDate;@JsonKey(name: 'article_active', fromJson: _stringToInt) int? get articleActive; LessonArticleCategory? get category;
 /// Create a copy of LessonArticle
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1535,7 +1535,7 @@ abstract mixin class $LessonArticleCopyWith<$Res>  {
   factory $LessonArticleCopyWith(LessonArticle value, $Res Function(LessonArticle) _then) = _$LessonArticleCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'article_id', fromJson: _stringToInt) int? articleId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_cat_id') String? articleCatId,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_visitor') String? articleVisitor,@JsonKey(name: 'article_priority') String? articlePriority,@JsonKey(name: 'article_date') String? articleDate,@JsonKey(name: 'article_active') String? articleActive, LessonArticleCategory? category
+@JsonKey(name: 'article_id', fromJson: _stringToInt) int? articleId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_cat_id', fromJson: _stringToInt) int? articleCatId,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_visitor', fromJson: _stringToInt) int? articleVisitor,@JsonKey(name: 'article_priority', fromJson: _stringToInt) int? articlePriority,@JsonKey(name: 'article_date') String? articleDate,@JsonKey(name: 'article_active', fromJson: _stringToInt) int? articleActive, LessonArticleCategory? category
 });
 
 
@@ -1558,12 +1558,12 @@ articleId: freezed == articleId ? _self.articleId : articleId // ignore: cast_nu
 as int?,articleTitle: freezed == articleTitle ? _self.articleTitle : articleTitle // ignore: cast_nullable_to_non_nullable
 as String?,articleSummary: freezed == articleSummary ? _self.articleSummary : articleSummary // ignore: cast_nullable_to_non_nullable
 as String?,articleCatId: freezed == articleCatId ? _self.articleCatId : articleCatId // ignore: cast_nullable_to_non_nullable
-as String?,articlePic: freezed == articlePic ? _self.articlePic : articlePic // ignore: cast_nullable_to_non_nullable
+as int?,articlePic: freezed == articlePic ? _self.articlePic : articlePic // ignore: cast_nullable_to_non_nullable
 as String?,articleVisitor: freezed == articleVisitor ? _self.articleVisitor : articleVisitor // ignore: cast_nullable_to_non_nullable
-as String?,articlePriority: freezed == articlePriority ? _self.articlePriority : articlePriority // ignore: cast_nullable_to_non_nullable
-as String?,articleDate: freezed == articleDate ? _self.articleDate : articleDate // ignore: cast_nullable_to_non_nullable
+as int?,articlePriority: freezed == articlePriority ? _self.articlePriority : articlePriority // ignore: cast_nullable_to_non_nullable
+as int?,articleDate: freezed == articleDate ? _self.articleDate : articleDate // ignore: cast_nullable_to_non_nullable
 as String?,articleActive: freezed == articleActive ? _self.articleActive : articleActive // ignore: cast_nullable_to_non_nullable
-as String?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as int?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as LessonArticleCategory?,
   ));
 }
@@ -1661,7 +1661,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id', fromJson: _stringToInt)  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_cat_id')  String? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor')  String? articleVisitor, @JsonKey(name: 'article_priority')  String? articlePriority, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_active')  String? articleActive,  LessonArticleCategory? category)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id', fromJson: _stringToInt)  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_cat_id', fromJson: _stringToInt)  int? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor', fromJson: _stringToInt)  int? articleVisitor, @JsonKey(name: 'article_priority', fromJson: _stringToInt)  int? articlePriority, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_active', fromJson: _stringToInt)  int? articleActive,  LessonArticleCategory? category)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LessonArticle() when $default != null:
 return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.articleCatId,_that.articlePic,_that.articleVisitor,_that.articlePriority,_that.articleDate,_that.articleActive,_that.category);case _:
@@ -1682,7 +1682,7 @@ return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.ar
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id', fromJson: _stringToInt)  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_cat_id')  String? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor')  String? articleVisitor, @JsonKey(name: 'article_priority')  String? articlePriority, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_active')  String? articleActive,  LessonArticleCategory? category)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id', fromJson: _stringToInt)  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_cat_id', fromJson: _stringToInt)  int? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor', fromJson: _stringToInt)  int? articleVisitor, @JsonKey(name: 'article_priority', fromJson: _stringToInt)  int? articlePriority, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_active', fromJson: _stringToInt)  int? articleActive,  LessonArticleCategory? category)  $default,) {final _that = this;
 switch (_that) {
 case _LessonArticle():
 return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.articleCatId,_that.articlePic,_that.articleVisitor,_that.articlePriority,_that.articleDate,_that.articleActive,_that.category);case _:
@@ -1702,7 +1702,7 @@ return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.ar
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'article_id', fromJson: _stringToInt)  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_cat_id')  String? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor')  String? articleVisitor, @JsonKey(name: 'article_priority')  String? articlePriority, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_active')  String? articleActive,  LessonArticleCategory? category)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'article_id', fromJson: _stringToInt)  int? articleId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_cat_id', fromJson: _stringToInt)  int? articleCatId, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_visitor', fromJson: _stringToInt)  int? articleVisitor, @JsonKey(name: 'article_priority', fromJson: _stringToInt)  int? articlePriority, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_active', fromJson: _stringToInt)  int? articleActive,  LessonArticleCategory? category)?  $default,) {final _that = this;
 switch (_that) {
 case _LessonArticle() when $default != null:
 return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.articleCatId,_that.articlePic,_that.articleVisitor,_that.articlePriority,_that.articleDate,_that.articleActive,_that.category);case _:
@@ -1717,18 +1717,18 @@ return $default(_that.articleId,_that.articleTitle,_that.articleSummary,_that.ar
 @JsonSerializable()
 
 class _LessonArticle implements LessonArticle {
-  const _LessonArticle({@JsonKey(name: 'article_id', fromJson: _stringToInt) this.articleId, @JsonKey(name: 'article_title') this.articleTitle, @JsonKey(name: 'article_summary') this.articleSummary, @JsonKey(name: 'article_cat_id') this.articleCatId, @JsonKey(name: 'article_pic') this.articlePic, @JsonKey(name: 'article_visitor') this.articleVisitor, @JsonKey(name: 'article_priority') this.articlePriority, @JsonKey(name: 'article_date') this.articleDate, @JsonKey(name: 'article_active') this.articleActive, this.category});
+  const _LessonArticle({@JsonKey(name: 'article_id', fromJson: _stringToInt) this.articleId, @JsonKey(name: 'article_title') this.articleTitle, @JsonKey(name: 'article_summary') this.articleSummary, @JsonKey(name: 'article_cat_id', fromJson: _stringToInt) this.articleCatId, @JsonKey(name: 'article_pic') this.articlePic, @JsonKey(name: 'article_visitor', fromJson: _stringToInt) this.articleVisitor, @JsonKey(name: 'article_priority', fromJson: _stringToInt) this.articlePriority, @JsonKey(name: 'article_date') this.articleDate, @JsonKey(name: 'article_active', fromJson: _stringToInt) this.articleActive, this.category});
   factory _LessonArticle.fromJson(Map<String, dynamic> json) => _$LessonArticleFromJson(json);
 
 @override@JsonKey(name: 'article_id', fromJson: _stringToInt) final  int? articleId;
 @override@JsonKey(name: 'article_title') final  String? articleTitle;
 @override@JsonKey(name: 'article_summary') final  String? articleSummary;
-@override@JsonKey(name: 'article_cat_id') final  String? articleCatId;
+@override@JsonKey(name: 'article_cat_id', fromJson: _stringToInt) final  int? articleCatId;
 @override@JsonKey(name: 'article_pic') final  String? articlePic;
-@override@JsonKey(name: 'article_visitor') final  String? articleVisitor;
-@override@JsonKey(name: 'article_priority') final  String? articlePriority;
+@override@JsonKey(name: 'article_visitor', fromJson: _stringToInt) final  int? articleVisitor;
+@override@JsonKey(name: 'article_priority', fromJson: _stringToInt) final  int? articlePriority;
 @override@JsonKey(name: 'article_date') final  String? articleDate;
-@override@JsonKey(name: 'article_active') final  String? articleActive;
+@override@JsonKey(name: 'article_active', fromJson: _stringToInt) final  int? articleActive;
 @override final  LessonArticleCategory? category;
 
 /// Create a copy of LessonArticle
@@ -1764,7 +1764,7 @@ abstract mixin class _$LessonArticleCopyWith<$Res> implements $LessonArticleCopy
   factory _$LessonArticleCopyWith(_LessonArticle value, $Res Function(_LessonArticle) _then) = __$LessonArticleCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'article_id', fromJson: _stringToInt) int? articleId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_cat_id') String? articleCatId,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_visitor') String? articleVisitor,@JsonKey(name: 'article_priority') String? articlePriority,@JsonKey(name: 'article_date') String? articleDate,@JsonKey(name: 'article_active') String? articleActive, LessonArticleCategory? category
+@JsonKey(name: 'article_id', fromJson: _stringToInt) int? articleId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_cat_id', fromJson: _stringToInt) int? articleCatId,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_visitor', fromJson: _stringToInt) int? articleVisitor,@JsonKey(name: 'article_priority', fromJson: _stringToInt) int? articlePriority,@JsonKey(name: 'article_date') String? articleDate,@JsonKey(name: 'article_active', fromJson: _stringToInt) int? articleActive, LessonArticleCategory? category
 });
 
 
@@ -1787,12 +1787,12 @@ articleId: freezed == articleId ? _self.articleId : articleId // ignore: cast_nu
 as int?,articleTitle: freezed == articleTitle ? _self.articleTitle : articleTitle // ignore: cast_nullable_to_non_nullable
 as String?,articleSummary: freezed == articleSummary ? _self.articleSummary : articleSummary // ignore: cast_nullable_to_non_nullable
 as String?,articleCatId: freezed == articleCatId ? _self.articleCatId : articleCatId // ignore: cast_nullable_to_non_nullable
-as String?,articlePic: freezed == articlePic ? _self.articlePic : articlePic // ignore: cast_nullable_to_non_nullable
+as int?,articlePic: freezed == articlePic ? _self.articlePic : articlePic // ignore: cast_nullable_to_non_nullable
 as String?,articleVisitor: freezed == articleVisitor ? _self.articleVisitor : articleVisitor // ignore: cast_nullable_to_non_nullable
-as String?,articlePriority: freezed == articlePriority ? _self.articlePriority : articlePriority // ignore: cast_nullable_to_non_nullable
-as String?,articleDate: freezed == articleDate ? _self.articleDate : articleDate // ignore: cast_nullable_to_non_nullable
+as int?,articlePriority: freezed == articlePriority ? _self.articlePriority : articlePriority // ignore: cast_nullable_to_non_nullable
+as int?,articleDate: freezed == articleDate ? _self.articleDate : articleDate // ignore: cast_nullable_to_non_nullable
 as String?,articleActive: freezed == articleActive ? _self.articleActive : articleActive // ignore: cast_nullable_to_non_nullable
-as String?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as int?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as LessonArticleCategory?,
   ));
 }
@@ -1816,7 +1816,7 @@ $LessonArticleCategoryCopyWith<$Res>? get category {
 /// @nodoc
 mixin _$LessonArticleCategory {
 
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_father_id') String? get catFatherId;
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? get catId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_father_id', fromJson: _stringToInt) int? get catFatherId;
 /// Create a copy of LessonArticleCategory
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1849,7 +1849,7 @@ abstract mixin class $LessonArticleCategoryCopyWith<$Res>  {
   factory $LessonArticleCategoryCopyWith(LessonArticleCategory value, $Res Function(LessonArticleCategory) _then) = _$LessonArticleCategoryCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_father_id') String? catFatherId
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_father_id', fromJson: _stringToInt) int? catFatherId
 });
 
 
@@ -1871,7 +1871,7 @@ class _$LessonArticleCategoryCopyWithImpl<$Res>
 catId: freezed == catId ? _self.catId : catId // ignore: cast_nullable_to_non_nullable
 as int?,catTitle: freezed == catTitle ? _self.catTitle : catTitle // ignore: cast_nullable_to_non_nullable
 as String?,catFatherId: freezed == catFatherId ? _self.catFatherId : catFatherId // ignore: cast_nullable_to_non_nullable
-as String?,
+as int?,
   ));
 }
 
@@ -1956,7 +1956,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_father_id')  String? catFatherId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_father_id', fromJson: _stringToInt)  int? catFatherId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LessonArticleCategory() when $default != null:
 return $default(_that.catId,_that.catTitle,_that.catFatherId);case _:
@@ -1977,7 +1977,7 @@ return $default(_that.catId,_that.catTitle,_that.catFatherId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_father_id')  String? catFatherId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_father_id', fromJson: _stringToInt)  int? catFatherId)  $default,) {final _that = this;
 switch (_that) {
 case _LessonArticleCategory():
 return $default(_that.catId,_that.catTitle,_that.catFatherId);case _:
@@ -1997,7 +1997,7 @@ return $default(_that.catId,_that.catTitle,_that.catFatherId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_father_id')  String? catFatherId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id', fromJson: _stringToInt)  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_father_id', fromJson: _stringToInt)  int? catFatherId)?  $default,) {final _that = this;
 switch (_that) {
 case _LessonArticleCategory() when $default != null:
 return $default(_that.catId,_that.catTitle,_that.catFatherId);case _:
@@ -2012,12 +2012,12 @@ return $default(_that.catId,_that.catTitle,_that.catFatherId);case _:
 @JsonSerializable()
 
 class _LessonArticleCategory implements LessonArticleCategory {
-  const _LessonArticleCategory({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_father_id') this.catFatherId});
+  const _LessonArticleCategory({@JsonKey(name: 'cat_id', fromJson: _stringToInt) this.catId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_father_id', fromJson: _stringToInt) this.catFatherId});
   factory _LessonArticleCategory.fromJson(Map<String, dynamic> json) => _$LessonArticleCategoryFromJson(json);
 
 @override@JsonKey(name: 'cat_id', fromJson: _stringToInt) final  int? catId;
 @override@JsonKey(name: 'cat_title') final  String? catTitle;
-@override@JsonKey(name: 'cat_father_id') final  String? catFatherId;
+@override@JsonKey(name: 'cat_father_id', fromJson: _stringToInt) final  int? catFatherId;
 
 /// Create a copy of LessonArticleCategory
 /// with the given fields replaced by the non-null parameter values.
@@ -2052,7 +2052,7 @@ abstract mixin class _$LessonArticleCategoryCopyWith<$Res> implements $LessonArt
   factory _$LessonArticleCategoryCopyWith(_LessonArticleCategory value, $Res Function(_LessonArticleCategory) _then) = __$LessonArticleCategoryCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_father_id') String? catFatherId
+@JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_father_id', fromJson: _stringToInt) int? catFatherId
 });
 
 
@@ -2074,7 +2074,7 @@ class __$LessonArticleCategoryCopyWithImpl<$Res>
 catId: freezed == catId ? _self.catId : catId // ignore: cast_nullable_to_non_nullable
 as int?,catTitle: freezed == catTitle ? _self.catTitle : catTitle // ignore: cast_nullable_to_non_nullable
 as String?,catFatherId: freezed == catFatherId ? _self.catFatherId : catFatherId // ignore: cast_nullable_to_non_nullable
-as String?,
+as int?,
   ));
 }
 

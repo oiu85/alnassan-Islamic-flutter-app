@@ -42,13 +42,13 @@ abstract class Meta with _$Meta {
 @freezed
 abstract class PaginationParams with _$PaginationParams {
   const factory PaginationParams({
-    @JsonKey(name: 'articles_per_page')
+    @JsonKey(name: 'articles_per_page', fromJson: _intToString)
     String? articlesPerPage,
-    @JsonKey(name: 'categories_per_page')
+    @JsonKey(name: 'categories_per_page', fromJson: _intToString)
     String? categoriesPerPage,
-    @JsonKey(name: 'articles_page')
+    @JsonKey(name: 'articles_page', fromJson: _intToString)
     String? articlesPage,
-    @JsonKey(name: 'categories_page')
+    @JsonKey(name: 'categories_page', fromJson: _intToString)
     String? categoriesPage,
   }) = _PaginationParams;
 
@@ -82,11 +82,11 @@ abstract class SubCategory with _$SubCategory {
     String? catNote,
     @JsonKey(name: 'cat_pic')
     String? catPic,
-    @JsonKey(name: 'cat_menus')
+    @JsonKey(name: 'cat_menus', fromJson: _intToString)
     String? catMenus,
-    @JsonKey(name: 'cat_pos')
+    @JsonKey(name: 'cat_pos', fromJson: _intToString)
     String? catPos,
-    @JsonKey(name: 'cat_in_sub_menu')
+    @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)
     String? catInSubMenu,
     @JsonKey(name: 'articles')
     ArticlesWrapper? articles,
@@ -207,7 +207,7 @@ abstract class CategoryWithArticles with _$CategoryWithArticles {
     String? catNote,
     @JsonKey(name: 'cat_pic')
     String? catPic,
-    @JsonKey(name: 'cat_pos')
+    @JsonKey(name: 'cat_pos', fromJson: _intToString)
     String? catPos,
     dynamic parent,
     List<dynamic>? children,
@@ -250,27 +250,27 @@ abstract class ArticleDetailData with _$ArticleDetailData {
     String? articlePic,
     @JsonKey(name: 'article_des')
     String? articleDes,
-    @JsonKey(name: 'article_pic_pos')
+    @JsonKey(name: 'article_pic_pos', fromJson: _intToString)
     String? articlePicPos,
     @JsonKey(name: 'article_visitor', fromJson: _intToString)
     String? articleVisitor,
-    @JsonKey(name: 'article_is_new')
+    @JsonKey(name: 'article_is_new', fromJson: _intToString)
     String? articleIsNew,
-    @JsonKey(name: 'article_priority')
+    @JsonKey(name: 'article_priority', fromJson: _intToString)
     String? articlePriority,
-    @JsonKey(name: 'article_active_vote')
+    @JsonKey(name: 'article_active_vote', fromJson: _intToString)
     String? articleActiveVote,
-    @JsonKey(name: 'article_active_hint')
+    @JsonKey(name: 'article_active_hint', fromJson: _intToString)
     String? articleActiveHint,
-    @JsonKey(name: 'article_active')
+    @JsonKey(name: 'article_active', fromJson: _intToString)
     String? articleActive,
     @JsonKey(name: 'article_date')
     String? articleDate,
-    @JsonKey(name: 'article_pic_active')
+    @JsonKey(name: 'article_pic_active', fromJson: _intToString)
     String? articlePicActive,
-    @JsonKey(name: 'article_last_article')
+    @JsonKey(name: 'article_last_article', fromJson: _intToString)
     String? articleLastArticle,
-    @JsonKey(name: 'article_publisher_id')
+    @JsonKey(name: 'article_publisher_id', fromJson: _intToString)
     String? articlePublisherId,
     @JsonKey(name: 'article_source')
     String? articleSource,
@@ -280,7 +280,7 @@ abstract class ArticleDetailData with _$ArticleDetailData {
     String? articleYoutubeId,
     @JsonKey(name: 'article_file')
     String? articleFile,
-    @JsonKey(name: 'article_user_add_hint_nsup')
+    @JsonKey(name: 'article_user_add_hint_nsup', fromJson: _intToString)
     String? articleUserAddHintNsup,
     ArticleDetailCategory? category,
   }) = _ArticleDetailData;
@@ -294,9 +294,9 @@ abstract class ArticleDetailCategory with _$ArticleDetailCategory {
   const factory ArticleDetailCategory({
     @JsonKey(name: 'cat_id')
     int? catId,
-    @JsonKey(name: 'cat_father_id')
+    @JsonKey(name: 'cat_father_id', fromJson: _intToString)
     String? catFatherId,
-    @JsonKey(name: 'cat_menus')
+    @JsonKey(name: 'cat_menus', fromJson: _intToString)
     String? catMenus,
     @JsonKey(name: 'cat_title')
     String? catTitle,
@@ -304,25 +304,25 @@ abstract class ArticleDetailCategory with _$ArticleDetailCategory {
     String? catNote,
     @JsonKey(name: 'cat_pic')
     String? catPic,
-    @JsonKey(name: 'cat_sup')
+    @JsonKey(name: 'cat_sup', fromJson: _intToString)
     String? catSup,
     @JsonKey(name: 'cat_date')
     String? catDate,
-    @JsonKey(name: 'cat_pic_active')
+    @JsonKey(name: 'cat_pic_active', fromJson: _intToString)
     String? catPicActive,
-    @JsonKey(name: 'cat_lan')
+    @JsonKey(name: 'cat_lan', fromJson: _intToString)
     String? catLan,
-    @JsonKey(name: 'cat_pos')
+    @JsonKey(name: 'cat_pos', fromJson: _intToString)
     String? catPos,
-    @JsonKey(name: 'cat_active')
+    @JsonKey(name: 'cat_active', fromJson: _intToString)
     String? catActive,
-    @JsonKey(name: 'cat_show_menu')
+    @JsonKey(name: 'cat_show_menu', fromJson: _intToString)
     String? catShowMenu,
-    @JsonKey(name: 'cat_show_main')
+    @JsonKey(name: 'cat_show_main', fromJson: _intToString)
     String? catShowMain,
-    @JsonKey(name: 'cat_agent')
+    @JsonKey(name: 'cat_agent', fromJson: _intToString)
     String? catAgent,
-    @JsonKey(name: 'cat_in_sub_menu')
+    @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)
     String? catInSubMenu,
   }) = _ArticleDetailCategory;
 

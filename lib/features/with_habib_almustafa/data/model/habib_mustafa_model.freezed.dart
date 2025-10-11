@@ -917,7 +917,7 @@ $ResponseInfoCopyWith<$Res>? get responseInfo {
 /// @nodoc
 mixin _$PaginationParams {
 
-@JsonKey(name: 'articles_per_page') String? get articlesPerPage;@JsonKey(name: 'categories_per_page') String? get categoriesPerPage;@JsonKey(name: 'articles_page') String? get articlesPage;@JsonKey(name: 'categories_page') String? get categoriesPage;
+@JsonKey(name: 'articles_per_page', fromJson: _intToString) String? get articlesPerPage;@JsonKey(name: 'categories_per_page', fromJson: _intToString) String? get categoriesPerPage;@JsonKey(name: 'articles_page', fromJson: _intToString) String? get articlesPage;@JsonKey(name: 'categories_page', fromJson: _intToString) String? get categoriesPage;
 /// Create a copy of PaginationParams
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -950,7 +950,7 @@ abstract mixin class $PaginationParamsCopyWith<$Res>  {
   factory $PaginationParamsCopyWith(PaginationParams value, $Res Function(PaginationParams) _then) = _$PaginationParamsCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'articles_per_page') String? articlesPerPage,@JsonKey(name: 'categories_per_page') String? categoriesPerPage,@JsonKey(name: 'articles_page') String? articlesPage,@JsonKey(name: 'categories_page') String? categoriesPage
+@JsonKey(name: 'articles_per_page', fromJson: _intToString) String? articlesPerPage,@JsonKey(name: 'categories_per_page', fromJson: _intToString) String? categoriesPerPage,@JsonKey(name: 'articles_page', fromJson: _intToString) String? articlesPage,@JsonKey(name: 'categories_page', fromJson: _intToString) String? categoriesPage
 });
 
 
@@ -1058,7 +1058,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'articles_per_page')  String? articlesPerPage, @JsonKey(name: 'categories_per_page')  String? categoriesPerPage, @JsonKey(name: 'articles_page')  String? articlesPage, @JsonKey(name: 'categories_page')  String? categoriesPage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'articles_per_page', fromJson: _intToString)  String? articlesPerPage, @JsonKey(name: 'categories_per_page', fromJson: _intToString)  String? categoriesPerPage, @JsonKey(name: 'articles_page', fromJson: _intToString)  String? articlesPage, @JsonKey(name: 'categories_page', fromJson: _intToString)  String? categoriesPage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaginationParams() when $default != null:
 return $default(_that.articlesPerPage,_that.categoriesPerPage,_that.articlesPage,_that.categoriesPage);case _:
@@ -1079,7 +1079,7 @@ return $default(_that.articlesPerPage,_that.categoriesPerPage,_that.articlesPage
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'articles_per_page')  String? articlesPerPage, @JsonKey(name: 'categories_per_page')  String? categoriesPerPage, @JsonKey(name: 'articles_page')  String? articlesPage, @JsonKey(name: 'categories_page')  String? categoriesPage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'articles_per_page', fromJson: _intToString)  String? articlesPerPage, @JsonKey(name: 'categories_per_page', fromJson: _intToString)  String? categoriesPerPage, @JsonKey(name: 'articles_page', fromJson: _intToString)  String? articlesPage, @JsonKey(name: 'categories_page', fromJson: _intToString)  String? categoriesPage)  $default,) {final _that = this;
 switch (_that) {
 case _PaginationParams():
 return $default(_that.articlesPerPage,_that.categoriesPerPage,_that.articlesPage,_that.categoriesPage);case _:
@@ -1099,7 +1099,7 @@ return $default(_that.articlesPerPage,_that.categoriesPerPage,_that.articlesPage
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'articles_per_page')  String? articlesPerPage, @JsonKey(name: 'categories_per_page')  String? categoriesPerPage, @JsonKey(name: 'articles_page')  String? articlesPage, @JsonKey(name: 'categories_page')  String? categoriesPage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'articles_per_page', fromJson: _intToString)  String? articlesPerPage, @JsonKey(name: 'categories_per_page', fromJson: _intToString)  String? categoriesPerPage, @JsonKey(name: 'articles_page', fromJson: _intToString)  String? articlesPage, @JsonKey(name: 'categories_page', fromJson: _intToString)  String? categoriesPage)?  $default,) {final _that = this;
 switch (_that) {
 case _PaginationParams() when $default != null:
 return $default(_that.articlesPerPage,_that.categoriesPerPage,_that.articlesPage,_that.categoriesPage);case _:
@@ -1114,13 +1114,13 @@ return $default(_that.articlesPerPage,_that.categoriesPerPage,_that.articlesPage
 @JsonSerializable()
 
 class _PaginationParams implements PaginationParams {
-  const _PaginationParams({@JsonKey(name: 'articles_per_page') this.articlesPerPage, @JsonKey(name: 'categories_per_page') this.categoriesPerPage, @JsonKey(name: 'articles_page') this.articlesPage, @JsonKey(name: 'categories_page') this.categoriesPage});
+  const _PaginationParams({@JsonKey(name: 'articles_per_page', fromJson: _intToString) this.articlesPerPage, @JsonKey(name: 'categories_per_page', fromJson: _intToString) this.categoriesPerPage, @JsonKey(name: 'articles_page', fromJson: _intToString) this.articlesPage, @JsonKey(name: 'categories_page', fromJson: _intToString) this.categoriesPage});
   factory _PaginationParams.fromJson(Map<String, dynamic> json) => _$PaginationParamsFromJson(json);
 
-@override@JsonKey(name: 'articles_per_page') final  String? articlesPerPage;
-@override@JsonKey(name: 'categories_per_page') final  String? categoriesPerPage;
-@override@JsonKey(name: 'articles_page') final  String? articlesPage;
-@override@JsonKey(name: 'categories_page') final  String? categoriesPage;
+@override@JsonKey(name: 'articles_per_page', fromJson: _intToString) final  String? articlesPerPage;
+@override@JsonKey(name: 'categories_per_page', fromJson: _intToString) final  String? categoriesPerPage;
+@override@JsonKey(name: 'articles_page', fromJson: _intToString) final  String? articlesPage;
+@override@JsonKey(name: 'categories_page', fromJson: _intToString) final  String? categoriesPage;
 
 /// Create a copy of PaginationParams
 /// with the given fields replaced by the non-null parameter values.
@@ -1155,7 +1155,7 @@ abstract mixin class _$PaginationParamsCopyWith<$Res> implements $PaginationPara
   factory _$PaginationParamsCopyWith(_PaginationParams value, $Res Function(_PaginationParams) _then) = __$PaginationParamsCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'articles_per_page') String? articlesPerPage,@JsonKey(name: 'categories_per_page') String? categoriesPerPage,@JsonKey(name: 'articles_page') String? articlesPage,@JsonKey(name: 'categories_page') String? categoriesPage
+@JsonKey(name: 'articles_per_page', fromJson: _intToString) String? articlesPerPage,@JsonKey(name: 'categories_per_page', fromJson: _intToString) String? categoriesPerPage,@JsonKey(name: 'articles_page', fromJson: _intToString) String? articlesPage,@JsonKey(name: 'categories_page', fromJson: _intToString) String? categoriesPage
 });
 
 
@@ -1461,7 +1461,7 @@ as String?,
 /// @nodoc
 mixin _$SubCategory {
 
-@JsonKey(name: 'cat_id') int? get catId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_menus') String? get catMenus;@JsonKey(name: 'cat_pos') String? get catPos;@JsonKey(name: 'cat_in_sub_menu') String? get catInSubMenu;@JsonKey(name: 'articles') ArticlesWrapper? get articles;
+@JsonKey(name: 'cat_id') int? get catId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_menus', fromJson: _intToString) String? get catMenus;@JsonKey(name: 'cat_pos', fromJson: _intToString) String? get catPos;@JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) String? get catInSubMenu;@JsonKey(name: 'articles') ArticlesWrapper? get articles;
 /// Create a copy of SubCategory
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1494,7 +1494,7 @@ abstract mixin class $SubCategoryCopyWith<$Res>  {
   factory $SubCategoryCopyWith(SubCategory value, $Res Function(SubCategory) _then) = _$SubCategoryCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_menus') String? catMenus,@JsonKey(name: 'cat_pos') String? catPos,@JsonKey(name: 'cat_in_sub_menu') String? catInSubMenu,@JsonKey(name: 'articles') ArticlesWrapper? articles
+@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_menus', fromJson: _intToString) String? catMenus,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,@JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) String? catInSubMenu,@JsonKey(name: 'articles') ArticlesWrapper? articles
 });
 
 
@@ -1618,7 +1618,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_menus')  String? catMenus, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_in_sub_menu')  String? catInSubMenu, @JsonKey(name: 'articles')  ArticlesWrapper? articles)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_menus', fromJson: _intToString)  String? catMenus, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)  String? catInSubMenu, @JsonKey(name: 'articles')  ArticlesWrapper? articles)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SubCategory() when $default != null:
 return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catMenus,_that.catPos,_that.catInSubMenu,_that.articles);case _:
@@ -1639,7 +1639,7 @@ return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catM
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_menus')  String? catMenus, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_in_sub_menu')  String? catInSubMenu, @JsonKey(name: 'articles')  ArticlesWrapper? articles)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_menus', fromJson: _intToString)  String? catMenus, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)  String? catInSubMenu, @JsonKey(name: 'articles')  ArticlesWrapper? articles)  $default,) {final _that = this;
 switch (_that) {
 case _SubCategory():
 return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catMenus,_that.catPos,_that.catInSubMenu,_that.articles);case _:
@@ -1659,7 +1659,7 @@ return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catM
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_menus')  String? catMenus, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_in_sub_menu')  String? catInSubMenu, @JsonKey(name: 'articles')  ArticlesWrapper? articles)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_menus', fromJson: _intToString)  String? catMenus, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)  String? catInSubMenu, @JsonKey(name: 'articles')  ArticlesWrapper? articles)?  $default,) {final _that = this;
 switch (_that) {
 case _SubCategory() when $default != null:
 return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catMenus,_that.catPos,_that.catInSubMenu,_that.articles);case _:
@@ -1674,16 +1674,16 @@ return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catM
 @JsonSerializable()
 
 class _SubCategory implements SubCategory {
-  const _SubCategory({@JsonKey(name: 'cat_id') this.catId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_menus') this.catMenus, @JsonKey(name: 'cat_pos') this.catPos, @JsonKey(name: 'cat_in_sub_menu') this.catInSubMenu, @JsonKey(name: 'articles') this.articles});
+  const _SubCategory({@JsonKey(name: 'cat_id') this.catId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_menus', fromJson: _intToString) this.catMenus, @JsonKey(name: 'cat_pos', fromJson: _intToString) this.catPos, @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) this.catInSubMenu, @JsonKey(name: 'articles') this.articles});
   factory _SubCategory.fromJson(Map<String, dynamic> json) => _$SubCategoryFromJson(json);
 
 @override@JsonKey(name: 'cat_id') final  int? catId;
 @override@JsonKey(name: 'cat_title') final  String? catTitle;
 @override@JsonKey(name: 'cat_note') final  String? catNote;
 @override@JsonKey(name: 'cat_pic') final  String? catPic;
-@override@JsonKey(name: 'cat_menus') final  String? catMenus;
-@override@JsonKey(name: 'cat_pos') final  String? catPos;
-@override@JsonKey(name: 'cat_in_sub_menu') final  String? catInSubMenu;
+@override@JsonKey(name: 'cat_menus', fromJson: _intToString) final  String? catMenus;
+@override@JsonKey(name: 'cat_pos', fromJson: _intToString) final  String? catPos;
+@override@JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) final  String? catInSubMenu;
 @override@JsonKey(name: 'articles') final  ArticlesWrapper? articles;
 
 /// Create a copy of SubCategory
@@ -1719,7 +1719,7 @@ abstract mixin class _$SubCategoryCopyWith<$Res> implements $SubCategoryCopyWith
   factory _$SubCategoryCopyWith(_SubCategory value, $Res Function(_SubCategory) _then) = __$SubCategoryCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_menus') String? catMenus,@JsonKey(name: 'cat_pos') String? catPos,@JsonKey(name: 'cat_in_sub_menu') String? catInSubMenu,@JsonKey(name: 'articles') ArticlesWrapper? articles
+@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_menus', fromJson: _intToString) String? catMenus,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,@JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) String? catInSubMenu,@JsonKey(name: 'articles') ArticlesWrapper? articles
 });
 
 
@@ -3489,7 +3489,7 @@ as bool?,
 /// @nodoc
 mixin _$CategoryWithArticles {
 
-@JsonKey(name: 'cat_id') int? get catId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_pos') String? get catPos; dynamic get parent; List<dynamic>? get children; List<HabibArticle>? get articles; Pagination? get pagination;
+@JsonKey(name: 'cat_id') int? get catId;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_pos', fromJson: _intToString) String? get catPos; dynamic get parent; List<dynamic>? get children; List<HabibArticle>? get articles; Pagination? get pagination;
 /// Create a copy of CategoryWithArticles
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3522,7 +3522,7 @@ abstract mixin class $CategoryWithArticlesCopyWith<$Res>  {
   factory $CategoryWithArticlesCopyWith(CategoryWithArticles value, $Res Function(CategoryWithArticles) _then) = _$CategoryWithArticlesCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos') String? catPos, dynamic parent, List<dynamic>? children, List<HabibArticle>? articles, Pagination? pagination
+@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos, dynamic parent, List<dynamic>? children, List<HabibArticle>? articles, Pagination? pagination
 });
 
 
@@ -3647,7 +3647,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos')  String? catPos,  dynamic parent,  List<dynamic>? children,  List<HabibArticle>? articles,  Pagination? pagination)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos,  dynamic parent,  List<dynamic>? children,  List<HabibArticle>? articles,  Pagination? pagination)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CategoryWithArticles() when $default != null:
 return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.parent,_that.children,_that.articles,_that.pagination);case _:
@@ -3668,7 +3668,7 @@ return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catP
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos')  String? catPos,  dynamic parent,  List<dynamic>? children,  List<HabibArticle>? articles,  Pagination? pagination)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos,  dynamic parent,  List<dynamic>? children,  List<HabibArticle>? articles,  Pagination? pagination)  $default,) {final _that = this;
 switch (_that) {
 case _CategoryWithArticles():
 return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.parent,_that.children,_that.articles,_that.pagination);case _:
@@ -3688,7 +3688,7 @@ return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catP
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos')  String? catPos,  dynamic parent,  List<dynamic>? children,  List<HabibArticle>? articles,  Pagination? pagination)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos,  dynamic parent,  List<dynamic>? children,  List<HabibArticle>? articles,  Pagination? pagination)?  $default,) {final _that = this;
 switch (_that) {
 case _CategoryWithArticles() when $default != null:
 return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catPos,_that.parent,_that.children,_that.articles,_that.pagination);case _:
@@ -3703,14 +3703,14 @@ return $default(_that.catId,_that.catTitle,_that.catNote,_that.catPic,_that.catP
 @JsonSerializable()
 
 class _CategoryWithArticles implements CategoryWithArticles {
-  const _CategoryWithArticles({@JsonKey(name: 'cat_id') this.catId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_pos') this.catPos, this.parent, final  List<dynamic>? children, final  List<HabibArticle>? articles, this.pagination}): _children = children,_articles = articles;
+  const _CategoryWithArticles({@JsonKey(name: 'cat_id') this.catId, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_pos', fromJson: _intToString) this.catPos, this.parent, final  List<dynamic>? children, final  List<HabibArticle>? articles, this.pagination}): _children = children,_articles = articles;
   factory _CategoryWithArticles.fromJson(Map<String, dynamic> json) => _$CategoryWithArticlesFromJson(json);
 
 @override@JsonKey(name: 'cat_id') final  int? catId;
 @override@JsonKey(name: 'cat_title') final  String? catTitle;
 @override@JsonKey(name: 'cat_note') final  String? catNote;
 @override@JsonKey(name: 'cat_pic') final  String? catPic;
-@override@JsonKey(name: 'cat_pos') final  String? catPos;
+@override@JsonKey(name: 'cat_pos', fromJson: _intToString) final  String? catPos;
 @override final  dynamic parent;
  final  List<dynamic>? _children;
 @override List<dynamic>? get children {
@@ -3765,7 +3765,7 @@ abstract mixin class _$CategoryWithArticlesCopyWith<$Res> implements $CategoryWi
   factory _$CategoryWithArticlesCopyWith(_CategoryWithArticles value, $Res Function(_CategoryWithArticles) _then) = __$CategoryWithArticlesCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos') String? catPos, dynamic parent, List<dynamic>? children, List<HabibArticle>? articles, Pagination? pagination
+@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos, dynamic parent, List<dynamic>? children, List<HabibArticle>? articles, Pagination? pagination
 });
 
 
@@ -4133,7 +4133,7 @@ $ArticleDetailMetaCopyWith<$Res>? get meta {
 /// @nodoc
 mixin _$ArticleDetailData {
 
-@JsonKey(name: 'article_id') int? get articleId;@JsonKey(name: 'article_cat_id', fromJson: _intToString) String? get articleCatId;@JsonKey(name: 'article_title') String? get articleTitle;@JsonKey(name: 'article_ts') String? get articleTs;@JsonKey(name: 'article_summary') String? get articleSummary;@JsonKey(name: 'article_pic') String? get articlePic;@JsonKey(name: 'article_des') String? get articleDes;@JsonKey(name: 'article_pic_pos') String? get articlePicPos;@JsonKey(name: 'article_visitor', fromJson: _intToString) String? get articleVisitor;@JsonKey(name: 'article_is_new') String? get articleIsNew;@JsonKey(name: 'article_priority') String? get articlePriority;@JsonKey(name: 'article_active_vote') String? get articleActiveVote;@JsonKey(name: 'article_active_hint') String? get articleActiveHint;@JsonKey(name: 'article_active') String? get articleActive;@JsonKey(name: 'article_date') String? get articleDate;@JsonKey(name: 'article_pic_active') String? get articlePicActive;@JsonKey(name: 'article_last_article') String? get articleLastArticle;@JsonKey(name: 'article_publisher_id') String? get articlePublisherId;@JsonKey(name: 'article_source') String? get articleSource;@JsonKey(name: 'article_source_url') String? get articleSourceUrl;@JsonKey(name: 'article_youtube_id') String? get articleYoutubeId;@JsonKey(name: 'article_file') String? get articleFile;@JsonKey(name: 'article_user_add_hint_nsup') String? get articleUserAddHintNsup; ArticleDetailCategory? get category;
+@JsonKey(name: 'article_id') int? get articleId;@JsonKey(name: 'article_cat_id', fromJson: _intToString) String? get articleCatId;@JsonKey(name: 'article_title') String? get articleTitle;@JsonKey(name: 'article_ts') String? get articleTs;@JsonKey(name: 'article_summary') String? get articleSummary;@JsonKey(name: 'article_pic') String? get articlePic;@JsonKey(name: 'article_des') String? get articleDes;@JsonKey(name: 'article_pic_pos', fromJson: _intToString) String? get articlePicPos;@JsonKey(name: 'article_visitor', fromJson: _intToString) String? get articleVisitor;@JsonKey(name: 'article_is_new', fromJson: _intToString) String? get articleIsNew;@JsonKey(name: 'article_priority', fromJson: _intToString) String? get articlePriority;@JsonKey(name: 'article_active_vote', fromJson: _intToString) String? get articleActiveVote;@JsonKey(name: 'article_active_hint', fromJson: _intToString) String? get articleActiveHint;@JsonKey(name: 'article_active', fromJson: _intToString) String? get articleActive;@JsonKey(name: 'article_date') String? get articleDate;@JsonKey(name: 'article_pic_active', fromJson: _intToString) String? get articlePicActive;@JsonKey(name: 'article_last_article', fromJson: _intToString) String? get articleLastArticle;@JsonKey(name: 'article_publisher_id', fromJson: _intToString) String? get articlePublisherId;@JsonKey(name: 'article_source') String? get articleSource;@JsonKey(name: 'article_source_url') String? get articleSourceUrl;@JsonKey(name: 'article_youtube_id') String? get articleYoutubeId;@JsonKey(name: 'article_file') String? get articleFile;@JsonKey(name: 'article_user_add_hint_nsup', fromJson: _intToString) String? get articleUserAddHintNsup; ArticleDetailCategory? get category;
 /// Create a copy of ArticleDetailData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -4166,7 +4166,7 @@ abstract mixin class $ArticleDetailDataCopyWith<$Res>  {
   factory $ArticleDetailDataCopyWith(ArticleDetailData value, $Res Function(ArticleDetailData) _then) = _$ArticleDetailDataCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'article_id') int? articleId,@JsonKey(name: 'article_cat_id', fromJson: _intToString) String? articleCatId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_ts') String? articleTs,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_des') String? articleDes,@JsonKey(name: 'article_pic_pos') String? articlePicPos,@JsonKey(name: 'article_visitor', fromJson: _intToString) String? articleVisitor,@JsonKey(name: 'article_is_new') String? articleIsNew,@JsonKey(name: 'article_priority') String? articlePriority,@JsonKey(name: 'article_active_vote') String? articleActiveVote,@JsonKey(name: 'article_active_hint') String? articleActiveHint,@JsonKey(name: 'article_active') String? articleActive,@JsonKey(name: 'article_date') String? articleDate,@JsonKey(name: 'article_pic_active') String? articlePicActive,@JsonKey(name: 'article_last_article') String? articleLastArticle,@JsonKey(name: 'article_publisher_id') String? articlePublisherId,@JsonKey(name: 'article_source') String? articleSource,@JsonKey(name: 'article_source_url') String? articleSourceUrl,@JsonKey(name: 'article_youtube_id') String? articleYoutubeId,@JsonKey(name: 'article_file') String? articleFile,@JsonKey(name: 'article_user_add_hint_nsup') String? articleUserAddHintNsup, ArticleDetailCategory? category
+@JsonKey(name: 'article_id') int? articleId,@JsonKey(name: 'article_cat_id', fromJson: _intToString) String? articleCatId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_ts') String? articleTs,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_des') String? articleDes,@JsonKey(name: 'article_pic_pos', fromJson: _intToString) String? articlePicPos,@JsonKey(name: 'article_visitor', fromJson: _intToString) String? articleVisitor,@JsonKey(name: 'article_is_new', fromJson: _intToString) String? articleIsNew,@JsonKey(name: 'article_priority', fromJson: _intToString) String? articlePriority,@JsonKey(name: 'article_active_vote', fromJson: _intToString) String? articleActiveVote,@JsonKey(name: 'article_active_hint', fromJson: _intToString) String? articleActiveHint,@JsonKey(name: 'article_active', fromJson: _intToString) String? articleActive,@JsonKey(name: 'article_date') String? articleDate,@JsonKey(name: 'article_pic_active', fromJson: _intToString) String? articlePicActive,@JsonKey(name: 'article_last_article', fromJson: _intToString) String? articleLastArticle,@JsonKey(name: 'article_publisher_id', fromJson: _intToString) String? articlePublisherId,@JsonKey(name: 'article_source') String? articleSource,@JsonKey(name: 'article_source_url') String? articleSourceUrl,@JsonKey(name: 'article_youtube_id') String? articleYoutubeId,@JsonKey(name: 'article_file') String? articleFile,@JsonKey(name: 'article_user_add_hint_nsup', fromJson: _intToString) String? articleUserAddHintNsup, ArticleDetailCategory? category
 });
 
 
@@ -4306,7 +4306,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_cat_id', fromJson: _intToString)  String? articleCatId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_ts')  String? articleTs, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_pic_pos')  String? articlePicPos, @JsonKey(name: 'article_visitor', fromJson: _intToString)  String? articleVisitor, @JsonKey(name: 'article_is_new')  String? articleIsNew, @JsonKey(name: 'article_priority')  String? articlePriority, @JsonKey(name: 'article_active_vote')  String? articleActiveVote, @JsonKey(name: 'article_active_hint')  String? articleActiveHint, @JsonKey(name: 'article_active')  String? articleActive, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_pic_active')  String? articlePicActive, @JsonKey(name: 'article_last_article')  String? articleLastArticle, @JsonKey(name: 'article_publisher_id')  String? articlePublisherId, @JsonKey(name: 'article_source')  String? articleSource, @JsonKey(name: 'article_source_url')  String? articleSourceUrl, @JsonKey(name: 'article_youtube_id')  String? articleYoutubeId, @JsonKey(name: 'article_file')  String? articleFile, @JsonKey(name: 'article_user_add_hint_nsup')  String? articleUserAddHintNsup,  ArticleDetailCategory? category)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_cat_id', fromJson: _intToString)  String? articleCatId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_ts')  String? articleTs, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_pic_pos', fromJson: _intToString)  String? articlePicPos, @JsonKey(name: 'article_visitor', fromJson: _intToString)  String? articleVisitor, @JsonKey(name: 'article_is_new', fromJson: _intToString)  String? articleIsNew, @JsonKey(name: 'article_priority', fromJson: _intToString)  String? articlePriority, @JsonKey(name: 'article_active_vote', fromJson: _intToString)  String? articleActiveVote, @JsonKey(name: 'article_active_hint', fromJson: _intToString)  String? articleActiveHint, @JsonKey(name: 'article_active', fromJson: _intToString)  String? articleActive, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_pic_active', fromJson: _intToString)  String? articlePicActive, @JsonKey(name: 'article_last_article', fromJson: _intToString)  String? articleLastArticle, @JsonKey(name: 'article_publisher_id', fromJson: _intToString)  String? articlePublisherId, @JsonKey(name: 'article_source')  String? articleSource, @JsonKey(name: 'article_source_url')  String? articleSourceUrl, @JsonKey(name: 'article_youtube_id')  String? articleYoutubeId, @JsonKey(name: 'article_file')  String? articleFile, @JsonKey(name: 'article_user_add_hint_nsup', fromJson: _intToString)  String? articleUserAddHintNsup,  ArticleDetailCategory? category)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ArticleDetailData() when $default != null:
 return $default(_that.articleId,_that.articleCatId,_that.articleTitle,_that.articleTs,_that.articleSummary,_that.articlePic,_that.articleDes,_that.articlePicPos,_that.articleVisitor,_that.articleIsNew,_that.articlePriority,_that.articleActiveVote,_that.articleActiveHint,_that.articleActive,_that.articleDate,_that.articlePicActive,_that.articleLastArticle,_that.articlePublisherId,_that.articleSource,_that.articleSourceUrl,_that.articleYoutubeId,_that.articleFile,_that.articleUserAddHintNsup,_that.category);case _:
@@ -4327,7 +4327,7 @@ return $default(_that.articleId,_that.articleCatId,_that.articleTitle,_that.arti
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_cat_id', fromJson: _intToString)  String? articleCatId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_ts')  String? articleTs, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_pic_pos')  String? articlePicPos, @JsonKey(name: 'article_visitor', fromJson: _intToString)  String? articleVisitor, @JsonKey(name: 'article_is_new')  String? articleIsNew, @JsonKey(name: 'article_priority')  String? articlePriority, @JsonKey(name: 'article_active_vote')  String? articleActiveVote, @JsonKey(name: 'article_active_hint')  String? articleActiveHint, @JsonKey(name: 'article_active')  String? articleActive, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_pic_active')  String? articlePicActive, @JsonKey(name: 'article_last_article')  String? articleLastArticle, @JsonKey(name: 'article_publisher_id')  String? articlePublisherId, @JsonKey(name: 'article_source')  String? articleSource, @JsonKey(name: 'article_source_url')  String? articleSourceUrl, @JsonKey(name: 'article_youtube_id')  String? articleYoutubeId, @JsonKey(name: 'article_file')  String? articleFile, @JsonKey(name: 'article_user_add_hint_nsup')  String? articleUserAddHintNsup,  ArticleDetailCategory? category)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_cat_id', fromJson: _intToString)  String? articleCatId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_ts')  String? articleTs, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_pic_pos', fromJson: _intToString)  String? articlePicPos, @JsonKey(name: 'article_visitor', fromJson: _intToString)  String? articleVisitor, @JsonKey(name: 'article_is_new', fromJson: _intToString)  String? articleIsNew, @JsonKey(name: 'article_priority', fromJson: _intToString)  String? articlePriority, @JsonKey(name: 'article_active_vote', fromJson: _intToString)  String? articleActiveVote, @JsonKey(name: 'article_active_hint', fromJson: _intToString)  String? articleActiveHint, @JsonKey(name: 'article_active', fromJson: _intToString)  String? articleActive, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_pic_active', fromJson: _intToString)  String? articlePicActive, @JsonKey(name: 'article_last_article', fromJson: _intToString)  String? articleLastArticle, @JsonKey(name: 'article_publisher_id', fromJson: _intToString)  String? articlePublisherId, @JsonKey(name: 'article_source')  String? articleSource, @JsonKey(name: 'article_source_url')  String? articleSourceUrl, @JsonKey(name: 'article_youtube_id')  String? articleYoutubeId, @JsonKey(name: 'article_file')  String? articleFile, @JsonKey(name: 'article_user_add_hint_nsup', fromJson: _intToString)  String? articleUserAddHintNsup,  ArticleDetailCategory? category)  $default,) {final _that = this;
 switch (_that) {
 case _ArticleDetailData():
 return $default(_that.articleId,_that.articleCatId,_that.articleTitle,_that.articleTs,_that.articleSummary,_that.articlePic,_that.articleDes,_that.articlePicPos,_that.articleVisitor,_that.articleIsNew,_that.articlePriority,_that.articleActiveVote,_that.articleActiveHint,_that.articleActive,_that.articleDate,_that.articlePicActive,_that.articleLastArticle,_that.articlePublisherId,_that.articleSource,_that.articleSourceUrl,_that.articleYoutubeId,_that.articleFile,_that.articleUserAddHintNsup,_that.category);case _:
@@ -4347,7 +4347,7 @@ return $default(_that.articleId,_that.articleCatId,_that.articleTitle,_that.arti
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_cat_id', fromJson: _intToString)  String? articleCatId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_ts')  String? articleTs, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_pic_pos')  String? articlePicPos, @JsonKey(name: 'article_visitor', fromJson: _intToString)  String? articleVisitor, @JsonKey(name: 'article_is_new')  String? articleIsNew, @JsonKey(name: 'article_priority')  String? articlePriority, @JsonKey(name: 'article_active_vote')  String? articleActiveVote, @JsonKey(name: 'article_active_hint')  String? articleActiveHint, @JsonKey(name: 'article_active')  String? articleActive, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_pic_active')  String? articlePicActive, @JsonKey(name: 'article_last_article')  String? articleLastArticle, @JsonKey(name: 'article_publisher_id')  String? articlePublisherId, @JsonKey(name: 'article_source')  String? articleSource, @JsonKey(name: 'article_source_url')  String? articleSourceUrl, @JsonKey(name: 'article_youtube_id')  String? articleYoutubeId, @JsonKey(name: 'article_file')  String? articleFile, @JsonKey(name: 'article_user_add_hint_nsup')  String? articleUserAddHintNsup,  ArticleDetailCategory? category)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'article_id')  int? articleId, @JsonKey(name: 'article_cat_id', fromJson: _intToString)  String? articleCatId, @JsonKey(name: 'article_title')  String? articleTitle, @JsonKey(name: 'article_ts')  String? articleTs, @JsonKey(name: 'article_summary')  String? articleSummary, @JsonKey(name: 'article_pic')  String? articlePic, @JsonKey(name: 'article_des')  String? articleDes, @JsonKey(name: 'article_pic_pos', fromJson: _intToString)  String? articlePicPos, @JsonKey(name: 'article_visitor', fromJson: _intToString)  String? articleVisitor, @JsonKey(name: 'article_is_new', fromJson: _intToString)  String? articleIsNew, @JsonKey(name: 'article_priority', fromJson: _intToString)  String? articlePriority, @JsonKey(name: 'article_active_vote', fromJson: _intToString)  String? articleActiveVote, @JsonKey(name: 'article_active_hint', fromJson: _intToString)  String? articleActiveHint, @JsonKey(name: 'article_active', fromJson: _intToString)  String? articleActive, @JsonKey(name: 'article_date')  String? articleDate, @JsonKey(name: 'article_pic_active', fromJson: _intToString)  String? articlePicActive, @JsonKey(name: 'article_last_article', fromJson: _intToString)  String? articleLastArticle, @JsonKey(name: 'article_publisher_id', fromJson: _intToString)  String? articlePublisherId, @JsonKey(name: 'article_source')  String? articleSource, @JsonKey(name: 'article_source_url')  String? articleSourceUrl, @JsonKey(name: 'article_youtube_id')  String? articleYoutubeId, @JsonKey(name: 'article_file')  String? articleFile, @JsonKey(name: 'article_user_add_hint_nsup', fromJson: _intToString)  String? articleUserAddHintNsup,  ArticleDetailCategory? category)?  $default,) {final _that = this;
 switch (_that) {
 case _ArticleDetailData() when $default != null:
 return $default(_that.articleId,_that.articleCatId,_that.articleTitle,_that.articleTs,_that.articleSummary,_that.articlePic,_that.articleDes,_that.articlePicPos,_that.articleVisitor,_that.articleIsNew,_that.articlePriority,_that.articleActiveVote,_that.articleActiveHint,_that.articleActive,_that.articleDate,_that.articlePicActive,_that.articleLastArticle,_that.articlePublisherId,_that.articleSource,_that.articleSourceUrl,_that.articleYoutubeId,_that.articleFile,_that.articleUserAddHintNsup,_that.category);case _:
@@ -4362,7 +4362,7 @@ return $default(_that.articleId,_that.articleCatId,_that.articleTitle,_that.arti
 @JsonSerializable()
 
 class _ArticleDetailData implements ArticleDetailData {
-  const _ArticleDetailData({@JsonKey(name: 'article_id') this.articleId, @JsonKey(name: 'article_cat_id', fromJson: _intToString) this.articleCatId, @JsonKey(name: 'article_title') this.articleTitle, @JsonKey(name: 'article_ts') this.articleTs, @JsonKey(name: 'article_summary') this.articleSummary, @JsonKey(name: 'article_pic') this.articlePic, @JsonKey(name: 'article_des') this.articleDes, @JsonKey(name: 'article_pic_pos') this.articlePicPos, @JsonKey(name: 'article_visitor', fromJson: _intToString) this.articleVisitor, @JsonKey(name: 'article_is_new') this.articleIsNew, @JsonKey(name: 'article_priority') this.articlePriority, @JsonKey(name: 'article_active_vote') this.articleActiveVote, @JsonKey(name: 'article_active_hint') this.articleActiveHint, @JsonKey(name: 'article_active') this.articleActive, @JsonKey(name: 'article_date') this.articleDate, @JsonKey(name: 'article_pic_active') this.articlePicActive, @JsonKey(name: 'article_last_article') this.articleLastArticle, @JsonKey(name: 'article_publisher_id') this.articlePublisherId, @JsonKey(name: 'article_source') this.articleSource, @JsonKey(name: 'article_source_url') this.articleSourceUrl, @JsonKey(name: 'article_youtube_id') this.articleYoutubeId, @JsonKey(name: 'article_file') this.articleFile, @JsonKey(name: 'article_user_add_hint_nsup') this.articleUserAddHintNsup, this.category});
+  const _ArticleDetailData({@JsonKey(name: 'article_id') this.articleId, @JsonKey(name: 'article_cat_id', fromJson: _intToString) this.articleCatId, @JsonKey(name: 'article_title') this.articleTitle, @JsonKey(name: 'article_ts') this.articleTs, @JsonKey(name: 'article_summary') this.articleSummary, @JsonKey(name: 'article_pic') this.articlePic, @JsonKey(name: 'article_des') this.articleDes, @JsonKey(name: 'article_pic_pos', fromJson: _intToString) this.articlePicPos, @JsonKey(name: 'article_visitor', fromJson: _intToString) this.articleVisitor, @JsonKey(name: 'article_is_new', fromJson: _intToString) this.articleIsNew, @JsonKey(name: 'article_priority', fromJson: _intToString) this.articlePriority, @JsonKey(name: 'article_active_vote', fromJson: _intToString) this.articleActiveVote, @JsonKey(name: 'article_active_hint', fromJson: _intToString) this.articleActiveHint, @JsonKey(name: 'article_active', fromJson: _intToString) this.articleActive, @JsonKey(name: 'article_date') this.articleDate, @JsonKey(name: 'article_pic_active', fromJson: _intToString) this.articlePicActive, @JsonKey(name: 'article_last_article', fromJson: _intToString) this.articleLastArticle, @JsonKey(name: 'article_publisher_id', fromJson: _intToString) this.articlePublisherId, @JsonKey(name: 'article_source') this.articleSource, @JsonKey(name: 'article_source_url') this.articleSourceUrl, @JsonKey(name: 'article_youtube_id') this.articleYoutubeId, @JsonKey(name: 'article_file') this.articleFile, @JsonKey(name: 'article_user_add_hint_nsup', fromJson: _intToString) this.articleUserAddHintNsup, this.category});
   factory _ArticleDetailData.fromJson(Map<String, dynamic> json) => _$ArticleDetailDataFromJson(json);
 
 @override@JsonKey(name: 'article_id') final  int? articleId;
@@ -4372,22 +4372,22 @@ class _ArticleDetailData implements ArticleDetailData {
 @override@JsonKey(name: 'article_summary') final  String? articleSummary;
 @override@JsonKey(name: 'article_pic') final  String? articlePic;
 @override@JsonKey(name: 'article_des') final  String? articleDes;
-@override@JsonKey(name: 'article_pic_pos') final  String? articlePicPos;
+@override@JsonKey(name: 'article_pic_pos', fromJson: _intToString) final  String? articlePicPos;
 @override@JsonKey(name: 'article_visitor', fromJson: _intToString) final  String? articleVisitor;
-@override@JsonKey(name: 'article_is_new') final  String? articleIsNew;
-@override@JsonKey(name: 'article_priority') final  String? articlePriority;
-@override@JsonKey(name: 'article_active_vote') final  String? articleActiveVote;
-@override@JsonKey(name: 'article_active_hint') final  String? articleActiveHint;
-@override@JsonKey(name: 'article_active') final  String? articleActive;
+@override@JsonKey(name: 'article_is_new', fromJson: _intToString) final  String? articleIsNew;
+@override@JsonKey(name: 'article_priority', fromJson: _intToString) final  String? articlePriority;
+@override@JsonKey(name: 'article_active_vote', fromJson: _intToString) final  String? articleActiveVote;
+@override@JsonKey(name: 'article_active_hint', fromJson: _intToString) final  String? articleActiveHint;
+@override@JsonKey(name: 'article_active', fromJson: _intToString) final  String? articleActive;
 @override@JsonKey(name: 'article_date') final  String? articleDate;
-@override@JsonKey(name: 'article_pic_active') final  String? articlePicActive;
-@override@JsonKey(name: 'article_last_article') final  String? articleLastArticle;
-@override@JsonKey(name: 'article_publisher_id') final  String? articlePublisherId;
+@override@JsonKey(name: 'article_pic_active', fromJson: _intToString) final  String? articlePicActive;
+@override@JsonKey(name: 'article_last_article', fromJson: _intToString) final  String? articleLastArticle;
+@override@JsonKey(name: 'article_publisher_id', fromJson: _intToString) final  String? articlePublisherId;
 @override@JsonKey(name: 'article_source') final  String? articleSource;
 @override@JsonKey(name: 'article_source_url') final  String? articleSourceUrl;
 @override@JsonKey(name: 'article_youtube_id') final  String? articleYoutubeId;
 @override@JsonKey(name: 'article_file') final  String? articleFile;
-@override@JsonKey(name: 'article_user_add_hint_nsup') final  String? articleUserAddHintNsup;
+@override@JsonKey(name: 'article_user_add_hint_nsup', fromJson: _intToString) final  String? articleUserAddHintNsup;
 @override final  ArticleDetailCategory? category;
 
 /// Create a copy of ArticleDetailData
@@ -4423,7 +4423,7 @@ abstract mixin class _$ArticleDetailDataCopyWith<$Res> implements $ArticleDetail
   factory _$ArticleDetailDataCopyWith(_ArticleDetailData value, $Res Function(_ArticleDetailData) _then) = __$ArticleDetailDataCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'article_id') int? articleId,@JsonKey(name: 'article_cat_id', fromJson: _intToString) String? articleCatId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_ts') String? articleTs,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_des') String? articleDes,@JsonKey(name: 'article_pic_pos') String? articlePicPos,@JsonKey(name: 'article_visitor', fromJson: _intToString) String? articleVisitor,@JsonKey(name: 'article_is_new') String? articleIsNew,@JsonKey(name: 'article_priority') String? articlePriority,@JsonKey(name: 'article_active_vote') String? articleActiveVote,@JsonKey(name: 'article_active_hint') String? articleActiveHint,@JsonKey(name: 'article_active') String? articleActive,@JsonKey(name: 'article_date') String? articleDate,@JsonKey(name: 'article_pic_active') String? articlePicActive,@JsonKey(name: 'article_last_article') String? articleLastArticle,@JsonKey(name: 'article_publisher_id') String? articlePublisherId,@JsonKey(name: 'article_source') String? articleSource,@JsonKey(name: 'article_source_url') String? articleSourceUrl,@JsonKey(name: 'article_youtube_id') String? articleYoutubeId,@JsonKey(name: 'article_file') String? articleFile,@JsonKey(name: 'article_user_add_hint_nsup') String? articleUserAddHintNsup, ArticleDetailCategory? category
+@JsonKey(name: 'article_id') int? articleId,@JsonKey(name: 'article_cat_id', fromJson: _intToString) String? articleCatId,@JsonKey(name: 'article_title') String? articleTitle,@JsonKey(name: 'article_ts') String? articleTs,@JsonKey(name: 'article_summary') String? articleSummary,@JsonKey(name: 'article_pic') String? articlePic,@JsonKey(name: 'article_des') String? articleDes,@JsonKey(name: 'article_pic_pos', fromJson: _intToString) String? articlePicPos,@JsonKey(name: 'article_visitor', fromJson: _intToString) String? articleVisitor,@JsonKey(name: 'article_is_new', fromJson: _intToString) String? articleIsNew,@JsonKey(name: 'article_priority', fromJson: _intToString) String? articlePriority,@JsonKey(name: 'article_active_vote', fromJson: _intToString) String? articleActiveVote,@JsonKey(name: 'article_active_hint', fromJson: _intToString) String? articleActiveHint,@JsonKey(name: 'article_active', fromJson: _intToString) String? articleActive,@JsonKey(name: 'article_date') String? articleDate,@JsonKey(name: 'article_pic_active', fromJson: _intToString) String? articlePicActive,@JsonKey(name: 'article_last_article', fromJson: _intToString) String? articleLastArticle,@JsonKey(name: 'article_publisher_id', fromJson: _intToString) String? articlePublisherId,@JsonKey(name: 'article_source') String? articleSource,@JsonKey(name: 'article_source_url') String? articleSourceUrl,@JsonKey(name: 'article_youtube_id') String? articleYoutubeId,@JsonKey(name: 'article_file') String? articleFile,@JsonKey(name: 'article_user_add_hint_nsup', fromJson: _intToString) String? articleUserAddHintNsup, ArticleDetailCategory? category
 });
 
 
@@ -4489,7 +4489,7 @@ $ArticleDetailCategoryCopyWith<$Res>? get category {
 /// @nodoc
 mixin _$ArticleDetailCategory {
 
-@JsonKey(name: 'cat_id') int? get catId;@JsonKey(name: 'cat_father_id') String? get catFatherId;@JsonKey(name: 'cat_menus') String? get catMenus;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_sup') String? get catSup;@JsonKey(name: 'cat_date') String? get catDate;@JsonKey(name: 'cat_pic_active') String? get catPicActive;@JsonKey(name: 'cat_lan') String? get catLan;@JsonKey(name: 'cat_pos') String? get catPos;@JsonKey(name: 'cat_active') String? get catActive;@JsonKey(name: 'cat_show_menu') String? get catShowMenu;@JsonKey(name: 'cat_show_main') String? get catShowMain;@JsonKey(name: 'cat_agent') String? get catAgent;@JsonKey(name: 'cat_in_sub_menu') String? get catInSubMenu;
+@JsonKey(name: 'cat_id') int? get catId;@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? get catFatherId;@JsonKey(name: 'cat_menus', fromJson: _intToString) String? get catMenus;@JsonKey(name: 'cat_title') String? get catTitle;@JsonKey(name: 'cat_note') String? get catNote;@JsonKey(name: 'cat_pic') String? get catPic;@JsonKey(name: 'cat_sup', fromJson: _intToString) String? get catSup;@JsonKey(name: 'cat_date') String? get catDate;@JsonKey(name: 'cat_pic_active', fromJson: _intToString) String? get catPicActive;@JsonKey(name: 'cat_lan', fromJson: _intToString) String? get catLan;@JsonKey(name: 'cat_pos', fromJson: _intToString) String? get catPos;@JsonKey(name: 'cat_active', fromJson: _intToString) String? get catActive;@JsonKey(name: 'cat_show_menu', fromJson: _intToString) String? get catShowMenu;@JsonKey(name: 'cat_show_main', fromJson: _intToString) String? get catShowMain;@JsonKey(name: 'cat_agent', fromJson: _intToString) String? get catAgent;@JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) String? get catInSubMenu;
 /// Create a copy of ArticleDetailCategory
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -4522,7 +4522,7 @@ abstract mixin class $ArticleDetailCategoryCopyWith<$Res>  {
   factory $ArticleDetailCategoryCopyWith(ArticleDetailCategory value, $Res Function(ArticleDetailCategory) _then) = _$ArticleDetailCategoryCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_father_id') String? catFatherId,@JsonKey(name: 'cat_menus') String? catMenus,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_sup') String? catSup,@JsonKey(name: 'cat_date') String? catDate,@JsonKey(name: 'cat_pic_active') String? catPicActive,@JsonKey(name: 'cat_lan') String? catLan,@JsonKey(name: 'cat_pos') String? catPos,@JsonKey(name: 'cat_active') String? catActive,@JsonKey(name: 'cat_show_menu') String? catShowMenu,@JsonKey(name: 'cat_show_main') String? catShowMain,@JsonKey(name: 'cat_agent') String? catAgent,@JsonKey(name: 'cat_in_sub_menu') String? catInSubMenu
+@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? catFatherId,@JsonKey(name: 'cat_menus', fromJson: _intToString) String? catMenus,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_sup', fromJson: _intToString) String? catSup,@JsonKey(name: 'cat_date') String? catDate,@JsonKey(name: 'cat_pic_active', fromJson: _intToString) String? catPicActive,@JsonKey(name: 'cat_lan', fromJson: _intToString) String? catLan,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,@JsonKey(name: 'cat_active', fromJson: _intToString) String? catActive,@JsonKey(name: 'cat_show_menu', fromJson: _intToString) String? catShowMenu,@JsonKey(name: 'cat_show_main', fromJson: _intToString) String? catShowMain,@JsonKey(name: 'cat_agent', fromJson: _intToString) String? catAgent,@JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) String? catInSubMenu
 });
 
 
@@ -4642,7 +4642,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_menus')  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup')  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active')  String? catPicActive, @JsonKey(name: 'cat_lan')  String? catLan, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive, @JsonKey(name: 'cat_show_menu')  String? catShowMenu, @JsonKey(name: 'cat_show_main')  String? catShowMain, @JsonKey(name: 'cat_agent')  String? catAgent, @JsonKey(name: 'cat_in_sub_menu')  String? catInSubMenu)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_menus', fromJson: _intToString)  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup', fromJson: _intToString)  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active', fromJson: _intToString)  String? catPicActive, @JsonKey(name: 'cat_lan', fromJson: _intToString)  String? catLan, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive, @JsonKey(name: 'cat_show_menu', fromJson: _intToString)  String? catShowMenu, @JsonKey(name: 'cat_show_main', fromJson: _intToString)  String? catShowMain, @JsonKey(name: 'cat_agent', fromJson: _intToString)  String? catAgent, @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)  String? catInSubMenu)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ArticleDetailCategory() when $default != null:
 return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_that.catNote,_that.catPic,_that.catSup,_that.catDate,_that.catPicActive,_that.catLan,_that.catPos,_that.catActive,_that.catShowMenu,_that.catShowMain,_that.catAgent,_that.catInSubMenu);case _:
@@ -4663,7 +4663,7 @@ return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_menus')  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup')  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active')  String? catPicActive, @JsonKey(name: 'cat_lan')  String? catLan, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive, @JsonKey(name: 'cat_show_menu')  String? catShowMenu, @JsonKey(name: 'cat_show_main')  String? catShowMain, @JsonKey(name: 'cat_agent')  String? catAgent, @JsonKey(name: 'cat_in_sub_menu')  String? catInSubMenu)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_menus', fromJson: _intToString)  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup', fromJson: _intToString)  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active', fromJson: _intToString)  String? catPicActive, @JsonKey(name: 'cat_lan', fromJson: _intToString)  String? catLan, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive, @JsonKey(name: 'cat_show_menu', fromJson: _intToString)  String? catShowMenu, @JsonKey(name: 'cat_show_main', fromJson: _intToString)  String? catShowMain, @JsonKey(name: 'cat_agent', fromJson: _intToString)  String? catAgent, @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)  String? catInSubMenu)  $default,) {final _that = this;
 switch (_that) {
 case _ArticleDetailCategory():
 return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_that.catNote,_that.catPic,_that.catSup,_that.catDate,_that.catPicActive,_that.catLan,_that.catPos,_that.catActive,_that.catShowMenu,_that.catShowMain,_that.catAgent,_that.catInSubMenu);case _:
@@ -4683,7 +4683,7 @@ return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_father_id')  String? catFatherId, @JsonKey(name: 'cat_menus')  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup')  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active')  String? catPicActive, @JsonKey(name: 'cat_lan')  String? catLan, @JsonKey(name: 'cat_pos')  String? catPos, @JsonKey(name: 'cat_active')  String? catActive, @JsonKey(name: 'cat_show_menu')  String? catShowMenu, @JsonKey(name: 'cat_show_main')  String? catShowMain, @JsonKey(name: 'cat_agent')  String? catAgent, @JsonKey(name: 'cat_in_sub_menu')  String? catInSubMenu)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cat_id')  int? catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString)  String? catFatherId, @JsonKey(name: 'cat_menus', fromJson: _intToString)  String? catMenus, @JsonKey(name: 'cat_title')  String? catTitle, @JsonKey(name: 'cat_note')  String? catNote, @JsonKey(name: 'cat_pic')  String? catPic, @JsonKey(name: 'cat_sup', fromJson: _intToString)  String? catSup, @JsonKey(name: 'cat_date')  String? catDate, @JsonKey(name: 'cat_pic_active', fromJson: _intToString)  String? catPicActive, @JsonKey(name: 'cat_lan', fromJson: _intToString)  String? catLan, @JsonKey(name: 'cat_pos', fromJson: _intToString)  String? catPos, @JsonKey(name: 'cat_active', fromJson: _intToString)  String? catActive, @JsonKey(name: 'cat_show_menu', fromJson: _intToString)  String? catShowMenu, @JsonKey(name: 'cat_show_main', fromJson: _intToString)  String? catShowMain, @JsonKey(name: 'cat_agent', fromJson: _intToString)  String? catAgent, @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)  String? catInSubMenu)?  $default,) {final _that = this;
 switch (_that) {
 case _ArticleDetailCategory() when $default != null:
 return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_that.catNote,_that.catPic,_that.catSup,_that.catDate,_that.catPicActive,_that.catLan,_that.catPos,_that.catActive,_that.catShowMenu,_that.catShowMain,_that.catAgent,_that.catInSubMenu);case _:
@@ -4698,25 +4698,25 @@ return $default(_that.catId,_that.catFatherId,_that.catMenus,_that.catTitle,_tha
 @JsonSerializable()
 
 class _ArticleDetailCategory implements ArticleDetailCategory {
-  const _ArticleDetailCategory({@JsonKey(name: 'cat_id') this.catId, @JsonKey(name: 'cat_father_id') this.catFatherId, @JsonKey(name: 'cat_menus') this.catMenus, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_sup') this.catSup, @JsonKey(name: 'cat_date') this.catDate, @JsonKey(name: 'cat_pic_active') this.catPicActive, @JsonKey(name: 'cat_lan') this.catLan, @JsonKey(name: 'cat_pos') this.catPos, @JsonKey(name: 'cat_active') this.catActive, @JsonKey(name: 'cat_show_menu') this.catShowMenu, @JsonKey(name: 'cat_show_main') this.catShowMain, @JsonKey(name: 'cat_agent') this.catAgent, @JsonKey(name: 'cat_in_sub_menu') this.catInSubMenu});
+  const _ArticleDetailCategory({@JsonKey(name: 'cat_id') this.catId, @JsonKey(name: 'cat_father_id', fromJson: _intToString) this.catFatherId, @JsonKey(name: 'cat_menus', fromJson: _intToString) this.catMenus, @JsonKey(name: 'cat_title') this.catTitle, @JsonKey(name: 'cat_note') this.catNote, @JsonKey(name: 'cat_pic') this.catPic, @JsonKey(name: 'cat_sup', fromJson: _intToString) this.catSup, @JsonKey(name: 'cat_date') this.catDate, @JsonKey(name: 'cat_pic_active', fromJson: _intToString) this.catPicActive, @JsonKey(name: 'cat_lan', fromJson: _intToString) this.catLan, @JsonKey(name: 'cat_pos', fromJson: _intToString) this.catPos, @JsonKey(name: 'cat_active', fromJson: _intToString) this.catActive, @JsonKey(name: 'cat_show_menu', fromJson: _intToString) this.catShowMenu, @JsonKey(name: 'cat_show_main', fromJson: _intToString) this.catShowMain, @JsonKey(name: 'cat_agent', fromJson: _intToString) this.catAgent, @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) this.catInSubMenu});
   factory _ArticleDetailCategory.fromJson(Map<String, dynamic> json) => _$ArticleDetailCategoryFromJson(json);
 
 @override@JsonKey(name: 'cat_id') final  int? catId;
-@override@JsonKey(name: 'cat_father_id') final  String? catFatherId;
-@override@JsonKey(name: 'cat_menus') final  String? catMenus;
+@override@JsonKey(name: 'cat_father_id', fromJson: _intToString) final  String? catFatherId;
+@override@JsonKey(name: 'cat_menus', fromJson: _intToString) final  String? catMenus;
 @override@JsonKey(name: 'cat_title') final  String? catTitle;
 @override@JsonKey(name: 'cat_note') final  String? catNote;
 @override@JsonKey(name: 'cat_pic') final  String? catPic;
-@override@JsonKey(name: 'cat_sup') final  String? catSup;
+@override@JsonKey(name: 'cat_sup', fromJson: _intToString) final  String? catSup;
 @override@JsonKey(name: 'cat_date') final  String? catDate;
-@override@JsonKey(name: 'cat_pic_active') final  String? catPicActive;
-@override@JsonKey(name: 'cat_lan') final  String? catLan;
-@override@JsonKey(name: 'cat_pos') final  String? catPos;
-@override@JsonKey(name: 'cat_active') final  String? catActive;
-@override@JsonKey(name: 'cat_show_menu') final  String? catShowMenu;
-@override@JsonKey(name: 'cat_show_main') final  String? catShowMain;
-@override@JsonKey(name: 'cat_agent') final  String? catAgent;
-@override@JsonKey(name: 'cat_in_sub_menu') final  String? catInSubMenu;
+@override@JsonKey(name: 'cat_pic_active', fromJson: _intToString) final  String? catPicActive;
+@override@JsonKey(name: 'cat_lan', fromJson: _intToString) final  String? catLan;
+@override@JsonKey(name: 'cat_pos', fromJson: _intToString) final  String? catPos;
+@override@JsonKey(name: 'cat_active', fromJson: _intToString) final  String? catActive;
+@override@JsonKey(name: 'cat_show_menu', fromJson: _intToString) final  String? catShowMenu;
+@override@JsonKey(name: 'cat_show_main', fromJson: _intToString) final  String? catShowMain;
+@override@JsonKey(name: 'cat_agent', fromJson: _intToString) final  String? catAgent;
+@override@JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) final  String? catInSubMenu;
 
 /// Create a copy of ArticleDetailCategory
 /// with the given fields replaced by the non-null parameter values.
@@ -4751,7 +4751,7 @@ abstract mixin class _$ArticleDetailCategoryCopyWith<$Res> implements $ArticleDe
   factory _$ArticleDetailCategoryCopyWith(_ArticleDetailCategory value, $Res Function(_ArticleDetailCategory) _then) = __$ArticleDetailCategoryCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_father_id') String? catFatherId,@JsonKey(name: 'cat_menus') String? catMenus,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_sup') String? catSup,@JsonKey(name: 'cat_date') String? catDate,@JsonKey(name: 'cat_pic_active') String? catPicActive,@JsonKey(name: 'cat_lan') String? catLan,@JsonKey(name: 'cat_pos') String? catPos,@JsonKey(name: 'cat_active') String? catActive,@JsonKey(name: 'cat_show_menu') String? catShowMenu,@JsonKey(name: 'cat_show_main') String? catShowMain,@JsonKey(name: 'cat_agent') String? catAgent,@JsonKey(name: 'cat_in_sub_menu') String? catInSubMenu
+@JsonKey(name: 'cat_id') int? catId,@JsonKey(name: 'cat_father_id', fromJson: _intToString) String? catFatherId,@JsonKey(name: 'cat_menus', fromJson: _intToString) String? catMenus,@JsonKey(name: 'cat_title') String? catTitle,@JsonKey(name: 'cat_note') String? catNote,@JsonKey(name: 'cat_pic') String? catPic,@JsonKey(name: 'cat_sup', fromJson: _intToString) String? catSup,@JsonKey(name: 'cat_date') String? catDate,@JsonKey(name: 'cat_pic_active', fromJson: _intToString) String? catPicActive,@JsonKey(name: 'cat_lan', fromJson: _intToString) String? catLan,@JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,@JsonKey(name: 'cat_active', fromJson: _intToString) String? catActive,@JsonKey(name: 'cat_show_menu', fromJson: _intToString) String? catShowMenu,@JsonKey(name: 'cat_show_main', fromJson: _intToString) String? catShowMain,@JsonKey(name: 'cat_agent', fromJson: _intToString) String? catAgent,@JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) String? catInSubMenu
 });
 
 

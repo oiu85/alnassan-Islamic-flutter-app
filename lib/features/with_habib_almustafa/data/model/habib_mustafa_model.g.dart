@@ -52,10 +52,10 @@ Map<String, dynamic> _$MetaToJson(_Meta instance) => <String, dynamic>{
 
 _PaginationParams _$PaginationParamsFromJson(Map<String, dynamic> json) =>
     _PaginationParams(
-      articlesPerPage: json['articles_per_page'] as String?,
-      categoriesPerPage: json['categories_per_page'] as String?,
-      articlesPage: json['articles_page'] as String?,
-      categoriesPage: json['categories_page'] as String?,
+      articlesPerPage: _intToString(json['articles_per_page']),
+      categoriesPerPage: _intToString(json['categories_per_page']),
+      articlesPage: _intToString(json['articles_page']),
+      categoriesPage: _intToString(json['categories_page']),
     );
 
 Map<String, dynamic> _$PaginationParamsToJson(_PaginationParams instance) =>
@@ -87,9 +87,9 @@ _SubCategory _$SubCategoryFromJson(Map<String, dynamic> json) => _SubCategory(
   catTitle: json['cat_title'] as String?,
   catNote: json['cat_note'] as String?,
   catPic: json['cat_pic'] as String?,
-  catMenus: json['cat_menus'] as String?,
-  catPos: json['cat_pos'] as String?,
-  catInSubMenu: json['cat_in_sub_menu'] as String?,
+  catMenus: _intToString(json['cat_menus']),
+  catPos: _intToString(json['cat_pos']),
+  catInSubMenu: _intToString(json['cat_in_sub_menu']),
   articles: json['articles'] == null
       ? null
       : ArticlesWrapper.fromJson(json['articles'] as Map<String, dynamic>),
@@ -215,7 +215,7 @@ _CategoryWithArticles _$CategoryWithArticlesFromJson(
   catTitle: json['cat_title'] as String?,
   catNote: json['cat_note'] as String?,
   catPic: json['cat_pic'] as String?,
-  catPos: json['cat_pos'] as String?,
+  catPos: _intToString(json['cat_pos']),
   parent: json['parent'],
   children: json['children'] as List<dynamic>?,
   articles: (json['articles'] as List<dynamic>?)
@@ -267,22 +267,22 @@ _ArticleDetailData _$ArticleDetailDataFromJson(Map<String, dynamic> json) =>
       articleSummary: json['article_summary'] as String?,
       articlePic: json['article_pic'] as String?,
       articleDes: json['article_des'] as String?,
-      articlePicPos: json['article_pic_pos'] as String?,
+      articlePicPos: _intToString(json['article_pic_pos']),
       articleVisitor: _intToString(json['article_visitor']),
-      articleIsNew: json['article_is_new'] as String?,
-      articlePriority: json['article_priority'] as String?,
-      articleActiveVote: json['article_active_vote'] as String?,
-      articleActiveHint: json['article_active_hint'] as String?,
-      articleActive: json['article_active'] as String?,
+      articleIsNew: _intToString(json['article_is_new']),
+      articlePriority: _intToString(json['article_priority']),
+      articleActiveVote: _intToString(json['article_active_vote']),
+      articleActiveHint: _intToString(json['article_active_hint']),
+      articleActive: _intToString(json['article_active']),
       articleDate: json['article_date'] as String?,
-      articlePicActive: json['article_pic_active'] as String?,
-      articleLastArticle: json['article_last_article'] as String?,
-      articlePublisherId: json['article_publisher_id'] as String?,
+      articlePicActive: _intToString(json['article_pic_active']),
+      articleLastArticle: _intToString(json['article_last_article']),
+      articlePublisherId: _intToString(json['article_publisher_id']),
       articleSource: json['article_source'] as String?,
       articleSourceUrl: json['article_source_url'] as String?,
       articleYoutubeId: json['article_youtube_id'] as String?,
       articleFile: json['article_file'] as String?,
-      articleUserAddHintNsup: json['article_user_add_hint_nsup'] as String?,
+      articleUserAddHintNsup: _intToString(json['article_user_add_hint_nsup']),
       category: json['category'] == null
           ? null
           : ArticleDetailCategory.fromJson(
@@ -322,21 +322,21 @@ _ArticleDetailCategory _$ArticleDetailCategoryFromJson(
   Map<String, dynamic> json,
 ) => _ArticleDetailCategory(
   catId: (json['cat_id'] as num?)?.toInt(),
-  catFatherId: json['cat_father_id'] as String?,
-  catMenus: json['cat_menus'] as String?,
+  catFatherId: _intToString(json['cat_father_id']),
+  catMenus: _intToString(json['cat_menus']),
   catTitle: json['cat_title'] as String?,
   catNote: json['cat_note'] as String?,
   catPic: json['cat_pic'] as String?,
-  catSup: json['cat_sup'] as String?,
+  catSup: _intToString(json['cat_sup']),
   catDate: json['cat_date'] as String?,
-  catPicActive: json['cat_pic_active'] as String?,
-  catLan: json['cat_lan'] as String?,
-  catPos: json['cat_pos'] as String?,
-  catActive: json['cat_active'] as String?,
-  catShowMenu: json['cat_show_menu'] as String?,
-  catShowMain: json['cat_show_main'] as String?,
-  catAgent: json['cat_agent'] as String?,
-  catInSubMenu: json['cat_in_sub_menu'] as String?,
+  catPicActive: _intToString(json['cat_pic_active']),
+  catLan: _intToString(json['cat_lan']),
+  catPos: _intToString(json['cat_pos']),
+  catActive: _intToString(json['cat_active']),
+  catShowMenu: _intToString(json['cat_show_menu']),
+  catShowMain: _intToString(json['cat_show_main']),
+  catAgent: _intToString(json['cat_agent']),
+  catInSubMenu: _intToString(json['cat_in_sub_menu']),
 );
 
 Map<String, dynamic> _$ArticleDetailCategoryToJson(

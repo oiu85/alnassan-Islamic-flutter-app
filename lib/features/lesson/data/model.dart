@@ -86,12 +86,12 @@ abstract class LessonArticle with _$LessonArticle {
     @JsonKey(name: 'article_id', fromJson: _stringToInt) int? articleId,
     @JsonKey(name: 'article_title') String? articleTitle,
     @JsonKey(name: 'article_summary') String? articleSummary,
-    @JsonKey(name: 'article_cat_id') String? articleCatId,
+    @JsonKey(name: 'article_cat_id', fromJson: _stringToInt) int? articleCatId,
     @JsonKey(name: 'article_pic') String? articlePic,
-    @JsonKey(name: 'article_visitor') String? articleVisitor,
-    @JsonKey(name: 'article_priority') String? articlePriority,
+    @JsonKey(name: 'article_visitor', fromJson: _stringToInt) int? articleVisitor,
+    @JsonKey(name: 'article_priority', fromJson: _stringToInt) int? articlePriority,
     @JsonKey(name: 'article_date') String? articleDate,
-    @JsonKey(name: 'article_active') String? articleActive,
+    @JsonKey(name: 'article_active', fromJson: _stringToInt) int? articleActive,
     LessonArticleCategory? category,
   }) = _LessonArticle;
 
@@ -104,7 +104,7 @@ abstract class LessonArticleCategory with _$LessonArticleCategory {
   const factory LessonArticleCategory({
     @JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,
     @JsonKey(name: 'cat_title') String? catTitle,
-    @JsonKey(name: 'cat_father_id') String? catFatherId,
+    @JsonKey(name: 'cat_father_id', fromJson: _stringToInt) int? catFatherId,
   }) = _LessonArticleCategory;
 
   factory LessonArticleCategory.fromJson(Map<String, dynamic> json) =>

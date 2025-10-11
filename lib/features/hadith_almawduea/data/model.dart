@@ -85,12 +85,12 @@ abstract class AlmawdueaArticle with _$AlmawdueaArticle {
     @JsonKey(name: 'article_id') int? articleId,
     @JsonKey(name: 'article_title') String? articleTitle,
     @JsonKey(name: 'article_summary') String? articleSummary,
-    @JsonKey(name: 'article_cat_id') String? articleCatId,
+    @JsonKey(name: 'article_cat_id', fromJson: _stringToInt) int? articleCatId,
     @JsonKey(name: 'article_pic') String? articlePic,
-    @JsonKey(name: 'article_visitor') String? articleVisitor,
-    @JsonKey(name: 'article_priority') String? articlePriority,
+    @JsonKey(name: 'article_visitor', fromJson: _stringToInt) int? articleVisitor,
+    @JsonKey(name: 'article_priority', fromJson: _stringToInt) int? articlePriority,
     @JsonKey(name: 'article_date') String? articleDate,
-    @JsonKey(name: 'article_active') String? articleActive,
+    @JsonKey(name: 'article_active', fromJson: _stringToInt) int? articleActive,
     AlmawdueaArticleCategory? category,
   }) = _AlmawdueaArticle;
 

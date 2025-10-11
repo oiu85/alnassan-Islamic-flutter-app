@@ -268,7 +268,7 @@ class ApiConfig {
   // ===== NOTIFICATIONS ENDPOINTS =====
   /// Get notifications with pagination
   static String getNotifications({
-    int perPage = 10,
+    int perPage = 15,
     int page = 1,
   }) {
     return '$baseUrl/public/notifications?per_page=$perPage&page=$page';

@@ -44,9 +44,9 @@ _WordOfTheMonthCategory _$WordOfTheMonthCategoryFromJson(
   catTitle: json['cat_title'] as String?,
   catNote: json['cat_note'] as String?,
   catPic: json['cat_pic'] as String?,
-  catMenus: json['cat_menus'] as String?,
-  catPos: json['cat_pos'] as String?,
-  catInSubMenu: json['cat_in_sub_menu'] as String?,
+  catMenus: _intToString(json['cat_menus']),
+  catPos: _intToString(json['cat_pos']),
+  catInSubMenu: _intToString(json['cat_in_sub_menu']),
   articles: json['articles'] == null
       ? null
       : WordOfTheMonthArticlesWrapper.fromJson(

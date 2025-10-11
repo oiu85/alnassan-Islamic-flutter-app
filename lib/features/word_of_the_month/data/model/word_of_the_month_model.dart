@@ -40,11 +40,11 @@ abstract class WordOfTheMonthCategory with _$WordOfTheMonthCategory {
     String? catNote,
     @JsonKey(name: 'cat_pic')
     String? catPic,
-    @JsonKey(name: 'cat_menus')
+    @JsonKey(name: 'cat_menus', fromJson: _intToString)
     String? catMenus,
-    @JsonKey(name: 'cat_pos')
+    @JsonKey(name: 'cat_pos', fromJson: _intToString)
     String? catPos,
-    @JsonKey(name: 'cat_in_sub_menu')
+    @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)
     String? catInSubMenu,
     WordOfTheMonthArticlesWrapper? articles,
   }) = _WordOfTheMonthCategory;

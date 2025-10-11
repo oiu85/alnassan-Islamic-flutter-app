@@ -40,11 +40,13 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
       create: (context) {
         final bloc = getIt<LessonBloc>();
         // Fetch all lessons from the specific category
-        bloc.add(FetchAllLessonsFromCategoryEvent(
-          categoryId: widget.categoryId,
-          page: 1,
-          perPage: widget.perPage,
-        ));
+        bloc.add(
+          FetchAllLessonsFromCategoryEvent(
+            categoryId: widget.categoryId,
+            page: 1,
+            perPage: widget.perPage,
+          ),
+        );
         return bloc;
       },
       child: ResponsiveBuilder(
@@ -65,17 +67,16 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
           body: BlocConsumer<LessonBloc, LessonState>(
             listener: (context, state) {
               // Handle article detail navigation
-              if (state.articleDetailStatus.isSuccess() && 
-                  state.htmlContent != null && 
+              if (state.articleDetailStatus.isSuccess() &&
+                  state.htmlContent != null &&
                   !state.hasNavigatedToArticle) {
                 // Mark that navigation has happened
                 context.read<LessonBloc>().add(MarkArticleNavigatedEvent());
-                
+
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => HtmlBookViewerPage(
-                      htmlContent: state.htmlContent!,
-                    ),
+                    builder: (context) =>
+                        HtmlBookViewerPage(htmlContent: state.htmlContent!),
                   ),
                 );
               }
@@ -88,11 +89,13 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
                 emptyMessage: 'لا توجد دروس متاحة في هذه الفئة',
                 loadingMessage: 'جاري تحميل الدروس...',
                 onRetry: () {
-                  context.read<LessonBloc>().add(FetchAllLessonsFromCategoryEvent(
-                    categoryId: widget.categoryId,
-                    page: 1,
-                    perPage: widget.perPage,
-                  ));
+                  context.read<LessonBloc>().add(
+                    FetchAllLessonsFromCategoryEvent(
+                      categoryId: widget.categoryId,
+                      page: 1,
+                      perPage: widget.perPage,
+                    ),
+                  );
                 },
                 animationSize: 200,
               );
@@ -155,34 +158,32 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
                 crossAxisSpacing: 10.w,
                 mainAxisSpacing: 10.h,
               ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  if (index >= state.articles.length) {
-                    return null;
-                  }
-                  
-                  final lesson = state.articles[index];
-                  final isLoading = state.articleDetailStatus.isLoading() && 
-                                   state.loadingArticleId == lesson.articleId;
-                  return lessonCardBuild(
-                    lesson: lesson.articleTitle ?? 'عنوان غير متوفر',
-                    viewCont: lesson.articleVisitor ?? '0',
-                    title: 'فضيلة الشيخ',
-                    imagePath: Assets.images.backgroundZh.path,
-                    imageNamePath: Assets.images.nassanName.path,
-                    width: 161.w,
-                    height: 240.h,
-                    imageWidth: 100.w,
-                    imageHeight: 100.h,
-                    context: context,
-                    isLoading: isLoading,
-                    onTap: () {
-                      context.read<LessonBloc>().add(LessonCardClickEvent(lesson: lesson));
-                    },
-                  );
-                },
-                childCount: state.articles.length,
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                if (index >= state.articles.length) {
+                  return null;
+                }
+                final lesson = state.articles[index];
+                final isLoading =                  state.articleDetailStatus.isLoading() &&
+                    state.loadingArticleId == lesson.articleId;
+                return lessonCardBuild(
+                  lesson: lesson.articleTitle ?? 'عنوان غير متوفر',
+                  viewCont: lesson.articleVisitor?.toString() ?? '0',
+                  title: 'فضيلة الشيخ',
+                  imagePath: Assets.images.backgroundZh.path,
+                  imageNamePath: Assets.images.nassanName.path,
+                  width: 161.w,
+                  height: 240.h,
+                  imageWidth: 100.w,
+                  imageHeight: 100.h,
+                  context: context,
+                  isLoading: isLoading,
+                  onTap: () {
+                    context.read<LessonBloc>().add(
+                      LessonCardClickEvent(lesson: lesson),
+                    );
+                  },
+                );
+              }, childCount: state.articles.length),
             ),
           ),
         ],
@@ -190,4 +191,3 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
     );
   }
 }
-

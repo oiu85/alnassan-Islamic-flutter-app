@@ -117,12 +117,12 @@ _AlmawdueaArticle _$AlmawdueaArticleFromJson(Map<String, dynamic> json) =>
       articleId: (json['article_id'] as num?)?.toInt(),
       articleTitle: json['article_title'] as String?,
       articleSummary: json['article_summary'] as String?,
-      articleCatId: json['article_cat_id'] as String?,
+      articleCatId: _stringToInt(json['article_cat_id']),
       articlePic: json['article_pic'] as String?,
-      articleVisitor: json['article_visitor'] as String?,
-      articlePriority: json['article_priority'] as String?,
+      articleVisitor: _stringToInt(json['article_visitor']),
+      articlePriority: _stringToInt(json['article_priority']),
       articleDate: json['article_date'] as String?,
-      articleActive: json['article_active'] as String?,
+      articleActive: _stringToInt(json['article_active']),
       category: json['category'] == null
           ? null
           : AlmawdueaArticleCategory.fromJson(

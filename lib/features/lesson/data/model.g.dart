@@ -115,12 +115,12 @@ _LessonArticle _$LessonArticleFromJson(Map<String, dynamic> json) =>
       articleId: _stringToInt(json['article_id']),
       articleTitle: json['article_title'] as String?,
       articleSummary: json['article_summary'] as String?,
-      articleCatId: json['article_cat_id'] as String?,
+      articleCatId: _stringToInt(json['article_cat_id']),
       articlePic: json['article_pic'] as String?,
-      articleVisitor: json['article_visitor'] as String?,
-      articlePriority: json['article_priority'] as String?,
+      articleVisitor: _stringToInt(json['article_visitor']),
+      articlePriority: _stringToInt(json['article_priority']),
       articleDate: json['article_date'] as String?,
-      articleActive: json['article_active'] as String?,
+      articleActive: _stringToInt(json['article_active']),
       category: json['category'] == null
           ? null
           : LessonArticleCategory.fromJson(
@@ -147,7 +147,7 @@ _LessonArticleCategory _$LessonArticleCategoryFromJson(
 ) => _LessonArticleCategory(
   catId: _stringToInt(json['cat_id']),
   catTitle: json['cat_title'] as String?,
-  catFatherId: json['cat_father_id'] as String?,
+  catFatherId: _stringToInt(json['cat_father_id']),
 );
 
 Map<String, dynamic> _$LessonArticleCategoryToJson(
