@@ -55,7 +55,7 @@ class SettingsService extends ChangeNotifier {
     _fontSizeMultiplier = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_fontSizeMultiplierKey, value);
-    notifyListeners();
+    // notifyListeners(); // Removed to prevent Navigator context issues
   }
 
   // Update UI scale multiplier
@@ -63,7 +63,7 @@ class SettingsService extends ChangeNotifier {
     _uiScaleMultiplier = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_uiScaleMultiplierKey, value);
-    notifyListeners();
+    // notifyListeners(); // Removed to prevent Navigator context issues
   }
 
   // Update dark mode
@@ -71,7 +71,7 @@ class SettingsService extends ChangeNotifier {
     _isDarkMode = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_isDarkModeKey, value);
-    notifyListeners();
+    // notifyListeners(); // Removed to prevent Navigator context issues
   }
 
   // Update selected language
@@ -79,7 +79,7 @@ class SettingsService extends ChangeNotifier {
     _selectedLanguage = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_selectedLanguageKey, value);
-    notifyListeners();
+    // notifyListeners(); // Removed to prevent Navigator context issues
   }
 
   // Update download path
@@ -87,7 +87,7 @@ class SettingsService extends ChangeNotifier {
     _downloadPath = value;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_downloadPathKey, value);
-    notifyListeners();
+    // notifyListeners(); // Removed to prevent Navigator context issues
   }
 
   // Reset to default values
@@ -104,7 +104,7 @@ class SettingsService extends ChangeNotifier {
     await prefs.setBool(_isDarkModeKey, _defaultIsDarkMode);
     await prefs.setString(_selectedLanguageKey, _defaultLanguage);
     await prefs.setString(_downloadPathKey, _defaultDownloadPath);
-    notifyListeners();
+    // notifyListeners(); // Removed to prevent Navigator context issues
   }
 
   // Get effective font size (base size * multiplier)

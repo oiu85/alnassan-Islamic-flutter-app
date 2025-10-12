@@ -123,6 +123,9 @@ class _FatwaListContentState extends State<_FatwaListContent> {
       child: ListView.builder(
         controller: _scrollController,
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        addAutomaticKeepAlives: false, // Don't keep alive off-screen items
+        addRepaintBoundaries: true, // Isolate repaints for better performance
+        cacheExtent: 100, // Cache 100 pixels off-screen
         itemCount: state.fatwas.length + (state.status.isLoadingMore() ? 1 : 0),
         itemBuilder: (context, index) {
           if (index >= state.fatwas.length) {

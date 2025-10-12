@@ -18,6 +18,12 @@ class VideoCard extends StatelessWidget {
     required this.video,
   });
 
+  // Static RegExp patterns for better performance (compiled once)
+  static final List<RegExp> _youtubePatterns = [
+    RegExp(r'(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)'),
+    RegExp(r'youtube\.com\/v\/([^&\n?#]+)'),
+  ];
+
   /// Gets YouTube thumbnail URL for the video
   String? _getYouTubeThumbnailUrl() {
     // Try to get YouTube ID from videoYoutubeId first
@@ -40,13 +46,8 @@ class VideoCard extends StatelessWidget {
   String? _extractYouTubeIdFromUrl(String url) {
     if (url.isEmpty) return null;
     
-    // Handle different YouTube URL formats
-    final patterns = [
-      RegExp(r'(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)'),
-      RegExp(r'youtube\.com\/v\/([^&\n?#]+)'),
-    ];
-    
-    for (final pattern in patterns) {
+    // Use static patterns for better performance
+    for (final pattern in _youtubePatterns) {
       final match = pattern.firstMatch(url);
       if (match != null && match.groupCount > 0) {
         return match.group(1);
@@ -63,12 +64,17 @@ class VideoCard extends StatelessWidget {
     if (youtubeThumbnailUrl != null) {
       return CachedNetworkImage(
         imageUrl: youtubeThumbnailUrl,
+        cacheKey: 'video_${video.videoId}', // Unique cache key for better cache management
         width: double.infinity,
         height: double.infinity,
         fit: BoxFit.cover,
+        memCacheHeight: 400, // Limit memory cache size for better performance
+        memCacheWidth: 400,
+        maxHeightDiskCache: 600, // Limit disk cache size
+        maxWidthDiskCache: 600,
         placeholder: (context, url) => Container(
           color: AppColors.primary.withValues(alpha: 0.1),
-          child: Center(
+          child: const Center(
             child: CircularProgressIndicator(
               color: AppColors.primary,
               strokeWidth: 2,
@@ -76,8 +82,8 @@ class VideoCard extends StatelessWidget {
           ),
         ),
         errorWidget: (context, url, error) => _buildDefaultImage(),
-        fadeInDuration: Duration(milliseconds: 300),
-        fadeOutDuration: Duration(milliseconds: 100),
+        fadeInDuration: const Duration(milliseconds: 200),
+        fadeOutDuration: const Duration(milliseconds: 100),
       );
     }
     
@@ -96,32 +102,33 @@ class VideoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12.r),
-                  topRight: Radius.circular(12.r),
+    return RepaintBoundary(
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12.r),
+                    topRight: Radius.circular(12.r),
+                  ),
+                  color: AppColors.primary.withValues(alpha: 0.1),
                 ),
-                color: AppColors.primary.withValues(alpha: 0.1),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12.r),
-                  topRight: Radius.circular(12.r),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12.r),
+                    topRight: Radius.circular(12.r),
+                  ),
+                  child: _buildThumbnailImage(),
                 ),
-                child: _buildThumbnailImage(),
               ),
             ),
-          ),
           // Video info area
           Expanded(
             flex: 2,
@@ -133,7 +140,7 @@ class VideoCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
+                      Flexible(
                         child: Text(
                           "عنوان الدرس:",
                           style: TextStyle(
@@ -146,7 +153,9 @@ class VideoCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                      SizedBox(width: 4.w),
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             Icons.remove_red_eye_outlined,
@@ -161,6 +170,8 @@ class VideoCard extends StatelessWidget {
                               fontFamily: FontFamily.tajawal,
                               color: AppColors.grey,
                             ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -175,43 +186,49 @@ class VideoCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  Spacer(),
-                  InkWell(
-                    onTap: () {
-                      // Navigate to video player page with VideoBloc provider
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (context) => getIt<VideoBloc>(),
-                            child: VideoPlayerPage(video: video),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 30.h,
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 4.h),
-                      decoration: BoxDecoration(
-                        color: AppColors.secondary,
-                        borderRadius: BorderRadius.circular(40.r),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.play_arrow, color: Colors.white, size: 16.f),
-                          SizedBox(width: 4.w),
-                          Text(
-                            "تشغيل",
-                            style: TextStyle(
-                              fontFamily: FontFamily.tajawal,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 10.f, 
+                  const Spacer(),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        // Navigate to video player page with VideoBloc provider
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BlocProvider(
+                              create: (context) => getIt<VideoBloc>(),
+                              child: VideoPlayerPage(video: video),
                             ),
                           ),
-                        ],
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(40.r),
+                      child: Ink(
+                        height: 30.h,
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(vertical: 4.h),
+                        decoration: BoxDecoration(
+                          color: AppColors.secondary,
+                          borderRadius: BorderRadius.circular(40.r),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.play_arrow, color: Colors.white, size: 16.f),
+                            SizedBox(width: 4.w),
+                            Text(
+                              "تشغيل",
+                              style: TextStyle(
+                                fontFamily: FontFamily.tajawal,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 10.f,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -220,6 +237,7 @@ class VideoCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

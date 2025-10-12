@@ -113,12 +113,17 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     if (youtubeThumbnailUrl != null) {
       return CachedNetworkImage(
         imageUrl: youtubeThumbnailUrl,
+        cacheKey: 'video_${video.videoId}', // Unique cache key for better cache management
         width: double.infinity,
         height: double.infinity,
         fit: BoxFit.cover,
+        memCacheHeight: 300, // Limit memory cache size for better performance
+        memCacheWidth: 400,
+        maxHeightDiskCache: 500, // Limit disk cache size
+        maxWidthDiskCache: 600,
         placeholder: (context, url) => Container(
           color: AppColors.primary.withValues(alpha: 0.1),
-          child: Center(
+          child: const Center(
             child: CircularProgressIndicator(
               color: AppColors.primary,
               strokeWidth: 2,
@@ -126,8 +131,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           ),
         ),
         errorWidget: (context, url, error) => _buildDefaultSuggestedImage(),
-        fadeInDuration: Duration(milliseconds: 300),
-        fadeOutDuration: Duration(milliseconds: 100),
+        fadeInDuration: const Duration(milliseconds: 200),
+        fadeOutDuration: const Duration(milliseconds: 100),
       );
     }
     
@@ -223,6 +228,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                               content: Text(
                                                 'انتهى الفيديو',
                                                 style: TextStyle(fontFamily: FontFamily.tajawal),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
                                               ),
                                               backgroundColor: AppColors.primary,
                                               behavior: SnackBarBehavior.floating,
@@ -254,15 +261,17 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                               strokeWidth: 3.w,
                                             ),
                                             SizedBox(height: 20.h),
-                                            Text(
-                                              'جاري تحميل الفيديو...',
-                                              style: TextStyle(
-                                                fontFamily: FontFamily.tajawal,
-                                                color: AppColors.primary,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
+                            Text(
+                              'جاري تحميل الفيديو...',
+                              style: TextStyle(
+                                fontFamily: FontFamily.tajawal,
+                                color: AppColors.primary,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                                           ],
                                         ),
                                       ),
@@ -278,6 +287,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                 children: [
                                   // Title and Actions Row
                                   Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: Text(
@@ -332,34 +342,40 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                   // View count and metadata
                                   Row(
                                     children: [
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 12.w,
-                                          vertical: 6.h,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.grey.withValues(alpha: 0.1),
-                                          borderRadius: BorderRadius.circular(20.r),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Icon(
-                                              Icons.remove_red_eye_outlined,
-                                              size: 16.w,
-                                              color: AppColors.grey,
-                                            ),
-                                            SizedBox(width: 6.w),
-                                            Text(
-                                              widget.video.videoVisitor,
-                                              style: TextStyle(
-                                                fontSize: 14.sp,
-                                                fontFamily: FontFamily.tajawal,
+                                      Flexible(
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 12.w,
+                                            vertical: 6.h,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.grey.withValues(alpha: 0.1),
+                                            borderRadius: BorderRadius.circular(20.r),
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                Icons.remove_red_eye_outlined,
+                                                size: 16.w,
                                                 color: AppColors.grey,
-                                                fontWeight: FontWeight.w500,
                                               ),
-                                            ),
-                                          ],
+                                              SizedBox(width: 6.w),
+                                              Flexible(
+                                                child: Text(
+                                                  widget.video.videoVisitor,
+                                                  style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    fontFamily: FontFamily.tajawal,
+                                                    color: AppColors.grey,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       SizedBox(width: 12.w),
@@ -380,6 +396,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                             color: AppColors.primary,
                                             fontWeight: FontWeight.w600,
                                           ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                         ),
                                       ),
                                     ],
@@ -472,13 +490,17 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                     ),
                   ),
                   SizedBox(width: 12.w),
-                  Text(
-                    'جاري تحميل الفيديوهات المقترحة...',
-                    style: TextStyle(
-                      fontFamily: FontFamily.tajawal,
-                      fontSize: 16.sp,
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Text(
+                      'جاري تحميل الفيديوهات المقترحة...',
+                      style: TextStyle(
+                        fontFamily: FontFamily.tajawal,
+                        fontSize: 16.sp,
+                        color: AppColors.grey,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                 ],
@@ -551,13 +573,17 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                     ),
                   ),
                   SizedBox(width: 12.w),
-                  Text(
-                    'جاري تحميل الفيديوهات...',
-                    style: TextStyle(
-                      fontFamily: FontFamily.tajawal,
-                      fontSize: 16.sp,
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Text(
+                      'جاري تحميل الفيديوهات...',
+                      style: TextStyle(
+                        fontFamily: FontFamily.tajawal,
+                        fontSize: 16.sp,
+                        color: AppColors.grey,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                 ],
@@ -661,6 +687,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
@@ -726,16 +754,20 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                     ),
                   ),
                   SizedBox(width: 12.w),
-                  Text(
-                    'مواضيع مقترحة',
-                    style: TextStyle(
-                      fontFamily: FontFamily.tajawal,
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.black,
+                  Expanded(
+                    child: Text(
+                      'مواضيع مقترحة',
+                      style: TextStyle(
+                        fontFamily: FontFamily.tajawal,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
-                  Spacer(),
+                  SizedBox(width: 8.w),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                     decoration: BoxDecoration(
@@ -750,6 +782,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                 ],
@@ -757,15 +791,21 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
             ),
             
             // Videos List
-            Container(
+            SizedBox(
               height: 220.sp,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 20.h),
+                addAutomaticKeepAlives: false, // Don't keep alive off-screen items
+                addRepaintBoundaries: true, // Isolate repaints for better performance
+                cacheExtent: 200, // Cache 200 pixels off-screen for smoother scrolling
                 itemCount: randomVideos.length,
                 itemBuilder: (context, index) {
                   final video = randomVideos[index];
-                  return _buildSuggestedVideoCard(context, video);
+                  return RepaintBoundary(
+                    key: ValueKey(video.videoId), // Stable key for better performance
+                    child: _buildSuggestedVideoCard(context, video),
+                  );
                 },
               ),
             ),
@@ -877,6 +917,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                               fontFamily: FontFamily.tajawal,
                               fontWeight: FontWeight.w600,
                             ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ),
                       ),
@@ -892,17 +934,19 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          video.videoTitle,
-                          style: TextStyle(
-                            fontFamily: FontFamily.tajawal,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.black,
-                            height: 1.3,
+                        Flexible(
+                          child: Text(
+                            video.videoTitle,
+                            style: TextStyle(
+                              fontFamily: FontFamily.tajawal,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                              height: 1.3,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                         ),
                         Spacer(),
                         Row(
@@ -913,16 +957,20 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                               color: AppColors.grey,
                             ),
                             SizedBox(width: 6.w),
-                            Text(
-                              video.videoVisitor,
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontFamily: FontFamily.tajawal,
-                                color: AppColors.grey,
-                                fontWeight: FontWeight.w500,
+                            Flexible(
+                              child: Text(
+                                video.videoVisitor,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontFamily: FontFamily.tajawal,
+                                  color: AppColors.grey,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                             ),
-                            Spacer(),
+                            SizedBox(width: 8.w),
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
                               decoration: BoxDecoration(
@@ -937,6 +985,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.w600,
                                 ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                             ),
                           ],

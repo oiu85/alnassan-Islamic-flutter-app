@@ -60,7 +60,7 @@ class VideoPage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "المكتبة المرئية",
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
@@ -70,6 +70,9 @@ class VideoPage extends StatelessWidget {
                           ),
                           // Filter button for pagination
                           BlocBuilder<VideoBloc, VideoState>(
+                            buildWhen: (previous, current) => 
+                              previous.currentPage != current.currentPage ||
+                              previous.status != current.status,
                             builder: (context, state) {
                               return context.read<VideoBloc>().buildFilterButton(
                                 context: context,
@@ -87,7 +90,10 @@ class VideoPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 10.sp),
                       child: GridView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
+                        addAutomaticKeepAlives: false, // Don't keep alive off-screen items
+                        addRepaintBoundaries: true, // Isolate repaints for better performance
+                        cacheExtent: 100, // Cache 100 pixels off-screen
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: context.deviceValue(
                             mobile: 2,
@@ -100,7 +106,11 @@ class VideoPage extends StatelessWidget {
                         ),
                         itemCount: state.videos.length,
                         itemBuilder: (context, index) {
-                          return VideoCard(video: state.videos[index]);
+                          final video = state.videos[index];
+                          return VideoCard(
+                            key: ValueKey(video.videoId), // Stable key for better performance
+                            video: video,
+                          );
                         },
                       ),
                     ),

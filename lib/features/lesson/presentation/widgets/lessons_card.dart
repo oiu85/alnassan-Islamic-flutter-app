@@ -52,6 +52,9 @@ Widget lessonCardBuild({
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
@@ -67,47 +70,61 @@ Widget lessonCardBuild({
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "الدرس:",
-                  style: TextStyle(
-                    fontSize: 14.f,
-                    fontFamily: FontFamily.tajawal,
-                    color: AppColors.grey,
-                    fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Text(
+                    "الدرس:",
+                    style: TextStyle(
+                      fontSize: 14.f,
+                      fontFamily: FontFamily.tajawal,
+                      color: AppColors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      viewCont,
-                      style: TextStyle(
-                        fontSize: 13.f,
-                        fontFamily: FontFamily.tajawal,
-                        color: AppColors.grey,
+                Flexible(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          viewCont,
+                          style: TextStyle(
+                            fontSize: 13.f,
+                            fontFamily: FontFamily.tajawal,
+                            color: AppColors.grey,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.remove_red_eye_outlined),
-                      iconSize: 26.f,
-                      color: AppColors.grey,
-                    ),
-                  ],
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.remove_red_eye_outlined),
+                        iconSize: 26.f,
+                        color: AppColors.grey,
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: Text(
-              lesson,
-              style: TextStyle(
-                fontSize: 13.f,
-                fontFamily: FontFamily.tajawal,
-                color: AppColors.grey,
+            child: SizedBox(
+              width: double.infinity,
+              child: Text(
+                lesson,
+                style: TextStyle(
+                  fontSize: 13.f,
+                  fontFamily: FontFamily.tajawal,
+                  color: AppColors.grey,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
           GestureDetector(
@@ -119,22 +136,26 @@ Widget lessonCardBuild({
                 borderRadius: BorderRadius.circular(80.r),
                 color: isLoading ? AppColors.grey : AppColors.primary,
               ),
-              child: isLoading
-                  ? SizedBox(
-                width: 22.w,
-                height: 22.h,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.5.w,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              )
-                  : Text(
-                "عرض التفاصيل",
-                style: TextStyle(
-                  fontFamily: FontFamily.tajawal,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12.f,
+              child: Center(
+                child: isLoading
+                    ? SizedBox(
+                  width: 16.w,
+                  height: 16.h,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5.w,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
+                )
+                    : Text(
+                  "عرض التفاصيل",
+                  style: TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 11.f,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
             ),

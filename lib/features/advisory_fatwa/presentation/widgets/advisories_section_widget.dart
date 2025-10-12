@@ -136,14 +136,18 @@ class AdvisoriesSectionWidget extends StatelessWidget {
     return Container(
       color: Colors.white,
       height: containerHeight,
-            child: ListView.builder(
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
+        addAutomaticKeepAlives: false, // Don't keep alive off-screen items
+        addRepaintBoundaries: true, // Isolate repaints for better performance
+        cacheExtent: 200, // Cache 200 pixels off-screen for smoother scrolling
         itemCount: displayAdvisories.length,
         itemBuilder: (context, index) {
           final advisory = displayAdvisories[index];
           return Padding(
             padding: EdgeInsets.only(right: index == 0 ? 0 : 12.w),
             child: AdvisoryFatwaCardWidget(
+              key: ValueKey(advisory.advisoryId), // Stable key for better performance
               advisory: advisory,
               width: context.deviceValue(mobile: 280.w, tablet: 320.w, desktop: 360.w),
               onTap: () {

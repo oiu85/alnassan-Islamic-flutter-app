@@ -25,15 +25,16 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        // Make card responsive to available width
-        final double cardWidth = widget.width ?? constraints.maxWidth;
-        final double effectiveWidth = cardWidth == double.infinity 
-            ? constraints.maxWidth 
-            : cardWidth.clamp(200.0, constraints.maxWidth);
-        
-        return Container(
+    return RepaintBoundary(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Make card responsive to available width
+          final double cardWidth = widget.width ?? constraints.maxWidth;
+          final double effectiveWidth = cardWidth == double.infinity 
+              ? constraints.maxWidth 
+              : cardWidth.clamp(200.0, constraints.maxWidth);
+          
+          return Container(
           width: effectiveWidth,
           margin: EdgeInsets.symmetric(
             horizontal: 4.w,
@@ -41,7 +42,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
           ),
           padding: EdgeInsets.symmetric(
             horizontal: effectiveWidth * 0.07, // Responsive padding
-            vertical: 20.h,
+            vertical: 18.h, // Reduced from 20.h to prevent overflow
           ),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -60,20 +61,19 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildCategoryBadge(),
-              SizedBox(height: 12.h),
+              SizedBox(height: 10.h), // Reduced from 12.h
               _buildQuestionLabel(),
               SizedBox(height: 8.h),
-              Flexible(
-                child: _buildQuestionText(),
-              ),
-              SizedBox(height: 12.h),
+              _buildQuestionText(),
+              SizedBox(height: 10.h), // Reduced from 12.h
               _buildStatsRow(),
-              SizedBox(height: 20.h),
+              SizedBox(height: 16.h), // Reduced from 20.h
               _buildActionButton(),
             ],
           ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -123,6 +123,8 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
           fontFamily: FontFamily.tajawal,
           fontSize: 12.f,
         ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
       ),
     );
   }
@@ -132,190 +134,181 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
                                widget.advisory.advisoryTitle ?? 
                                'سؤال';
     
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        // Calculate if text needs expand button based on available width
-        final TextPainter textPainter = TextPainter(
-          text: TextSpan(
-            text: questionText,
-            style: TextStyle(
-              fontSize: 13.f,
-              fontFamily: FontFamily.tajawal,
-              height: 1.5,
-              color: Colors.grey[800],
-            ),
-          ),
-          maxLines: 3,
-          textDirection: TextDirection.rtl,
-        )..layout(maxWidth: constraints.maxWidth);
-        
-        final bool isTextOverflowing = textPainter.didExceedMaxLines;
-        
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              questionText,
-              style: TextStyle(
-                fontSize: 13.f,
-                fontFamily: FontFamily.tajawal,
-                height: 1.5,
-                color: Colors.grey[800],
-              ),
-              maxLines: _isExpanded ? 5 : 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        );
-      },
+    return Text(
+      questionText,
+      style: TextStyle(
+        fontSize: 13.f,
+        fontFamily: FontFamily.tajawal,
+        height: 1.5,
+        color: Colors.grey[800],
+      ),
+      maxLines: _isExpanded ? 5 : 3,
+      overflow: TextOverflow.ellipsis,
     );
   }
 
   Widget _buildStatsRow() {
     return Row(
       children: [
-        _buildFatwaNumber(),
-        const Spacer(),
-        _buildDateChip(),
+        Flexible(
+          flex: 2,
+          child: _buildFatwaNumber(),
+        ),
         SizedBox(width: 8.w),
-        _buildViewsChip(),
+        Flexible(
+          child: _buildDateChip(),
+        ),
+        SizedBox(width: 8.w),
+        Flexible(
+          child: _buildViewsChip(),
+        ),
       ],
     );
   }
 
   Widget _buildFatwaNumber() {
-    return Container(
-      child: Column(
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "رقم الفتوى: ",
-                style: TextStyle(
-                  fontFamily: FontFamily.tajawal,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12.f,
-                  color: AppColors.primary,
-                ),
-              ),
-            ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "رقم الفتوى: ",
+          style: TextStyle(
+            fontFamily: FontFamily.tajawal,
+            fontWeight: FontWeight.bold,
+            fontSize: 12.f,
+            color: AppColors.primary,
           ),
-          Text(
-            widget.advisory.advisoryId?.toString() ?? '-',
-            style: TextStyle(
-              fontFamily: FontFamily.tajawal,
-              fontSize: 12.f,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primary,
-            ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+        Text(
+          widget.advisory.advisoryId?.toString() ?? '-',
+          style: TextStyle(
+            fontFamily: FontFamily.tajawal,
+            fontSize: 12.f,
+            fontWeight: FontWeight.w600,
+            color: AppColors.primary,
           ),
-        ],
-      ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+      ],
     );
   }
 
   Widget _buildDateChip() {
-    return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.calendar_month_outlined,
-            size: 14.f,
-            color: Colors.grey[600],
-          ),
-          SizedBox(width: 4.w),
-          Text(
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.calendar_month_outlined,
+          size: 14.f,
+          color: Colors.grey[600],
+        ),
+        SizedBox(width: 4.w),
+        Flexible(
+          child: Text(
             _formatDate(widget.advisory.advisoryQuestionDate),
             style: TextStyle(
               fontSize: 11.f,
               fontFamily: FontFamily.tajawal,
               color: Colors.grey[600],
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildViewsChip() {
-    return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.remove_red_eye_outlined,
-            size: 14.f,
-            color: Colors.grey[600],
-          ),
-          SizedBox(width: 4.w),
-          Text(
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.remove_red_eye_outlined,
+          size: 14.f,
+          color: Colors.grey[600],
+        ),
+        SizedBox(width: 4.w),
+        Flexible(
+          child: Text(
             widget.advisory.advisoryVisitor?.toString() ?? '0',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
               fontSize: 11.f,
               color: Colors.grey[600],
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildActionButton() {
-    return InkWell(
-      onTap: () {
-        if (widget.advisory.advisoryId != null && widget.onTap != null) {
-          widget.onTap!();
-        }
-      },
-      borderRadius: BorderRadius.circular(25),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.w,
-          vertical: 14.h,
-        ),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppColors.primary,
-              AppColors.primary.withOpacity(0.8),
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          if (widget.advisory.advisoryId != null && widget.onTap != null) {
+            widget.onTap!();
+          }
+        },
+        borderRadius: BorderRadius.circular(25),
+        child: Ink(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+            horizontal: 16.w,
+            vertical: 14.h,
           ),
-          borderRadius: BorderRadius.circular(25),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.primary,
+                AppColors.primary.withOpacity(0.8),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "عرض الإجابة",
-              style: TextStyle(
-                fontFamily: FontFamily.tajawal,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.f,
+            borderRadius: BorderRadius.circular(25),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withOpacity(0.3),
+                spreadRadius: 1,
+                blurRadius: 8,
+                offset: const Offset(0, 4),
               ),
-            ),
-            SizedBox(width: 8.w),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.white,
-              size: 16.f,
-            ),
-          ],
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: Text(
+                  "عرض الإجابة",
+                  style: TextStyle(
+                    fontFamily: FontFamily.tajawal,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.f,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+              SizedBox(width: 8.w),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.white,
+                size: 16.f,
+              ),
+            ],
+          ),
         ),
       ),
     );

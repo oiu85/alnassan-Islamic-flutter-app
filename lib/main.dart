@@ -6,10 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/di/app_dependencies.dart';
-import 'core/responsive/device_type.dart';
 import 'core/responsive/screen_util_res.dart';
 import 'core/navigation/bloc/shared_bloc.dart';
-import 'core/settings/presentation/widgets/settings_listener.dart';
 import 'features/biography/presentation/bloc/biography_bloc.dart';
 import 'features/sound_library/presentation/bloc/sound_library_bloc.dart';
 import 'features/sound_library/presentation/widgets/global_audio_player.dart';
@@ -59,37 +57,28 @@ class MyApp extends StatelessWidget {
               create: (context) => getIt<GlobalSearchBloc>(),
             ),
           ],
-          child: SettingsListener(
-            child: MaterialApp(
-              color: Colors.white,
-              title: ' الشيخ احمد النعسان',
-              home: const SplashScreen(),
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [Locale('ar')],
-              locale: const Locale('ar'),
-              builder: (context, widget) {
-                return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                    textScaler: TextScaler.linear(
-                      DeviceTypeUtil.getValue(
-                        context: context,
-                        mobile: 1.0,
-                        tablet: 1.15,
-                        desktop: 1.3,
-                      ),
-                    ),
-                  ),
-                  child: GlobalAudioPlayer(
-                    child: widget!,
-                  ),
-                );
-              },
-            ),
+          child: MaterialApp(
+            color: Colors.white,
+            title: ' الشيخ احمد النعسان',
+            home: const SplashScreen(),
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('ar')],
+            locale: const Locale('ar'),
+            builder: (context, widget) {
+              return MediaQuery(
+                data: MediaQuery.of(context).copyWith(
+                  textScaler: TextScaler.linear(1),
+                ),
+                child: GlobalAudioPlayer(
+                  child: widget!,
+                ),
+              );
+            },
           ),
         );
       },
