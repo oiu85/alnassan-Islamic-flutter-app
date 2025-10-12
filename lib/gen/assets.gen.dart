@@ -104,6 +104,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/splash-screeen.png
   AssetGenImage get splashScreeen => const AssetGenImage('assets/images/splash-screeen.png');
 
+  /// File path: assets/images/splassh_screen_nolibrary.png
+  AssetGenImage get splasshScreenNolibrary => const AssetGenImage('assets/images/splassh_screen_nolibrary.png');
+
   /// File path: assets/images/tablet.png
   AssetGenImage get tablet => const AssetGenImage('assets/images/tablet.png');
 
@@ -150,6 +153,7 @@ class $AssetsImagesGen {
     search,
     settings,
     splashScreeen,
+    splasshScreenNolibrary,
     tablet,
     telegram,
     viewerBackground,

@@ -30,7 +30,7 @@ class SplashScreen extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(Assets.images.splashScreeen.path),
+                  image: AssetImage(Assets.images.splasshScreenNolibrary.path),
                   fit: BoxFit.cover, // ← الأفضل لأنه يحافظ على التناسب ويملأ الشاشة
                 ),
               ),
