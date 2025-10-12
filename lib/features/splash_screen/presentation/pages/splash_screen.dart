@@ -26,12 +26,12 @@ class SplashScreen extends StatelessWidget {
         },
         child: Scaffold(
           backgroundColor: Colors.white,
-          body: SizedBox.expand( // ← يضمن ملء الشاشة كاملة
+          body: SizedBox.expand(
             child: DecoratedBox(
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(Assets.images.splasshScreenNolibrary.path),
-                  fit: BoxFit.cover, // ← الأفضل لأنه يحافظ على التناسب ويملأ الشاشة
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
