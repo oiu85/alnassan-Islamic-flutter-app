@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SettingsState {
 
- double get fontSizeMultiplier; double get uiScaleMultiplier; bool get isDarkMode; String get selectedLanguage; String get downloadPath; bool get isLoading; bool get isSaving; String? get errorMessage;
+ double get fontSizeMultiplier; double get uiScaleMultiplier; bool get isDarkMode; String get selectedLanguage; String get downloadPath; bool get isFullScreen; bool get isLoading; bool get isSaving; String? get errorMessage;
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SettingsStateCopyWith<SettingsState> get copyWith => _$SettingsStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.fontSizeMultiplier, fontSizeMultiplier) || other.fontSizeMultiplier == fontSizeMultiplier)&&(identical(other.uiScaleMultiplier, uiScaleMultiplier) || other.uiScaleMultiplier == uiScaleMultiplier)&&(identical(other.isDarkMode, isDarkMode) || other.isDarkMode == isDarkMode)&&(identical(other.selectedLanguage, selectedLanguage) || other.selectedLanguage == selectedLanguage)&&(identical(other.downloadPath, downloadPath) || other.downloadPath == downloadPath)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.fontSizeMultiplier, fontSizeMultiplier) || other.fontSizeMultiplier == fontSizeMultiplier)&&(identical(other.uiScaleMultiplier, uiScaleMultiplier) || other.uiScaleMultiplier == uiScaleMultiplier)&&(identical(other.isDarkMode, isDarkMode) || other.isDarkMode == isDarkMode)&&(identical(other.selectedLanguage, selectedLanguage) || other.selectedLanguage == selectedLanguage)&&(identical(other.downloadPath, downloadPath) || other.downloadPath == downloadPath)&&(identical(other.isFullScreen, isFullScreen) || other.isFullScreen == isFullScreen)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,fontSizeMultiplier,uiScaleMultiplier,isDarkMode,selectedLanguage,downloadPath,isLoading,isSaving,errorMessage);
+int get hashCode => Object.hash(runtimeType,fontSizeMultiplier,uiScaleMultiplier,isDarkMode,selectedLanguage,downloadPath,isFullScreen,isLoading,isSaving,errorMessage);
 
 @override
 String toString() {
-  return 'SettingsState(fontSizeMultiplier: $fontSizeMultiplier, uiScaleMultiplier: $uiScaleMultiplier, isDarkMode: $isDarkMode, selectedLanguage: $selectedLanguage, downloadPath: $downloadPath, isLoading: $isLoading, isSaving: $isSaving, errorMessage: $errorMessage)';
+  return 'SettingsState(fontSizeMultiplier: $fontSizeMultiplier, uiScaleMultiplier: $uiScaleMultiplier, isDarkMode: $isDarkMode, selectedLanguage: $selectedLanguage, downloadPath: $downloadPath, isFullScreen: $isFullScreen, isLoading: $isLoading, isSaving: $isSaving, errorMessage: $errorMessage)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SettingsStateCopyWith<$Res>  {
   factory $SettingsStateCopyWith(SettingsState value, $Res Function(SettingsState) _then) = _$SettingsStateCopyWithImpl;
 @useResult
 $Res call({
- double fontSizeMultiplier, double uiScaleMultiplier, bool isDarkMode, String selectedLanguage, String downloadPath, bool isLoading, bool isSaving, String? errorMessage
+ double fontSizeMultiplier, double uiScaleMultiplier, bool isDarkMode, String selectedLanguage, String downloadPath, bool isFullScreen, bool isLoading, bool isSaving, String? errorMessage
 });
 
 
@@ -65,14 +65,15 @@ class _$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? fontSizeMultiplier = null,Object? uiScaleMultiplier = null,Object? isDarkMode = null,Object? selectedLanguage = null,Object? downloadPath = null,Object? isLoading = null,Object? isSaving = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? fontSizeMultiplier = null,Object? uiScaleMultiplier = null,Object? isDarkMode = null,Object? selectedLanguage = null,Object? downloadPath = null,Object? isFullScreen = null,Object? isLoading = null,Object? isSaving = null,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
 fontSizeMultiplier: null == fontSizeMultiplier ? _self.fontSizeMultiplier : fontSizeMultiplier // ignore: cast_nullable_to_non_nullable
 as double,uiScaleMultiplier: null == uiScaleMultiplier ? _self.uiScaleMultiplier : uiScaleMultiplier // ignore: cast_nullable_to_non_nullable
 as double,isDarkMode: null == isDarkMode ? _self.isDarkMode : isDarkMode // ignore: cast_nullable_to_non_nullable
 as bool,selectedLanguage: null == selectedLanguage ? _self.selectedLanguage : selectedLanguage // ignore: cast_nullable_to_non_nullable
 as String,downloadPath: null == downloadPath ? _self.downloadPath : downloadPath // ignore: cast_nullable_to_non_nullable
-as String,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as String,isFullScreen: null == isFullScreen ? _self.isFullScreen : isFullScreen // ignore: cast_nullable_to_non_nullable
+as bool,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isSaving: null == isSaving ? _self.isSaving : isSaving // ignore: cast_nullable_to_non_nullable
 as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -160,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double fontSizeMultiplier,  double uiScaleMultiplier,  bool isDarkMode,  String selectedLanguage,  String downloadPath,  bool isLoading,  bool isSaving,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double fontSizeMultiplier,  double uiScaleMultiplier,  bool isDarkMode,  String selectedLanguage,  String downloadPath,  bool isFullScreen,  bool isLoading,  bool isSaving,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.fontSizeMultiplier,_that.uiScaleMultiplier,_that.isDarkMode,_that.selectedLanguage,_that.downloadPath,_that.isLoading,_that.isSaving,_that.errorMessage);case _:
+return $default(_that.fontSizeMultiplier,_that.uiScaleMultiplier,_that.isDarkMode,_that.selectedLanguage,_that.downloadPath,_that.isFullScreen,_that.isLoading,_that.isSaving,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -181,10 +182,10 @@ return $default(_that.fontSizeMultiplier,_that.uiScaleMultiplier,_that.isDarkMod
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double fontSizeMultiplier,  double uiScaleMultiplier,  bool isDarkMode,  String selectedLanguage,  String downloadPath,  bool isLoading,  bool isSaving,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double fontSizeMultiplier,  double uiScaleMultiplier,  bool isDarkMode,  String selectedLanguage,  String downloadPath,  bool isFullScreen,  bool isLoading,  bool isSaving,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState():
-return $default(_that.fontSizeMultiplier,_that.uiScaleMultiplier,_that.isDarkMode,_that.selectedLanguage,_that.downloadPath,_that.isLoading,_that.isSaving,_that.errorMessage);case _:
+return $default(_that.fontSizeMultiplier,_that.uiScaleMultiplier,_that.isDarkMode,_that.selectedLanguage,_that.downloadPath,_that.isFullScreen,_that.isLoading,_that.isSaving,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +202,10 @@ return $default(_that.fontSizeMultiplier,_that.uiScaleMultiplier,_that.isDarkMod
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double fontSizeMultiplier,  double uiScaleMultiplier,  bool isDarkMode,  String selectedLanguage,  String downloadPath,  bool isLoading,  bool isSaving,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double fontSizeMultiplier,  double uiScaleMultiplier,  bool isDarkMode,  String selectedLanguage,  String downloadPath,  bool isFullScreen,  bool isLoading,  bool isSaving,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.fontSizeMultiplier,_that.uiScaleMultiplier,_that.isDarkMode,_that.selectedLanguage,_that.downloadPath,_that.isLoading,_that.isSaving,_that.errorMessage);case _:
+return $default(_that.fontSizeMultiplier,_that.uiScaleMultiplier,_that.isDarkMode,_that.selectedLanguage,_that.downloadPath,_that.isFullScreen,_that.isLoading,_that.isSaving,_that.errorMessage);case _:
   return null;
 
 }
@@ -216,7 +217,7 @@ return $default(_that.fontSizeMultiplier,_that.uiScaleMultiplier,_that.isDarkMod
 @JsonSerializable()
 
 class _SettingsState implements SettingsState {
-  const _SettingsState({this.fontSizeMultiplier = 1.0, this.uiScaleMultiplier = 1.0, this.isDarkMode = false, this.selectedLanguage = 'ar', this.downloadPath = '/storage/emulated/0/Download', this.isLoading = false, this.isSaving = false, this.errorMessage});
+  const _SettingsState({this.fontSizeMultiplier = 1.0, this.uiScaleMultiplier = 1.0, this.isDarkMode = false, this.selectedLanguage = 'ar', this.downloadPath = '/storage/emulated/0/Download', this.isFullScreen = true, this.isLoading = false, this.isSaving = false, this.errorMessage});
   factory _SettingsState.fromJson(Map<String, dynamic> json) => _$SettingsStateFromJson(json);
 
 @override@JsonKey() final  double fontSizeMultiplier;
@@ -224,6 +225,7 @@ class _SettingsState implements SettingsState {
 @override@JsonKey() final  bool isDarkMode;
 @override@JsonKey() final  String selectedLanguage;
 @override@JsonKey() final  String downloadPath;
+@override@JsonKey() final  bool isFullScreen;
 @override@JsonKey() final  bool isLoading;
 @override@JsonKey() final  bool isSaving;
 @override final  String? errorMessage;
@@ -241,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.fontSizeMultiplier, fontSizeMultiplier) || other.fontSizeMultiplier == fontSizeMultiplier)&&(identical(other.uiScaleMultiplier, uiScaleMultiplier) || other.uiScaleMultiplier == uiScaleMultiplier)&&(identical(other.isDarkMode, isDarkMode) || other.isDarkMode == isDarkMode)&&(identical(other.selectedLanguage, selectedLanguage) || other.selectedLanguage == selectedLanguage)&&(identical(other.downloadPath, downloadPath) || other.downloadPath == downloadPath)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.fontSizeMultiplier, fontSizeMultiplier) || other.fontSizeMultiplier == fontSizeMultiplier)&&(identical(other.uiScaleMultiplier, uiScaleMultiplier) || other.uiScaleMultiplier == uiScaleMultiplier)&&(identical(other.isDarkMode, isDarkMode) || other.isDarkMode == isDarkMode)&&(identical(other.selectedLanguage, selectedLanguage) || other.selectedLanguage == selectedLanguage)&&(identical(other.downloadPath, downloadPath) || other.downloadPath == downloadPath)&&(identical(other.isFullScreen, isFullScreen) || other.isFullScreen == isFullScreen)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,fontSizeMultiplier,uiScaleMultiplier,isDarkMode,selectedLanguage,downloadPath,isLoading,isSaving,errorMessage);
+int get hashCode => Object.hash(runtimeType,fontSizeMultiplier,uiScaleMultiplier,isDarkMode,selectedLanguage,downloadPath,isFullScreen,isLoading,isSaving,errorMessage);
 
 @override
 String toString() {
-  return 'SettingsState(fontSizeMultiplier: $fontSizeMultiplier, uiScaleMultiplier: $uiScaleMultiplier, isDarkMode: $isDarkMode, selectedLanguage: $selectedLanguage, downloadPath: $downloadPath, isLoading: $isLoading, isSaving: $isSaving, errorMessage: $errorMessage)';
+  return 'SettingsState(fontSizeMultiplier: $fontSizeMultiplier, uiScaleMultiplier: $uiScaleMultiplier, isDarkMode: $isDarkMode, selectedLanguage: $selectedLanguage, downloadPath: $downloadPath, isFullScreen: $isFullScreen, isLoading: $isLoading, isSaving: $isSaving, errorMessage: $errorMessage)';
 }
 
 
@@ -261,7 +263,7 @@ abstract mixin class _$SettingsStateCopyWith<$Res> implements $SettingsStateCopy
   factory _$SettingsStateCopyWith(_SettingsState value, $Res Function(_SettingsState) _then) = __$SettingsStateCopyWithImpl;
 @override @useResult
 $Res call({
- double fontSizeMultiplier, double uiScaleMultiplier, bool isDarkMode, String selectedLanguage, String downloadPath, bool isLoading, bool isSaving, String? errorMessage
+ double fontSizeMultiplier, double uiScaleMultiplier, bool isDarkMode, String selectedLanguage, String downloadPath, bool isFullScreen, bool isLoading, bool isSaving, String? errorMessage
 });
 
 
@@ -278,14 +280,15 @@ class __$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? fontSizeMultiplier = null,Object? uiScaleMultiplier = null,Object? isDarkMode = null,Object? selectedLanguage = null,Object? downloadPath = null,Object? isLoading = null,Object? isSaving = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? fontSizeMultiplier = null,Object? uiScaleMultiplier = null,Object? isDarkMode = null,Object? selectedLanguage = null,Object? downloadPath = null,Object? isFullScreen = null,Object? isLoading = null,Object? isSaving = null,Object? errorMessage = freezed,}) {
   return _then(_SettingsState(
 fontSizeMultiplier: null == fontSizeMultiplier ? _self.fontSizeMultiplier : fontSizeMultiplier // ignore: cast_nullable_to_non_nullable
 as double,uiScaleMultiplier: null == uiScaleMultiplier ? _self.uiScaleMultiplier : uiScaleMultiplier // ignore: cast_nullable_to_non_nullable
 as double,isDarkMode: null == isDarkMode ? _self.isDarkMode : isDarkMode // ignore: cast_nullable_to_non_nullable
 as bool,selectedLanguage: null == selectedLanguage ? _self.selectedLanguage : selectedLanguage // ignore: cast_nullable_to_non_nullable
 as String,downloadPath: null == downloadPath ? _self.downloadPath : downloadPath // ignore: cast_nullable_to_non_nullable
-as String,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as String,isFullScreen: null == isFullScreen ? _self.isFullScreen : isFullScreen // ignore: cast_nullable_to_non_nullable
+as bool,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isSaving: null == isSaving ? _self.isSaving : isSaving // ignore: cast_nullable_to_non_nullable
 as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,

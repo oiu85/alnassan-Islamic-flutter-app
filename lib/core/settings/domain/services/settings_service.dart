@@ -7,6 +7,7 @@ class SettingsService extends ChangeNotifier {
   static const String _isDarkModeKey = 'is_dark_mode';
   static const String _selectedLanguageKey = 'selected_language';
   static const String _downloadPathKey = 'download_path';
+  static const String _isFullScreenKey = 'is_full_screen';
 
   // Default values
   static const double _defaultFontSizeMultiplier = 1.0;
@@ -14,6 +15,7 @@ class SettingsService extends ChangeNotifier {
   static const bool _defaultIsDarkMode = false;
   static const String _defaultLanguage = 'ar';
   static const String _defaultDownloadPath = '/storage/emulated/0/Download';
+  static const bool _defaultIsFullScreen = true;
 
   // Singleton instance
   static final SettingsService _instance = SettingsService._internal();
@@ -26,6 +28,7 @@ class SettingsService extends ChangeNotifier {
   bool _isDarkMode = _defaultIsDarkMode;
   String _selectedLanguage = _defaultLanguage;
   String _downloadPath = _defaultDownloadPath;
+  bool _isFullScreen = _defaultIsFullScreen;
 
   // Getters
   double get fontSizeMultiplier => _fontSizeMultiplier;
@@ -33,6 +36,7 @@ class SettingsService extends ChangeNotifier {
   bool get isDarkMode => _isDarkMode;
   String get selectedLanguage => _selectedLanguage;
   String get downloadPath => _downloadPath;
+  bool get isFullScreen => _isFullScreen;
 
   // Initialize settings from SharedPreferences
   Future<void> initialize() async {
@@ -48,6 +52,7 @@ class SettingsService extends ChangeNotifier {
     _isDarkMode = prefs.getBool(_isDarkModeKey) ?? _defaultIsDarkMode;
     _selectedLanguage = prefs.getString(_selectedLanguageKey) ?? _defaultLanguage;
     _downloadPath = prefs.getString(_downloadPathKey) ?? _defaultDownloadPath;
+    _isFullScreen = prefs.getBool(_isFullScreenKey) ?? _defaultIsFullScreen;
   }
 
   // Update font size multiplier
@@ -90,6 +95,14 @@ class SettingsService extends ChangeNotifier {
     // notifyListeners(); // Removed to prevent Navigator context issues
   }
 
+  // Update full screen mode
+  Future<void> updateFullScreen(bool value) async {
+    _isFullScreen = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_isFullScreenKey, value);
+    // notifyListeners(); // Removed to prevent Navigator context issues
+  }
+
   // Reset to default values
   Future<void> resetToDefault() async {
     _fontSizeMultiplier = _defaultFontSizeMultiplier;
@@ -97,6 +110,7 @@ class SettingsService extends ChangeNotifier {
     _isDarkMode = _defaultIsDarkMode;
     _selectedLanguage = _defaultLanguage;
     _downloadPath = _defaultDownloadPath;
+    _isFullScreen = _defaultIsFullScreen;
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_fontSizeMultiplierKey, _defaultFontSizeMultiplier);
@@ -104,6 +118,7 @@ class SettingsService extends ChangeNotifier {
     await prefs.setBool(_isDarkModeKey, _defaultIsDarkMode);
     await prefs.setString(_selectedLanguageKey, _defaultLanguage);
     await prefs.setString(_downloadPathKey, _defaultDownloadPath);
+    await prefs.setBool(_isFullScreenKey, _defaultIsFullScreen);
     // notifyListeners(); // Removed to prevent Navigator context issues
   }
 
@@ -123,7 +138,8 @@ class SettingsService extends ChangeNotifier {
            _uiScaleMultiplier == _defaultUiScaleMultiplier &&
            _isDarkMode == _defaultIsDarkMode &&
            _selectedLanguage == _defaultLanguage &&
-           _downloadPath == _defaultDownloadPath;
+           _downloadPath == _defaultDownloadPath &&
+           _isFullScreen == _defaultIsFullScreen;
   }
 
   // Get settings summary
@@ -134,6 +150,7 @@ class SettingsService extends ChangeNotifier {
       'isDarkMode': _isDarkMode,
       'selectedLanguage': _selectedLanguage,
       'downloadPath': _downloadPath,
+      'isFullScreen': _isFullScreen,
       'isAtDefault': isAtDefaultSettings,
     };
   }

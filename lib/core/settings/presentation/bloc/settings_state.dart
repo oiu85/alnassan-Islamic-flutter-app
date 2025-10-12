@@ -11,6 +11,7 @@ abstract class SettingsState with _$SettingsState {
     @Default(false) bool isDarkMode,
     @Default('ar') String selectedLanguage,
     @Default('/storage/emulated/0/Download') String downloadPath,
+    @Default(true) bool isFullScreen,
     @Default(false) bool isLoading,
     @Default(false) bool isSaving,
     String? errorMessage,

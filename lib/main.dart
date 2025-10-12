@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/di/app_dependencies.dart';
 import 'core/responsive/screen_util_res.dart';
 import 'core/navigation/bloc/shared_bloc.dart';
+import 'core/settings/domain/services/settings_service.dart';
 import 'features/biography/presentation/bloc/biography_bloc.dart';
 import 'features/sound_library/presentation/bloc/sound_library_bloc.dart';
 import 'features/sound_library/presentation/widgets/global_audio_player.dart';
@@ -20,9 +21,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupAppDependencies();
   await ScreenUtilRes.initialize();
+  
+  // Load settings and apply fullscreen mode
+  final settingsService = SettingsService();
+  await settingsService.initialize();
+  if (settingsService.isFullScreen) {
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  } else {
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
+  
   GestureBinding.instance.resamplingEnabled =
       true; //? this is for prevent mouse from throw errors in flutter stack tree
-   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(const MyApp());
 }
 

@@ -161,6 +161,15 @@ class SettingsPage extends StatelessWidget {
                   
                   SizedBox(height: 24.h),
                   
+                  // Full Screen Section
+                  _buildFullScreenSection(context, state),
+                  
+                  SizedBox(height: 24.h),
+                  
+                  Divider(height: 1.h, color: AppColors.grey.withValues(alpha: 0.2)),
+                  
+                  SizedBox(height: 24.h),
+                  
                   // Download Path Section
                   _buildDownloadPathSection(context, state),
                   
@@ -252,6 +261,46 @@ class SettingsPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  // Full Screen Section
+  Widget _buildFullScreenSection(BuildContext context, SettingsState state) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'وضع ملء الشاشة',
+              style: TextStyle(
+                fontFamily: FontFamily.tajawal,
+                fontSize: 18.f,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 4.h),
+            Text(
+              'إخفاء شريط الحالة والأزرار',
+              style: TextStyle(
+                fontFamily: FontFamily.tajawal,
+                fontSize: 14.f,
+                color: AppColors.grey,
+              ),
+            ),
+          ],
+        ),
+        Switch(
+          value: state.isFullScreen,
+          onChanged: state.isSaving ? null : (value) {
+            context.read<SettingsBloc>().add(UpdateFullScreenEvent(value));
+          },
+          activeTrackColor: AppColors.primary,
+          activeThumbColor: Colors.white,
+        ),
+      ],
     );
   }
 

@@ -32,6 +32,12 @@ class UpdateDownloadPathEvent extends SettingsEvent {
   UpdateDownloadPathEvent(this.downloadPath);
 }
 
+class UpdateFullScreenEvent extends SettingsEvent {
+  final bool isFullScreen;
+  
+  UpdateFullScreenEvent(this.isFullScreen);
+}
+
 class ResetToDefaultEvent extends SettingsEvent {}
 
 class ApplyPresetEvent extends SettingsEvent {
