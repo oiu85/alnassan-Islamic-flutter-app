@@ -106,7 +106,7 @@ class _LessonsPageState extends State<LessonsPage> {
             key: PageStorageKey("lessons_list"),
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,7 +169,7 @@ class _LessonsPageState extends State<LessonsPage> {
                                     ),
                                   ),
                                 ),
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
                                     // Navigate to CategoryLessonsPage for this specific category
                                     if (category.catId != null) {
@@ -199,7 +199,7 @@ class _LessonsPageState extends State<LessonsPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 8.h),
+                            SizedBox(height: 6.h),
                             // Display lessons for this category in horizontal ListView (3 items)
                             if (categoryArticles.isNotEmpty)
                               SizedBox(
@@ -214,10 +214,7 @@ class _LessonsPageState extends State<LessonsPage> {
                                         state.loadingArticleId ==
                                             lesson.articleId;
                                     return Container(
-                                      width: 180.w,
-                                      margin: EdgeInsets.only(
-                                        right: index < categoryArticles.length - 1 ? 16.w : 0,
-                                      ),
+                                      width: 190.w,
                                       child: lessonCardBuild(
                                         lesson:
                                             lesson.articleTitle ??

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
+import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 
 import '../../../../core/shared/wdigets/app_drawer.dart';
@@ -64,9 +65,8 @@ class _HadithPageState extends State<HadithPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppScaffold.custom(
       backgroundColor: Colors.white,
-      drawer: const Drawer(child: AppDrawer()),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 12.w),
         decoration: BoxDecoration(
@@ -107,23 +107,9 @@ class _HadithPageState extends State<HadithPage> {
 
     return CustomScrollView(
       slivers: [
-        SliverAppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          pinned: false,
-          floating: true,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_outlined),
-              onPressed: () {
-                Navigator.of(context).maybePop();
-              },
-            ),
-          ],
-        ),
         SliverToBoxAdapter(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 30.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             child: Row(
               children: [
                 Text(

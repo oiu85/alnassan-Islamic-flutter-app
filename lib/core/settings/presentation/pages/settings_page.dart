@@ -207,7 +207,7 @@ class SettingsPage extends StatelessWidget {
             SizedBox(width: 12.w),
             _buildFontSizeOption(context, state, 'عادي', 1.0),
             SizedBox(width: 12.w),
-            _buildFontSizeOption(context, state, 'كبير', 1.09),
+            _buildFontSizeOption(context, state, 'كبير', 1.07),
           ],
         ),
         SizedBox(height: 16.h),

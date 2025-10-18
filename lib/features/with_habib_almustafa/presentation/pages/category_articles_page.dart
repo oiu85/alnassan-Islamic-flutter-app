@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/core/responsive/responsive_builder.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
@@ -45,17 +46,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
             ),
           ),
       child: ResponsiveBuilder(
-        builder: (context, responsive) => Scaffold(
-          appBar: AppBar(
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(Icons.arrow_forward_outlined),
-              ),
-            ],
-          ),
+        builder: (context, responsive) => AppScaffold.custom(
           drawer: Drawer(child: AppDrawer()),
           body: BlocBuilder<HabibMustafaBloc, HabibMustafaState>(
             builder: (context, state) {
@@ -112,11 +103,11 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
         },
         child: ListView(
           key: PageStorageKey("category_articles_list"),
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.all(10.w),
           children: [
             // Category title with filter button
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
               child: Row(
                 children: [
                   Expanded(

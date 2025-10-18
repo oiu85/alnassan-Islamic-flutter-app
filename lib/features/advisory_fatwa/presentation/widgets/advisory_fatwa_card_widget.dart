@@ -42,7 +42,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
           ),
           padding: EdgeInsets.symmetric(
             horizontal: effectiveWidth * 0.07, // Responsive padding
-            vertical: 18.h, // Reduced from 20.h to prevent overflow
+            vertical: 10.h, // Reduced from 20.h to prevent overflow
           ),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -57,15 +57,15 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
             ],
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildCategoryBadge(),
-              SizedBox(height: 10.h), // Reduced from 12.h
+              SizedBox(height: 8.h), // Reduced from 12.h
               _buildQuestionLabel(),
               SizedBox(height: 8.h),
               _buildQuestionText(),
-              SizedBox(height: 10.h), // Reduced from 12.h
+              SizedBox(height: 6.h), // Reduced from 12.h
               _buildStatsRow(),
               SizedBox(height: 16.h), // Reduced from 20.h
               _buildActionButton(),
@@ -263,7 +263,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
           width: double.infinity,
           padding: EdgeInsets.symmetric(
             horizontal: 16.w,
-            vertical: 14.h,
+            vertical: 10.h,
           ),
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -275,14 +275,6 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
               end: Alignment.centerRight,
             ),
             borderRadius: BorderRadius.circular(25),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withOpacity(0.3),
-                spreadRadius: 1,
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

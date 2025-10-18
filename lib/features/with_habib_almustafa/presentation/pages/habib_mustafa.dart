@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
 import 'package:nassan_app/core/responsive/responsive_builder.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
@@ -51,19 +52,8 @@ class HabibMustafa extends StatelessWidget {
             ),
           ),
       child: ResponsiveBuilder(
-        builder: (context, responsive) => Scaffold(
+        builder: (context, responsive) => AppScaffold.custom(
           backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(Icons.arrow_forward_outlined),
-              ),
-            ],
-          ),
           drawer: Drawer(child: AppDrawer()),
           body: BlocBuilder<HabibMustafaBloc, HabibMustafaState>(
             builder: (context, state) {
@@ -112,7 +102,7 @@ class HabibMustafa extends StatelessWidget {
           key: PageStorageKey("lessons_list"),
           children: [
             Container(
-              padding: EdgeInsets.only(right: 20.w),
+              padding: EdgeInsets.only(right: 10.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
