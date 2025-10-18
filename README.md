@@ -49,11 +49,11 @@
 <!-- Key Highlights -->
 <table>
 <tr>
-<td align="center"><b>📚 1000+</b><br/>Digital Books</td>
+<td align="center"><b>📚 50+</b><br/>Digital Books</td>
 <td align="center"><b>🎵 5000+</b><br/>Audio Lectures</td>
-<td align="center"><b>🎥 500+</b><br/>Video Content</td>
+<td align="center"><b>🎥 2000+</b><br/>Video Content</td>
 <td align="center"><b>📰 2000+</b><br/>Articles</td>
-<td align="center"><b>💬 3000+</b><br/>Fatwas & Advisories</td>
+<td align="center"><b>💬 13000+</b><br/>Fatwas & Advisories</td>
 </tr>
 </table>
 
