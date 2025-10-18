@@ -31,8 +31,7 @@ void main() async {
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
   
-  GestureBinding.instance.resamplingEnabled =
-      true; //? this is for prevent mouse from throw errors in flutter stack tree
+  GestureBinding.instance.resamplingEnabled = true; //? this is for prevent mouse from throw errors in flutter stack tree
   runApp(const MyApp());
 }
 

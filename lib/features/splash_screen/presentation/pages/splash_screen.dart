@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/features/splash_screen/presentation/bloc/splash_bloc.dart';
 import 'package:nassan_app/features/splash_screen/presentation/bloc/splash_event.dart';
 import 'package:nassan_app/features/splash_screen/presentation/bloc/splash_state.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
-
 import '../../../../core/navigation/main_navigation.dart';
 
 class SplashScreen extends StatelessWidget {

@@ -168,7 +168,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                     // Video Player Card
                     Card(
                       elevation: 8,
-                      shadowColor: AppColors.primary.withValues(alpha: 0.3),
+                      shadowColor: AppColors.primary.withValues(alpha: 0.1),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.r),
                       ),

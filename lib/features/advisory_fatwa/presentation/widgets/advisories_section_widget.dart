@@ -68,7 +68,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
 
   Widget _buildErrorState(BuildContext context, String? error) {
     return Container(
-      height: context.deviceValue(mobile: 200.h, tablet: 240.h, desktop: 280.h),
+      height: 200.h,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -127,12 +127,8 @@ class AdvisoriesSectionWidget extends StatelessWidget {
   }
 
   Widget _buildAdvisoriesList(BuildContext context, List<AdvisoryItem> advisories) {
-    // Take only first 3 items for horizontal scroll
     final displayAdvisories = advisories.take(3).toList();
-
-    // Set dynamic height based on screen size with extra space for expanded text
-    final containerHeight = 300.h;
-
+    final containerHeight = 250.h;
     return Container(
       color: Colors.white,
       height: containerHeight,
@@ -149,7 +145,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
             child: AdvisoryFatwaCardWidget(
               key: ValueKey(advisory.advisoryId), // Stable key for better performance
               advisory: advisory,
-              width: context.deviceValue(mobile: 280.w, tablet: 320.w, desktop: 360.w),
+              width: 285.w,
               onTap: () {
                 if (advisory.advisoryId != null) {
                   Navigator.of(context).push(
