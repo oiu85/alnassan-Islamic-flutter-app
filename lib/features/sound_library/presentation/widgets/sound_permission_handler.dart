@@ -5,6 +5,9 @@ import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../data/services/sound_storage_permission_service.dart';
 
 /// A widget that handles storage permission requests for sound downloads
+/// ⚠️ SMART PERMISSION HANDLING:
+/// - Android 13+ (API 33+): Automatically granted (no permission needed)
+/// - Android 12 and below (API 32 and below): Shows permission request UI
 class SoundPermissionHandler extends StatelessWidget {
   /// The child widget to display when permission is granted
   final Widget child;

@@ -47,11 +47,11 @@ class _MusicPlayerState extends State<MusicPlayer> {
     Share.share(soundUrl, subject: title);
   }
 
-  // Function to handle download with permission check
+  // Function to handle download with permission check (Android 12 and below only)
   void _handleDownload(BuildContext context) {
     final bloc = context.read<SoundLibraryBloc>();
 
-    // Show permission handler that will trigger download when permission is granted
+    // Show permission handler that will check Android version and request permission if needed
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,

@@ -4,8 +4,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
 /// Service to handle storage permissions specifically for the Downloads folder
+/// ⚠️ MODIFIED: Only requests permissions for Android 12 and below (API 32 and below)
+/// Android 13+ (API 33+) bypasses permission checks
 class StoragePermissionService {
   /// Check if storage permission is granted
+  /// For Android 13+ (API 33+): Always returns true (no permission needed)
+  /// For Android 12 and below (API 32 and below): Checks actual permission status
   static Future<bool> hasStoragePermission() async {
     if (!Platform.isAndroid) {
       return true;
@@ -16,22 +20,32 @@ class StoragePermissionService {
       final androidInfo = await deviceInfo.androidInfo;
       final sdkInt = androidInfo.version.sdkInt;
       
-      // Android 11+ (API 30+) - including Android 13, 14, 15, 16+
-      // Requires MANAGE_EXTERNAL_STORAGE for accessing Download folder
-      if (sdkInt >= 30) {
-        final manageStorageStatus = await Permission.manageExternalStorage.status;
-        return manageStorageStatus.isGranted;
+      // Android 13+ (API 33+) - No permission check needed
+      if (sdkInt >= 33) {
+        debugPrint('📱 Android $sdkInt detected - Skipping permission check (Android 13+)');
+        return true;
       }
       
-      // Android 10 and below (API 29 and below)
+      debugPrint('📱 Android $sdkInt detected - Checking storage permission (Android 12 or below)');
+      
+      // Android 11-12 (API 30-32) - No permission needed, Downloads folder is accessible
+      if (sdkInt >= 30) {
+        debugPrint('📱 Android 11-12: Downloads folder accessible without permission');
+        return true;
+      }
+      
+      // Android 10 and below (API 29 and below) - Requires STORAGE permission
       return await Permission.storage.isGranted;
     } catch (e) {
+      debugPrint('❌ Error checking storage permission: $e');
       // If there's an error checking permissions, assume not granted
       return false;
     }
   }
 
   /// Request storage permission with dialog
+  /// For Android 13+ (API 33+): Always returns true (no permission needed)
+  /// For Android 12 and below (API 32 and below): Requests actual permission
   static Future<bool> requestStoragePermission(BuildContext? context) async {
     if (!Platform.isAndroid) {
       return true;
@@ -42,57 +56,18 @@ class StoragePermissionService {
       final androidInfo = await deviceInfo.androidInfo;
       final sdkInt = androidInfo.version.sdkInt;
       
-      // Android 11+ (API 30+) - including Android 13, 14, 15, 16+
-      // Requires MANAGE_EXTERNAL_STORAGE for accessing Download folder
+      // Android 13+ (API 33+) - No permission request needed
+      if (sdkInt >= 33) {
+        debugPrint('📱 Android $sdkInt detected - No permission request needed (Android 13+)');
+        return true;
+      }
+      
+      debugPrint('📱 Android $sdkInt detected - Requesting storage permission (Android 12 or below)');
+      
+      // Android 11-12 (API 30-32) - No permission needed, Downloads folder is accessible
       if (sdkInt >= 30) {
-        final manageStorageStatus = await Permission.manageExternalStorage.status;
-        
-        if (manageStorageStatus.isGranted) {
-          return true;
-        }
-        
-        if (manageStorageStatus.isDenied) {
-          // Request the permission - this will redirect to Settings on Android 11+
-          final result = await Permission.manageExternalStorage.request();
-          if (result.isGranted) {
-            return true;
-          }
-          
-          // If still denied after request, show dialog to open settings
-          if (context != null) {
-            final shouldOpenSettings = await _showPermissionDialog(
-              context,
-              'يحتاج التطبيق إلى إذن "الوصول لجميع الملفات" لقراءة الكتب والملفات من مجلد التحميلات.\n\nيرجى منح الإذن من الإعدادات.',
-            );
-            if (shouldOpenSettings) {
-              await openAppSettings();
-              // Wait a bit for user to come back
-              await Future.delayed(const Duration(milliseconds: 500));
-              // Check again after user returns
-              final newStatus = await Permission.manageExternalStorage.status;
-              return newStatus.isGranted;
-            }
-          }
-          return false;
-        }
-        
-        // If permanently denied or restricted
-        if (context != null && (manageStorageStatus.isPermanentlyDenied || manageStorageStatus.isRestricted)) {
-          final shouldOpenSettings = await _showPermissionDialog(
-            context,
-            'إذن الوصول للتخزين مرفوض.\n\nيرجى الذهاب إلى:\nالإعدادات ← التطبيقات ← النعسان ← الأذونات\nثم تفعيل "الوصول لجميع الملفات"',
-          );
-          if (shouldOpenSettings) {
-            await openAppSettings();
-            // Wait for user to come back
-            await Future.delayed(const Duration(milliseconds: 500));
-            final newStatus = await Permission.manageExternalStorage.status;
-            return newStatus.isGranted;
-          }
-          return false;
-        }
-        
-        return false;
+        debugPrint('📱 Android 11-12: Downloads folder accessible without permission');
+        return true;
       }
       
       // Android 10 and below (API 29 and below)
@@ -101,7 +76,7 @@ class StoragePermissionService {
       if (status.isPermanentlyDenied && context != null) {
         final shouldOpenSettings = await _showPermissionDialog(
           context,
-          'يحتاج التطبيق إلى إذن التخزين لقراءة وحفظ الملفات.\n\nيرجى منح الإذن من إعدادات التطبيق.',
+          'يحتاج التطبيق إلى إذن التخزين لحفظ الملفات.\n\nيرجى منح الإذن من إعدادات التطبيق.',
         );
         if (shouldOpenSettings) {
           await openAppSettings();
@@ -114,6 +89,7 @@ class StoragePermissionService {
       
       return status.isGranted;
     } catch (e) {
+      debugPrint('❌ Error requesting storage permission: $e');
       // If there's an error, show generic error and return false
       if (context != null) {
         await _showErrorDialog(context, 'حدث خطأ أثناء طلب الإذن: ${e.toString()}');

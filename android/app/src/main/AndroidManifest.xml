@@ -1,15 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+<!--    <uses-permission android:name="android.permission.RECORD_AUDIO" />-->
     <!-- Optional: Add this permission if you want to use bluetooth telephony device like headset/earbuds -->
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <!-- Optional: Add this permission if you want to save your recordings in public folders -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- For Android 11+ (API 30+) to access all files -->
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <!-- For Android 13+ (API 33+) -->
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+<!--    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />-->
+    
+    <!-- Storage permissions for DOWNLOADING files -->
+    <!-- For Android 10 and below (API 29 and below) - Only WRITE permission needed for downloads -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
+                     android:maxSdkVersion="29" />
+    
+    <!-- For Android 11+ (API 30+) - No special permission needed for downloads to Downloads folder -->
+    <!-- MANAGE_EXTERNAL_STORAGE removed - Downloads folder is accessible without it on Android 11+ -->
     <application
         android:label="الشيخ احمد النعسان"
         android:name="${applicationName}"
