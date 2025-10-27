@@ -160,18 +160,48 @@ class StoragePermissionService {
   }
 
   /// Check if file is accessible
+  /// On Android 11+, files in Downloads folder created by the app are accessible without special permissions
   static Future<bool> canAccessFile(String filePath) async {
     try {
       final file = File(filePath);
       final exists = await file.exists();
       if (!exists) {
+        debugPrint('❌ File does not exist: $filePath');
         return false;
       }
       
       // Try to check if we can read the file
-      await file.length();
+      final length = await file.length();
+      debugPrint('✅ File accessible: $filePath (size: $length bytes)');
       return true;
     } catch (e) {
+      debugPrint('❌ Cannot access file $filePath: $e');
+      
+      // On Android 11+, files we created in Downloads should be accessible
+      // If access fails, it might be a permissions issue on older Android versions
+      if (Platform.isAndroid) {
+        try {
+          final deviceInfo = DeviceInfoPlugin();
+          final androidInfo = await deviceInfo.androidInfo;
+          final sdkInt = androidInfo.version.sdkInt;
+          
+          // Android 11+ should allow access to files in Downloads folder
+          if (sdkInt >= 30) {
+            debugPrint('⚠️ Android 11+: File access failed but should work without permission');
+            // Try to access anyway - the file might still be readable
+            try {
+              final file = File(filePath);
+              await file.openRead().first; // Try to read first byte
+              return true;
+            } catch (_) {
+              return false;
+            }
+          }
+        } catch (_) {
+          // If we can't check Android version, return false
+        }
+      }
+      
       return false;
     }
   }

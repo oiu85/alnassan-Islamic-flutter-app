@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-import '../../../../core/services/storage_permission_service.dart';
+// import '../../../../core/services/storage_permission_service.dart'; // REMOVED - No permission needed for Android 11+
 import '../../../../gen/fonts.gen.dart';
 import '../../data/model/book_model.dart';
 
@@ -34,6 +35,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
   }
 
   /// Check permissions and file accessibility before attempting to open
+  /// REMOVED: Permission checks for Android 11+ - Files in Downloads folder are accessible without permission
   Future<void> _checkPermissionsAndFile() async {
     setState(() {
       _isLoading = true;
@@ -49,30 +51,27 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       return;
     }
 
-    // Check storage permission
-    final hasPermission = await StoragePermissionService.hasStoragePermission();
-    if (!hasPermission) {
-      // Request permission
-      final granted = await StoragePermissionService.requestStoragePermission(context);
-      if (!mounted) return;
+    // On Android 11+, files created by the app in Downloads folder are accessible
+    // Just verify file exists - no permission check needed
+    try {
+      final file = File(widget.localFilePath!);
+      final exists = await file.exists();
       
-      if (!granted) {
+      if (!exists) {
+        if (!mounted) return;
         setState(() {
           _isLoading = false;
-          _errorMessage = 'يرجى منح إذن التخزين للوصول إلى الملف';
+          _errorMessage = 'الملف غير موجود. يرجى إعادة تحميل الكتاب';
           _permissionChecked = true;
         });
         return;
       }
-    }
-
-    // Check if file is accessible
-    final canAccess = await StoragePermissionService.canAccessFile(widget.localFilePath!);
-    if (!canAccess) {
+    } catch (e) {
+      debugPrint('❌ Error checking file: $e');
       if (!mounted) return;
       setState(() {
         _isLoading = false;
-        _errorMessage = 'لا يمكن الوصول إلى الملف. قد يكون محذوفاً أو لا توجد صلاحية للوصول إليه';
+        _errorMessage = 'حدث خطأ أثناء الوصول إلى الملف';
         _permissionChecked = true;
       });
       return;
@@ -142,19 +141,18 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () async {
-                  // Try to request permission again if it was denied
-                  if (_errorMessage!.contains('إذن التخزين')) {
-                    final granted = await StoragePermissionService.requestStoragePermission(context);
-                    if (granted && mounted) {
-                      _checkPermissionsAndFile();
-                    }
+                onPressed: () {
+                  // Try again if file error, otherwise go back
+                  if (_errorMessage!.contains('الملف غير موجود') || _errorMessage!.contains('الوصول إلى الملف')) {
+                    _checkPermissionsAndFile();
                   } else {
                     Navigator.pop(context);
                   }
                 },
                 child: Text(
-                  _errorMessage!.contains('إذن التخزين') ? 'إعادة المحاولة' : 'العودة',
+                  (_errorMessage!.contains('الملف غير موجود') || _errorMessage!.contains('الوصول إلى الملف')) 
+                      ? 'إعادة المحاولة' 
+                      : 'العودة',
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
                   ),
@@ -176,21 +174,55 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     // Show PDF from local file or URL
     try {
       if (widget.localFilePath != null) {
-        return SfPdfViewer.file(
-          File(widget.localFilePath!),
-          controller: _pdfViewerController,
-          canShowScrollHead: true,
-          enableDoubleTapZooming: true,
-          enableTextSelection: true,
-          onDocumentLoaded: (PdfDocumentLoadedDetails details) {
-            // Document loaded successfully
-          },
-          onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
-            if (mounted) {
-              setState(() {
-                _errorMessage = 'فشل في تحميل الملف: ${details.error}\n\nتأكد من وجود الملف ومن صلاحية الوصول إليه';
-              });
+        // Read file as bytes first, then pass to PDF viewer
+        // This works better on Android 11+ without MANAGE_EXTERNAL_STORAGE
+        return FutureBuilder<Uint8List>(
+          future: File(widget.localFilePath!).readAsBytes(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
             }
+            
+            if (snapshot.hasError) {
+              debugPrint('❌ Error reading file: ${snapshot.error}');
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline, color: Colors.red, size: 48),
+                    const SizedBox(height: 16),
+                    Text(
+                      'حدث خطأ أثناء قراءة الملف: ${snapshot.error}',
+                      style: const TextStyle(fontFamily: FontFamily.tajawal),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              );
+            }
+            
+            if (!snapshot.hasData) {
+              return const Center(child: Text('لا توجد بيانات'));
+            }
+            
+            return SfPdfViewer.memory(
+              snapshot.data!,
+              controller: _pdfViewerController,
+              canShowScrollHead: true,
+              enableDoubleTapZooming: true,
+              enableTextSelection: true,
+              onDocumentLoaded: (PdfDocumentLoadedDetails details) {
+                debugPrint('✅ PDF loaded successfully from memory');
+              },
+              onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
+                debugPrint('❌ PDF load failed: ${details.error}');
+                if (mounted) {
+                  setState(() {
+                    _errorMessage = 'فشل في تحميل الملف: ${details.error}\n\nتأكد من وجود الملف ومن صلاحية الوصول إليه';
+                  });
+                }
+              },
+            );
           },
         );
       } else if (widget.book.fullFileUrl != null) {
