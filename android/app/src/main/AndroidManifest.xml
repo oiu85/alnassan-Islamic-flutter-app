@@ -5,8 +5,8 @@
     
     <!-- Storage permissions for DOWNLOADING files -->
     <!-- For Android 10 and below (API 29 and below) - Only WRITE permission needed for downloads -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
-                     android:maxSdkVersion="29" />
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" -->
+<!--                     android:maxSdkVersion="29" />-->
     
     <!-- For Android 11+ (API 30+) - No special permission needed for downloads to Downloads folder -->
     <!-- MANAGE_EXTERNAL_STORAGE removed - Downloads folder is accessible without it on Android 11+ -->
