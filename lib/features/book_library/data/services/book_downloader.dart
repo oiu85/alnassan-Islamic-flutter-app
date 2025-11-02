@@ -11,33 +11,46 @@ class BookDownloadService {
   final Dio _dio = Dio();
   final SettingsService _settingsService = SettingsService();
   
-  /// Get download directory - uses app's own directory on Android 11+
+  /// Get download directory - uses app's own directory on Android 11+ and iOS
   Future<String> get _downloadDirectory async {
-    if (!Platform.isAndroid) {
-      return _settingsService.downloadPath;
+    // iOS - Use app's Documents directory
+    if (Platform.isIOS) {
+      final appDir = await getApplicationDocumentsDirectory();
+      final downloadDir = Directory('${appDir.path}/Downloads');
+      if (!await downloadDir.exists()) {
+        await downloadDir.create(recursive: true);
+      }
+      return downloadDir.path;
     }
     
-    try {
-      final deviceInfo = DeviceInfoPlugin();
-      final androidInfo = await deviceInfo.androidInfo;
-      final sdkInt = androidInfo.version.sdkInt;
-      
-      // Android 11+ (API 30+) - Use app's own directory (no permission needed)
-      if (sdkInt >= 30) {
-        final appDir = await getApplicationDocumentsDirectory();
-        final downloadDir = Directory('${appDir.path}/Downloads');
-        if (!await downloadDir.exists()) {
-          await downloadDir.create(recursive: true);
+    // Android
+    if (Platform.isAndroid) {
+      try {
+        final deviceInfo = DeviceInfoPlugin();
+        final androidInfo = await deviceInfo.androidInfo;
+        final sdkInt = androidInfo.version.sdkInt;
+        
+        // Android 11+ (API 30+) - Use app's own directory (no permission needed)
+        if (sdkInt >= 30) {
+          final appDir = await getApplicationDocumentsDirectory();
+          final downloadDir = Directory('${appDir.path}/Downloads');
+          if (!await downloadDir.exists()) {
+            await downloadDir.create(recursive: true);
+          }
+          return downloadDir.path;
         }
-        return downloadDir.path;
+        
+        // Android 10 and below - Use Downloads folder (with permission)
+        return _settingsService.downloadPath;
+      } catch (e) {
+        // Fallback to settings path if error
+        return _settingsService.downloadPath;
       }
-      
-      // Android 10 and below - Use Downloads folder (with permission)
-      return _settingsService.downloadPath;
-    } catch (e) {
-      // Fallback to settings path if error
-      return _settingsService.downloadPath;
     }
+    
+    // Fallback for other platforms
+    final appDir = await getApplicationDocumentsDirectory();
+    return appDir.path;
   }
 
   /// Download a book from URL

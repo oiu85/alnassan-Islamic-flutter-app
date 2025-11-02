@@ -14,6 +14,8 @@ class SettingsService extends ChangeNotifier {
   static const double _defaultUiScaleMultiplier = 1.0;
   static const bool _defaultIsDarkMode = false;
   static const String _defaultLanguage = 'ar';
+  // Note: This Android path is only used on Android 10 and below
+  // iOS and Android 11+ use app's Documents directory automatically
   static const String _defaultDownloadPath = '/storage/emulated/0/Download';
   static const bool _defaultIsFullScreen = true;
 
