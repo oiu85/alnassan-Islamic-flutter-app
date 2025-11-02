@@ -56,13 +56,10 @@ dependencies:
   loading_animation_widget: 1.3.0
   text_scroll: 0.2.0
 
-  # Media - Audio/Video/Images
+  # Media - Audio/Video
   audioplayers: ^6.5.1
   video_player: ^2.8.2
   youtube_player_flutter: ^9.1.2
-  image_picker: ^1.2.0
-  flutter_image_compress: ^2.0.4
-  voice_note_kit: ^1.3.3
 
   # Storage & File Management
   shared_preferences: ^2.5.3
@@ -84,7 +81,6 @@ dependencies:
   permission_handler: ^12.0.1
   device_info_plus: ^11.5.0
   android_intent_plus: ^6.0.0
-  google_maps_flutter: ^2.12.3
 
 
   # Utilities & Helpers

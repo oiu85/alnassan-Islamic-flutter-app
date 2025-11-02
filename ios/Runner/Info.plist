@@ -45,25 +45,25 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-
-
-
-	<!-- File Access Permissions -->
+	
+	<!-- ============================================ -->
+	<!-- ESSENTIAL PERMISSIONS FOR APP FUNCTIONALITY -->
+	<!-- ============================================ -->
+	
+	<!-- File Access - Required for PDF downloads and sharing -->
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>UIFileSharingEnabled</key>
 	<true/>
-	<!-- Media Library Permission -->
-	<key>NSAppleMusicUsageDescription</key>
-	<string>يحتاج التطبيق للوصول إلى مكتبة الوسائط لتشغيل الملفات الصوتية</string>
-	<!-- Background Audio -->
+	
+	<!-- Background Audio - Required for Quran/Audio playback in background -->
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
 	</array>
 	
-
-	<!-- App Transport Security (Allow HTTP connections if needed) -->
+	<!-- App Transport Security - Internet access configuration -->
+	<!-- Allows HTTPS connections and local networking for development -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -71,8 +71,8 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-
-	<!-- User Tracking (required for iOS 14+) -->
+	
+	<!-- User Tracking - Required by Apple for iOS 14+ App Store submission -->
 	<key>NSUserTrackingUsageDescription</key>
 	<string>نستخدم هذا لتحسين تجربتك وتقديم محتوى مخصص</string>
 </dict>
