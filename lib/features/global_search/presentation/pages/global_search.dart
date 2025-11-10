@@ -185,28 +185,13 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                               size: 20.w,
                             ),
                             SizedBox(width: 4.w),
-                            // Text(
-                            //   _selectedFilter,
-                            //   style: TextStyle(
-                            //     fontFamily: FontFamily.tajawal,
-                            //     fontSize: _fontSize(8),
-                            //     color: Colors.white,
-                            //     fontWeight: FontWeight.w600,
-                            //   ),
-                            // ),
-                            // SizedBox(width: _width(4)),
-                            // Icon(
-                            //   Icons.keyboard_arrow_down,
-                            //   color: Colors.white,
-                            //   size: _width(16),
-                            // ),
                           ],
                         ),
                       ),
                     ),
                   ),
                   SizedBox(width: 16.w),
-                  // Search Bar
+                  //* Search Bar
                   Expanded(
                     child: Container(
                       height: context.deviceValue(

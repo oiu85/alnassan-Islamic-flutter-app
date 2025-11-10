@@ -143,7 +143,8 @@ flutter_gen:
     flutter_svg: true
 
 
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: true
+  remove_alpha_ios: true
   image_path: "assets/icon/app_icon.png"

@@ -84,7 +84,6 @@ class VideoPage extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     // Video Grid
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.sp),
