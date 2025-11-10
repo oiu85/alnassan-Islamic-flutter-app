@@ -72,8 +72,5 @@
 		<true/>
 	</dict>
 	
-	<!-- User Tracking - Required by Apple for iOS 14+ App Store submission -->
-	<key>NSUserTrackingUsageDescription</key>
-	<string>نستخدم هذا لتحسين تجربتك وتقديم محتوى مخصص</string>
 </dict>
 </plist>
