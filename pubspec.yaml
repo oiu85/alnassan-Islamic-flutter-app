@@ -2,7 +2,7 @@ name: nassan_app
 description: "Alnassan App Islamic App"
 publish_to: 'none'
 
-version: 0.0.5+5
+version: 0.0.8+8
 
 environment:
   sdk: ^3.8.1
