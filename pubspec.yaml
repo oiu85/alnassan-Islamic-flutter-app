@@ -122,6 +122,7 @@ flutter:
     - assets/images/
     - assets/svg/
     - assets/lottie/
+    - shorebird.yaml
 
   fonts:
     - family: Amiri
