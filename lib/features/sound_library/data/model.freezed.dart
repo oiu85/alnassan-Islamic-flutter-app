@@ -3124,4 +3124,300 @@ $PaginationDataCopyWith<$Res> get parentsPagination {
 }
 }
 
+
+/// @nodoc
+mixin _$PaginatedSoundsResponse {
+
+ List<SoundData> get sounds; PaginationData? get pagination;
+/// Create a copy of PaginatedSoundsResponse
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PaginatedSoundsResponseCopyWith<PaginatedSoundsResponse> get copyWith => _$PaginatedSoundsResponseCopyWithImpl<PaginatedSoundsResponse>(this as PaginatedSoundsResponse, _$identity);
+
+  /// Serializes this PaginatedSoundsResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedSoundsResponse&&const DeepCollectionEquality().equals(other.sounds, sounds)&&(identical(other.pagination, pagination) || other.pagination == pagination));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(sounds),pagination);
+
+@override
+String toString() {
+  return 'PaginatedSoundsResponse(sounds: $sounds, pagination: $pagination)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PaginatedSoundsResponseCopyWith<$Res>  {
+  factory $PaginatedSoundsResponseCopyWith(PaginatedSoundsResponse value, $Res Function(PaginatedSoundsResponse) _then) = _$PaginatedSoundsResponseCopyWithImpl;
+@useResult
+$Res call({
+ List<SoundData> sounds, PaginationData? pagination
+});
+
+
+$PaginationDataCopyWith<$Res>? get pagination;
+
+}
+/// @nodoc
+class _$PaginatedSoundsResponseCopyWithImpl<$Res>
+    implements $PaginatedSoundsResponseCopyWith<$Res> {
+  _$PaginatedSoundsResponseCopyWithImpl(this._self, this._then);
+
+  final PaginatedSoundsResponse _self;
+  final $Res Function(PaginatedSoundsResponse) _then;
+
+/// Create a copy of PaginatedSoundsResponse
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? sounds = null,Object? pagination = freezed,}) {
+  return _then(_self.copyWith(
+sounds: null == sounds ? _self.sounds : sounds // ignore: cast_nullable_to_non_nullable
+as List<SoundData>,pagination: freezed == pagination ? _self.pagination : pagination // ignore: cast_nullable_to_non_nullable
+as PaginationData?,
+  ));
+}
+/// Create a copy of PaginatedSoundsResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PaginationDataCopyWith<$Res>? get pagination {
+    if (_self.pagination == null) {
+    return null;
+  }
+
+  return $PaginationDataCopyWith<$Res>(_self.pagination!, (value) {
+    return _then(_self.copyWith(pagination: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [PaginatedSoundsResponse].
+extension PaginatedSoundsResponsePatterns on PaginatedSoundsResponse {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PaginatedSoundsResponse value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PaginatedSoundsResponse() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PaginatedSoundsResponse value)  $default,){
+final _that = this;
+switch (_that) {
+case _PaginatedSoundsResponse():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PaginatedSoundsResponse value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PaginatedSoundsResponse() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<SoundData> sounds,  PaginationData? pagination)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PaginatedSoundsResponse() when $default != null:
+return $default(_that.sounds,_that.pagination);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<SoundData> sounds,  PaginationData? pagination)  $default,) {final _that = this;
+switch (_that) {
+case _PaginatedSoundsResponse():
+return $default(_that.sounds,_that.pagination);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<SoundData> sounds,  PaginationData? pagination)?  $default,) {final _that = this;
+switch (_that) {
+case _PaginatedSoundsResponse() when $default != null:
+return $default(_that.sounds,_that.pagination);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _PaginatedSoundsResponse implements PaginatedSoundsResponse {
+  const _PaginatedSoundsResponse({required final  List<SoundData> sounds, this.pagination}): _sounds = sounds;
+  factory _PaginatedSoundsResponse.fromJson(Map<String, dynamic> json) => _$PaginatedSoundsResponseFromJson(json);
+
+ final  List<SoundData> _sounds;
+@override List<SoundData> get sounds {
+  if (_sounds is EqualUnmodifiableListView) return _sounds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_sounds);
+}
+
+@override final  PaginationData? pagination;
+
+/// Create a copy of PaginatedSoundsResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PaginatedSoundsResponseCopyWith<_PaginatedSoundsResponse> get copyWith => __$PaginatedSoundsResponseCopyWithImpl<_PaginatedSoundsResponse>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PaginatedSoundsResponseToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaginatedSoundsResponse&&const DeepCollectionEquality().equals(other._sounds, _sounds)&&(identical(other.pagination, pagination) || other.pagination == pagination));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_sounds),pagination);
+
+@override
+String toString() {
+  return 'PaginatedSoundsResponse(sounds: $sounds, pagination: $pagination)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PaginatedSoundsResponseCopyWith<$Res> implements $PaginatedSoundsResponseCopyWith<$Res> {
+  factory _$PaginatedSoundsResponseCopyWith(_PaginatedSoundsResponse value, $Res Function(_PaginatedSoundsResponse) _then) = __$PaginatedSoundsResponseCopyWithImpl;
+@override @useResult
+$Res call({
+ List<SoundData> sounds, PaginationData? pagination
+});
+
+
+@override $PaginationDataCopyWith<$Res>? get pagination;
+
+}
+/// @nodoc
+class __$PaginatedSoundsResponseCopyWithImpl<$Res>
+    implements _$PaginatedSoundsResponseCopyWith<$Res> {
+  __$PaginatedSoundsResponseCopyWithImpl(this._self, this._then);
+
+  final _PaginatedSoundsResponse _self;
+  final $Res Function(_PaginatedSoundsResponse) _then;
+
+/// Create a copy of PaginatedSoundsResponse
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? sounds = null,Object? pagination = freezed,}) {
+  return _then(_PaginatedSoundsResponse(
+sounds: null == sounds ? _self._sounds : sounds // ignore: cast_nullable_to_non_nullable
+as List<SoundData>,pagination: freezed == pagination ? _self.pagination : pagination // ignore: cast_nullable_to_non_nullable
+as PaginationData?,
+  ));
+}
+
+/// Create a copy of PaginatedSoundsResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PaginationDataCopyWith<$Res>? get pagination {
+    if (_self.pagination == null) {
+    return null;
+  }
+
+  return $PaginationDataCopyWith<$Res>(_self.pagination!, (value) {
+    return _then(_self.copyWith(pagination: value));
+  });
+}
+}
+
 // dart format on

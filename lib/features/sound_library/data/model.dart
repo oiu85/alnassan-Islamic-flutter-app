@@ -192,6 +192,19 @@ abstract class HierarchicalPagination with _$HierarchicalPagination {
       _$HierarchicalPaginationFromJson(json);
 }
 
+// ===== PAGINATED SOUNDS RESPONSE =====
+
+@freezed
+abstract class PaginatedSoundsResponse with _$PaginatedSoundsResponse {
+  const factory PaginatedSoundsResponse({
+    required List<SoundData> sounds,
+    PaginationData? pagination,
+  }) = _PaginatedSoundsResponse;
+
+  factory PaginatedSoundsResponse.fromJson(Map<String, dynamic> json) =>
+      _$PaginatedSoundsResponseFromJson(json);
+}
+
 // ===== UTILITY EXTENSION =====
 
 extension SoundDataToSoundItem on SoundData {

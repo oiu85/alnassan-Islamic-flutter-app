@@ -85,6 +85,21 @@ class LoadMoreDirectSoundsEvent extends SoundLibraryEvent {
   List<Object?> get props => [categoryId, page, perPage];
 }
 
+class ChangeDirectSoundsPageEvent extends SoundLibraryEvent {
+  final int categoryId;
+  final int page;
+  final int perPage;
+
+  const ChangeDirectSoundsPageEvent({
+    required this.categoryId,
+    required this.page,
+    this.perPage = 10,
+  });
+
+  @override
+  List<Object?> get props => [categoryId, page, perPage];
+}
+
 class LoadMoreSubcategorySoundsEvent extends SoundLibraryEvent {
   final int categoryId;
   final int page;

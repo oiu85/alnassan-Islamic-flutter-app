@@ -331,3 +331,21 @@ _HierarchicalPagination _$HierarchicalPaginationFromJson(
 Map<String, dynamic> _$HierarchicalPaginationToJson(
   _HierarchicalPagination instance,
 ) => <String, dynamic>{'parents_pagination': instance.parentsPagination};
+
+_PaginatedSoundsResponse _$PaginatedSoundsResponseFromJson(
+  Map<String, dynamic> json,
+) => _PaginatedSoundsResponse(
+  sounds: (json['sounds'] as List<dynamic>)
+      .map((e) => SoundData.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  pagination: json['pagination'] == null
+      ? null
+      : PaginationData.fromJson(json['pagination'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$PaginatedSoundsResponseToJson(
+  _PaginatedSoundsResponse instance,
+) => <String, dynamic>{
+  'sounds': instance.sounds,
+  'pagination': instance.pagination,
+};

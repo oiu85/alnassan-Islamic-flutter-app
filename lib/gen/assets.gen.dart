@@ -68,6 +68,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/img.png
   AssetGenImage get img => const AssetGenImage('assets/images/img.png');
 
+  /// File path: assets/images/last_splassh.png
+  AssetGenImage get lastSplassh => const AssetGenImage('assets/images/last_splassh.png');
+
   /// File path: assets/images/message-add.png
   AssetGenImage get messageAdd => const AssetGenImage('assets/images/message-add.png');
 
@@ -144,6 +147,7 @@ class $AssetsImagesGen {
     home2,
     home,
     img,
+    lastSplassh,
     messageAdd,
     message,
     mohhamed,
@@ -275,6 +279,10 @@ class Assets {
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
+  static const String shorebird = 'shorebird.yaml';
+
+  /// List of all assets
+  static List<String> get values => [shorebird];
 }
 
 class AssetGenImage {

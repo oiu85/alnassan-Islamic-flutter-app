@@ -64,7 +64,7 @@ class SoundLibraryRepositoryImpl implements SoundLibraryRepository {
   }
 
   @override
-  Future<Either<String, List<SoundData>>> getCategoryDirectSounds({
+  Future<Either<String, PaginatedSoundsResponse>> getCategoryDirectSounds({
     required int categoryId,
     int page = 1,
     int perPage = 10,
@@ -105,15 +105,16 @@ class SoundLibraryRepositoryImpl implements SoundLibraryRepository {
       });
 
       // Validate response data
-      if (response.data == null || (response.data as Map).isEmpty) {
+      if (response.data == null) {
         AppLogger.warning('No data received from category direct sounds API');
         return const Left('No data received from server');
       }
 
-      // Parse JSON response - try different formats
+      // Parse JSON response - handle new format first, then fallback to hierarchical
       List<SoundData> sounds = [];
+      PaginationData? pagination;
       
-      // Try direct list first
+      // Check if response.data is a direct list (legacy format)
       if (response.data is List) {
         sounds = (response.data as List)
             .map((json) => SoundData.fromJson(json as Map<String, dynamic>))
@@ -121,43 +122,77 @@ class SoundLibraryRepositoryImpl implements SoundLibraryRepository {
       } else if (response.data is Map) {
         final data = response.data as Map<String, dynamic>;
         
-        // Try hierarchical response format
-        try {
-          final hierarchicalResponse = HierarchicalSoundResponse.fromJson(data);
-          // Find the category in the hierarchy
-          for (final level1 in hierarchicalResponse.data.level1RootCategories) {
-            if (level1.catId == categoryId) {
-              sounds = level1.directSounds;
-              break;
+        // NEW FORMAT: Check if data['data'] is a List (new API format)
+        if (data['data'] is List) {
+          // New format: { status: "success", data: [...], meta: { pagination: {...} } }
+          final dataList = data['data'] as List;
+          sounds = dataList
+              .map((json) => SoundData.fromJson(json as Map<String, dynamic>))
+              .toList();
+          
+          // Extract pagination from meta if available
+          if (data.containsKey('meta') && data['meta'] is Map) {
+            final meta = data['meta'] as Map<String, dynamic>;
+            if (meta.containsKey('pagination') && meta['pagination'] is Map) {
+              try {
+                final paginationJson = meta['pagination'] as Map<String, dynamic>;
+                pagination = PaginationData.fromJson(paginationJson);
+                AppLogger.business('Extracted pagination from API response', {
+                  'currentPage': pagination.currentPage,
+                  'lastPage': pagination.lastPage,
+                  'total': pagination.total,
+                });
+              } catch (e) {
+                AppLogger.warning('Failed to parse pagination data: $e');
+              }
             }
-            for (final level2 in level1.level2Children) {
-              if (level2.catId == categoryId) {
-                sounds = level2.directSounds;
+          }
+          
+          AppLogger.business('Parsed sounds using new API format', {
+            'soundsCount': sounds.length,
+            'hasMeta': data.containsKey('meta'),
+          });
+        } 
+        // Try hierarchical response format (for hierarchical endpoint)
+        else if (data.containsKey('level_1_root_categories') || 
+                 (data['data'] is Map && (data['data'] as Map).containsKey('level_1_root_categories'))) {
+          try {
+            final hierarchicalResponse = HierarchicalSoundResponse.fromJson(data);
+            // Find the category in the hierarchy
+            for (final level1 in hierarchicalResponse.data.level1RootCategories) {
+              if (level1.catId == categoryId) {
+                sounds = level1.directSounds;
                 break;
               }
-              for (final level3 in level2.level3Grandchildren) {
-                if (level3.catId == categoryId) {
-                  sounds = level3.directSounds;
+              for (final level2 in level1.level2Children) {
+                if (level2.catId == categoryId) {
+                  sounds = level2.directSounds;
                   break;
                 }
-                for (final level4 in level3.level4GreatGrandchildren) {
-                  if (level4.catId == categoryId) {
-                    sounds = level4.directSounds;
+                for (final level3 in level2.level3Grandchildren) {
+                  if (level3.catId == categoryId) {
+                    sounds = level3.directSounds;
                     break;
+                  }
+                  for (final level4 in level3.level4GreatGrandchildren) {
+                    if (level4.catId == categoryId) {
+                      sounds = level4.directSounds;
+                      break;
+                    }
                   }
                 }
               }
             }
+            AppLogger.business('Parsed sounds using hierarchical format', {
+              'soundsCount': sounds.length,
+            });
+          } catch (e) {
+            AppLogger.warning('Failed to parse as hierarchical response: $e');
           }
-        } catch (e) {
-          // If hierarchical parsing fails, try other formats
-          AppLogger.warning('Failed to parse as hierarchical response: $e');
-          
-          if (data['data'] is List) {
-            sounds = (data['data'] as List)
-                .map((json) => SoundData.fromJson(json as Map<String, dynamic>))
-                .toList();
-          } else if (data['sounds'] is List) {
+        }
+        // Fallback: try other possible formats
+        else {
+          if (data['sounds'] is List) {
             sounds = (data['sounds'] as List)
                 .map((json) => SoundData.fromJson(json as Map<String, dynamic>))
                 .toList();
@@ -171,8 +206,12 @@ class SoundLibraryRepositoryImpl implements SoundLibraryRepository {
 
       AppLogger.business('Successfully parsed category direct sounds', {
         'soundsCount': sounds.length,
+        'hasPagination': pagination != null,
       });
-      return Right(sounds);
+      return Right(PaginatedSoundsResponse(
+        sounds: sounds,
+        pagination: pagination,
+      ));
     } on Exception catch (e) {
       AppLogger.error('Error fetching category direct sounds: $e');
       return Left('Failed to fetch sounds: ${e.toString()}');

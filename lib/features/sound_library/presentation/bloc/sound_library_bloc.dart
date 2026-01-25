@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:audio_service/audio_service.dart';
 import '../../../../core/models/page_state/bloc_status.dart';
+import '../../../../core/shared/wdigets/filter_button.dart';
 import '../../domain/repository/sound_library_repository.dart';
 import '../../data/model.dart';
 import '../../data/services/sound_downloader.dart';
@@ -38,6 +40,7 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     on<LoadMoreDirectSoundsEvent>(_onLoadMoreDirectSounds);
     on<LoadMoreSubcategorySoundsEvent>(_onLoadMoreSubcategorySounds);
     on<InitializeDirectSoundsEvent>(_onInitializeDirectSounds);
+    on<ChangeDirectSoundsPageEvent>(_onChangeDirectSoundsPage);
     
     // Audio player events
     on<LoadAudioEvent>(_onLoadAudio);
@@ -434,7 +437,10 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
             status: BlocStatus.fail(error: error),
           ));
         },
-        (newSounds) {
+        (response) {
+          final newSounds = response.sounds;
+          final pagination = response.pagination;
+          
           if (newSounds.isEmpty) {
             // No more sounds available
             final updatedHasReachedMax = Map<int, bool>.from(state.directSoundsHasReachedMax);
@@ -455,12 +461,18 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
           
           final updatedHasReachedMax = Map<int, bool>.from(state.directSoundsHasReachedMax);
           updatedHasReachedMax[categoryId] = newSounds.length < perPage;
+          
+          final updatedPagination = Map<int, PaginationData?>.from(state.directSoundsPaginationData);
+          if (pagination != null) {
+            updatedPagination[categoryId] = pagination;
+          }
 
           emit(state.copyWith(
             status: const BlocStatus.success(),
             displaySounds: updatedSounds,
             directSoundsCurrentPages: updatedPages,
             directSoundsHasReachedMax: updatedHasReachedMax,
+            directSoundsPaginationData: updatedPagination,
           ));
         },
       );
@@ -502,7 +514,10 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
             status: BlocStatus.fail(error: error),
           ));
         },
-        (newSounds) {
+        (response) {
+          final newSounds = response.sounds;
+          final pagination = response.pagination;
+          
           if (newSounds.isEmpty) {
             // No more sounds available
             final updatedHasReachedMax = Map<int, bool>.from(state.subcategorySoundsHasReachedMax);
@@ -523,12 +538,18 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
           
           final updatedHasReachedMax = Map<int, bool>.from(state.subcategorySoundsHasReachedMax);
           updatedHasReachedMax[categoryId] = newSounds.length < perPage;
+          
+          final updatedPagination = Map<int, PaginationData?>.from(state.subcategorySoundsPaginationData);
+          if (pagination != null) {
+            updatedPagination[categoryId] = pagination;
+          }
 
           emit(state.copyWith(
             status: const BlocStatus.success(),
             displaySounds: updatedSounds,
             subcategorySoundsCurrentPages: updatedPages,
             subcategorySoundsHasReachedMax: updatedHasReachedMax,
+            subcategorySoundsPaginationData: updatedPagination,
           ));
         },
       );
@@ -579,6 +600,165 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
         directSoundsHasReachedMax: updatedHasReachedMax,
       ));
     }
+  }
+
+  /// Changes page for direct sounds (replaces sounds instead of appending)
+  Future<void> _onChangeDirectSoundsPage(
+    ChangeDirectSoundsPageEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) async {
+    final categoryId = event.categoryId;
+    final page = event.page;
+    final perPage = event.perPage;
+
+    // Check if already loading
+    if (state.status.isLoading() || state.status.isLoadingMore()) {
+      return;
+    }
+
+    emit(state.copyWith(status: const BlocStatus.loading()));
+
+    try {
+      final result = await _repository.getCategoryDirectSounds(
+        categoryId: categoryId,
+        page: page,
+        perPage: perPage,
+      ).timeout(const Duration(seconds: 30));
+
+      result.fold(
+        (error) {
+          emit(state.copyWith(
+            status: BlocStatus.fail(error: error),
+          ));
+        },
+        (response) {
+          final sounds = response.sounds;
+          final pagination = response.pagination;
+          
+          // Replace sounds instead of appending
+          final updatedPages = Map<int, int>.from(state.directSoundsCurrentPages);
+          updatedPages[categoryId] = page;
+          
+          final updatedHasReachedMax = Map<int, bool>.from(state.directSoundsHasReachedMax);
+          updatedHasReachedMax[categoryId] = sounds.length < perPage;
+          
+          final updatedPagination = Map<int, PaginationData?>.from(state.directSoundsPaginationData);
+          if (pagination != null) {
+            updatedPagination[categoryId] = pagination;
+          }
+
+          emit(state.copyWith(
+            status: const BlocStatus.success(),
+            displaySounds: sounds,
+            directSoundsCurrentPages: updatedPages,
+            directSoundsHasReachedMax: updatedHasReachedMax,
+            directSoundsPaginationData: updatedPagination,
+          ));
+        },
+      );
+    } catch (e) {
+      emit(state.copyWith(
+        status: BlocStatus.fail(error: 'Request timeout: ${e.toString()}'),
+      ));
+    }
+  }
+
+  // ===== FILTER BUTTON LOGIC FOR DIRECT SOUNDS =====
+  /// Returns filter button options for pagination
+  List<Map<String, dynamic>> getDirectSoundsFilterButtonOptions(int categoryId) {
+    final List<Map<String, dynamic>> options = [];
+    
+    // Get pagination data for this category
+    final pagination = state.directSoundsPaginationData[categoryId];
+    
+    if (pagination != null && pagination.lastPage > 1) {
+      for (int i = 1; i <= pagination.lastPage; i++) {
+        options.add({
+          'value': 'page_$i',
+          'label': '$i',
+        });
+      }
+    } else {
+      // If no pagination data available yet, show at least current page
+      final currentPage = getDirectSoundsCurrentPage(categoryId);
+      options.add({
+        'value': 'page_$currentPage',
+        'label': '$currentPage',
+      });
+    }
+    
+    return options;
+  }
+
+  /// Returns whether filter button should be shown
+  bool shouldShowDirectSoundsFilterButton(int categoryId) {
+    final pagination = state.directSoundsPaginationData[categoryId];
+    return pagination != null && pagination.lastPage > 1;
+  }
+
+  /// Returns the current selected page value for filter button
+  String getDirectSoundsCurrentPageValue(int categoryId) {
+    final currentPage = getDirectSoundsCurrentPage(categoryId);
+    return 'page_$currentPage';
+  }
+
+  /// Returns the hint text for filter button
+  String getDirectSoundsFilterButtonHintText(int categoryId) {
+    final currentPage = getDirectSoundsCurrentPage(categoryId);
+    return '$currentPage';
+  }
+
+  /// Returns the total number of pages
+  int getDirectSoundsTotalPages(int categoryId) {
+    final pagination = state.directSoundsPaginationData[categoryId];
+    return pagination?.lastPage ?? 1;
+  }
+
+  /// Builds the complete filter button widget for direct sounds
+  Widget buildDirectSoundsFilterButton({
+    required BuildContext context,
+    required int categoryId,
+    required int perPage,
+  }) {
+    final options = getDirectSoundsFilterButtonOptions(categoryId).map((option) => 
+      FilterOption<String>(
+        value: option['value'] as String,
+        label: option['label'] as String,
+      )
+    ).toList();
+    
+    // Don't show filter button if no options available
+    if (options.isEmpty || !shouldShowDirectSoundsFilterButton(categoryId)) {
+      return const SizedBox.shrink();
+    }
+    
+    return FilterButton<String>(
+      options: options,
+      selectedValue: getDirectSoundsCurrentPageValue(categoryId),
+      label: 'اختر الصفحة',
+      onChanged: state.status.isLoading() ? null : (value) {
+        if (value != null && value.startsWith('page_')) {
+          try {
+            final page = int.parse(value.split('_')[1]);
+            final totalPages = getDirectSoundsTotalPages(categoryId);
+            // Only trigger page change if it's different from current page
+            if (page != getDirectSoundsCurrentPage(categoryId) && page >= 1 && page <= totalPages) {
+              add(
+                ChangeDirectSoundsPageEvent(
+                  categoryId: categoryId,
+                  page: page,
+                  perPage: perPage,
+                ),
+              );
+            }
+          } catch (e) {
+            print('Invalid page value in filter button: $value');
+          }
+        }
+      },
+      width: 60,
+      hintText: getDirectSoundsFilterButtonHintText(categoryId),
+    );
   }
 
   // UI Helper Methods

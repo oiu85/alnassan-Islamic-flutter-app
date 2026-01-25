@@ -31,9 +31,9 @@ abstract class SoundLibraryRepository {
   /// [page] - Current page number (default: 1)
   /// [perPage] - Number of sounds per page (default: 10)
   /// 
-  /// Returns [Right<List<SoundData>>] containing list of sounds on success
+  /// Returns [Right<PaginatedSoundsResponse>] containing list of sounds and pagination on success
   /// Returns [Left<String>] with error message on failure
-  Future<Either<String, List<SoundData>>> getCategoryDirectSounds({
+  Future<Either<String, PaginatedSoundsResponse>> getCategoryDirectSounds({
     required int categoryId,
     int page = 1,
     int perPage = 10,
