@@ -69,6 +69,52 @@ class ShowAllSubcategorySoundsEvent extends SoundLibraryEvent {
   List<Object?> get props => [subcategory];
 }
 
+// Pagination events
+class LoadMoreDirectSoundsEvent extends SoundLibraryEvent {
+  final int categoryId;
+  final int page;
+  final int perPage;
+
+  const LoadMoreDirectSoundsEvent({
+    required this.categoryId,
+    required this.page,
+    this.perPage = 10,
+  });
+
+  @override
+  List<Object?> get props => [categoryId, page, perPage];
+}
+
+class LoadMoreSubcategorySoundsEvent extends SoundLibraryEvent {
+  final int categoryId;
+  final int page;
+  final int perPage;
+
+  const LoadMoreSubcategorySoundsEvent({
+    required this.categoryId,
+    required this.page,
+    this.perPage = 10,
+  });
+
+  @override
+  List<Object?> get props => [categoryId, page, perPage];
+}
+
+class InitializeDirectSoundsEvent extends SoundLibraryEvent {
+  final int categoryId;
+  final List<SoundData> sounds;
+  final PaginationData? pagination;
+
+  const InitializeDirectSoundsEvent({
+    required this.categoryId,
+    required this.sounds,
+    this.pagination,
+  });
+
+  @override
+  List<Object?> get props => [categoryId, sounds, pagination];
+}
+
 // Audio player events
 class LoadAudioEvent extends SoundLibraryEvent {
   final String soundId;

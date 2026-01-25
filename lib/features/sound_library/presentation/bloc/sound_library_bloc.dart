@@ -34,6 +34,11 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     on<RefreshSoundLibraryEvent>(_onRefresh);
     on<ShowAllSubcategorySoundsEvent>(_onShowAllSubcategorySounds);
     
+    // Pagination events
+    on<LoadMoreDirectSoundsEvent>(_onLoadMoreDirectSounds);
+    on<LoadMoreSubcategorySoundsEvent>(_onLoadMoreSubcategorySounds);
+    on<InitializeDirectSoundsEvent>(_onInitializeDirectSounds);
+    
     // Audio player events
     on<LoadAudioEvent>(_onLoadAudio);
     on<PlayAudioEvent>(_onPlayAudio);
@@ -143,18 +148,26 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
 
     try {
       // Add timeout to prevent long waits
-      final result = await _repository.getHierarchicalSoundCategories()
-          .timeout(const Duration(seconds: 30));
+      final result = await _repository.getHierarchicalSoundCategories(
+        page: 1,
+        perPage: 10,
+      ).timeout(const Duration(seconds: 30));
       
       result.fold(
         (error) => emit(state.copyWith(status: BlocStatus.fail(error: error))),
         (response) {
           final categories = response.data.level1RootCategories;
+          final pagination = response.pagination?.parentsPagination;
+          final hasReachedMax = pagination != null 
+              ? pagination.currentPage >= pagination.lastPage
+              : categories.isEmpty;
       
-      emit(state.copyWith(
+          emit(state.copyWith(
             status: const BlocStatus.success(),
             level1Categories: categories,
-        error: null,
+            error: null,
+            hierarchicalCategoriesCurrentPage: 1,
+            hierarchicalCategoriesHasReachedMax: hasReachedMax,
           ));
           
           if (categories.isNotEmpty) {
@@ -175,6 +188,21 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     Emitter<SoundLibraryState> emit,
   ) {
     final category = event.category;
+    final categoryId = category.catId;
+    
+    // Initialize pagination state for direct sounds
+    final updatedPages = Map<int, int>.from(state.directSoundsCurrentPages);
+    final updatedHasReachedMax = Map<int, bool>.from(state.directSoundsHasReachedMax);
+    final updatedPagination = Map<int, PaginationData?>.from(state.directSoundsPaginationData);
+    
+    if (category.directSoundsPagination != null) {
+      final pagination = category.directSoundsPagination!;
+      updatedPages[categoryId] = pagination.currentPage;
+      updatedHasReachedMax[categoryId] = pagination.currentPage >= pagination.lastPage;
+      updatedPagination[categoryId] = pagination;
+    } else {
+      updatedHasReachedMax[categoryId] = category.directSounds.length < 10;
+    }
 
     emit(state.copyWith(
       selectedLevel1Category: category,
@@ -187,6 +215,9 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
       currentLevel3Categories: [],
       currentLevel4Categories: [],
       status: const BlocStatus.success(),
+      directSoundsCurrentPages: updatedPages,
+      directSoundsHasReachedMax: updatedHasReachedMax,
+      directSoundsPaginationData: updatedPagination,
     ));
   }
 
@@ -196,6 +227,23 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     Emitter<SoundLibraryState> emit,
   ) {
     final category = event.category;
+    final categoryId = category.catId;
+    
+    // Initialize pagination state for this subcategory
+    final updatedPages = Map<int, int>.from(state.subcategorySoundsCurrentPages);
+    final updatedHasReachedMax = Map<int, bool>.from(state.subcategorySoundsHasReachedMax);
+    final updatedPagination = Map<int, PaginationData?>.from(state.subcategorySoundsPaginationData);
+    
+    if (category.directSoundsPagination != null) {
+      final pagination = category.directSoundsPagination!;
+      updatedPages[categoryId] = pagination.currentPage;
+      updatedHasReachedMax[categoryId] = pagination.currentPage >= pagination.lastPage;
+      updatedPagination[categoryId] = pagination;
+    } else {
+      // If no pagination data, assume we've reached max if sounds are less than expected
+      updatedHasReachedMax[categoryId] = category.directSounds.length < 10;
+    }
+    
     emit(state.copyWith(
       status: const BlocStatus.success(),
       currentLevel2Category: category,
@@ -205,6 +253,9 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
       currentLevel3Category: null,
       currentLevel4Category: null,
       currentLevel4Categories: [],
+      subcategorySoundsCurrentPages: updatedPages,
+      subcategorySoundsHasReachedMax: updatedHasReachedMax,
+      subcategorySoundsPaginationData: updatedPagination,
     ));
   }
 
@@ -214,13 +265,32 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     Emitter<SoundLibraryState> emit,
   ) {
     final category = event.category;
-      emit(state.copyWith(
+    final categoryId = category.catId;
+    
+    // Initialize pagination state for this subcategory
+    final updatedPages = Map<int, int>.from(state.subcategorySoundsCurrentPages);
+    final updatedHasReachedMax = Map<int, bool>.from(state.subcategorySoundsHasReachedMax);
+    final updatedPagination = Map<int, PaginationData?>.from(state.subcategorySoundsPaginationData);
+    
+    if (category.directSoundsPagination != null) {
+      final pagination = category.directSoundsPagination!;
+      updatedPages[categoryId] = pagination.currentPage;
+      updatedHasReachedMax[categoryId] = pagination.currentPage >= pagination.lastPage;
+      updatedPagination[categoryId] = pagination;
+    } else {
+      updatedHasReachedMax[categoryId] = category.directSounds.length < 10;
+    }
+    
+    emit(state.copyWith(
       status: const BlocStatus.success(),
       currentLevel3Category: category,
       currentLevel4Categories: category.level4GreatGrandchildren,
       displaySounds: category.directSounds,
       displaySubcategories: category.level4GreatGrandchildren,
       currentLevel4Category: null,
+      subcategorySoundsCurrentPages: updatedPages,
+      subcategorySoundsHasReachedMax: updatedHasReachedMax,
+      subcategorySoundsPaginationData: updatedPagination,
     ));
   }
 
@@ -230,11 +300,30 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     Emitter<SoundLibraryState> emit,
   ) {
     final category = event.category;
-      emit(state.copyWith(
+    final categoryId = category.catId;
+    
+    // Initialize pagination state for this subcategory
+    final updatedPages = Map<int, int>.from(state.subcategorySoundsCurrentPages);
+    final updatedHasReachedMax = Map<int, bool>.from(state.subcategorySoundsHasReachedMax);
+    final updatedPagination = Map<int, PaginationData?>.from(state.subcategorySoundsPaginationData);
+    
+    if (category.directSoundsPagination != null) {
+      final pagination = category.directSoundsPagination!;
+      updatedPages[categoryId] = pagination.currentPage;
+      updatedHasReachedMax[categoryId] = pagination.currentPage >= pagination.lastPage;
+      updatedPagination[categoryId] = pagination;
+    } else {
+      updatedHasReachedMax[categoryId] = category.directSounds.length < 10;
+    }
+    
+    emit(state.copyWith(
       status: const BlocStatus.success(),
       currentLevel4Category: category,
       displaySounds: category.directSounds,
       displaySubcategories: [],
+      subcategorySoundsCurrentPages: updatedPages,
+      subcategorySoundsHasReachedMax: updatedHasReachedMax,
+      subcategorySoundsPaginationData: updatedPagination,
     ));
   }
 
@@ -312,6 +401,184 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     // Reset state and fetch fresh data
     emit(const SoundLibraryState());
     add(const FetchHierarchicalCategoriesEvent());
+  }
+
+  /// Loads more direct sounds for a category
+  Future<void> _onLoadMoreDirectSounds(
+    LoadMoreDirectSoundsEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) async {
+    final categoryId = event.categoryId;
+    final page = event.page;
+    final perPage = event.perPage;
+
+    // Check if we've reached max or already loading
+    if (state.directSoundsHasReachedMax[categoryId] == true ||
+        state.status.isLoading() ||
+        state.status.isLoadingMore()) {
+      return;
+    }
+
+    emit(state.copyWith(status: const BlocStatus.loadingMore()));
+
+    try {
+      final result = await _repository.getCategoryDirectSounds(
+        categoryId: categoryId,
+        page: page,
+        perPage: perPage,
+      ).timeout(const Duration(seconds: 30));
+
+      result.fold(
+        (error) {
+          emit(state.copyWith(
+            status: BlocStatus.fail(error: error),
+          ));
+        },
+        (newSounds) {
+          if (newSounds.isEmpty) {
+            // No more sounds available
+            final updatedHasReachedMax = Map<int, bool>.from(state.directSoundsHasReachedMax);
+            updatedHasReachedMax[categoryId] = true;
+            emit(state.copyWith(
+              status: const BlocStatus.success(),
+              directSoundsHasReachedMax: updatedHasReachedMax,
+            ));
+            return;
+          }
+
+          // Append new sounds to existing displaySounds
+          final updatedSounds = [...state.displaySounds, ...newSounds];
+          
+          // Update pagination state
+          final updatedPages = Map<int, int>.from(state.directSoundsCurrentPages);
+          updatedPages[categoryId] = page;
+          
+          final updatedHasReachedMax = Map<int, bool>.from(state.directSoundsHasReachedMax);
+          updatedHasReachedMax[categoryId] = newSounds.length < perPage;
+
+          emit(state.copyWith(
+            status: const BlocStatus.success(),
+            displaySounds: updatedSounds,
+            directSoundsCurrentPages: updatedPages,
+            directSoundsHasReachedMax: updatedHasReachedMax,
+          ));
+        },
+      );
+    } catch (e) {
+      emit(state.copyWith(
+        status: BlocStatus.fail(error: 'Request timeout: ${e.toString()}'),
+      ));
+    }
+  }
+
+  /// Loads more subcategory sounds for a category
+  Future<void> _onLoadMoreSubcategorySounds(
+    LoadMoreSubcategorySoundsEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) async {
+    final categoryId = event.categoryId;
+    final page = event.page;
+    final perPage = event.perPage;
+
+    // Check if we've reached max or already loading
+    if (state.subcategorySoundsHasReachedMax[categoryId] == true ||
+        state.status.isLoading() ||
+        state.status.isLoadingMore()) {
+      return;
+    }
+
+    emit(state.copyWith(status: const BlocStatus.loadingMore()));
+
+    try {
+      final result = await _repository.getCategoryDirectSounds(
+        categoryId: categoryId,
+        page: page,
+        perPage: perPage,
+      ).timeout(const Duration(seconds: 30));
+
+      result.fold(
+        (error) {
+          emit(state.copyWith(
+            status: BlocStatus.fail(error: error),
+          ));
+        },
+        (newSounds) {
+          if (newSounds.isEmpty) {
+            // No more sounds available
+            final updatedHasReachedMax = Map<int, bool>.from(state.subcategorySoundsHasReachedMax);
+            updatedHasReachedMax[categoryId] = true;
+            emit(state.copyWith(
+              status: const BlocStatus.success(),
+              subcategorySoundsHasReachedMax: updatedHasReachedMax,
+            ));
+            return;
+          }
+
+          // Append new sounds to existing displaySounds
+          final updatedSounds = [...state.displaySounds, ...newSounds];
+          
+          // Update pagination state
+          final updatedPages = Map<int, int>.from(state.subcategorySoundsCurrentPages);
+          updatedPages[categoryId] = page;
+          
+          final updatedHasReachedMax = Map<int, bool>.from(state.subcategorySoundsHasReachedMax);
+          updatedHasReachedMax[categoryId] = newSounds.length < perPage;
+
+          emit(state.copyWith(
+            status: const BlocStatus.success(),
+            displaySounds: updatedSounds,
+            subcategorySoundsCurrentPages: updatedPages,
+            subcategorySoundsHasReachedMax: updatedHasReachedMax,
+          ));
+        },
+      );
+    } catch (e) {
+      emit(state.copyWith(
+        status: BlocStatus.fail(error: 'Request timeout: ${e.toString()}'),
+      ));
+    }
+  }
+
+  /// Initializes direct sounds for a category (used when opening DirectSoundsPage)
+  void _onInitializeDirectSounds(
+    InitializeDirectSoundsEvent event,
+    Emitter<SoundLibraryState> emit,
+  ) {
+    final categoryId = event.categoryId;
+    final sounds = event.sounds;
+    final pagination = event.pagination;
+
+    // Update displaySounds
+    emit(state.copyWith(
+      displaySounds: sounds,
+      status: const BlocStatus.success(),
+    ));
+
+    // Update pagination state if pagination data is provided
+    if (pagination != null) {
+      final updatedPages = Map<int, int>.from(state.directSoundsCurrentPages);
+      updatedPages[categoryId] = pagination.currentPage;
+      
+      final updatedHasReachedMax = Map<int, bool>.from(state.directSoundsHasReachedMax);
+      updatedHasReachedMax[categoryId] = pagination.currentPage >= pagination.lastPage;
+      
+      final updatedPagination = Map<int, PaginationData?>.from(state.directSoundsPaginationData);
+      updatedPagination[categoryId] = pagination;
+
+      emit(state.copyWith(
+        directSoundsCurrentPages: updatedPages,
+        directSoundsHasReachedMax: updatedHasReachedMax,
+        directSoundsPaginationData: updatedPagination,
+      ));
+    } else {
+      // If no pagination data, assume we've reached max if sounds are less than expected
+      final updatedHasReachedMax = Map<int, bool>.from(state.directSoundsHasReachedMax);
+      updatedHasReachedMax[categoryId] = sounds.length < 10; // Assuming perPage is 10
+      
+      emit(state.copyWith(
+        directSoundsHasReachedMax: updatedHasReachedMax,
+      ));
+    }
   }
 
   // UI Helper Methods
@@ -1193,6 +1460,26 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
   SoundFileType getSoundFileType(SoundData sound) {
     if (sound.soundFile == null) return SoundFileType.unknown;
     return SoundFileTypeUtil.getFileType(sound.soundFile);
+  }
+
+  /// Gets current page for direct sounds of a category
+  int getDirectSoundsCurrentPage(int categoryId) {
+    return state.directSoundsCurrentPages[categoryId] ?? 1;
+  }
+
+  /// Checks if direct sounds have reached max for a category
+  bool hasReachedMaxDirectSounds(int categoryId) {
+    return state.directSoundsHasReachedMax[categoryId] ?? false;
+  }
+
+  /// Gets current page for subcategory sounds of a category
+  int getSubcategorySoundsCurrentPage(int categoryId) {
+    return state.subcategorySoundsCurrentPages[categoryId] ?? 1;
+  }
+
+  /// Checks if subcategory sounds have reached max for a category
+  bool hasReachedMaxSubcategorySounds(int categoryId) {
+    return state.subcategorySoundsHasReachedMax[categoryId] ?? false;
   }
 
   /// Disposes all audio handlers and subscriptions

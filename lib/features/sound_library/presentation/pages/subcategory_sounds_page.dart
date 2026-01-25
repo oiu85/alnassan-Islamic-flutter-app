@@ -4,7 +4,6 @@ import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
-import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../../../../gen/assets.gen.dart';
 import '../widgets/sound_card.dart';
@@ -59,6 +58,14 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
     }
   }
 
+  /// Gets category ID from subcategory
+  int _getCategoryId(dynamic subcategory) {
+    if (subcategory is Level2Category) return subcategory.catId;
+    if (subcategory is Level3Category) return subcategory.catId;
+    if (subcategory is Level4Category) return subcategory.catId;
+    return 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold.custom(
@@ -91,79 +98,114 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
   }
 
   Widget _buildSubcategoryContent(BuildContext context, SoundLibraryState state, SoundLibraryBloc bloc) {
-    return CustomScrollView(
-      slivers: [
-        // Main Content
-        SliverToBoxAdapter(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Direct sounds from the selected subcategory
-                if (bloc.shouldShowSubcategoryDirectSounds()) ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                    ),
-                    child: Row(
-                      children: [
-                    Text(
-                          widget.title,
-                          style: TextStyle(
-                            fontFamily: FontFamily.tajawal,
-                            fontSize: 20.f,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Spacer(),
-                        if (bloc.shouldShowAllButtonForSubcategory(widget.subcategory))
-                          GestureDetector(
-                            onTap: () => _navigateToDirectSoundsPage(context, bloc.getSubcategoryDirectSounds()),
-                            child: Text(
-                              "الكل",
-                              style: TextStyle(
-                                fontFamily: FontFamily.tajawal,
-                                fontSize: 18.f,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.black,
-                              ),
+    final sounds = bloc.getSubcategoryDirectSounds();
+    final categoryId = _getCategoryId(widget.subcategory);
+    final hasReachedMax = bloc.hasReachedMaxSubcategorySounds(categoryId);
+    final isLoadingMore = state.status.isLoadingMore();
+
+    return NotificationListener<ScrollNotification>(
+      onNotification: (ScrollNotification scrollInfo) {
+        // Load more when reaching the bottom (only for grid view, not horizontal scroll)
+        if (!bloc.shouldShowSubcategorySubcategories() &&
+            scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent * 0.8 &&
+            !hasReachedMax &&
+            !isLoadingMore &&
+            state.status.isSuccess()) {
+          final currentPage = bloc.getSubcategorySoundsCurrentPage(categoryId);
+          bloc.add(LoadMoreSubcategorySoundsEvent(
+            categoryId: categoryId,
+            page: currentPage + 1,
+            perPage: 10,
+          ));
+        }
+        return false;
+      },
+      child: CustomScrollView(
+        slivers: [
+          // Main Content
+          SliverToBoxAdapter(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Direct sounds from the selected subcategory
+                  if (bloc.shouldShowSubcategoryDirectSounds()) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                      ),
+                      child: Row(
+                        children: [
+                      Text(
+                            widget.title,
+                            style: TextStyle(
+                              fontFamily: FontFamily.tajawal,
+                              fontSize: 20.f,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                      ],
+                          Spacer(),
+                          if (bloc.shouldShowAllButtonForSubcategory(widget.subcategory))
+                            GestureDetector(
+                              onTap: () => _navigateToDirectSoundsPage(context, sounds),
+                              child: Text(
+                                "الكل",
+                                style: TextStyle(
+                                  fontFamily: FontFamily.tajawal,
+                                  fontSize: 18.f,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.black,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 12.h),
-                  // Use grid layout when no subcategories, horizontal scroll when there are subcategories
-                  !bloc.shouldShowSubcategorySubcategories()
-                      ? GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.9,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                          ),
-                          itemCount: bloc.getSubcategoryDirectSounds().length,
-                          itemBuilder: (context, index) {
-                            final sound = bloc.getSubcategoryDirectSounds()[index];
-                            return SoundCard(sound: sound);
-                          },
-                        )
-                      : SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: bloc.getSubcategoryDirectSounds()
-                                .take(3) // Show only 3 sounds as preview
-                                .map(
-                                  (sound) => Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: SoundCard(sound: sound),
+                    SizedBox(height: 12.h),
+                    // Use grid layout when no subcategories, horizontal scroll when there are subcategories
+                    !bloc.shouldShowSubcategorySubcategories()
+                        ? GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.9,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                            ),
+                            itemCount: sounds.length + (isLoadingMore ? 1 : 0),
+                            itemBuilder: (context, index) {
+                              if (index < sounds.length) {
+                                final sound = sounds[index];
+                                return SoundCard(sound: sound);
+                              } else if (index == sounds.length && isLoadingMore) {
+                                // Loading indicator at the end
+                                return Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                                    ),
                                   ),
-                                )
-                                .toList(),
+                                );
+                              }
+                              return const SizedBox.shrink();
+                            },
+                          )
+                        : SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: sounds
+                                  .take(3) // Show only 3 sounds as preview
+                                  .map(
+                                    (sound) => Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child: SoundCard(sound: sound),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
                           ),
-                        ),
-                ],
+                  ],
 
                 // Subcategories with their sounds
                 if (bloc.shouldShowSubcategorySubcategories())
@@ -225,6 +267,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
             ),
         ),
       ],
+      ),
     );
   }
 

@@ -50,19 +50,42 @@ class ApiConfig {
   }
 
   // ===== SOUND LIBRARY ENDPOINTS =====
-  /// Get hierarchical sound categories (no parameters)
-  static const String getHierarchicalSoundCategories = '$baseUrl/public/categories/sounds';
+  /// Get hierarchical sound categories with pagination
+  /// Parameters: page, per_page, sounds_per_page, children_per_page
+  static String getHierarchicalSoundCategories({
+    int page = 1,
+    int perPage = 10,
+    int? soundsPerPage,
+    int? childrenPerPage,
+  }) {
+    final params = <String, String>{
+      'page': page.toString(),
+      'per_page': perPage.toString(),
+    };
+    
+    if (soundsPerPage != null) params['sounds_per_page'] = soundsPerPage.toString();
+    if (childrenPerPage != null) params['children_per_page'] = childrenPerPage.toString();
+    
+    final queryString = params.entries
+        .map((e) => '${e.key}=${e.value}')
+        .join('&');
+    
+    return '$baseUrl/public/categories/sounds?$queryString';
+  }
 
   /// Get sound categories with children and pagination
-  /// Parameters: id, cat_father_id, children_per_page, sounds_per_page, per_page
+  /// Parameters: id, cat_father_id, children_per_page, sounds_per_page, per_page, page
   static String getSoundCategories({
     int? id,
     int? catFatherId,
     int? childrenPerPage,
     int? soundsPerPage,
     int? perPage,
+    int page = 1,
   }) {
-    final params = <String, String>{};
+    final params = <String, String>{
+      'page': page.toString(),
+    };
     
     if (id != null) params['id'] = id.toString();
     if (catFatherId != null) params['cat_father_id'] = catFatherId.toString();
@@ -74,7 +97,17 @@ class ApiConfig {
         .map((e) => '${e.key}=${e.value}')
         .join('&');
     
-    return '$baseUrl/public/categories/sounds/children${queryString.isNotEmpty ? '?$queryString' : ''}';
+    return '$baseUrl/public/categories/sounds/children?$queryString';
+  }
+
+  /// Get direct sounds for a category with pagination
+  /// Parameters: category_id, page, per_page
+  static String getCategoryDirectSounds({
+    required int categoryId,
+    int page = 1,
+    int perPage = 10,
+  }) {
+    return '$baseUrl/public/categories/sounds/$categoryId/sounds?page=$page&per_page=$perPage';
   }
 
   // ===== SUB-CATEGORIES ENDPOINTS =====

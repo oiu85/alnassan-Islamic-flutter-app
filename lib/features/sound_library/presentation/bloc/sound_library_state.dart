@@ -117,6 +117,16 @@ class SoundLibraryState extends Equatable {
   final String? downloadMessage;
   final bool isDownloadSuccess;
 
+  // Pagination state
+  final Map<int, int> directSoundsCurrentPages; // categoryId -> currentPage
+  final Map<int, bool> directSoundsHasReachedMax; // categoryId -> hasReachedMax
+  final Map<int, PaginationData?> directSoundsPaginationData; // categoryId -> paginationData
+  final Map<int, int> subcategorySoundsCurrentPages; // categoryId -> currentPage
+  final Map<int, bool> subcategorySoundsHasReachedMax; // categoryId -> hasReachedMax
+  final Map<int, PaginationData?> subcategorySoundsPaginationData; // categoryId -> paginationData
+  final int hierarchicalCategoriesCurrentPage;
+  final bool hierarchicalCategoriesHasReachedMax;
+
   const SoundLibraryState({
     this.status = const BlocStatus.initial(),
     this.level1Categories = const [],
@@ -136,6 +146,14 @@ class SoundLibraryState extends Equatable {
     this.audioCurrentUrls = const {},
     this.downloadMessage,
     this.isDownloadSuccess = false,
+    this.directSoundsCurrentPages = const {},
+    this.directSoundsHasReachedMax = const {},
+    this.directSoundsPaginationData = const {},
+    this.subcategorySoundsCurrentPages = const {},
+    this.subcategorySoundsHasReachedMax = const {},
+    this.subcategorySoundsPaginationData = const {},
+    this.hierarchicalCategoriesCurrentPage = 1,
+    this.hierarchicalCategoriesHasReachedMax = false,
   });
 
   SoundLibraryState copyWith({
@@ -157,6 +175,14 @@ class SoundLibraryState extends Equatable {
     Map<String, String?>? audioCurrentUrls,
     String? downloadMessage,
     bool? isDownloadSuccess,
+    Map<int, int>? directSoundsCurrentPages,
+    Map<int, bool>? directSoundsHasReachedMax,
+    Map<int, PaginationData?>? directSoundsPaginationData,
+    Map<int, int>? subcategorySoundsCurrentPages,
+    Map<int, bool>? subcategorySoundsHasReachedMax,
+    Map<int, PaginationData?>? subcategorySoundsPaginationData,
+    int? hierarchicalCategoriesCurrentPage,
+    bool? hierarchicalCategoriesHasReachedMax,
   }) {
     return SoundLibraryState(
       status: status ?? this.status,
@@ -177,6 +203,14 @@ class SoundLibraryState extends Equatable {
       audioCurrentUrls: audioCurrentUrls ?? this.audioCurrentUrls,
       downloadMessage: downloadMessage ?? this.downloadMessage,
       isDownloadSuccess: isDownloadSuccess ?? this.isDownloadSuccess,
+      directSoundsCurrentPages: directSoundsCurrentPages ?? this.directSoundsCurrentPages,
+      directSoundsHasReachedMax: directSoundsHasReachedMax ?? this.directSoundsHasReachedMax,
+      directSoundsPaginationData: directSoundsPaginationData ?? this.directSoundsPaginationData,
+      subcategorySoundsCurrentPages: subcategorySoundsCurrentPages ?? this.subcategorySoundsCurrentPages,
+      subcategorySoundsHasReachedMax: subcategorySoundsHasReachedMax ?? this.subcategorySoundsHasReachedMax,
+      subcategorySoundsPaginationData: subcategorySoundsPaginationData ?? this.subcategorySoundsPaginationData,
+      hierarchicalCategoriesCurrentPage: hierarchicalCategoriesCurrentPage ?? this.hierarchicalCategoriesCurrentPage,
+      hierarchicalCategoriesHasReachedMax: hierarchicalCategoriesHasReachedMax ?? this.hierarchicalCategoriesHasReachedMax,
     );
   }
 
@@ -200,5 +234,13 @@ class SoundLibraryState extends Equatable {
     audioCurrentUrls,
     downloadMessage,
     isDownloadSuccess,
+    directSoundsCurrentPages,
+    directSoundsHasReachedMax,
+    directSoundsPaginationData,
+    subcategorySoundsCurrentPages,
+    subcategorySoundsHasReachedMax,
+    subcategorySoundsPaginationData,
+    hierarchicalCategoriesCurrentPage,
+    hierarchicalCategoriesHasReachedMax,
   ];
 }
