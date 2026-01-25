@@ -58,6 +58,7 @@ dependencies:
 
   # Media - Audio/Video
   audioplayers: ^6.5.1
+  audio_service: ^0.18.18
   video_player: ^2.8.2
   youtube_player_flutter: ^9.1.2
 

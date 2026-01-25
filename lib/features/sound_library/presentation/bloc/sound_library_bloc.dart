@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audio_service/audio_service.dart';
 import '../../../../core/models/page_state/bloc_status.dart';
 import '../../domain/repository/sound_library_repository.dart';
 import '../../data/model.dart';
 import '../../data/services/sound_downloader.dart';
 import '../../data/services/sound_file_type_util.dart';
+import '../../data/services/audio_handler_service.dart';
 import 'sound_library_event.dart';
 import 'sound_library_state.dart';
 
@@ -15,10 +16,14 @@ import 'sound_library_state.dart';
 @injectable
 class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
   final SoundLibraryRepository _repository;
-  final Map<String, AudioPlayer> _audioPlayers = {};
-  final Map<String, List<StreamSubscription>> _audioSubscriptions = {};
+  final AudioHandler? _audioHandler;
+  StreamSubscription<PlaybackState>? _playbackStateSubscription;
+  StreamSubscription<MediaItem?>? _mediaItemSubscription;
+  StreamSubscription<Duration>? _positionSubscription;
+  String? _currentPlayingSoundId;
 
-  SoundLibraryBloc(this._repository) : super(const SoundLibraryState()) {
+  SoundLibraryBloc(this._repository, [this._audioHandler]) : super(const SoundLibraryState()) {
+    _setupAudioHandlerListeners();
     on<FetchHierarchicalCategoriesEvent>(_onFetchHierarchicalCategories);
     on<SelectLevel1CategoryEvent>(_onSelectLevel1Category);
     on<NavigateToLevel2CategoryEvent>(_onNavigateToLevel2Category);
@@ -49,6 +54,78 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     on<MusicPlayerTogglePlayPauseEvent>(_onMusicPlayerTogglePlayPause);
     on<MusicPlayerSeekEvent>(_onMusicPlayerSeek);
     on<MusicPlayerDownloadEvent>(_onMusicPlayerDownload);
+  }
+
+  /// Sets up listeners to AudioHandler streams to sync BLoC state
+  void _setupAudioHandlerListeners() {
+    if (_audioHandler == null) return;
+
+    // Listen to playback state changes
+    _playbackStateSubscription = _audioHandler!.playbackState.listen((playbackState) {
+      if (_currentPlayingSoundId != null) {
+        final soundId = _currentPlayingSoundId!;
+        final currentState = state.audioPlayerStates[soundId] ?? const AudioPlayerState();
+        final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
+        
+        updatedStates[soundId] = currentState.copyWith(
+          isPlaying: playbackState.playing,
+          isLoading: playbackState.processingState == AudioProcessingState.loading ||
+                     playbackState.processingState == AudioProcessingState.buffering,
+          position: playbackState.updatePosition ?? Duration.zero,
+        );
+        
+        add(UpdateAudioPlayerStateEvent(
+          soundId: soundId,
+          isPlaying: playbackState.playing,
+        ));
+      }
+    });
+
+    // Listen to media item changes
+    _mediaItemSubscription = _audioHandler!.mediaItem.listen((mediaItem) {
+      if (mediaItem != null && _currentPlayingSoundId != null) {
+        final soundId = _currentPlayingSoundId!;
+        final currentState = state.audioPlayerStates[soundId] ?? const AudioPlayerState();
+        final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
+        
+        updatedStates[soundId] = currentState.copyWith(
+          duration: mediaItem.duration ?? Duration.zero,
+          currentUrl: mediaItem.extras?['audioUrl'] as String?,
+        );
+        
+        // Don't emit here, let the playback state listener handle it
+      } else if (mediaItem == null) {
+        // Audio stopped
+        _currentPlayingSoundId = null;
+      }
+    });
+
+    // Listen to position updates
+    _positionSubscription = AudioService.position.listen((position) {
+      if (_currentPlayingSoundId != null) {
+        add(UpdateAudioPositionEvent(
+          soundId: _currentPlayingSoundId!,
+          position: position,
+        ));
+      }
+    });
+  }
+
+  /// Creates MediaItem from SoundData
+  MediaItem _createMediaItem(SoundData sound, String audioUrl) {
+    return MediaItem(
+      id: sound.soundId.toString(),
+      title: sound.soundTitle,
+      artist: sound.category?.catTitle ?? 'الشيخ احمد النعسان',
+      duration: null, // Will be updated when audio loads
+      artUri: sound.soundPicUrl != null 
+          ? Uri.parse(sound.soundPicUrl!) 
+          : null,
+      extras: {
+        'soundData': sound,
+        'audioUrl': audioUrl,
+      },
+    );
   }
 
   /// Fetches hierarchical sound categories from the API
@@ -429,6 +506,11 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     LoadAudioEvent event,
     Emitter<SoundLibraryState> emit,
   ) async {
+    if (_audioHandler == null) {
+      print('AudioHandler not initialized');
+      return;
+    }
+
     final soundId = event.soundId;
     final audioUrl = event.audioUrl;
     final alternativeUrls = event.alternativeUrls ?? [];
@@ -443,30 +525,24 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
 
     // Check if we already have this URL loaded
     if (currentState.currentUrl == audioUrl && currentState.duration > Duration.zero) {
+      // If already loaded and playing, just return
+      if (currentState.isPlaying) {
+        return;
+      }
+      // If loaded but not playing, just play it
+      await _audioHandler!.play();
       return;
     }
 
     try {
-      // Update state to show downloading
+      // Update state to show loading
       final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
       updatedStates[soundId] = currentState.copyWith(
-        isDownloading: true,
         isLoading: true,
         hasError: false,
       );
       
       emit(state.copyWith(audioPlayerStates: updatedStates));
-
-      // Get or create audio player
-      AudioPlayer audioPlayer = _audioPlayers[soundId] ?? AudioPlayer();
-      if (!_audioPlayers.containsKey(soundId)) {
-        _audioPlayers[soundId] = audioPlayer;
-        _configureAudioPlayer(audioPlayer, soundId);
-      }
-
-      // Stop any existing playback
-      await audioPlayer.stop();
-      await Future.delayed(Duration(milliseconds: 100));
 
       // Try to load the audio with retry mechanism
       bool loaded = false;
@@ -477,6 +553,22 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
       List<String> urlsToTry = [audioUrl];
       urlsToTry.addAll(alternativeUrls);
 
+      // Get SoundData from state if available, otherwise create a minimal one
+      SoundData? soundData = currentState.soundData;
+      if (soundData == null) {
+        // Try to find sound in current display sounds
+        for (var sound in state.displaySounds) {
+          if (sound.soundId.toString() == soundId) {
+            soundData = sound;
+            break;
+          }
+        }
+      }
+
+      if (soundData == null) {
+        throw Exception('SoundData not found for soundId: $soundId');
+      }
+
       for (String url in urlsToTry) {
         if (loaded) break;
 
@@ -485,29 +577,26 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
           try {
             attempts++;
 
-            await audioPlayer.setSourceUrl(url);
+            // Create MediaItem and play it
+            final mediaItem = _createMediaItem(soundData, url);
+            await _audioHandler!.playMediaItem(mediaItem);
+            
+            _currentPlayingSoundId = soundId;
             loaded = true;
 
-            // Get duration immediately after loading
-            final duration = await audioPlayer.getDuration();
-
-            // Update state with successful load and duration
+            // Update state with successful load
             final successStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
             successStates[soundId] = currentState.copyWith(
-              isDownloading: false,
               isLoading: false,
               hasError: false,
               currentUrl: url,
-              duration: duration ?? Duration.zero,
+              soundData: soundData,
             );
             
             emit(state.copyWith(audioPlayerStates: successStates));
-            
-            // Automatically start playing after successful load
-            await audioPlayer.resume();
 
           } catch (e) {
-            print('Attempt $attempts failed for $soundId');
+            print('Attempt $attempts failed for $soundId: $e');
             if (attempts < maxAttempts) {
               await Future.delayed(Duration(milliseconds: 500 * attempts));
             }
@@ -525,7 +614,6 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
       // Update state with error
       final errorStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
       errorStates[soundId] = currentState.copyWith(
-        isDownloading: false,
         isLoading: false,
         hasError: true,
       );
@@ -539,35 +627,39 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     PlayAudioEvent event,
     Emitter<SoundLibraryState> emit,
   ) async {
+    if (_audioHandler == null) {
+      print('AudioHandler not initialized');
+      return;
+    }
+
     final soundId = event.soundId;
     final currentState = state.audioPlayerStates[soundId] ?? const AudioPlayerState();
 
-    // Prevent interaction while downloading or loading
+    // Prevent interaction while loading
     if (currentState.isLoading || currentState.isDownloading) {
-      print('Audio is currently being downloaded for $soundId, please wait...');
+      print('Audio is currently being loaded for $soundId, please wait...');
       return;
     }
 
     try {
-      final audioPlayer = _audioPlayers[soundId];
-      if (audioPlayer == null) {
-        print('No audio player found for $soundId');
-        return;
-      }
-
       if (currentState.isPlaying) {
-        await audioPlayer.pause();
+        await _audioHandler!.pause();
       } else {
         // If there's an error or no URL loaded, we need to load it
         if (currentState.hasError || currentState.currentUrl == null || currentState.currentUrl!.isEmpty) {
-          // We need the URL from the widget, but we don't have it here
-          // This should be handled by the widget calling LoadAudioEvent first
           print('Audio not loaded or has error for $soundId, please load it first');
           return;
         }
 
+        // If this is not the currently playing sound, we need to load it first
+        if (_currentPlayingSoundId != soundId) {
+          // Need to load this sound first
+          print('Different sound is playing, need to load this one first');
+          return;
+        }
+
         // Just play the already loaded audio
-        await audioPlayer.resume();
+        await _audioHandler!.play();
       }
     } catch (e) {
       print('Error playing audio for $soundId: $e');
@@ -579,12 +671,16 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     PauseAudioEvent event,
     Emitter<SoundLibraryState> emit,
   ) async {
+    if (_audioHandler == null) {
+      return;
+    }
+
     final soundId = event.soundId;
-    final audioPlayer = _audioPlayers[soundId];
     
-    if (audioPlayer != null) {
+    // Only pause if this is the currently playing sound
+    if (_currentPlayingSoundId == soundId) {
       try {
-        await audioPlayer.pause();
+        await _audioHandler!.pause();
       } catch (e) {
         print('Error pausing audio for $soundId: $e');
       }
@@ -596,12 +692,17 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     StopAudioEvent event,
     Emitter<SoundLibraryState> emit,
   ) async {
+    if (_audioHandler == null) {
+      return;
+    }
+
     final soundId = event.soundId;
-    final audioPlayer = _audioPlayers[soundId];
     
-    if (audioPlayer != null) {
+    // Only stop if this is the currently playing sound
+    if (_currentPlayingSoundId == soundId) {
       try {
-        await audioPlayer.stop();
+        await _audioHandler!.stop();
+        _currentPlayingSoundId = null;
         
         // Update state to show audio is stopped
         final currentState = state.audioPlayerStates[soundId] ?? const AudioPlayerState();
@@ -638,13 +739,17 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     SeekAudioEvent event,
     Emitter<SoundLibraryState> emit,
   ) async {
+    if (_audioHandler == null) {
+      return;
+    }
+
     final soundId = event.soundId;
     final position = event.position;
     
-    final audioPlayer = _audioPlayers[soundId];
-    if (audioPlayer != null) {
+    // Only seek if this is the currently playing sound
+    if (_currentPlayingSoundId == soundId) {
       try {
-        await audioPlayer.seek(position);
+        await _audioHandler!.seek(position);
         print('Seeked to position: $position for sound: $soundId');
         
         // Update the state immediately
@@ -652,9 +757,9 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
         final updatedStates = Map<String, AudioPlayerState>.from(state.audioPlayerStates);
         updatedStates[soundId] = currentState.copyWith(position: position);
       
-      emit(state.copyWith(audioPlayerStates: updatedStates));
-    } catch (e) {
-        // Handle seek error if needed
+        emit(state.copyWith(audioPlayerStates: updatedStates));
+      } catch (e) {
+        print('Error seeking audio for $soundId: $e');
       }
     }
   }
@@ -903,69 +1008,6 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     return fileName.toLowerCase().contains('rar') ? '.rar' : '.mp3';
   }
 
-  /// Configures audio player for better Android compatibility
-  void _configureAudioPlayer(AudioPlayer audioPlayer, String soundId) {
-    audioPlayer.setPlayerMode(PlayerMode.mediaPlayer);
-    audioPlayer.setAudioContext(AudioContext(
-      android: AudioContextAndroid(
-        isSpeakerphoneOn: true,
-        stayAwake: true,
-        contentType: AndroidContentType.music,
-        usageType: AndroidUsageType.media,
-        audioFocus: AndroidAudioFocus.gain,
-      ),
-    ));
-
-    // Cancel any existing subscriptions for this sound
-    _cancelSubscriptionsForSound(soundId);
-
-    // Set up listeners with safety checks
-    final subscriptions = <StreamSubscription>[];
-    
-    subscriptions.add(
-      audioPlayer.onDurationChanged.listen((duration) {
-        if (!isClosed) {
-          // Duration changed for sound: $soundId
-          add(UpdateAudioDurationEvent(soundId: soundId, duration: duration));
-        }
-      }),
-    );
-
-    subscriptions.add(
-      audioPlayer.onPositionChanged.listen((position) {
-        if (!isClosed) {
-          // Position updated for sound: $soundId
-          add(UpdateAudioPositionEvent(soundId: soundId, position: position));
-        }
-      }),
-    );
-
-    subscriptions.add(
-      audioPlayer.onPlayerStateChanged.listen((state) {
-        if (!isClosed) {
-          // Player state changed for sound: $soundId
-          add(UpdateAudioPlayerStateEvent(
-            soundId: soundId,
-            isPlaying: state == PlayerState.playing,
-          ));
-        }
-      }),
-    );
-
-    // Store subscriptions for cleanup
-    _audioSubscriptions[soundId] = subscriptions;
-  }
-
-  /// Cancels all stream subscriptions for a specific sound
-  void _cancelSubscriptionsForSound(String soundId) {
-    final subscriptions = _audioSubscriptions[soundId];
-    if (subscriptions != null) {
-      for (final subscription in subscriptions) {
-        subscription.cancel();
-      }
-      _audioSubscriptions.remove(soundId);
-    }
-  }
 
   /// Gets audio player state for a specific sound
   AudioPlayerState getAudioPlayerState(String soundId) {
@@ -1153,25 +1195,22 @@ class SoundLibraryBloc extends Bloc<SoundLibraryEvent, SoundLibraryState> {
     return SoundFileTypeUtil.getFileType(sound.soundFile);
   }
 
-  /// Disposes all audio players
+  /// Disposes all audio handlers and subscriptions
   @override
   Future<void> close() async {
-    // Cancel all stream subscriptions first
-    for (final soundId in _audioSubscriptions.keys.toList()) {
-      _cancelSubscriptionsForSound(soundId);
-    }
-    _audioSubscriptions.clear();
-
-    // Then dispose audio players
-    for (final audioPlayer in _audioPlayers.values) {
+    // Cancel all stream subscriptions
+    await _playbackStateSubscription?.cancel();
+    await _mediaItemSubscription?.cancel();
+    await _positionSubscription?.cancel();
+    
+    // Stop audio if playing
+    if (_audioHandler != null && _currentPlayingSoundId != null) {
       try {
-        await audioPlayer.stop();
-        await audioPlayer.dispose();
+        await _audioHandler!.stop();
       } catch (e) {
-        // Error disposing audio player
+        print('Error stopping audio handler: $e');
       }
     }
-    _audioPlayers.clear();
     
     return super.close();
   }

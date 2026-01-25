@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:audio_service/audio_service.dart';
 
 import 'core/di/app_dependencies.dart';
 import 'core/responsive/screen_util_res.dart';
@@ -12,14 +13,36 @@ import 'core/settings/domain/services/settings_service.dart';
 import 'features/biography/presentation/bloc/biography_bloc.dart';
 import 'features/sound_library/presentation/bloc/sound_library_bloc.dart';
 import 'features/sound_library/presentation/widgets/global_audio_player.dart';
+import 'features/sound_library/data/services/audio_handler_service.dart';
+import 'features/sound_library/di/injection.dart';
 import 'features/advisory_fatwa/presentation/bloc/advisory_bloc.dart';
 import 'features/book_library/presentation/bloc/books_bloc.dart';
 import 'features/global_search/presentation/bloc/global_search_bloc.dart';
 import 'features/splash_screen/presentation/pages/splash_screen.dart';
 
-void main() async {
+// Global audio handler instance
+AudioHandler? _audioHandler;
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize AudioService before other dependencies
+  _audioHandler = await AudioService.init(
+    builder: () => SoundLibraryAudioHandler(),
+    config: AudioServiceConfig(
+      androidNotificationChannelId: 'com.naasan.app.channel.audio',
+      androidNotificationChannelName: 'Audio playback',
+      androidNotificationOngoing: false, // Must be false when androidStopForegroundOnPause is false
+      androidStopForegroundOnPause: false, // Keep service running during pause for background playback
+    ),
+  );
+  
   setupAppDependencies();
+  
+  // Register audio handler in dependency injection
+  if (_audioHandler != null) {
+    registerAudioHandler(getIt, _audioHandler!);
+  }
   await ScreenUtilRes.initialize();
   
   // Load settings and apply fullscreen mode
@@ -34,6 +57,9 @@ void main() async {
   GestureBinding.instance.resamplingEnabled = true; //? this is for prevent mouse from throw errors in flutter stack tree
   runApp(const MyApp());
 }
+
+/// Get the global audio handler instance
+AudioHandler? getAudioHandler() => _audioHandler;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
