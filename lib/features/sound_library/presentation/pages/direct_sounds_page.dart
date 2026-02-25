@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
+import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
@@ -58,6 +59,16 @@ class _DirectSoundsPageState extends State<DirectSoundsPage> {
               ? state.displaySounds 
               : widget.category.directSounds;
 
+          //* Constrain width on tablet/iPad so content is not crowded (App Store iPad guideline)
+          final maxW = context.maxContentWidth;
+          final horizontalPadding = context.deviceValue(
+            mobile: 16.0,
+            tablet: 24.0,
+            desktop: 32.0,
+          );
+          final crossAxisCount = context.deviceValue(mobile: 2, tablet: 3, desktop: 4);
+          final childAspectRatio = context.deviceValue(mobile: 1.0, tablet: 1.0, desktop: 1.05);
+
           return Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -65,12 +76,18 @@ class _DirectSoundsPageState extends State<DirectSoundsPage> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: CustomScrollView(
-              slivers: [
-                // Title and Filter Button
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxW.isFinite ? maxW : double.infinity),
+                child: CustomScrollView(
+                  slivers: [
+                    // Title and Filter Button
+                    SliverToBoxAdapter(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: (horizontalPadding).w,
+                          vertical: 16.h,
+                        ),
                     child: Row(
                       children: [
                         Expanded(
@@ -120,14 +137,14 @@ class _DirectSoundsPageState extends State<DirectSoundsPage> {
                   ),
                 ),
 
-                // Direct sounds content
+                // Direct sounds content — responsive grid for iPad (readable, not crowded)
                 if (sounds.isNotEmpty) ...[
                   SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    padding: EdgeInsets.symmetric(horizontal: (horizontalPadding).w),
                     sliver: SliverGrid(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1,
+                        crossAxisCount: crossAxisCount,
+                        childAspectRatio: childAspectRatio,
                         crossAxisSpacing: 12.w,
                         mainAxisSpacing: 12.h,
                       ),
@@ -161,6 +178,8 @@ class _DirectSoundsPageState extends State<DirectSoundsPage> {
                   ),
                 ],
               ],
+                ),
+              ),
             ),
           );
         },

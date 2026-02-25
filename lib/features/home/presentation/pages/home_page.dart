@@ -4,6 +4,7 @@ import 'package:nassan_app/core/shared/widgets/close_app_button.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../../../../core/shared/wdigets/AppScaffold.dart';
+import '../../../../core/responsive/responsive_layout.dart';
 import '../../../../core/responsive/screen_util_res.dart';
 import '../../data/repositories/reprositers_imp.dart';
 import '../bloc/home_bloc.dart';
@@ -47,19 +48,22 @@ class HomePage extends StatelessWidget {
       value: context.read<HomeBloc>(),
       child: CloseAppWillPopScope(
         child: AppScaffold.home(
-          body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 27.w),
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height - 
-                          MediaQuery.of(context).padding.top - 
-                          MediaQuery.of(context).padding.bottom,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+          //* On iPad/tablet, constrain width and center content so UI is not crowded (App Store guideline)
+          body: ResponsiveContainer(
+            center: true,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 27.w),
+              child: SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.top -
+                        MediaQuery.of(context).padding.bottom,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: Row(
@@ -127,12 +131,13 @@ class HomePage extends StatelessWidget {
                 ),
                 SizedBox(height: 20.h),
                 BottomCards(),
-                ],
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
         ),
-      ),
       ),
     );
   }

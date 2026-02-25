@@ -15,6 +15,14 @@ class DeviceTypeUtil {
   /// The breakpoint for medium screens (tablets)
   static const double tabletMaxWidth = 1100;
 
+  //* iPad/tablet UX constants (Apple HIG) — avoid crowded edge-to-edge layout on large screens
+  /// Max content width for tablet (e.g. iPad Air 11") so content stays readable and not stretched
+  static const double tabletMaxContentWidth = 720.0;
+  /// Max content width for desktop / large tablet landscape
+  static const double desktopMaxContentWidth = 900.0;
+  /// Minimum touch target size (Apple HIG ~44pt) for interactive elements on iPad
+  static const double minTouchTargetSize = 44.0;
+
   /// Determine the device type based on screen width
   static DeviceType getDeviceType(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -78,6 +86,20 @@ class DeviceTypeUtil {
         return const EdgeInsets.symmetric(horizontal: 32);
     }
   }
+
+  /// Max width for main content on tablet/desktop; use to prevent crowded UI on iPad
+  /// Returns [double.infinity] for mobile so layout is full width
+  static double getMaxContentWidth(BuildContext context) {
+    final deviceType = getDeviceType(context);
+    switch (deviceType) {
+      case DeviceType.mobile:
+        return double.infinity;
+      case DeviceType.tablet:
+        return tabletMaxContentWidth;
+      case DeviceType.desktop:
+        return desktopMaxContentWidth;
+    }
+  }
 }
 
 /// Extension on BuildContext to easily access device type
@@ -107,4 +129,7 @@ extension DeviceTypeExtension on BuildContext {
       desktop: desktop,
     );
   }
+
+  /// Max content width for current device; use for centering and constraining content on iPad
+  double get maxContentWidth => DeviceTypeUtil.getMaxContentWidth(this);
 }

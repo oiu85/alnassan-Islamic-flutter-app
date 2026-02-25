@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
@@ -122,11 +123,18 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
       },
       child: CustomScrollView(
         slivers: [
-          // Main Content
+          // Main Content — constrain width on tablet/iPad for readable layout
           SliverToBoxAdapter(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: context.maxContentWidth.isFinite
+                      ? context.maxContentWidth
+                      : double.infinity,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   // Direct sounds from the selected subcategory
                   if (bloc.shouldShowSubcategoryDirectSounds()) ...[
                     Padding(
@@ -162,13 +170,14 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                     ),
                     SizedBox(height: 12.h),
                     // Use grid layout when no subcategories, horizontal scroll when there are subcategories
+                    //? Responsive grid for iPad — avoid crowded layout (App Store guideline)
                     !bloc.shouldShowSubcategorySubcategories()
                         ? GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.9,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: context.deviceValue(mobile: 2, tablet: 3, desktop: 4),
+                              childAspectRatio: context.deviceValue(mobile: 0.9, tablet: 0.95, desktop: 1.0),
                               crossAxisSpacing: 8,
                               mainAxisSpacing: 8,
                             ),
@@ -263,10 +272,12 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                     ),
                   ),
 
-              ],
+                  ],
+                ),
+              ),
             ),
-        ),
-      ],
+          ),
+        ],
       ),
     );
   }

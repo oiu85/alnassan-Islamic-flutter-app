@@ -91,11 +91,12 @@ class ResponsiveContainer extends StatelessWidget {
       child: child,
     );
 
-    // Wrap with constraint box if maxWidth is specified
-    if (maxWidth != null) {
+    //! On tablet/desktop (e.g. iPad), constrain content width so UI is not crowded (App Store guideline)
+    final effectiveMaxWidth = maxWidth ?? context.maxContentWidth;
+    if (effectiveMaxWidth.isFinite) {
       content = Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: maxWidth!),
+          constraints: BoxConstraints(maxWidth: effectiveMaxWidth),
           child: content,
         ),
       );
