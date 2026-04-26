@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/core/shared/wdigets/ui_status_handling.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
@@ -55,7 +55,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
               'نتائج البحث',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 18.f,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -125,7 +125,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
         children: [
           Icon(
             widget.advisoryId != null ? Icons.tag : Icons.search,
-            size: 20.f,
+            size: 20.sp,
             color: Colors.grey[600],
           ),
           SizedBox(width: 8.w),
@@ -136,7 +136,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                   : 'البحث عن: ${widget.searchQuery}',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 14.f,
+                fontSize: 14.sp,
                 color: Colors.grey[700],
                 fontWeight: FontWeight.w500,
               ),

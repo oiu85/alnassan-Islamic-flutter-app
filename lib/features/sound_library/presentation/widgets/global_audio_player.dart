@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../bloc/sound_library_bloc.dart';
@@ -125,7 +125,7 @@ class GlobalAudioPlayer extends StatelessWidget {
             if (!audioState.isLoading && !audioState.isDownloading)
               Icon(
                 audioState.isPlaying ? Icons.pause : Icons.play_arrow,
-                size: 32.f,
+                size: 32.sp,
                 color: Colors.white,
               ),
             
@@ -166,7 +166,7 @@ class GlobalAudioPlayer extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 24.f,
+            size: 24.sp,
             color: Colors.black,
           ),
           SizedBox(width: 8.w),
@@ -174,7 +174,7 @@ class GlobalAudioPlayer extends StatelessWidget {
             label,
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: 14.f,
+              fontSize: 14.sp,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
@@ -335,7 +335,7 @@ class GlobalAudioPlayerExtended extends StatelessWidget {
                     if (!audioState.isLoading && !audioState.isDownloading)
                       Icon(
                         typeIcon ?? (audioState.isPlaying ? Icons.pause : Icons.play_arrow),
-                        size: 28.f,
+                        size: 28.sp,
                         color: Colors.white,
                       ),
                   ],
@@ -355,7 +355,7 @@ class GlobalAudioPlayerExtended extends StatelessWidget {
                     audioState.soundTitle ?? statusText,
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: 12.f,
+                      fontSize: 12.sp,
                       color: AppColors.grey,
                       fontWeight: FontWeight.bold,
                     ),
@@ -372,7 +372,7 @@ class GlobalAudioPlayerExtended extends StatelessWidget {
                           _formatDuration(audioState.position),
                           style: TextStyle(
                             fontFamily: FontFamily.tajawal,
-                            fontSize: 10.f,
+                            fontSize: 10.sp,
                             color: AppColors.grey,
                           ),
                         ),
@@ -394,7 +394,7 @@ class GlobalAudioPlayerExtended extends StatelessWidget {
                           _formatDuration(audioState.duration),
                           style: TextStyle(
                             fontFamily: FontFamily.tajawal,
-                            fontSize: 10.f,
+                            fontSize: 10.sp,
                             color: AppColors.grey,
                           ),
                         ),
@@ -405,7 +405,7 @@ class GlobalAudioPlayerExtended extends StatelessWidget {
                       statusText,
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 10.f,
+                        fontSize: 10.sp,
                         color: AppColors.grey,
                       ),
                       textDirection: TextDirection.rtl,

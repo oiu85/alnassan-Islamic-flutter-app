@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
@@ -127,7 +127,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                   state.almawdueaData?.data?.categories?.first.catTitle ?? "الأحاديث الموضوعة",
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 20.f,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -218,7 +218,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold, 
                     fontFamily: FontFamily.tajawal, 
-                    fontSize: 12.f
+                    fontSize: 12.sp
                   ),
                 ),
               ),
@@ -245,7 +245,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                   text: TextSpan(
                     text: article.articleSummary ?? 'ملخص غير متوفر',
                     style: TextStyle(
-                      fontSize: 14.f,
+                      fontSize: 14.sp,
                       fontFamily: FontFamily.tajawal,
                       height: 1.4,
                     ),
@@ -264,7 +264,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                       // Display article summary
                       article.articleSummary ?? 'ملخص غير متوفر',
                       style: TextStyle(
-                        fontSize: 14.f,
+                        fontSize: 14.sp,
                         fontFamily: FontFamily.tajawal,
                         height: 1.4,
                       ),
@@ -286,7 +286,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                                   fontWeight: FontWeight.w600,
                                   fontFamily: FontFamily.tajawal,
                                   color: Colors.black,
-                                  fontSize: 13.f,
+                                  fontSize: 13.sp,
                                   letterSpacing: 0.5,
                                 ),
                               ),
@@ -294,7 +294,7 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
                               Icon(
                                 isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                                 color: Colors.black,
-                                size: 16.f,
+                                size: 16.sp,
                               ),
                             ],
                           ),
@@ -312,23 +312,23 @@ class _AlmawdueaPageState extends State<AlmawdueaPage> {
           Row(
             children: [
               Spacer(),
-              Icon(Icons.calendar_month_outlined, size: 18.f, color: Colors.grey[600]),
+              Icon(Icons.calendar_month_outlined, size: 18.sp, color: Colors.grey[600]),
               SizedBox(width: 4.w),
               Text(
                 article.articleDate ?? 'غير محدد', 
                 style: TextStyle(
-                  fontSize: 12.f,
+                  fontSize: 12.sp,
                   fontFamily: FontFamily.tajawal,
                   color: Colors.grey[600],
                 )
               ),
               SizedBox(width: 12.w),
-              Icon(Icons.remove_red_eye_outlined, size: 18.f, color: Colors.grey[600]),
+              Icon(Icons.remove_red_eye_outlined, size: 18.sp, color: Colors.grey[600]),
               SizedBox(width: 4.w),
               Text(
                 article.articleVisitor?.toString() ?? '0', 
                 style: TextStyle(
-                  fontSize: 12.f,
+                  fontSize: 12.sp,
                   fontFamily: FontFamily.tajawal,
                   color: Colors.grey[600],
                 )

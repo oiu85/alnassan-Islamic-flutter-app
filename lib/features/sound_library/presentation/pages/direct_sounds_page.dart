@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../gen/assets.gen.dart';
@@ -95,7 +95,7 @@ class _DirectSoundsPageState extends State<DirectSoundsPage> {
                             widget.category.catTitle,
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 24.f,
+                              fontSize: 24.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -169,7 +169,7 @@ class _DirectSoundsPageState extends State<DirectSoundsPage> {
                           'لا توجد أصوات متاحة',
                           style: TextStyle(
                             fontFamily: FontFamily.tajawal,
-                            fontSize: 18.f,
+                            fontSize: 18.sp,
                             color: AppColors.grey,
                           ),
                         ),

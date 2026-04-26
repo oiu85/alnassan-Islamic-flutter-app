@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
-import 'package:nassan_app/core/responsive/responsive_builder.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
@@ -51,26 +50,23 @@ class HabibMustafa extends StatelessWidget {
               categoriesPage: categoriesPage ?? 1,
             ),
           ),
-      child: ResponsiveBuilder(
-        builder: (context, responsive) => AppScaffold.custom(
-          backgroundColor: Colors.white,
-          drawer: Drawer(child: AppDrawer()),
-          body: BlocBuilder<HabibMustafaBloc, HabibMustafaState>(
-            builder: (context, state) {
-              return SimpleLottieHandler(
-                blocStatus: state.status,
-                successWidget: _buildContent(context, state),
-                isEmpty:
-                    state.status.isSuccess() && state.subCategories.isEmpty,
-                emptyMessage: 'لا توجد دروس متاحة',
-                loadingMessage: 'جاري تحميل الدروس...',
-                onRetry: () => context.read<HabibMustafaBloc>().add(
-                  const FetchHabibMustafaDataEvent(),
-                ),
-                animationSize: 200.w,
-              );
-            },
-          ),
+      child: AppScaffold.custom(
+        backgroundColor: Colors.white,
+        drawer: Drawer(child: AppDrawer()),
+        body: BlocBuilder<HabibMustafaBloc, HabibMustafaState>(
+          builder: (context, state) {
+            return SimpleLottieHandler(
+              blocStatus: state.status,
+              successWidget: _buildContent(context, state),
+              isEmpty: state.status.isSuccess() && state.subCategories.isEmpty,
+              emptyMessage: 'لا توجد دروس متاحة',
+              loadingMessage: 'جاري تحميل الدروس...',
+              onRetry: () => context.read<HabibMustafaBloc>().add(
+                const FetchHabibMustafaDataEvent(),
+              ),
+              animationSize: 200.w,
+            );
+          },
         ),
       ),
     );
@@ -113,7 +109,10 @@ class HabibMustafa extends StatelessWidget {
                       children: [
                         // Sub-category title with "الكل" button
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 14.w,),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 5.h,
+                            horizontal: 14.w,
+                          ),
                           width: double.infinity,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,15 +121,18 @@ class HabibMustafa extends StatelessWidget {
                                 child: SizedBox(
                                   height: 30.h,
                                   child: Marquee(
-                                    text: subCategory.catTitle ?? "عنوان غير محدد",
+                                    text:
+                                        subCategory.catTitle ??
+                                        "عنوان غير محدد",
                                     style: TextStyle(
-                                      fontSize: 16.f,
+                                      fontSize: 16.sp,
                                       fontFamily: FontFamily.tajawal,
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.black,
                                     ),
                                     scrollAxis: Axis.horizontal,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     pauseAfterRound: Duration(seconds: 1),
                                     accelerationDuration: Duration(seconds: 1),
                                     accelerationCurve: Curves.easeIn,
@@ -147,17 +149,20 @@ class HabibMustafa extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => CategoryArticlesPage(
-                                        categoryId: subCategory.catId ?? 19,
-                                        categoryTitle: subCategory.catTitle ?? "جميع المقالات",
-                                      ),
+                                      builder: (context) =>
+                                          CategoryArticlesPage(
+                                            categoryId: subCategory.catId ?? 19,
+                                            categoryTitle:
+                                                subCategory.catTitle ??
+                                                "جميع المقالات",
+                                          ),
                                     ),
                                   );
                                 },
                                 child: Text(
                                   "الكل",
                                   style: TextStyle(
-                                    fontSize: 25.f,
+                                    fontSize: 25.sp,
                                     fontFamily: FontFamily.tajawal,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
@@ -306,7 +311,7 @@ Widget cardBuild({
                       "فضيلة الشيخ",
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 13.f,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
                       ),
@@ -331,7 +336,7 @@ Widget cardBuild({
                     child: Text(
                       "الدرس:",
                       style: TextStyle(
-                        fontSize: 13.f,
+                        fontSize: 13.sp,
                         fontFamily: FontFamily.tajawal,
                         color: AppColors.grey,
                         fontWeight: FontWeight.bold,
@@ -344,7 +349,7 @@ Widget cardBuild({
                       Text(
                         article.articleVisitor ?? "0",
                         style: TextStyle(
-                          fontSize: 12.f,
+                          fontSize: 12.sp,
                           fontFamily: FontFamily.tajawal,
                           color: AppColors.grey,
                         ),
@@ -352,7 +357,7 @@ Widget cardBuild({
                       IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.remove_red_eye_outlined),
-                        iconSize: 22.f,
+                        iconSize: 22.sp,
                         color: AppColors.grey,
                       ),
                     ],
@@ -364,7 +369,7 @@ Widget cardBuild({
                 child: Text(
                   article.articleTitle ?? "لا يوجد عنوان",
                   style: TextStyle(
-                    fontSize: 12.f,
+                    fontSize: 12.sp,
                     fontFamily: FontFamily.tajawal,
                     color: AppColors.grey,
                   ),
@@ -372,12 +377,17 @@ Widget cardBuild({
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              SizedBox(height: 20.h), // Add space between lesson title and button
+              SizedBox(
+                height: 20.h,
+              ), // Add space between lesson title and button
               GestureDetector(
                 onTap: () => _navigateToArticle(context, article),
                 child: Container(
                   margin: EdgeInsets.only(bottom: 16.h),
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 10.h,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(80.r),
                     color: AppColors.primary,
@@ -421,4 +431,3 @@ void _navigateToArticle(BuildContext context, HabibArticle? article) {
     ),
   );
 }
-

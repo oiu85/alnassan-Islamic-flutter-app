@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 
 /// Floating download progress widget that overlays on the sound card
@@ -52,7 +52,7 @@ class FloatingDownloadProgress extends StatelessWidget {
                 child:  Icon(
                   Icons.download,
                   color: AppColors.primary,
-                  size: 16.f,
+                  size: 16.sp,
                 ),
               ),
               SizedBox(width: 8.w),
@@ -60,7 +60,7 @@ class FloatingDownloadProgress extends StatelessWidget {
                 child: Text(
                   'جاري التحميل...',
                   style:  TextStyle(
-                    fontSize: 14.f,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                     color: AppColors.black,
                   ),
@@ -74,7 +74,7 @@ class FloatingDownloadProgress extends StatelessWidget {
           Text(
             fileName,
             style:  TextStyle(
-              fontSize: 12.f,
+              fontSize: 12.sp,
               color: AppColors.grey,
             ),
             maxLines: 1,
@@ -109,7 +109,7 @@ class FloatingDownloadProgress extends StatelessWidget {
               Text(
                 '${(progress * 100).toInt()}%',
                 style:  TextStyle(
-                  fontSize: 12.f,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.primary,
                 ),
@@ -117,7 +117,7 @@ class FloatingDownloadProgress extends StatelessWidget {
               Text(
                 '${_formatBytes(downloadedBytes)} / ${_formatBytes(totalBytes)}',
                 style:  TextStyle(
-                  fontSize: 11.f,
+                  fontSize: 11.sp,
                   color: AppColors.grey,
                 ),
               ),

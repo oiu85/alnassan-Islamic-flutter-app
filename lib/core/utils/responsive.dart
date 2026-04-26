@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum AppSizeClass { mobile, tablet }
 
@@ -43,9 +43,9 @@ T responsiveLayoutValue<T>(
   return isTabletContext(context) ? tablet : mobile;
 }
 
-/// Horizontal inset for primary content (design px → [ScreenUtilRes.padding]).
+/// Horizontal inset for primary content (design px → [SizeExtension.w]).
 double responsiveContentInsetX(BuildContext context) {
-  return responsiveLayoutValue(context, mobile: 27, tablet: 40).p;
+  return responsiveLayoutValue(context, mobile: 27, tablet: 40).w;
 }
 
 /// Symmetric horizontal padding for shell / page columns.
@@ -58,7 +58,7 @@ EdgeInsets responsiveContentHorizontalEdgeInsets(BuildContext context) {
 EdgeInsets responsiveShellBodyPadding(BuildContext context) {
   final horizontal = responsiveContentInsetX(context);
   if (isTabletContext(context)) {
-    return EdgeInsets.symmetric(horizontal: horizontal, vertical: 12.s);
+    return EdgeInsets.symmetric(horizontal: horizontal, vertical: 12.h);
   }
   return EdgeInsets.symmetric(horizontal: horizontal);
 }
@@ -67,7 +67,7 @@ EdgeInsets responsiveShellBodyPadding(BuildContext context) {
 EdgeInsets homeMainCardTextPadding(BuildContext context) {
   return responsiveLayoutValue(
     context,
-    mobile: EdgeInsets.fromLTRB(70.p, 50.s, 70.p, 0),
-    tablet: EdgeInsets.fromLTRB(48.p, 40.s, 48.p, 0),
+    mobile: EdgeInsets.fromLTRB(70.w, 50.h, 70.w, 0),
+    tablet: EdgeInsets.fromLTRB(48.w, 40.h, 48.w, 0),
   );
 }

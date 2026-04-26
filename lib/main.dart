@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:audio_service/audio_service.dart';
 
 import 'core/di/app_dependencies.dart';
-import 'core/responsive/screen_util_res.dart';
+import 'core/utils/app_text_scale.dart';
 import 'core/navigation/bloc/shared_bloc.dart';
 import 'core/settings/domain/services/settings_service.dart';
 import 'features/biography/presentation/bloc/biography_bloc.dart';
@@ -23,11 +23,12 @@ import 'features/splash_screen/presentation/pages/splash_screen.dart';
 // Global audio handler instance
 AudioHandler? _audioHandler;
 
-/// Forces [TextScaler.linear(1)] so system font-size / accessibility scaling
-/// does not change layout (pairs with ScreenUtil `.f` sizing).
-Widget _withLinearTextScaleOne(BuildContext context, Widget child) {
+/// Locks OS text scale; uses [AppTextScale] from settings for user font size.
+Widget _withAppTextScale(BuildContext context, Widget child) {
   return MediaQuery(
-    data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+    data: MediaQuery.of(
+      context,
+    ).copyWith(textScaler: TextScaler.linear(AppTextScale.value)),
     child: child,
   );
 }
@@ -59,11 +60,10 @@ Future<void> main() async {
   if (_audioHandler != null) {
     registerAudioHandler(getIt, _audioHandler!);
   }
-  await ScreenUtilRes.initialize();
-
   // Load settings and apply fullscreen mode
   final settingsService = SettingsService();
   await settingsService.initialize();
+  AppTextScale.set(settingsService.fontSizeMultiplier);
   if (settingsService.isFullScreen) {
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   } else {
@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return _withLinearTextScaleOne(
+        return _withAppTextScale(
           context,
           MultiBlocProvider(
             providers: [
@@ -120,7 +120,7 @@ class MyApp extends StatelessWidget {
               supportedLocales: const [Locale('ar')],
               locale: const Locale('ar'),
               builder: (context, widget) {
-                return _withLinearTextScaleOne(
+                return _withAppTextScale(
                   context,
                   GlobalAudioPlayer(child: widget!),
                 );

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
 import 'package:nassan_app/core/utils/responsive.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
+
 import '../../data/model.dart';
 
 class SoundTopBar extends StatelessWidget {
@@ -19,17 +20,17 @@ class SoundTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chipVPad = responsiveLayoutValue(context, mobile: 8.s, tablet: 10.s);
-    final chipHPad = responsiveLayoutValue(context, mobile: 16.p, tablet: 20.p);
+    final chipVPad = responsiveLayoutValue(context, mobile: 8.h, tablet: 10.h);
+    final chipHPad = responsiveLayoutValue(context, mobile: 16.w, tablet: 20.w);
     final barHeight = responsiveLayoutValue(
       context,
-      mobile: 50.s,
-      tablet: 56.s,
+      mobile: 50.h,
+      tablet: 56.h,
     );
     final labelSize = responsiveLayoutValue(
       context,
-      mobile: 11.f,
-      tablet: 13.f,
+      mobile: 11.sp,
+      tablet: 13.sp,
     );
 
     return SizedBox(

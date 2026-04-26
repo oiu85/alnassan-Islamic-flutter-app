@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../bloc/advisory_viewer_bloc.dart';
 import '../bloc/advisory_viewer_state.dart';
@@ -57,7 +57,7 @@ class AdvisoryContent extends StatelessWidget {
               advisory.category!.catTitle ?? 'قسم الفتاوى',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 14.f,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
                 color: state.isNightMode ? Colors.white70 : Colors.black87,
               ),
@@ -80,7 +80,7 @@ class AdvisoryContent extends StatelessWidget {
           children: [
             Icon(
               Icons.calendar_month_outlined,
-              size: 16.f,
+              size: 16.sp,
               color: state.isNightMode ? Colors.white60 : Colors.grey[600],
             ),
             SizedBox(width: 4.w),
@@ -88,14 +88,14 @@ class AdvisoryContent extends StatelessWidget {
               _formatDate(advisory.advisoryQuestionDate),
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 12.f,
+                fontSize: 12.sp,
                 color: state.isNightMode ? Colors.white60 : Colors.grey[600],
               ),
             ),
             SizedBox(width: 16.w),
             Icon(
               Icons.remove_red_eye_outlined,
-              size: 16.f,
+              size: 16.sp,
               color: state.isNightMode ? Colors.white60 : Colors.grey[600],
             ),
             SizedBox(width: 4.w),
@@ -103,7 +103,7 @@ class AdvisoryContent extends StatelessWidget {
               advisory.advisoryVisitor?.toString() ?? '0',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 12.f,
+                fontSize: 12.sp,
                 color: state.isNightMode ? Colors.white60 : Colors.grey[600],
               ),
             ),
@@ -245,7 +245,7 @@ class AdvisoryContent extends StatelessWidget {
                   'السائل: ',
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 14.f,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                     color: state.isNightMode ? Colors.white70 : Colors.grey[700],
                   ),
@@ -254,7 +254,7 @@ class AdvisoryContent extends StatelessWidget {
                   advisory.advisorySenderName!,
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 14.f,
+                    fontSize: 14.sp,
                     color: state.isNightMode ? Colors.white70 : Colors.grey[700],
                   ),
                 ),
@@ -268,7 +268,7 @@ class AdvisoryContent extends StatelessWidget {
                 'تاريخ الإجابة: ',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 14.f,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
                   color: state.isNightMode ? Colors.white70 : Colors.grey[700],
                 ),
@@ -277,7 +277,7 @@ class AdvisoryContent extends StatelessWidget {
                 _formatDate(advisory.advisoryAnswerDate),
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 14.f,
+                  fontSize: 14.sp,
                   color: state.isNightMode ? Colors.white70 : Colors.grey[700],
                 ),
               ),

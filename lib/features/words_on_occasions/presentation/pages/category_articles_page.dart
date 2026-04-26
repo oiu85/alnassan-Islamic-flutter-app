@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/responsive_builder.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import '../../../../config/appconfig/app_colors.dart';
-import '../../../../core/responsive/responsive_scaling.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -38,48 +36,49 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          WordsOnOccasionsBloc(WordsOnOccasionsRepositoryImpl(NetworkClient()))..add(
-            FetchWordsOnOccasionsDataEvent(
-              catId: widget.categoryId,
-              catMenus: 55, // Default value for Words on Occasions
-              articlesPerPage: 6,
-              categoriesPerPage: 3,
-              articlesPage: 1,
-              categoriesPage: 1,
+          WordsOnOccasionsBloc(WordsOnOccasionsRepositoryImpl(NetworkClient()))
+            ..add(
+              FetchWordsOnOccasionsDataEvent(
+                catId: widget.categoryId,
+                catMenus: 55, // Default value for Words on Occasions
+                articlesPerPage: 6,
+                categoriesPerPage: 3,
+                articlesPage: 1,
+                categoriesPage: 1,
+              ),
             ),
-          ),
-      child: ResponsiveBuilder(
-        builder: (context, responsive) => AppScaffold.custom(
-          backgroundColor: Colors.white,
-          body: BlocBuilder<WordsOnOccasionsBloc, WordsOnOccasionsState>(
-            builder: (context, state) {
-              return SimpleLottieHandler(
-                blocStatus: state.status,
-                successWidget: _buildCategoryArticlesContent(context, state),
-                isEmpty:
-                    state.status.isSuccess() && state.subCategories.isEmpty,
-                emptyMessage: 'لا توجد مقالات متاحة',
-                loadingMessage: 'جاري تحميل المقالات...',
-                onRetry: () => context.read<WordsOnOccasionsBloc>().add(
-                  FetchWordsOnOccasionsDataEvent(
-                    catId: widget.categoryId,
-                    catMenus: 55,
-                    articlesPerPage: 6,
-                    categoriesPerPage: 3,
-                    articlesPage: 1,
-                    categoriesPage: 1,
-                  ),
+      child: AppScaffold.custom(
+        backgroundColor: Colors.white,
+        body: BlocBuilder<WordsOnOccasionsBloc, WordsOnOccasionsState>(
+          builder: (context, state) {
+            return SimpleLottieHandler(
+              blocStatus: state.status,
+              successWidget: _buildCategoryArticlesContent(context, state),
+              isEmpty: state.status.isSuccess() && state.subCategories.isEmpty,
+              emptyMessage: 'لا توجد مقالات متاحة',
+              loadingMessage: 'جاري تحميل المقالات...',
+              onRetry: () => context.read<WordsOnOccasionsBloc>().add(
+                FetchWordsOnOccasionsDataEvent(
+                  catId: widget.categoryId,
+                  catMenus: 55,
+                  articlesPerPage: 6,
+                  categoriesPerPage: 3,
+                  articlesPage: 1,
+                  categoriesPage: 1,
                 ),
-                animationSize: 200,
-              );
-            },
-          ),
+              ),
+              animationSize: 200,
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _buildCategoryArticlesContent(BuildContext context, WordsOnOccasionsState state) {
+  Widget _buildCategoryArticlesContent(
+    BuildContext context,
+    WordsOnOccasionsState state,
+  ) {
     // Handle navigation when article detail is ready
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _handleNavigation(context, state);
@@ -120,7 +119,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                     child: Text(
                       widget.categoryTitle,
                       style: TextStyle(
-                        fontSize: 18.f,
+                        fontSize: 18.sp,
                         fontFamily: FontFamily.tajawal,
                         fontWeight: FontWeight.bold,
                         color: AppColors.black,
@@ -130,14 +129,14 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                 ],
               ),
             ),
-            
+
             // Articles grid with 2 cards per row
             _buildArticlesGrid(context, state),
-            
+
             // Loading indicator for pagination
             if (state.status.isLoading() && state.subCategories.isNotEmpty)
               Padding(
-                padding:  EdgeInsets.all(16.w),
+                padding: EdgeInsets.all(16.w),
                 child: Center(
                   child: Column(
                     children: [
@@ -175,7 +174,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
 
     // Group articles into pairs for 2 cards per row
     final List<List<WordsOnOccasionsArticle>> articlePairs = [];
-    
+
     for (int i = 0; i < allArticles.length; i += 2) {
       if (i + 1 < allArticles.length) {
         // Two articles in this row
@@ -193,15 +192,11 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
           child: Row(
             children: [
               // First card
-              Expanded(
-                child: _buildCategoryArticleCard(context, pair[0], 0),
-              ),
+              Expanded(child: _buildCategoryArticleCard(context, pair[0], 0)),
               SizedBox(width: 12.w),
               // Second card (if exists)
               if (pair.length > 1)
-                Expanded(
-                  child: _buildCategoryArticleCard(context, pair[1], 1),
-                )
+                Expanded(child: _buildCategoryArticleCard(context, pair[1], 1))
               else
                 Expanded(child: SizedBox()), // Empty space for single card
             ],
@@ -211,7 +206,11 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
     );
   }
 
-  Widget _buildCategoryArticleCard(BuildContext context, WordsOnOccasionsArticle article, int index) {
+  Widget _buildCategoryArticleCard(
+    BuildContext context,
+    WordsOnOccasionsArticle article,
+    int index,
+  ) {
     return Container(
       color: Colors.white,
       child: Card(
@@ -280,7 +279,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                         Assets.images.candleSmall.path,
                         fit: BoxFit.contain,
                         width: 60.w,
-                        height: 60.h, 
+                        height: 60.h,
                       ),
                     ),
                   ),
@@ -291,7 +290,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                         "فضيلة الشيخ",
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 13.f,
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
                         ),
@@ -316,7 +315,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                       child: Text(
                         "الدرس:",
                         style: TextStyle(
-                          fontSize: 13.f,
+                          fontSize: 13.sp,
                           fontFamily: FontFamily.tajawal,
                           color: AppColors.grey,
                           fontWeight: FontWeight.bold,
@@ -349,7 +348,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                   child: Text(
                     article.articleTitle ?? "لا يوجد عنوان",
                     style: TextStyle(
-                      fontSize: ResponsiveScaling.scale(context, 12),
+                      fontSize: 12.sp,
                       fontFamily: FontFamily.tajawal,
                       color: AppColors.grey,
                     ),
@@ -357,15 +356,22 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                SizedBox(height: 20),   // Add space between lesson title and button
+                SizedBox(
+                  height: 20,
+                ), // Add space between lesson title and button
                 GestureDetector(
-                  onTap: _loadingArticleId == article.articleId ? null : () => _onArticleCardClick(context, article),
+                  onTap: _loadingArticleId == article.articleId
+                      ? null
+                      : () => _onArticleCardClick(context, article),
                   child: Container(
                     margin: EdgeInsets.only(bottom: 16),
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 10.h,
+                    ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(80),
-                      color: _loadingArticleId == article.articleId 
+                      color: _loadingArticleId == article.articleId
                           ? AppColors.primary.withOpacity(0.7)
                           : AppColors.primary,
                     ),
@@ -378,7 +384,9 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                                 height: 16.h,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 8),
@@ -388,7 +396,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                                   fontFamily: FontFamily.tajawal,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12.f,
+                                  fontSize: 12.sp,
                                 ),
                               ),
                             ],
@@ -412,7 +420,10 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
   }
 
   // ===== ARTICLE CARD CLICK HANDLER =====
-  void _onArticleCardClick(BuildContext context, WordsOnOccasionsArticle article) {
+  void _onArticleCardClick(
+    BuildContext context,
+    WordsOnOccasionsArticle article,
+  ) {
     // Set loading state
     setState(() {
       _loadingArticleId = article.articleId;
@@ -426,22 +437,25 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
 
   // ===== NAVIGATION HANDLER =====
   void _handleNavigation(BuildContext context, WordsOnOccasionsState state) {
-    if (state.articleDetailStatus.isSuccess() && 
-        state.selectedArticle != null && 
+    if (state.articleDetailStatus.isSuccess() &&
+        state.selectedArticle != null &&
         !state.hasNavigatedToArticle) {
       // Reset loading state
       setState(() {
         _loadingArticleId = null;
       });
-      
+
       // Mark that navigation has happened
       context.read<WordsOnOccasionsBloc>().add(MarkArticleNavigatedEvent());
-      
+
       _navigateToArticle(context, state.selectedArticle!);
     }
   }
 
-  void _navigateToArticle(BuildContext context, WordsOnOccasionsArticle article) {
+  void _navigateToArticle(
+    BuildContext context,
+    WordsOnOccasionsArticle article,
+  ) {
     final htmlContent = HtmlContent(
       title: article.articleTitle ?? 'Untitled',
       htmlContent: article.articleDes ?? '',

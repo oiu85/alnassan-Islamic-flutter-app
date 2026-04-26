@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/utils/responsive.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
@@ -12,7 +12,7 @@ class HomeMainCard extends StatelessWidget {
 
   const HomeMainCard({super.key, required this.state});
   // Using extension methods for easier access
-  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.sp
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class HomeMainCard extends StatelessWidget {
                     "بسم الله الرحمن الرحيم",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 24.f,
+                      fontSize: 24.sp,
                       fontFamily: FontFamily.amiri,
                       fontWeight: FontWeight.bold,
                       color: AppColors.black,
@@ -66,7 +66,7 @@ class HomeMainCard extends StatelessWidget {
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 12.f,
+                      fontSize: 12.sp,
                       fontFamily: FontFamily.tajawal,
                       fontWeight: FontWeight.bold,
                       height: 1.0,
@@ -100,7 +100,7 @@ class HomeMainCard extends StatelessWidget {
                   child: Text(
                     'المزيد',
                     style: TextStyle(
-                      fontSize: 16.f,
+                      fontSize: 16.sp,
                       fontFamily: FontFamily.tajawal,
                       fontWeight: FontWeight.bold,
                       color: AppColors.black,

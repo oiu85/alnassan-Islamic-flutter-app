@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -144,7 +144,7 @@ class VideoCard extends StatelessWidget {
                         child: Text(
                           "عنوان الدرس:",
                           style: TextStyle(
-                            fontSize: 12.f,
+                            fontSize: 12.sp,
                             fontFamily: FontFamily.tajawal,
                             fontWeight: FontWeight.bold,
                             color: AppColors.black,
@@ -159,14 +159,14 @@ class VideoCard extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.remove_red_eye_outlined,
-                            size: 14.f,
+                            size: 14.sp,
                             color: AppColors.grey,
                           ),
                           SizedBox(width: 2.w),
                           Text(
                             video.videoVisitor,
                             style: TextStyle(
-                              fontSize: 10.f,
+                              fontSize: 10.sp,
                               fontFamily: FontFamily.tajawal,
                               color: AppColors.grey,
                             ),
@@ -180,7 +180,7 @@ class VideoCard extends StatelessWidget {
                   Text(
                     video.videoTitle,
                     style: TextStyle(
-                      fontSize: 12.f,
+                      fontSize: 12.sp,
                       fontFamily: FontFamily.tajawal,
                     ),
                     maxLines: 2,
@@ -214,7 +214,7 @@ class VideoCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.play_arrow, color: Colors.white, size: 16.f),
+                            Icon(Icons.play_arrow, color: Colors.white, size: 16.sp),
                             SizedBox(width: 4.w),
                             Text(
                               "تشغيل",
@@ -222,7 +222,7 @@ class VideoCard extends StatelessWidget {
                                 fontFamily: FontFamily.tajawal,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 10.f,
+                                fontSize: 10.sp,
                               ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../data/model/search_advisory_model.dart';
@@ -59,7 +59,7 @@ class SearchAdvisoryCard extends StatelessWidget {
                         child: Icon(
                           Icons.help_outline,
                           color: AppColors.grey,
-                          size: 32.f,
+                          size: 32.sp,
                         ),
                       )
                     : null,
@@ -76,9 +76,9 @@ class SearchAdvisoryCard extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
                         fontSize: context.deviceValue(
-                          mobile: 15.f,
-                          tablet: 16.f,
-                          desktop: 18.f,
+                          mobile: 15.sp,
+                          tablet: 16.sp,
+                          desktop: 18.sp,
                         ),
                         fontWeight: FontWeight.bold,
                         color: AppColors.black,
@@ -94,9 +94,9 @@ class SearchAdvisoryCard extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
                         fontSize: context.deviceValue(
-                          mobile: 13.f,
-                          tablet: 14.f,
-                          desktop: 16.f,
+                          mobile: 13.sp,
+                          tablet: 14.sp,
+                          desktop: 16.sp,
                         ),
                         color: AppColors.grey,
                         height: 1.4,
@@ -126,7 +126,7 @@ class SearchAdvisoryCard extends StatelessWidget {
                             advisory.categoryName.isNotEmpty ? advisory.categoryName : 'فتوى',
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 12.f,
+                              fontSize: 12.sp,
                               color: AppColors.primary,
                               fontWeight: FontWeight.w600,
                             ),
@@ -136,7 +136,7 @@ class SearchAdvisoryCard extends StatelessWidget {
                         // Date
                         Icon(
                           Icons.calendar_today,
-                          size: 16.f,
+                          size: 16.sp,
                           color: AppColors.grey,
                         ),
                         SizedBox(width: 4.w),
@@ -144,7 +144,7 @@ class SearchAdvisoryCard extends StatelessWidget {
                           _formatDate(advisory.date),
                           style: TextStyle(
                             fontFamily: FontFamily.tajawal,
-                            fontSize: 12.f,
+                            fontSize: 12.sp,
                             color: AppColors.grey,
                           ),
                         ),
@@ -156,7 +156,7 @@ class SearchAdvisoryCard extends StatelessWidget {
               // Arrow Icon
               Icon(
                 Icons.arrow_forward_ios,
-                size: 16.f,
+                size: 16.sp,
                 color: AppColors.grey,
               ),
             ],

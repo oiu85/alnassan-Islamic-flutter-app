@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
 import '../widgets/compact_audio_player.dart';
@@ -83,7 +83,7 @@ class _SoundCardState extends State<SoundCard> {
                     child: Text(
                       widget.sound.soundTitle,
                       style:  TextStyle(
-                        fontSize: 14.f,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.black,
                       ),
@@ -101,19 +101,19 @@ class _SoundCardState extends State<SoundCard> {
                 height: 24.h,
                 child: Row(
                   children: [
-                    Icon(Icons.visibility, size: 18.f, color: AppColors.primary),
+                    Icon(Icons.visibility, size: 18.sp, color: AppColors.primary),
                     SizedBox(width: 6.w),
                     Text(
                       widget.sound.soundVisitor ?? '0',
                       style:  TextStyle(
-                        fontSize: 12.f,
+                        fontSize: 12.sp,
                         color: AppColors.grey,
                       ),
                     ),
                     SizedBox(width: 16.w),
                     Icon(
                       Icons.access_time,
-                      size: 16.f,
+                      size: 16.sp,
                       color: AppColors.primary,
                     ),
                     SizedBox(width: 6.w),
@@ -121,7 +121,7 @@ class _SoundCardState extends State<SoundCard> {
                       child: Text(
                         _formatDate(widget.sound.soundDate),
                         style:  TextStyle(
-                          fontSize: 12.f,
+                          fontSize: 12.sp,
                           color: AppColors.grey,
                         ),
                         maxLines: 1,
@@ -203,13 +203,13 @@ class _SoundCardState extends State<SoundCard> {
                       },
                   icon:  Icon(
                     Icons.download,
-                    size: 18.f,
+                    size: 18.sp,
                     color: Colors.black,
                   ),
                   label:  Text(
                     'تحميل',
                     style: TextStyle(
-                      fontSize: 13.f,
+                      fontSize: 13.sp,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
@@ -227,7 +227,7 @@ class _SoundCardState extends State<SoundCard> {
               : Text(
                   'لا يوجد ملف صوتي',
                   style:  TextStyle(
-                    fontSize: 13.f,
+                    fontSize: 13.sp,
                     color: AppColors.grey,
                   ),
                 ),

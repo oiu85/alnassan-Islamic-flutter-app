@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../bloc/global_search_bloc.dart';
@@ -216,9 +216,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
                           fontSize: context.deviceValue(
-                            mobile: MediaQuery.of(context).size.width < 360 ? 14.f : 16.f,
-                            tablet: 16.f,
-                            desktop: 18.f,
+                            mobile: MediaQuery.of(context).size.width < 360 ? 14.sp : 16.sp,
+                            tablet: 16.sp,
+                            desktop: 18.sp,
                           ),
                           color: Colors.black87,
                         ),
@@ -227,9 +227,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                           hintStyle: TextStyle(
                             fontFamily: FontFamily.tajawal,
                             fontSize: context.deviceValue(
-                              mobile: MediaQuery.of(context).size.width < 360 ? 14.f : 16.f,
-                              tablet: 16.f,
-                              desktop: 18.f,
+                              mobile: MediaQuery.of(context).size.width < 360 ? 14.sp : 16.sp,
+                              tablet: 16.sp,
+                              desktop: 18.sp,
                             ),
                             color: AppColors.grey,
                           ),
@@ -357,7 +357,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                   'ابدأ البحث عن المحتوى',
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 20.f,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.black,
                   ),
@@ -370,7 +370,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: 16.f,
+                      fontSize: 16.sp,
                       color: AppColors.black.withValues(alpha: 0.7),
                     ),
                   ),
@@ -391,9 +391,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
                       fontSize: context.deviceValue(
-                        mobile: MediaQuery.of(context).size.width < 360 ? 13.f : 14.f,
-                        tablet: 15.f,
-                        desktop: 16.f,
+                        mobile: MediaQuery.of(context).size.width < 360 ? 13.sp : 14.sp,
+                        tablet: 15.sp,
+                        desktop: 16.sp,
                       ),
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -437,9 +437,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
                   fontSize: context.deviceValue(
-                    mobile: MediaQuery.of(context).size.width < 360 ? 16.f : 18.f,
-                    tablet: 20.f,
-                    desktop: 22.f,
+                    mobile: MediaQuery.of(context).size.width < 360 ? 16.sp : 18.sp,
+                    tablet: 20.sp,
+                    desktop: 22.sp,
                   ),
                   fontWeight: FontWeight.bold,
                   color: AppColors.black,
@@ -454,7 +454,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                   'مسح الكل',
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 14.f,
+                    fontSize: 14.sp,
                     color: AppColors.primary,
                   ),
                 ),
@@ -510,7 +510,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
               query,
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 14.f,
+                fontSize: 14.sp,
                 color: AppColors.black,
               ),
             ),
@@ -548,7 +548,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
             'جاري البحث...',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: 16.f,
+              fontSize: 16.sp,
               color: AppColors.grey,
             ),
           ),
@@ -559,7 +559,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                 'نبحث عن "${_searchBloc.state.searchText}"',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 14.f,
+                  fontSize: 14.sp,
                   fontStyle: FontStyle.italic,
                   color: AppColors.grey.withValues(alpha: 0.7),
                 ),
@@ -601,9 +601,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
               fontSize: context.deviceValue(
-                mobile: MediaQuery.of(context).size.width < 360 ? 16.f : 18.f,
-                tablet: 20.f,
-                desktop: 22.f,
+                mobile: MediaQuery.of(context).size.width < 360 ? 16.sp : 18.sp,
+                tablet: 20.sp,
+                desktop: 22.sp,
               ),
               fontWeight: FontWeight.bold,
               color: iconColor,
@@ -618,9 +618,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
                 fontSize: context.deviceValue(
-                  mobile: MediaQuery.of(context).size.width < 360 ? 13.f : 14.f,
-                  tablet: 15.f,
-                  desktop: 16.f,
+                  mobile: MediaQuery.of(context).size.width < 360 ? 13.sp : 14.sp,
+                  tablet: 15.sp,
+                  desktop: 16.sp,
                 ),
                 color: AppColors.grey,
               ),
@@ -650,7 +650,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
               'إعادة المحاولة',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 14.f,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -688,7 +688,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
             'لا توجد نتائج',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: 18.f,
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
               color: AppColors.grey,
             ),
@@ -701,7 +701,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 14.f,
+                fontSize: 14.sp,
                 color: AppColors.grey.withValues(alpha: 0.7),
               ),
             ),
@@ -712,9 +712,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
               fontSize: context.deviceValue(
-                mobile: 15.f,
-                tablet: 16.f,
-                desktop: 18.f,
+                mobile: 15.sp,
+                tablet: 16.sp,
+                desktop: 18.sp,
               ),
               fontWeight: FontWeight.bold,
               color: AppColors.primary,
@@ -754,9 +754,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
                 fontSize: context.deviceValue(
-                  mobile: MediaQuery.of(context).size.width < 360 ? 13.f : 14.f,
-                  tablet: 14.f,
-                  desktop: 16.f,
+                  mobile: MediaQuery.of(context).size.width < 360 ? 13.sp : 14.sp,
+                  tablet: 14.sp,
+                  desktop: 16.sp,
                 ),
                 color: AppColors.grey,
               ),
@@ -793,9 +793,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
                   fontSize: context.deviceValue(
-                    mobile: MediaQuery.of(context).size.width < 360 ? 14.f : 16.f,
-                    tablet: 16.f,
-                    desktop: 18.f,
+                    mobile: MediaQuery.of(context).size.width < 360 ? 14.sp : 16.sp,
+                    tablet: 16.sp,
+                    desktop: 18.sp,
                   ),
                   fontWeight: FontWeight.bold,
                   color: AppColors.black,
@@ -816,7 +816,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                     state.selectedFilter,
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: 12.f,
+                      fontSize: 12.sp,
                       color: AppColors.primary,
                       fontWeight: FontWeight.w600,
                     ),
@@ -923,7 +923,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                 'تحميل المزيد',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 14.f,
+                  fontSize: 14.sp,
                 ),
               ),
             ),
@@ -1007,9 +1007,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
                     fontSize: context.deviceValue(
-                      mobile: MediaQuery.of(context).size.width < 360 ? 18.f : 20.f,
-                      tablet: 22.f,
-                      desktop: 24.f,
+                      mobile: MediaQuery.of(context).size.width < 360 ? 18.sp : 20.sp,
+                      tablet: 22.sp,
+                      desktop: 24.sp,
                     ),
                     fontWeight: FontWeight.bold,
                     color: Colors.black87,
@@ -1031,9 +1031,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
                         fontSize: context.deviceValue(
-                          mobile: 13.f,
-                          tablet: 14.f,
-                          desktop: 16.f,
+                          mobile: 13.sp,
+                          tablet: 14.sp,
+                          desktop: 16.sp,
                         ),
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
@@ -1092,9 +1092,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
                               fontSize: context.deviceValue(
-                                mobile: MediaQuery.of(context).size.width < 360 ? 14.f : 16.f,
-                                tablet: 16.f,
-                                desktop: 18.f,
+                                mobile: MediaQuery.of(context).size.width < 360 ? 14.sp : 16.sp,
+                                tablet: 16.sp,
+                                desktop: 18.sp,
                               ),
                               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                               color: isSelected ? AppColors.primary : Colors.black87,
@@ -1117,7 +1117,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                               '$count',
                               style: TextStyle(
                                 fontFamily: FontFamily.tajawal,
-                                fontSize: 12.f,
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.bold,
                                 color: isSelected ? Colors.white : AppColors.grey,
                               ),

@@ -1,69 +1,47 @@
 import 'package:flutter/material.dart';
 
-/// Enum representing different device types based on screen size
-enum DeviceType {
-  mobile,
-  tablet,
-  desktop,
-}
+/// Layout buckets from logical width (not ScreenUtil).
+enum DeviceType { mobile, tablet, desktop }
 
-/// Utility class to determine device type and provide size breakpoints
+/// Width-based layout breakpoints for max width and [deviceValue].
 class DeviceTypeUtil {
-  /// The breakpoint for small screens (phones)
   static const double mobileMaxWidth = 650;
-
-  /// The breakpoint for medium screens (tablets)
   static const double tabletMaxWidth = 1100;
 
-  //* iPad/tablet UX constants (Apple HIG) — avoid crowded edge-to-edge layout on large screens
-  /// Max content width for tablet (e.g. iPad Air 11") so content stays readable and not stretched
   static const double tabletMaxContentWidth = 720.0;
-  /// Max content width for desktop / large tablet landscape
   static const double desktopMaxContentWidth = 900.0;
-  /// Minimum touch target size (Apple HIG ~44pt) for interactive elements on iPad
   static const double minTouchTargetSize = 44.0;
 
-  /// Determine the device type based on screen width
   static DeviceType getDeviceType(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    
     if (width <= mobileMaxWidth) {
       return DeviceType.mobile;
-    } else if (width <= tabletMaxWidth) {
-      return DeviceType.tablet;
-    } else {
-      return DeviceType.desktop;
     }
+    if (width <= tabletMaxWidth) {
+      return DeviceType.tablet;
+    }
+    return DeviceType.desktop;
   }
 
-  /// Check if the device is a mobile phone
   static bool isMobile(BuildContext context) {
     return getDeviceType(context) == DeviceType.mobile;
   }
 
-  /// Check if the device is a tablet
   static bool isTablet(BuildContext context) {
     return getDeviceType(context) == DeviceType.tablet;
   }
 
-  /// Check if the device is a desktop
   static bool isDesktop(BuildContext context) {
     return getDeviceType(context) == DeviceType.desktop;
   }
 
-  /// Get a value based on device type
-  /// 
-  /// This is a convenient way to return different values for different device types
-  /// Example: `getValue(context, mobile: 10, tablet: 20, desktop: 30)`
   static T getValue<T>({
     required BuildContext context,
     required T mobile,
     required T tablet,
     required T desktop,
   }) {
-    final deviceType = getDeviceType(context);
-    
-    switch (deviceType) {
+    switch (getDeviceType(context)) {
       case DeviceType.mobile:
         return mobile;
       case DeviceType.tablet:
@@ -73,11 +51,8 @@ class DeviceTypeUtil {
     }
   }
 
-  /// Get a responsive padding that adjusts to the screen size
   static EdgeInsets getResponsivePadding(BuildContext context) {
-    final deviceType = getDeviceType(context);
-    
-    switch (deviceType) {
+    switch (getDeviceType(context)) {
       case DeviceType.mobile:
         return const EdgeInsets.symmetric(horizontal: 16);
       case DeviceType.tablet:
@@ -87,11 +62,8 @@ class DeviceTypeUtil {
     }
   }
 
-  /// Max width for main content on tablet/desktop; use to prevent crowded UI on iPad
-  /// Returns [double.infinity] for mobile so layout is full width
   static double getMaxContentWidth(BuildContext context) {
-    final deviceType = getDeviceType(context);
-    switch (deviceType) {
+    switch (getDeviceType(context)) {
       case DeviceType.mobile:
         return double.infinity;
       case DeviceType.tablet:
@@ -102,26 +74,16 @@ class DeviceTypeUtil {
   }
 }
 
-/// Extension on BuildContext to easily access device type
 extension DeviceTypeExtension on BuildContext {
-  /// Get the current device type
   DeviceType get deviceType => DeviceTypeUtil.getDeviceType(this);
 
-  /// Check if the device is a mobile phone
   bool get isMobile => DeviceTypeUtil.isMobile(this);
 
-  /// Check if the device is a tablet
   bool get isTablet => DeviceTypeUtil.isTablet(this);
 
-  /// Check if the device is a desktop
   bool get isDesktop => DeviceTypeUtil.isDesktop(this);
 
-  /// Get a responsive value based on device type
-  T deviceValue<T>({
-    required T mobile,
-    required T tablet,
-    required T desktop,
-  }) {
+  T deviceValue<T>({required T mobile, required T tablet, required T desktop}) {
     return DeviceTypeUtil.getValue(
       context: this,
       mobile: mobile,
@@ -130,6 +92,5 @@ extension DeviceTypeExtension on BuildContext {
     );
   }
 
-  /// Max content width for current device; use for centering and constraining content on iPad
   double get maxContentWidth => DeviceTypeUtil.getMaxContentWidth(this);
 }

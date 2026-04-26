@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
@@ -139,7 +139,7 @@ class _WordOfTheMonthPageState extends State<WordOfTheMonthPage> {
                           state.wordOfTheMonthData?.data?.subCategories?.first.catTitle ?? "كلمة الشهر",
                           style: TextStyle(
                             fontFamily: FontFamily.tajawal,
-                            fontSize: 20.f,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -233,7 +233,7 @@ class _WordOfTheMonthPageState extends State<WordOfTheMonthPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold, 
                     fontFamily: FontFamily.tajawal, 
-                    fontSize: 12.f
+                    fontSize: 12.sp
                   ),
                 ),
               ),
@@ -260,7 +260,7 @@ class _WordOfTheMonthPageState extends State<WordOfTheMonthPage> {
                     // Display article summary
                     article.articleSummary ?? 'ملخص غير متوفر',
                     style: TextStyle(
-                      fontSize: 14.f,
+                      fontSize: 14.sp,
                       fontFamily: FontFamily.tajawal,
                       height: 1.4,
                     ),
@@ -286,7 +286,7 @@ class _WordOfTheMonthPageState extends State<WordOfTheMonthPage> {
                         fontWeight: FontWeight.w600,
                         fontFamily: FontFamily.tajawal,
                         color: Colors.black,
-                        fontSize: 13.f,
+                        fontSize: 13.sp,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -294,7 +294,7 @@ class _WordOfTheMonthPageState extends State<WordOfTheMonthPage> {
                     Icon(
                       isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                       color: Colors.black,
-                      size: 16.f,
+                      size: 16.sp,
                     ),
                   ],
                 ),
@@ -309,7 +309,7 @@ class _WordOfTheMonthPageState extends State<WordOfTheMonthPage> {
             children: [
               Spacer(),
               IconButton(onPressed: (){}, icon: Icon(Icons.calendar_month_outlined)),
-              Text(article.articleDate ?? 'غير محدد', style: TextStyle(fontSize: 12.f)),
+              Text(article.articleDate ?? 'غير محدد', style: TextStyle(fontSize: 12.sp)),
               IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined)),
               Text(article.articleVisitor ?? '0', style: TextStyle(fontFamily: FontFamily.tajawal)),
             ],

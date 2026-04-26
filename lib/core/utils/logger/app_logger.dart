@@ -30,12 +30,8 @@ class AppLogger {
     final capturedStackTrace = stackTrace ?? StackTrace.current;
     final location = _getCallerLocation(capturedStackTrace);
     final errorDetails = _formatErrorDetails(error, capturedStackTrace);
-    
-    _talker.error(
-      '$message\n$location',
-      errorDetails,
-      capturedStackTrace,
-    );
+
+    _talker.error('$message\n$location', errorDetails, capturedStackTrace);
   }
 
   /// Log debug information
@@ -58,11 +54,15 @@ class AppLogger {
   }
 
   /// Log API errors with full details
-  static void apiError(String endpoint, dynamic error, [StackTrace? stackTrace]) {
+  static void apiError(
+    String endpoint,
+    dynamic error, [
+    StackTrace? stackTrace,
+  ]) {
     final capturedStackTrace = stackTrace ?? StackTrace.current;
     final location = _getCallerLocation(capturedStackTrace);
     final errorDetails = _formatErrorDetails(error, capturedStackTrace);
-    
+
     _talker.error(
       '❌ API Error: $endpoint\n$location',
       errorDetails,
@@ -90,32 +90,32 @@ class AppLogger {
     try {
       final trace = stackTrace ?? StackTrace.current;
       final frames = trace.toString().split('\n');
-      
+
       // Skip the first few frames (logger internal calls)
       for (int i = 0; i < frames.length; i++) {
         final frame = frames[i];
-        
+
         // Skip frames from this logger class and talker package
-        if (frame.contains('app_logger.dart') || 
+        if (frame.contains('app_logger.dart') ||
             frame.contains('talker') ||
             frame.contains('package:talker')) {
           continue;
         }
-        
+
         // Extract file path and line number
         final match = RegExp(r'\((.+?):(\d+):(\d+)\)').firstMatch(frame);
         if (match != null) {
           final filePath = match.group(1);
           final lineNumber = match.group(2);
           final columnNumber = match.group(3);
-          
+
           // Get just the filename for brevity
           final fileName = filePath?.split('/').last ?? filePath;
-          
+
           return '📍 Location: $fileName:$lineNumber:$columnNumber';
         }
       }
-      
+
       return '📍 Location: Unknown';
     } catch (e) {
       return '📍 Location: Error parsing stack trace';
@@ -125,26 +125,26 @@ class AppLogger {
   /// Format error details for better readability
   static String _formatErrorDetails(dynamic error, StackTrace stackTrace) {
     if (error == null) return 'No error details';
-    
+
     final buffer = StringBuffer();
     buffer.writeln('Error Type: ${error.runtimeType}');
     buffer.writeln('Error Message: $error');
-    
+
     // If it's an exception, try to get more details
     if (error is Exception) {
       buffer.writeln('Exception: ${error.toString()}');
     }
-    
+
     return buffer.toString();
   }
 
   /// Truncate data to 500 characters for logging
   static dynamic _truncateData(dynamic data) {
     if (data == null) return data;
-    
+
     final dataString = data.toString();
     if (dataString.length <= 500) return data;
-    
+
     return '${dataString.substring(0, 500)}... [TRUNCATED - ${dataString.length} chars total]';
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/responsive_builder.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -32,7 +31,7 @@ class CategoryLessonsPage extends StatefulWidget {
 
 class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
   // Using extension methods for easier access
-  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.sp
 
   @override
   Widget build(BuildContext context) {
@@ -49,58 +48,56 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
         );
         return bloc;
       },
-      child: ResponsiveBuilder(
-        builder: (context, responsive) => Scaffold(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
           backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(Icons.arrow_forward_outlined),
-              ),
-            ],
-          ),
-          drawer: const Drawer(child: AppDrawer()),
-          body: BlocConsumer<LessonBloc, LessonState>(
-            listener: (context, state) {
-              // Handle article detail navigation
-              if (state.articleDetailStatus.isSuccess() &&
-                  state.htmlContent != null &&
-                  !state.hasNavigatedToArticle) {
-                // Mark that navigation has happened
-                context.read<LessonBloc>().add(MarkArticleNavigatedEvent());
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_forward_outlined),
+            ),
+          ],
+        ),
+        drawer: const Drawer(child: AppDrawer()),
+        body: BlocConsumer<LessonBloc, LessonState>(
+          listener: (context, state) {
+            // Handle article detail navigation
+            if (state.articleDetailStatus.isSuccess() &&
+                state.htmlContent != null &&
+                !state.hasNavigatedToArticle) {
+              // Mark that navigation has happened
+              context.read<LessonBloc>().add(MarkArticleNavigatedEvent());
 
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        HtmlBookViewerPage(htmlContent: state.htmlContent!),
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      HtmlBookViewerPage(htmlContent: state.htmlContent!),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            return SimpleLottieHandler(
+              blocStatus: state.status,
+              successWidget: _buildCategoryLessonsContent(context, state),
+              isEmpty: state.status.isSuccess() && state.articles.isEmpty,
+              emptyMessage: 'لا توجد دروس متاحة في هذه الفئة',
+              loadingMessage: 'جاري تحميل الدروس...',
+              onRetry: () {
+                context.read<LessonBloc>().add(
+                  FetchAllLessonsFromCategoryEvent(
+                    categoryId: widget.categoryId,
+                    page: 1,
+                    perPage: widget.perPage,
                   ),
                 );
-              }
-            },
-            builder: (context, state) {
-              return SimpleLottieHandler(
-                blocStatus: state.status,
-                successWidget: _buildCategoryLessonsContent(context, state),
-                isEmpty: state.status.isSuccess() && state.articles.isEmpty,
-                emptyMessage: 'لا توجد دروس متاحة في هذه الفئة',
-                loadingMessage: 'جاري تحميل الدروس...',
-                onRetry: () {
-                  context.read<LessonBloc>().add(
-                    FetchAllLessonsFromCategoryEvent(
-                      categoryId: widget.categoryId,
-                      page: 1,
-                      perPage: widget.perPage,
-                    ),
-                  );
-                },
-                animationSize: 200,
-              );
-            },
-          ),
+              },
+              animationSize: 200,
+            );
+          },
         ),
       ),
     );
@@ -125,7 +122,7 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
                     widget.categoryTitle,
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: 20.f,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -163,7 +160,8 @@ class _CategoryLessonsPageState extends State<CategoryLessonsPage> {
                   return null;
                 }
                 final lesson = state.articles[index];
-                final isLoading =                  state.articleDetailStatus.isLoading() &&
+                final isLoading =
+                    state.articleDetailStatus.isLoading() &&
                     state.loadingArticleId == lesson.articleId;
                 return lessonCardBuild(
                   lesson: lesson.articleTitle ?? 'عنوان غير متوفر',

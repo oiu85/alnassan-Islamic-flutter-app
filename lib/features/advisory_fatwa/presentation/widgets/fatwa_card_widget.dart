@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../config/appconfig/app_colors.dart';
 
@@ -70,7 +70,7 @@ class FatwaCardWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.lightbulb_outline,
-            size: 14.f,
+            size: 14.sp,
             color: AppColors.primary,
           ),
           SizedBox(width: 4.w),
@@ -79,7 +79,7 @@ class FatwaCardWidget extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontFamily: FontFamily.tajawal,
-              fontSize: 12.f,
+              fontSize: 12.sp,
               color: AppColors.black,
             ),
           ),
@@ -104,7 +104,7 @@ class FatwaCardWidget extends StatelessWidget {
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontFamily: FontFamily.tajawal,
-          fontSize: 12.f,
+          fontSize: 12.sp,
         ),
       ),
     );
@@ -115,9 +115,9 @@ class FatwaCardWidget extends StatelessWidget {
       question,
       style: TextStyle(
         fontSize: context.deviceValue(
-          mobile: 13.0.f,
-          tablet: 15.0.f,
-          desktop: 17.0.f,
+          mobile: 13.0.sp,
+          tablet: 15.0.sp,
+          desktop: 17.0.sp,
         ),
         fontFamily: FontFamily.tajawal,
         height: 1.5,
@@ -156,7 +156,7 @@ class FatwaCardWidget extends StatelessWidget {
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
               fontWeight: FontWeight.bold,
-              fontSize: 12.f,
+              fontSize: 12.sp,
               color: AppColors.primary,
             ),
           ),
@@ -164,7 +164,7 @@ class FatwaCardWidget extends StatelessWidget {
             fatwaNumber,
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: 12.f,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w600,
               color: AppColors.primary,
             ),
@@ -189,14 +189,14 @@ class FatwaCardWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.calendar_month_outlined,
-            size: 14.f,
+            size: 14.sp,
             color: Colors.grey[600],
           ),
           SizedBox(width: 4.w),
           Text(
             date,
             style: TextStyle(
-              fontSize: 11.f,
+              fontSize: 11.sp,
               fontFamily: FontFamily.tajawal,
               color: Colors.grey[600],
             ),
@@ -221,7 +221,7 @@ class FatwaCardWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.remove_red_eye_outlined,
-            size: 14.f,
+            size: 14.sp,
             color: Colors.grey[600],
           ),
           SizedBox(width: 4.w),
@@ -229,7 +229,7 @@ class FatwaCardWidget extends StatelessWidget {
             views,
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: 11.f,
+              fontSize: 11.sp,
               color: Colors.grey[600],
             ),
           ),
@@ -277,9 +277,9 @@ class FatwaCardWidget extends StatelessWidget {
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: context.deviceValue(
-                  mobile: 14.0.f,
-                  tablet: 16.0.f,
-                  desktop: 18.0.f,
+                  mobile: 14.0.sp,
+                  tablet: 16.0.sp,
+                  desktop: 18.0.sp,
                 ),
               ),
             ),
@@ -287,7 +287,7 @@ class FatwaCardWidget extends StatelessWidget {
             Icon(
               Icons.arrow_forward_ios,
               color: Colors.white,
-              size: 16.f,
+              size: 16.sp,
             ),
           ],
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../config/appconfig/app_colors.dart';
 
@@ -38,7 +38,7 @@ class SearchBarWidget extends StatelessWidget {
           hintText: hintText,
           hintStyle: TextStyle(
             fontFamily: FontFamily.tajawal,
-            fontSize: 14.f,
+            fontSize: 14.sp,
             color: Colors.grey[600],
           ),
           prefixIcon: Icon(
@@ -54,7 +54,7 @@ class SearchBarWidget extends StatelessWidget {
         ),
         style: TextStyle(
           fontFamily: FontFamily.tajawal,
-          fontSize: 14.f,
+          fontSize: 14.sp,
         ),
       ),
     );

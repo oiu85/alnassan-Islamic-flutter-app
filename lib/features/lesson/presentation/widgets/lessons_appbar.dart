@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/shared/wdigets/app_drawer.dart';
 
@@ -18,7 +18,7 @@ class LessonsAppBar extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               icon: Icon(Icons.arrow_forward_outlined),
-              iconSize: 28.f,
+              iconSize: 28.sp,
             ),
           ),
         ],

@@ -30,16 +30,18 @@ class HomeRepositoryImpl implements HomeRepository {
       }
 
       // Parse initial response and make a deep copy to avoid modifying the original
-      final rawData = Map<String, dynamic>.from(response.data as Map<String, dynamic>);
-      
+      final rawData = Map<String, dynamic>.from(
+        response.data as Map<String, dynamic>,
+      );
+
       // Handle the new response format - ensure proper structure
       if (rawData.containsKey('data')) {
         final dataMap = rawData['data'] as Map<String, dynamic>;
-        
+
         // Handle article structure - it might be nested
         if (dataMap.containsKey('article')) {
           final articleMap = dataMap['article'] as Map<String, dynamic>;
-          
+
           // Check if article is nested (article.article) or direct
           if (articleMap.containsKey('article')) {
             // Nested structure: {article: {article: {...}}}
@@ -48,16 +50,18 @@ class HomeRepositoryImpl implements HomeRepository {
           }
           // If not nested, article is already in the correct format
         }
-        
+
         // Ensure article_categories exists and is properly formatted
         if (!dataMap.containsKey('article_categories')) {
           AppLogger.warning('No article_categories found in response');
           dataMap['article_categories'] = [];
         }
       }
-      
+
       final homeModel = HomeModel.fromJson(rawData);
-      AppLogger.business('Data mapped successfully', {'model': homeModel.toString()});
+      AppLogger.business('Data mapped successfully', {
+        'model': homeModel.toString(),
+      });
 
       return Right(homeModel);
     } on DioException catch (e) {

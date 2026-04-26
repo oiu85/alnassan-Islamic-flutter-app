@@ -5,10 +5,7 @@ part 'home_model.g.dart';
 
 @freezed
 abstract class HomeModel with _$HomeModel {
-  const factory HomeModel({
-    String? status, 
-    Data? data,
-  }) = _HomeModel;
+  const factory HomeModel({String? status, Data? data}) = _HomeModel;
 
   factory HomeModel.fromJson(Map<String, dynamic> json) =>
       _$HomeModelFromJson(json);
@@ -18,10 +15,9 @@ abstract class HomeModel with _$HomeModel {
 abstract class Data with _$Data {
   const factory Data({
     Article? article,
-    @JsonKey(name: 'article_categories') 
+    @JsonKey(name: 'article_categories')
     List<ArticleCategory>? articleCategories,
-    @JsonKey(name: 'important_topics')
-    ImportantTopics? importantTopics,
+    @JsonKey(name: 'important_topics') ImportantTopics? importantTopics,
   }) = _Data;
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -30,25 +26,18 @@ abstract class Data with _$Data {
 @freezed
 abstract class Article with _$Article {
   const factory Article({
-    @JsonKey(name: 'article_id') 
-    int? articleId,
-    @JsonKey(name: 'article_title') 
-    String? articleTitle,
-    @JsonKey(name: 'article_summary') 
-    String? articleSummary,
-    @JsonKey(name: 'article_des') 
-    String? articleDes,
-    @JsonKey(name: 'article_cat_id', fromJson: _intToString) 
+    @JsonKey(name: 'article_id') int? articleId,
+    @JsonKey(name: 'article_title') String? articleTitle,
+    @JsonKey(name: 'article_summary') String? articleSummary,
+    @JsonKey(name: 'article_des') String? articleDes,
+    @JsonKey(name: 'article_cat_id', fromJson: _intToString)
     String? articleCatId,
-    @JsonKey(name: 'article_pic') 
-    String? articlePic,
-    @JsonKey(name: 'article_visitor', fromJson: _intToString) 
+    @JsonKey(name: 'article_pic') String? articlePic,
+    @JsonKey(name: 'article_visitor', fromJson: _intToString)
     String? articleVisitor,
-    @JsonKey(name: 'article_date') 
-    String? articleDate,
+    @JsonKey(name: 'article_date') String? articleDate,
     Category? category,
-    @JsonKey(name: 'monthly_info') 
-    MonthlyInfo? monthlyInfo,
+    @JsonKey(name: 'monthly_info') MonthlyInfo? monthlyInfo,
   }) = _Article;
 
   factory Article.fromJson(Map<String, dynamic> json) =>
@@ -58,19 +47,13 @@ abstract class Article with _$Article {
 @freezed
 abstract class ArticleCategory with _$ArticleCategory {
   const factory ArticleCategory({
-    @JsonKey(name: 'cat_id', fromJson: _stringToInt) 
-    int? catId,
-    @JsonKey(name: 'cat_title') 
-    String? catTitle,
-    @JsonKey(name: 'cat_note') 
-    String? catNote,
-    @JsonKey(name: 'cat_pic') 
-    String? catPic,
-    @JsonKey(name: 'cat_menus', fromJson: _intToString) 
-    String? catMenus,
-    @JsonKey(name: 'cat_pos', fromJson: _intToString) 
-    String? catPos,
-    @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString) 
+    @JsonKey(name: 'cat_id', fromJson: _stringToInt) int? catId,
+    @JsonKey(name: 'cat_title') String? catTitle,
+    @JsonKey(name: 'cat_note') String? catNote,
+    @JsonKey(name: 'cat_pic') String? catPic,
+    @JsonKey(name: 'cat_menus', fromJson: _intToString) String? catMenus,
+    @JsonKey(name: 'cat_pos', fromJson: _intToString) String? catPos,
+    @JsonKey(name: 'cat_in_sub_menu', fromJson: _intToString)
     String? catInSubMenu,
   }) = _ArticleCategory;
 
@@ -81,10 +64,8 @@ abstract class ArticleCategory with _$ArticleCategory {
 @freezed
 abstract class MonthlyInfo with _$MonthlyInfo {
   const factory MonthlyInfo({
-    @JsonKey(name: 'current_month') 
-    int? currentMonth,
-    @JsonKey(name: 'current_year') 
-    int? currentYear,
+    @JsonKey(name: 'current_month') int? currentMonth,
+    @JsonKey(name: 'current_year') int? currentYear,
     int? index,
   }) = _MonthlyInfo;
 
@@ -95,10 +76,8 @@ abstract class MonthlyInfo with _$MonthlyInfo {
 @freezed
 abstract class Category with _$Category {
   const factory Category({
-    @JsonKey(name: 'cat_id') 
-    int? catId,
-    @JsonKey(name: 'cat_title') 
-    String? catTitle,
+    @JsonKey(name: 'cat_id') int? catId,
+    @JsonKey(name: 'cat_title') String? catTitle,
   }) = _Category;
 
   factory Category.fromJson(Map<String, dynamic> json) =>
@@ -107,9 +86,8 @@ abstract class Category with _$Category {
 
 @freezed
 abstract class ImportantTopics with _$ImportantTopics {
-  const factory ImportantTopics({
-    List<ImportantTopic>? data,
-  }) = _ImportantTopics;
+  const factory ImportantTopics({List<ImportantTopic>? data}) =
+      _ImportantTopics;
 
   factory ImportantTopics.fromJson(Map<String, dynamic> json) =>
       _$ImportantTopicsFromJson(json);
@@ -124,7 +102,8 @@ abstract class ImportantTopic with _$ImportantTopic {
     String? content,
     ImportantTopicCategory? category,
     String? image,
-    @JsonKey(name: 'visitor_count', fromJson: _intToString) String? visitorCount,
+    @JsonKey(name: 'visitor_count', fromJson: _intToString)
+    String? visitorCount,
     String? date,
     @JsonKey(fromJson: _intToString) String? priority,
     String? type,
@@ -157,10 +136,8 @@ int? _stringToInt(dynamic value) {
 
 @freezed
 abstract class ImportantTopicCategory with _$ImportantTopicCategory {
-  const factory ImportantTopicCategory({
-    int? id,
-    String? title,
-  }) = _ImportantTopicCategory;
+  const factory ImportantTopicCategory({int? id, String? title}) =
+      _ImportantTopicCategory;
 
   factory ImportantTopicCategory.fromJson(Map<String, dynamic> json) =>
       _$ImportantTopicCategoryFromJson(json);

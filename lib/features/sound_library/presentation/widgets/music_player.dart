@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:marquee/marquee.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
@@ -79,7 +79,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                 'تحميل الملف',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 18.f,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -88,7 +88,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                 'سيتم حفظ الملف في مجلد التنزيلات',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 14.f,
+                  fontSize: 14.sp,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -109,7 +109,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       'إلغاء',
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 14.f,
+                        fontSize: 14.sp,
                         color: Colors.white,
                       ),
                     ),
@@ -131,7 +131,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       'تحميل',
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 14.f,
+                        fontSize: 14.sp,
                         color: Colors.white,
                       ),
                     ),
@@ -154,7 +154,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
           widget.sound.category?.catTitle ?? 'مشغل الصوت',
           style: TextStyle(
             fontFamily: FontFamily.tajawal,
-            fontSize: 20.f,
+            fontSize: 20.sp,
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
@@ -230,7 +230,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                                     widget.sound.soundTitle,
                                     style: TextStyle(
                                       fontFamily: FontFamily.tajawal,
-                                      fontSize: 20.f,
+                                      fontSize: 20.sp,
                                       fontWeight: FontWeight.bold,
                                     ),
                                     textAlign: TextAlign.center,
@@ -342,13 +342,13 @@ class _MusicPlayerState extends State<MusicPlayer> {
       ),
       child: Column(
         children: [
-          Icon(Icons.archive, size: 40.f, color: AppColors.primary),
+          Icon(Icons.archive, size: 40.sp, color: AppColors.primary),
           SizedBox(height: 10.h),
           Text(
             'هذا الملف مضغوط وهو للتحميل فقط',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: 16.f,
+              fontSize: 16.sp,
               color: AppColors.primary,
               fontWeight: FontWeight.bold,
             ),
@@ -359,7 +359,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
             'نوع الملف: ${SoundFileTypeUtil.getFileTypeDescription(widget.sound.soundFile)}',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: 14.f,
+              fontSize: 14.sp,
               color: AppColors.primary,
             ),
             textAlign: TextAlign.center,
@@ -378,11 +378,11 @@ class _MusicPlayerState extends State<MusicPlayer> {
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
                   )
-                : Icon(Icons.download, size: 20.f, color: Colors.white),
+                : Icon(Icons.download, size: 20.sp, color: Colors.white),
             label: Text(
               audioState.isFileDownloading ? 'جاري التحميل...' : 'تحميل الملف',
               style: TextStyle(
-                fontSize: 14.f,
+                fontSize: 14.sp,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
               ),
@@ -433,11 +433,11 @@ class _MusicPlayerState extends State<MusicPlayer> {
               children: [
                 ElevatedButton.icon(
                   onPressed: () => _handleDownload(context),
-                  icon: Icon(Icons.download, size: 20.f, color: Colors.white),
+                  icon: Icon(Icons.download, size: 20.sp, color: Colors.white),
                   label: Text(
                     'تحميل الملف',
                     style: TextStyle(
-                      fontSize: 14.f,
+                      fontSize: 14.sp,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
@@ -474,13 +474,13 @@ class _MusicPlayerState extends State<MusicPlayer> {
       ),
       child: Column(
         children: [
-          Icon(Icons.music_note, size: 40.f, color: AppColors.primary),
+          Icon(Icons.music_note, size: 40.sp, color: AppColors.primary),
           SizedBox(height: 10.h),
           Text(
             'ملف ريل ميديا',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: 16.f,
+              fontSize: 16.sp,
               color: AppColors.primary,
               fontWeight: FontWeight.bold,
             ),
@@ -491,7 +491,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
             'نوع الملف: ${SoundFileTypeUtil.getFileTypeDescription(widget.sound.soundFile)}',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: 14.f,
+              fontSize: 14.sp,
               color: AppColors.primary,
             ),
             textAlign: TextAlign.center,
@@ -502,11 +502,11 @@ class _MusicPlayerState extends State<MusicPlayer> {
             children: [
               ElevatedButton.icon(
                 onPressed: () => _handleDownload(context),
-                icon: Icon(Icons.download, size: 20.f, color: Colors.white),
+                icon: Icon(Icons.download, size: 20.sp, color: Colors.white),
                 label: Text(
                   'تحميل الملف',
                   style: TextStyle(
-                    fontSize: 14.f,
+                    fontSize: 14.sp,
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
@@ -566,7 +566,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                 bloc.formatDuration(audioState.position),
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 16.f,
+                  fontSize: 16.sp,
                   color: AppColors.grey,
                 ),
               ),
@@ -574,7 +574,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                 bloc.formatDuration(audioState.duration),
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 14.f,
+                  fontSize: 14.sp,
                   color: AppColors.grey,
                 ),
               ),
@@ -591,7 +591,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
             // Previous button (disabled for now)
             IconButton(
               onPressed: null, // TODO: Implement previous track functionality
-              icon: Icon(Icons.skip_previous, size: 44.f),
+              icon: Icon(Icons.skip_previous, size: 44.sp),
               color: AppColors.grey,
             ),
 
@@ -625,19 +625,19 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     if (!audioState.isLoading && !audioState.isDownloading)
                       Icon(
                         audioState.isPlaying ? Icons.pause : Icons.play_arrow,
-                        size: 54.f,
+                        size: 54.sp,
                         color: Colors.white,
                       ),
                   ],
                 ),
-                iconSize: 54.f,
+                iconSize: 54.sp,
               ),
             ),
 
             // Next button (disabled for now)
             IconButton(
               onPressed: null, // TODO: Implement next track functionality
-              icon: Icon(Icons.skip_next, size: 44.f),
+              icon: Icon(Icons.skip_next, size: 44.sp),
               color: AppColors.grey,
             ),
           ],
@@ -737,7 +737,7 @@ Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
   final textPainter = TextPainter(
     text: TextSpan(
       text: text,
-      style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: fontSize.f),
+      style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: fontSize.sp),
     ),
     textDirection: TextDirection.rtl,
   );
@@ -747,7 +747,7 @@ Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
   if (textPainter.width <= availableWidth) {
     return Text(
       text,
-      style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: fontSize.f),
+      style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: fontSize.sp),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
@@ -758,7 +758,7 @@ Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
     height: 30.h, // Fixed height for consistent layout
     child: Marquee(
       text: text,
-      style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: fontSize.f),
+      style: TextStyle(fontFamily: FontFamily.tajawal, fontSize: fontSize.sp),
       scrollAxis: Axis.horizontal,
       crossAxisAlignment: CrossAxisAlignment.center,
       blankSpace: 20.0,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/shared/wdigets/app_drawer.dart';
 import 'package:nassan_app/features/home/data/model/home_model.dart';
 import 'package:nassan_app/features/home/presentation/bloc/home_bloc.dart';
@@ -112,7 +112,7 @@ class AppScaffold extends StatelessWidget {
             },
             icon: Icon(
               Icons.notifications_outlined,
-              size: 30.f,
+              size: 30.sp,
             ),
           ),
         ),

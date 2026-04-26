@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
@@ -209,9 +209,9 @@ class _CategoriesSectionWidgetState extends State<CategoriesSectionWidget> {
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
                       fontSize: context.deviceValue(
-                        mobile: 12.0.f,
-                        tablet: 14.0.f,
-                        desktop: 16.0.f,
+                        mobile: 12.0.sp,
+                        tablet: 14.0.sp,
+                        desktop: 16.0.sp,
                       ),
                     ),
                     maxLines: 3,

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/di/app_dependencies.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/core/shared/wdigets/ui_status_handling.dart';
 import 'package:nassan_app/features/advisory_fatwa/presentation/pages/advisory_viewer_page.dart';
 import 'package:nassan_app/features/advisory_fatwa/presentation/pages/fatwa_list_page.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
 
 import '../bloc/category_details_bloc.dart';
 import '../bloc/category_details_event.dart';
@@ -75,7 +75,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
         title: Text(
           parentCategory?.catTitle ?? widget.categoryTitle,
           style: TextStyle(
-            fontSize: 18.f,
+            fontSize: 18.sp,
             fontFamily: FontFamily.tajawal,
             fontWeight: FontWeight.bold,
           ),
@@ -178,7 +178,7 @@ class _CategoryDetailsPageState extends State<CategoryDetailsPage> {
             child: Text(
               'لا توجد فتاوى في هذا القسم',
               style: TextStyle(
-                fontSize: 14.f,
+                fontSize: 14.sp,
                 fontFamily: FontFamily.tajawal,
                 color: Colors.grey,
               ),

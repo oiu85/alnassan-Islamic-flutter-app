@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/utils/responsive.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
@@ -80,14 +80,14 @@ class _SoundsPageState extends State<SoundsPage> {
               children: [
                 // Title with loading indicator
                 Padding(
-                  padding: EdgeInsets.only(bottom: 12.s),
+                  padding: EdgeInsets.only(bottom: 12.h),
                   child: Row(
                     children: [
                       Text(
                         "المكتبة الصوتية",
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 24.f,
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -163,14 +163,14 @@ class _SoundsPageState extends State<SoundsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 12.s),
+          padding: EdgeInsets.symmetric(vertical: 12.h),
           child: Row(
             children: [
               Text(
                 state.selectedLevel1Category?.catTitle ?? "الأصوات المباشرة",
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 20.f,
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.black.withValues(alpha: 0.8),
                 ),
@@ -186,7 +186,7 @@ class _SoundsPageState extends State<SoundsPage> {
                     "الكل",
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: 16.f,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.black,
                     ),

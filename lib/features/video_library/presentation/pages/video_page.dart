@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/core/shared/wdigets/ui_status_handling.dart';
 import 'package:nassan_app/core/di/app_dependencies.dart';
@@ -113,7 +113,7 @@ class VideoPage extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(height: 20.sp),
+                    SizedBox(height: 20.h),
                   ],
                 ),
               ),

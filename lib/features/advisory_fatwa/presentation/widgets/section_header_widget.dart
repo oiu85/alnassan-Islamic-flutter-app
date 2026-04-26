@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
-import 'package:nassan_app/core/responsive/screen_utils.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../config/appconfig/app_colors.dart';
 
@@ -26,9 +25,9 @@ class SectionHeaderWidget extends StatelessWidget {
           title,
           style: TextStyle(
             fontSize: context.deviceValue(
-              mobile: 18.0.f,
-              tablet: 22.0.f,
-              desktop: 26.0.f,
+              mobile: 18.0.sp,
+              tablet: 22.0.sp,
+              desktop: 26.0.sp,
             ),
             fontFamily: FontFamily.tajawal,
             fontWeight: FontWeight.bold,
@@ -41,7 +40,7 @@ class SectionHeaderWidget extends StatelessWidget {
             child: Text(
               actionText!,
               style: TextStyle(
-                fontSize: 12.sf,
+                fontSize: 12.sp,
                 fontFamily: FontFamily.tajawal,
                 fontWeight: FontWeight.w600,
                 color: AppColors.black,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../data/model.dart';
@@ -129,7 +129,7 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
             Icon(
               Icons.error_outline,
               color: Colors.red,
-              size: 20.f,
+              size: 20.sp,
             ),
           ],
         ),
@@ -171,7 +171,7 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
               child: Icon(
                 _isPlaying ? Icons.pause : Icons.play_arrow,
                 color: Colors.white,
-                size: 24.f,
+                size: 24.sp,
               ),
             ),
           ),
@@ -205,7 +205,7 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
                         _formatDuration(_controller!.value.position),
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 12.f,
+                          fontSize: 12.sp,
                           color: AppColors.primary,
                         ),
                       ),
@@ -213,7 +213,7 @@ class _RealMediaPlayerState extends State<RealMediaPlayer> {
                         _formatDuration(_controller!.value.duration),
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 9.f,
+                          fontSize: 9.sp,
                           color: AppColors.grey,
                         ),
                       ),

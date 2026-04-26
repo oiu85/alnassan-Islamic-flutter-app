@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/responsive/device_type.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
 
 class ResponsiveTextService {
   //* font size based on device type and base size

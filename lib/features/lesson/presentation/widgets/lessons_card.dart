@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -21,7 +21,7 @@ Widget lessonCardBuild({
   VoidCallback? onTap,
 }) {
   // Using extension methods for easier access
-  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.sp
 
   return SizedBox(
     height: height,
@@ -48,7 +48,7 @@ Widget lessonCardBuild({
                       title,
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 15.f,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
                       ),
@@ -74,7 +74,7 @@ Widget lessonCardBuild({
                   child: Text(
                     "الدرس:",
                     style: TextStyle(
-                      fontSize: 14.f,
+                      fontSize: 14.sp,
                       fontFamily: FontFamily.tajawal,
                       color: AppColors.grey,
                       fontWeight: FontWeight.bold,
@@ -90,7 +90,7 @@ Widget lessonCardBuild({
                         child: Text(
                           viewCont,
                           style: TextStyle(
-                            fontSize: 13.f,
+                            fontSize: 13.sp,
                             fontFamily: FontFamily.tajawal,
                             color: AppColors.grey,
                           ),
@@ -100,7 +100,7 @@ Widget lessonCardBuild({
                       IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.remove_red_eye_outlined),
-                        iconSize: 26.f,
+                        iconSize: 26.sp,
                         color: AppColors.grey,
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
@@ -118,7 +118,7 @@ Widget lessonCardBuild({
               child: Text(
                 lesson,
                 style: TextStyle(
-                  fontSize: 13.f,
+                  fontSize: 13.sp,
                   fontFamily: FontFamily.tajawal,
                   color: AppColors.grey,
                 ),
@@ -152,7 +152,7 @@ Widget lessonCardBuild({
                     fontFamily: FontFamily.tajawal,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 11.f,
+                    fontSize: 11.sp,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 
@@ -139,7 +139,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
               "كلمات في مناسبات",
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 24.f,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -189,7 +189,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                     subCategory.catTitle ?? "كلمات في مناسبات",
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: 18.f,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
                     ),
@@ -211,7 +211,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                   child: Text(
                     "الكل",
                     style: TextStyle(
-                      fontSize: 20.f,
+                      fontSize: 20.sp,
                       fontFamily: FontFamily.tajawal,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -318,7 +318,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                         "فضيلة الشيخ",
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 13.f,
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
                         ),
@@ -343,7 +343,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                       child: Text(
                         "الكلمة:",
                         style: TextStyle(
-                          fontSize: 13.f,
+                          fontSize: 13.sp,
                           fontFamily: FontFamily.tajawal,
                           color: AppColors.grey,
                           fontWeight: FontWeight.bold,
@@ -356,7 +356,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                         Text(
                           article.articleVisitor ?? "0",
                           style: TextStyle(
-                            fontSize: 12.f,
+                            fontSize: 12.sp,
                             fontFamily: FontFamily.tajawal,
                             color: AppColors.grey,
                           ),
@@ -364,7 +364,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                         IconButton(
                           onPressed: () {},
                           icon: Icon(Icons.remove_red_eye_outlined),
-                          iconSize: 22.f,
+                          iconSize: 22.sp,
                           color: AppColors.grey,
                         ),
                       ],
@@ -376,7 +376,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                   child: Text(
                     article.articleTitle ?? "لا يوجد عنوان",
                     style: TextStyle(
-                      fontSize: 12.f,
+                      fontSize: 12.sp,
                       fontFamily: FontFamily.tajawal,
                       color: AppColors.grey,
                     ),
@@ -415,7 +415,7 @@ class _WordsOnOccasionsPageState extends State<WordsOnOccasionsPage> {
                                   fontFamily: FontFamily.tajawal,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12.f,
+                                  fontSize: 12.sp,
                                 ),
                               ),
                             ],

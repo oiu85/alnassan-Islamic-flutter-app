@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../data/services/sound_storage_permission_service.dart';
 
@@ -49,7 +49,7 @@ class SoundPermissionHandler extends StatelessWidget {
               children: [
                 Icon(
                   Icons.folder_open,
-                  size: 60.f,
+                  size: 60.sp,
                   color: AppColors.primary,
                 ),
                 SizedBox(height: 20.h),
@@ -57,7 +57,7 @@ class SoundPermissionHandler extends StatelessWidget {
                   'إذن التخزين مطلوب',
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 20.f,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -67,7 +67,7 @@ class SoundPermissionHandler extends StatelessWidget {
                   'نحتاج إلى إذن للوصول إلى وحدة التخزين لتنزيل الملفات الصوتية',
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 16.f,
+                    fontSize: 16.sp,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -90,7 +90,7 @@ class SoundPermissionHandler extends StatelessWidget {
                     'منح الإذن',
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: 16.f,
+                      fontSize: 16.sp,
                       color: Colors.white,
                     ),
                   ),

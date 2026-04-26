@@ -189,7 +189,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                             // YouTube Player Area
                             Container(
                               width: double.infinity,
-                              height: 280.sp,
+                              height: 280.h,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(20.r),
@@ -792,7 +792,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
             
             // Videos List
             SizedBox(
-              height: 220.sp,
+              height: 220.h,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 20.h),
@@ -817,7 +817,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   Widget _buildSuggestedVideoCard(BuildContext context, Video video) {
     return Container(
-      width: 200.sp,
+      width: 200.w,
       margin: EdgeInsets.only(left: 12.sp),
       child: InkWell(
         borderRadius: BorderRadius.circular(20.r),

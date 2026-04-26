@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../data/model/notification_model.dart';
 
@@ -38,7 +38,7 @@ class NotificationCard extends StatelessWidget {
                     Text(
                       notification.title ?? 'إشعار',
                       style: TextStyle(
-                        fontSize: 16.f,
+                        fontSize: 16.sp,
                         fontFamily: FontFamily.tajawal,
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
@@ -52,7 +52,7 @@ class NotificationCard extends StatelessWidget {
                     Text(
                       notification.message ?? '',
                       style: TextStyle(
-                        fontSize: 14.f,
+                        fontSize: 14.sp,
                         fontFamily: FontFamily.tajawal,
                         color: Colors.grey[600],
                         height: 1.4,
@@ -67,14 +67,14 @@ class NotificationCard extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.access_time,
-                          size: 14.f,
+                          size: 14.sp,
                           color: Colors.grey[500],
                         ),
                         SizedBox(width: 4.w),
                         Text(
                           _formatDate(notification.createdAt),
                           style: TextStyle(
-                            fontSize: 12.f,
+                            fontSize: 12.sp,
                             fontFamily: FontFamily.tajawal,
                             color: Colors.grey[500],
                           ),
@@ -89,7 +89,7 @@ class NotificationCard extends StatelessWidget {
                           child: Text(
                             _getTypeLabel(notification.type),
                             style: TextStyle(
-                              fontSize: 10.f,
+                              fontSize: 10.sp,
                               fontFamily: FontFamily.tajawal,
                               color: _getTypeColor(notification.type),
                               fontWeight: FontWeight.w600,
@@ -105,7 +105,7 @@ class NotificationCard extends StatelessWidget {
               // Arrow icon
               Icon(
                 Icons.arrow_forward_ios,
-                size: 16.f,
+                size: 16.sp,
                 color: Colors.grey[400],
               ),
             ],

@@ -4,8 +4,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/di/app_dependencies.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/utils/responsive.dart';
 import 'package:nassan_app/core/network/network_client.dart';
 import 'package:nassan_app/features/lesson/presentation/bloc/lesson_bloc.dart';
@@ -42,7 +42,7 @@ class ContentCard extends StatelessWidget {
   });
 
   // Using extension methods for easier access
-  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.sp
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class ContentCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 13.s, left: 34.p, right: 12.p),
+            padding: EdgeInsets.only(top: 13.h, left: 34.w, right: 12.w),
             child: Text(
               title,
               textAlign: TextAlign.center,
@@ -73,9 +73,9 @@ class ContentCard extends StatelessWidget {
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
                 fontSize: context.deviceValue(
-                  mobile: 14.f,
-                  tablet: 22.f,
-                  desktop: 26.f,
+                  mobile: 14.sp,
+                  tablet: 22.sp,
+                  desktop: 26.sp,
                 ),
               ),
             ),
@@ -107,7 +107,7 @@ class BottomCards extends StatelessWidget {
   const BottomCards({super.key});
 
   // Using extension methods for easier access
-  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.sp
 
   @override
   Widget build(BuildContext context) {

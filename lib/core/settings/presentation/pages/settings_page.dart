@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../bloc/settings_bloc.dart';
@@ -27,7 +27,7 @@ class SettingsPage extends StatelessWidget {
                   'إعدادات التطبيق',
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 20.f,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -47,7 +47,7 @@ class SettingsPage extends StatelessWidget {
                       'جاري تحميل الإعدادات...',
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 16.f,
+                        fontSize: 16.sp,
                         color: state.isDarkMode ? Colors.white : Colors.black,
                       ),
                     ),
@@ -66,7 +66,7 @@ class SettingsPage extends StatelessWidget {
                   'إعدادات التطبيق',
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 20.f,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -80,7 +80,7 @@ class SettingsPage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.error_outline,
-                      size: 64.f,
+                      size: 64.sp,
                       color: Colors.red,
                     ),
                     SizedBox(height: 16.h),
@@ -88,7 +88,7 @@ class SettingsPage extends StatelessWidget {
                       'حدث خطأ في تحميل الإعدادات',
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 18.f,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                         color: state.isDarkMode ? Colors.white : Colors.black,
                       ),
@@ -99,7 +99,7 @@ class SettingsPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: FontFamily.tajawal,
-                        fontSize: 14.f,
+                        fontSize: 14.sp,
                         color: AppColors.grey,
                       ),
                     ),
@@ -108,12 +108,12 @@ class SettingsPage extends StatelessWidget {
                       onPressed: () {
                         context.read<SettingsBloc>().add(LoadSettingsEvent());
                       },
-                      icon: Icon(Icons.refresh, size: 20.f),
+                      icon: Icon(Icons.refresh, size: 20.sp),
                       label: Text(
                         'إعادة المحاولة',
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 16.f,
+                          fontSize: 16.sp,
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -138,7 +138,7 @@ class SettingsPage extends StatelessWidget {
                 'الإعدادات',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 20.f,
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
@@ -195,7 +195,7 @@ class SettingsPage extends StatelessWidget {
           'حجم الخط',
           style: TextStyle(
             fontFamily: FontFamily.tajawal,
-            fontSize: 18.f,
+            fontSize: 18.sp,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -221,7 +221,7 @@ class SettingsPage extends StatelessWidget {
             'هذا نص تجريبي لمعاينة حجم الخط',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: (16 * state.fontSizeMultiplier).f,
+              fontSize: (16 * state.fontSizeMultiplier).sp  ,
               color: Colors.black87,
             ),
           ),
@@ -253,7 +253,7 @@ class SettingsPage extends StatelessWidget {
               label,
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 16.f,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
                 color: isSelected ? Colors.white : Colors.black,
               ),
@@ -276,7 +276,7 @@ class SettingsPage extends StatelessWidget {
               'وضع ملء الشاشة',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 18.f,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -286,7 +286,7 @@ class SettingsPage extends StatelessWidget {
               'إخفاء شريط الحالة والأزرار',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 14.f,
+                fontSize: 14.sp,
                 color: AppColors.grey,
               ),
             ),
@@ -313,7 +313,7 @@ class SettingsPage extends StatelessWidget {
           'مسار التحميل',
           style: TextStyle(
             fontFamily: FontFamily.tajawal,
-            fontSize: 18.f,
+            fontSize: 18.sp,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -330,7 +330,7 @@ class SettingsPage extends StatelessWidget {
               Icon(
                 Icons.folder_outlined,
                 color: AppColors.primary,
-                size: 24.f,
+                size: 24.sp,
               ),
               SizedBox(width: 12.w),
               Expanded(
@@ -338,7 +338,7 @@ class SettingsPage extends StatelessWidget {
                   state.downloadPath,
                   style: TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 14.f,
+                    fontSize: 14.sp,
                     color: Colors.black87,
                   ),
                   maxLines: 2,
@@ -383,7 +383,7 @@ class SettingsPage extends StatelessWidget {
                 'حفظ الإعدادات',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 18.f,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -406,14 +406,14 @@ class SettingsPage extends StatelessWidget {
               Icon(
                 Icons.check_circle,
                 color: Colors.green,
-                size: 64.f,
+                size: 64.sp,
               ),
               SizedBox(height: 16.h),
               Text(
                 'تم الحفظ بنجاح',
                 style: TextStyle(
                   fontFamily: FontFamily.tajawal,
-                  fontSize: 20.f,
+                  fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
@@ -435,7 +435,7 @@ class SettingsPage extends StatelessWidget {
                     'موافق',
                     style: TextStyle(
                       fontFamily: FontFamily.tajawal,
-                      fontSize: 16.f,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

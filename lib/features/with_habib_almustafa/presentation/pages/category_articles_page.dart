@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/responsive_builder.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
@@ -45,35 +44,36 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
               perPage: 6,
             ),
           ),
-      child: ResponsiveBuilder(
-        builder: (context, responsive) => AppScaffold.custom(
-          drawer: Drawer(child: AppDrawer()),
-          body: BlocBuilder<HabibMustafaBloc, HabibMustafaState>(
-            builder: (context, state) {
-              return SimpleLottieHandler(
-                blocStatus: state.status,
-                successWidget: _buildCategoryArticlesContent(context, state),
-                isEmpty:
-                    state.status.isSuccess() && state.categoryArticles.isEmpty,
-                emptyMessage: 'لا توجد مقالات متاحة',
-                loadingMessage: 'جاري تحميل المقالات...',
-                onRetry: () => context.read<HabibMustafaBloc>().add(
-                  FetchCategoryArticlesEvent(
-                    categoryId: widget.categoryId,
-                    page: 1,
-                    perPage: 6,
-                  ),
+      child: AppScaffold.custom(
+        drawer: Drawer(child: AppDrawer()),
+        body: BlocBuilder<HabibMustafaBloc, HabibMustafaState>(
+          builder: (context, state) {
+            return SimpleLottieHandler(
+              blocStatus: state.status,
+              successWidget: _buildCategoryArticlesContent(context, state),
+              isEmpty:
+                  state.status.isSuccess() && state.categoryArticles.isEmpty,
+              emptyMessage: 'لا توجد مقالات متاحة',
+              loadingMessage: 'جاري تحميل المقالات...',
+              onRetry: () => context.read<HabibMustafaBloc>().add(
+                FetchCategoryArticlesEvent(
+                  categoryId: widget.categoryId,
+                  page: 1,
+                  perPage: 6,
                 ),
-                animationSize: 200.w,
-              );
-            },
-          ),
+              ),
+              animationSize: 200.w,
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _buildCategoryArticlesContent(BuildContext context, HabibMustafaState state) {
+  Widget _buildCategoryArticlesContent(
+    BuildContext context,
+    HabibMustafaState state,
+  ) {
     // Handle navigation when article detail is ready
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _handleNavigation(context, state);
@@ -114,7 +114,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                     child: Text(
                       widget.categoryTitle,
                       style: TextStyle(
-                        fontSize: 18.f,
+                        fontSize: 18.sp,
                         fontFamily: FontFamily.tajawal,
                         fontWeight: FontWeight.bold,
                         color: AppColors.black,
@@ -131,12 +131,13 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                 ],
               ),
             ),
-            
+
             // Articles grid with 2 cards per row
             _buildArticlesGrid(context, state),
-            
+
             // Loading indicator for pagination
-            if (state.status.isLoadingMore() && state.categoryArticles.isNotEmpty)
+            if (state.status.isLoadingMore() &&
+                state.categoryArticles.isNotEmpty)
               Padding(
                 padding: EdgeInsets.all(16.w),
                 child: Center(
@@ -169,7 +170,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
     // Group articles into pairs for 2 cards per row
     final articles = state.categoryArticles;
     final List<List<HabibArticle>> articlePairs = [];
-    
+
     for (int i = 0; i < articles.length; i += 2) {
       if (i + 1 < articles.length) {
         // Two articles in this row
@@ -187,15 +188,11 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
           child: Row(
             children: [
               // First card
-              Expanded(
-                child: _buildCategoryArticleCard(context, pair[0], 0),
-              ),
+              Expanded(child: _buildCategoryArticleCard(context, pair[0], 0)),
               SizedBox(width: 12.w),
               // Second card (if exists)
               if (pair.length > 1)
-                Expanded(
-                  child: _buildCategoryArticleCard(context, pair[1], 1),
-                )
+                Expanded(child: _buildCategoryArticleCard(context, pair[1], 1))
               else
                 Expanded(child: SizedBox()), // Empty space for single card
             ],
@@ -205,7 +202,11 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
     );
   }
 
-  Widget _buildCategoryArticleCard(BuildContext context, HabibArticle article, int index) {
+  Widget _buildCategoryArticleCard(
+    BuildContext context,
+    HabibArticle article,
+    int index,
+  ) {
     return Container(
       child: Card(
         color: Colors.white,
@@ -284,7 +285,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                         "فضيلة الشيخ",
                         style: TextStyle(
                           fontFamily: FontFamily.tajawal,
-                          fontSize: 13.f,
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
                         ),
@@ -309,7 +310,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                       child: Text(
                         "الدرس:",
                         style: TextStyle(
-                          fontSize: 13.f,
+                          fontSize: 13.sp,
                           fontFamily: FontFamily.tajawal,
                           color: AppColors.grey,
                           fontWeight: FontWeight.bold,
@@ -322,7 +323,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                         Text(
                           article.articleVisitor ?? "0",
                           style: TextStyle(
-                            fontSize: 12.f,
+                            fontSize: 12.sp,
                             fontFamily: FontFamily.tajawal,
                             color: AppColors.grey,
                           ),
@@ -330,7 +331,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                         IconButton(
                           onPressed: () {},
                           icon: Icon(Icons.remove_red_eye_outlined),
-                          iconSize: 22.f,
+                          iconSize: 22.sp,
                           color: AppColors.grey,
                         ),
                       ],
@@ -342,7 +343,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                   child: Text(
                     article.articleTitle ?? "لا يوجد عنوان",
                     style: TextStyle(
-                      fontSize: 12.f,
+                      fontSize: 12.sp,
                       fontFamily: FontFamily.tajawal,
                       color: AppColors.grey,
                     ),
@@ -350,15 +351,22 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                SizedBox(height: 20.h), // Add space between lesson title and button
+                SizedBox(
+                  height: 20.h,
+                ), // Add space between lesson title and button
                 GestureDetector(
-                  onTap: _loadingArticleId == article.articleId ? null : () => _onArticleCardClick(context, article),
+                  onTap: _loadingArticleId == article.articleId
+                      ? null
+                      : () => _onArticleCardClick(context, article),
                   child: Container(
                     margin: EdgeInsets.only(bottom: 16.h),
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 10.h,
+                    ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(80.r),
-                      color: _loadingArticleId == article.articleId 
+                      color: _loadingArticleId == article.articleId
                           ? AppColors.primary.withOpacity(0.7)
                           : AppColors.primary,
                     ),
@@ -371,7 +379,9 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                                 height: 16.h,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2.w,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 8.w),
@@ -381,7 +391,7 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
                                   fontFamily: FontFamily.tajawal,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12.f,
+                                  fontSize: 12.sp,
                                 ),
                               ),
                             ],
@@ -419,17 +429,17 @@ class _CategoryArticlesPageState extends State<CategoryArticlesPage> {
 
   // ===== NAVIGATION HANDLER =====
   void _handleNavigation(BuildContext context, HabibMustafaState state) {
-    if (state.articleDetailStatus.isSuccess() && 
-        state.selectedArticle != null && 
+    if (state.articleDetailStatus.isSuccess() &&
+        state.selectedArticle != null &&
         !state.hasNavigatedToArticle) {
       // Reset loading state
       setState(() {
         _loadingArticleId = null;
       });
-      
+
       // Mark that navigation has happened
       context.read<HabibMustafaBloc>().add(MarkArticleNavigatedEvent());
-      
+
       _navigateToArticle(context, state.selectedArticle!);
     }
   }

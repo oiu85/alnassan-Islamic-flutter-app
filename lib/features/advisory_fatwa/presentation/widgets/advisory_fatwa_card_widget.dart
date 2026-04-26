@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/model/advisory_categories_model.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 
@@ -84,7 +84,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
         children: [
           Icon(
             Icons.lightbulb_outline,
-            size: 14.f,
+            size: 14.sp,
             color: AppColors.black,
           ),
           SizedBox(width: 4.w),
@@ -94,7 +94,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontFamily: FontFamily.tajawal,
-                fontSize: 12.f,
+                fontSize: 12.sp,
                 color: AppColors.black,
               ),
               overflow: TextOverflow.ellipsis,
@@ -121,7 +121,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontFamily: FontFamily.tajawal,
-          fontSize: 12.f,
+          fontSize: 12.sp,
         ),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
@@ -137,7 +137,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
     return Text(
       questionText,
       style: TextStyle(
-        fontSize: 13.f,
+        fontSize: 13.sp,
         fontFamily: FontFamily.tajawal,
         height: 1.5,
         color: Colors.grey[800],
@@ -176,7 +176,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
           style: TextStyle(
             fontFamily: FontFamily.tajawal,
             fontWeight: FontWeight.bold,
-            fontSize: 12.f,
+            fontSize: 12.sp,
             color: AppColors.primary,
           ),
           overflow: TextOverflow.ellipsis,
@@ -186,7 +186,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
           widget.advisory.advisoryId?.toString() ?? '-',
           style: TextStyle(
             fontFamily: FontFamily.tajawal,
-            fontSize: 12.f,
+            fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             color: AppColors.primary,
           ),
@@ -203,7 +203,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
       children: [
         Icon(
           Icons.calendar_month_outlined,
-          size: 14.f,
+          size: 14.sp,
           color: Colors.grey[600],
         ),
         SizedBox(width: 4.w),
@@ -211,7 +211,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
           child: Text(
             _formatDate(widget.advisory.advisoryQuestionDate),
             style: TextStyle(
-              fontSize: 11.f,
+              fontSize: 11.sp,
               fontFamily: FontFamily.tajawal,
               color: Colors.grey[600],
             ),
@@ -229,7 +229,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
       children: [
         Icon(
           Icons.remove_red_eye_outlined,
-          size: 14.f,
+          size: 14.sp,
           color: Colors.grey[600],
         ),
         SizedBox(width: 4.w),
@@ -238,7 +238,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
             widget.advisory.advisoryVisitor?.toString() ?? '0',
             style: TextStyle(
               fontFamily: FontFamily.tajawal,
-              fontSize: 11.f,
+              fontSize: 11.sp,
               color: Colors.grey[600],
             ),
             overflow: TextOverflow.ellipsis,
@@ -287,7 +287,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
                     fontFamily: FontFamily.tajawal,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14.f,
+                    fontSize: 14.sp,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -297,7 +297,7 @@ class _AdvisoryFatwaCardWidgetState extends State<AdvisoryFatwaCardWidget> {
               Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.white,
-                size: 16.f,
+                size: 16.sp,
               ),
             ],
           ),

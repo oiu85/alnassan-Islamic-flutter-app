@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
@@ -116,7 +116,7 @@ class _HadithPageState extends State<HadithPage> {
                   state.biographiesData?.data?.categories?.first.catTitle ?? "باب التراجم",
                   style:  TextStyle(
                     fontFamily: FontFamily.tajawal,
-                    fontSize: 25.f,
+                    fontSize: 25.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -201,7 +201,7 @@ class _HadithPageState extends State<HadithPage> {
                             textAlign: TextAlign.center,
                             style:  TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 14.f,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w500,
                             ),
                             maxLines: 4,

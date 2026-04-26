@@ -18,20 +18,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchHomeDataEvent event,
     Emitter<HomeState> emit,
   ) async {
-    AppLogger.business('Initiating home data fetch', {'status': state.status.toString()});
+    AppLogger.business('Initiating home data fetch', {
+      'status': state.status.toString(),
+    });
     emit(state.copyWith(status: const BlocStatus.loading()));
 
     final result = await _homeRepositoryImp.getHomeData();
-    
+
     result.fold(
       // Left side - Error case
       (error) {
         AppLogger.error('Home data fetch error: $error');
-        emit(
-          state.copyWith(
-            status: BlocStatus.fail(error: error),
-          ),
-        );
+        emit(state.copyWith(status: BlocStatus.fail(error: error)));
       },
       // Right side - Success case
       (homeModel) {
@@ -40,9 +38,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           AppLogger.error('No data in response');
           emit(
             state.copyWith(
-              status: const BlocStatus.fail(
-                error: 'Invalid response format',
-              ),
+              status: const BlocStatus.fail(error: 'Invalid response format'),
             ),
           );
           return;
@@ -51,9 +47,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           AppLogger.warning('No main article found');
           emit(
             state.copyWith(
-              status: const BlocStatus.fail(
-                error: 'No main article found',
-              ),
+              status: const BlocStatus.fail(error: 'No main article found'),
             ),
           );
           return;

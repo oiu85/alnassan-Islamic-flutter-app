@@ -3,7 +3,7 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/core/utils/responsive.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -107,7 +107,7 @@ class _HomeCarouselState extends State<HomeCarousel> {
   }
 
   // Using extension methods for easier access
-  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.sp
 
   @override
   Widget build(BuildContext context) {
@@ -137,8 +137,8 @@ class _HomeCarouselState extends State<HomeCarousel> {
                   style: TextStyle(
                     fontSize: responsiveLayoutValue(
                       context,
-                      mobile: 12.f,
-                      tablet: 26.f,
+                      mobile: 12.sp,
+                      tablet: 26.sp,
                     ),
                     fontWeight: FontWeight.bold,
                     fontFamily: FontFamily.tajawal,
@@ -185,8 +185,8 @@ class _HomeCarouselState extends State<HomeCarousel> {
                     style: TextStyle(
                       fontSize: responsiveLayoutValue(
                         context,
-                        mobile: 14.f,
-                        tablet: 26.f,
+                        mobile: 14.sp,
+                        tablet: 26.sp,
                       ),
                       fontWeight: FontWeight.bold,
                       fontFamily: FontFamily.tajawal,

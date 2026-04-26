@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
 import 'package:android_intent_plus/android_intent.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../features/biographies_and_hadiths/presentation/pages/hadith_page.dart';
 import '../../../features/biographies_and_hadiths/presentation/bloc/biographies_bloc.dart';
@@ -32,7 +32,7 @@ class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key, this.categories});
 
   // Using extension methods for easier access
-  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.sp
 
   /// Launches the Telegram channel URL
   /// Uses android_intent_plus for Android and copies URL to clipboard for other platforms
@@ -290,7 +290,7 @@ Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
       text: text,
       style: TextStyle(
         fontFamily: FontFamily.tajawal,
-        fontSize: fontSize.f,
+        fontSize: fontSize.sp,
       ),
     ),
     textDirection: TextDirection.rtl,
@@ -303,7 +303,7 @@ Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
       text,
       style: TextStyle(
         fontFamily: FontFamily.tajawal,
-        fontSize: fontSize.f,
+        fontSize: fontSize.sp,
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -317,7 +317,7 @@ Widget _buildMarqueeText(BuildContext context, String text, double fontSize) {
       text: text,
       style: TextStyle(
         fontFamily: FontFamily.tajawal,
-        fontSize: fontSize.f,
+        fontSize: fontSize.sp,
       ),
       scrollAxis: Axis.horizontal,
       crossAxisAlignment: CrossAxisAlignment.center,

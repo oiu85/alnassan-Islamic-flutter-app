@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
@@ -147,7 +147,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                             widget.title,
                             style: TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 20.f,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -159,7 +159,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                 "الكل",
                                 style: TextStyle(
                                   fontFamily: FontFamily.tajawal,
-                                  fontSize: 18.f,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.black,
                                 ),
@@ -224,7 +224,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                       children: [
                         Padding(
                           padding:  EdgeInsets.symmetric(
-                            horizontal: 12.0.p, vertical: 12.p
+                            horizontal: 12.w, vertical: 12.h
                           ),
                           child: Row(
                             children: [
@@ -232,7 +232,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                 bloc.getSubcategoryTitle(subcategory),
                                 style: TextStyle(
                                   fontFamily: FontFamily.tajawal,
-                                  fontSize: 18.f,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.black.withValues(alpha: 0.8),
                                 ),
@@ -245,7 +245,7 @@ class _SubcategorySoundsPageState extends State<SubcategorySoundsPage> {
                                     "الكل",
                                     style: TextStyle(
                                       fontFamily: FontFamily.tajawal,
-                                      fontSize: 18.f,
+                                      fontSize: 18.sp,
                                       fontWeight: FontWeight.w600,
                                       color: AppColors.black,
                                     ),

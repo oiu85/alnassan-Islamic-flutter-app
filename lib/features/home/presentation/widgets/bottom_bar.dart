@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
-import 'package:nassan_app/gen/fonts.gen.dart';
-
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../gen/assets.gen.dart';
 
 class BottomNavBarWidget extends StatefulWidget {
@@ -11,7 +9,7 @@ class BottomNavBarWidget extends StatefulWidget {
   final Function(int) onTap;
 
   const BottomNavBarWidget({
-    super.key, 
+    super.key,
     required this.currentIndex,
     required this.onTap,
   });
@@ -21,17 +19,12 @@ class BottomNavBarWidget extends StatefulWidget {
 }
 
 class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
-
   // Using extension methods for easier access
-  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.sp
 
-  Widget buildNavItem(
-    String imagePath,
-    int index,
-    double iconSize,
-  ) {
+  Widget buildNavItem(String imagePath, int index, double iconSize) {
     final isActive = widget.currentIndex == index;
-    
+
     return InkWell(
       onTap: () => widget.onTap(index),
       child: SizedBox(
@@ -67,45 +60,22 @@ class _BottomNavBarWidgetState extends State<BottomNavBarWidget> {
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.6),
+            color: Colors.black.withValues(alpha: 0.6),
             spreadRadius: 5.r,
             blurRadius: 12.r,
             offset: Offset(0, 9.h),
           ),
         ],
       ),
-      padding: EdgeInsets.symmetric(
-        horizontal: 20.w,
-        vertical: 3.h,
-      ),
-      margin: EdgeInsets.only(
-        right: 20.w,
-        left: 20.w,
-        bottom: 20.h,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.h),
+      margin: EdgeInsets.only(right: 20.w, left: 20.w, bottom: 20.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          buildNavItem(
-            Assets.images.home2.path,
-            0,
-            iconSize,
-          ),
-          buildNavItem(
-            Assets.images.search.path,
-            1,
-            iconSize,
-          ),
-          buildNavItem(
-            Assets.images.messageAdd.path,
-            2,
-            iconSize,
-          ),
-          buildNavItem(
-            Assets.images.book.path,
-            3,
-            iconSize,
-          ),
+          buildNavItem(Assets.images.home2.path, 0, iconSize),
+          buildNavItem(Assets.images.search.path, 1, iconSize),
+          buildNavItem(Assets.images.messageAdd.path, 2, iconSize),
+          buildNavItem(Assets.images.book.path, 3, iconSize),
         ],
       ),
     );

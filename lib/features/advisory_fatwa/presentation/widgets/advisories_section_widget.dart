@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/device_layout.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../data/model/advisory_categories_model.dart';
@@ -85,7 +85,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
               error ?? 'حدث خطأ في التحميل',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 14.f,
+                fontSize: 14.sp,
                 color: Colors.grey[600],
               ),
               textAlign: TextAlign.center,
@@ -115,7 +115,7 @@ class AdvisoriesSectionWidget extends StatelessWidget {
               'لا توجد فتاوى متاحة',
               style: TextStyle(
                 fontFamily: FontFamily.tajawal,
-                fontSize: 14.f,
+                fontSize: 14.sp,
                 color: Colors.grey[600],
               ),
               textAlign: TextAlign.center,

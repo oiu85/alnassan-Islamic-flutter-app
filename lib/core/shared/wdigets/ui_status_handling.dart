@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import '../../../gen/assets.gen.dart';
 import '../../models/page_state/bloc_status.dart';
@@ -60,7 +60,7 @@ class SimpleLottieHandler extends StatelessWidget {
             Text(
               loadingMessage ?? 'جاري التحميل...',
               style: TextStyle(
-                fontSize: 16.f,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Tajawal',
               ),
@@ -93,7 +93,7 @@ class SimpleLottieHandler extends StatelessWidget {
               Text(
                 'خطأ في الاتصال',
                 style: TextStyle(
-                  fontSize: 18.f,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Tajawal',
                 ),
@@ -103,7 +103,7 @@ class SimpleLottieHandler extends StatelessWidget {
               Text(
                 'تأكد من اتصالك بالإنترنت وحاول مرة أخرى',
                 style: TextStyle(
-                  fontSize: 14.f,
+                  fontSize: 14.sp,
                   fontFamily: 'Tajawal',
                   color: Colors.grey[600],
                 ),
@@ -112,12 +112,12 @@ class SimpleLottieHandler extends StatelessWidget {
               SizedBox(height: 20.h),
               ElevatedButton.icon(
                 onPressed: onRetry,
-                icon: Icon(Icons.refresh, size: 20.f, color: Colors.white,),
+                icon: Icon(Icons.refresh, size: 20.sp, color: Colors.white,),
                 label: Text(
                   'إعادة المحاولة',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16.f,
+                    fontSize: 16.sp,
                     fontFamily: 'Tajawal',
                     fontWeight: FontWeight.w600,
                   ),

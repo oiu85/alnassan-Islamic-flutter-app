@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
@@ -112,7 +112,7 @@ class _ContactUsState extends State<ContactUs> {
                             'تم الإرسال بنجاح!',
                             style:  TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 16.f,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -124,7 +124,7 @@ class _ContactUsState extends State<ContactUs> {
                                 : 'تم إرسال رسالتك بنجاح! سنتواصل معك قريباً',
                             style:  TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 13.f,
+                              fontSize: 13.sp,
                               fontWeight: FontWeight.w400,
                               color: Colors.white,
                             ),
@@ -175,7 +175,7 @@ class _ContactUsState extends State<ContactUs> {
                             'حدث خطأ!',
                             style:  TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 16.f,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -185,7 +185,7 @@ class _ContactUsState extends State<ContactUs> {
                             state.error ?? 'عذراً، حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى',
                             style:  TextStyle(
                               fontFamily: FontFamily.tajawal,
-                              fontSize: 13.f,
+                              fontSize: 13.sp,
                               fontWeight: FontWeight.w400,
                               color: Colors.white,
                             ),
@@ -258,7 +258,7 @@ class _ContactUsState extends State<ContactUs> {
                               'جاري إرسال رسالتك...',
                               style: TextStyle(
                                 fontFamily: FontFamily.tajawal,
-                                fontSize: 16.f,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black87,
                               ),
@@ -268,7 +268,7 @@ class _ContactUsState extends State<ContactUs> {
                               'يرجى الانتظار قليلاً',
                               style: TextStyle(
                                 fontFamily: FontFamily.tajawal,
-                                fontSize: 12.f,
+                                fontSize: 12.sp,
                                 color: Colors.grey[600],
                               ),
                             ),

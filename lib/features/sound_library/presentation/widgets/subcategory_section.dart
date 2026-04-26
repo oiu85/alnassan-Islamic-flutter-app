@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../bloc/sound_library_bloc.dart';
 import 'sound_card.dart';
 import '../pages/subcategory_sounds_page.dart';
@@ -31,7 +31,7 @@ class SubcategorySection extends StatelessWidget {
                 Text(
                   bloc.getSubcategoryTitle(subcategory),
                   style: TextStyle(
-                    fontSize: 18.f,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w600,
                     color: AppColors.black.withOpacity(0.8),
                   ),
@@ -43,7 +43,7 @@ class SubcategorySection extends StatelessWidget {
                     child: Text(
                       "الكل",
                       style: TextStyle(
-                        fontSize: 12.f,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.black,
                       ),

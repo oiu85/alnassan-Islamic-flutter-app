@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
-import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../config/appconfig/app_colors.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/fonts.gen.dart';
@@ -24,7 +24,7 @@ class LessonsPage extends StatefulWidget {
 
 class _LessonsPageState extends State<LessonsPage> {
   // Using extension methods for easier access
-  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
+  // No need for helper methods - use extensions directly: 25.w, 30.h, 16.sp
 
   @override
   Widget build(BuildContext context) {
@@ -123,12 +123,12 @@ class _LessonsPageState extends State<LessonsPage> {
                               children: [
                                 Expanded(
                                   child: SizedBox(
-                                    height: 28.f,
+                                    height: 28.h,
                                     child: LayoutBuilder(
                                       builder: (context, constraints) {
                                         final text = category.catTitle ?? "عنوان غير متوفر";
                                         final textStyle = TextStyle(
-                                          fontSize: 22.f,
+                                          fontSize: 22.sp,
                                           fontFamily: FontFamily.tajawal,
                                           fontWeight: FontWeight.bold,
                                           color: AppColors.black,
@@ -190,7 +190,7 @@ class _LessonsPageState extends State<LessonsPage> {
                                   child: Text(
                                     "الكل ",
                                     style: TextStyle(
-                                      fontSize: 20.f,
+                                      fontSize: 20.sp,
                                       fontFamily: FontFamily.tajawal,
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.black,
@@ -245,7 +245,7 @@ class _LessonsPageState extends State<LessonsPage> {
                                 child: Text(
                                   'لا توجد دروس متاحة لهذه الفئة',
                                   style: TextStyle(
-                                    fontSize: 16.f,
+                                    fontSize: 16.sp,
                                     fontFamily: FontFamily.tajawal,
                                   ),
                                 ),
@@ -260,7 +260,7 @@ class _LessonsPageState extends State<LessonsPage> {
                         child: Text(
                           'لا توجد فئات متاحة',
                           style: TextStyle(
-                            fontSize: 16.f,
+                            fontSize: 16.sp,
                             fontFamily: FontFamily.tajawal,
                           ),
                         ),
