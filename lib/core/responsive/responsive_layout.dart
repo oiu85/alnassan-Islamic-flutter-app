@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:nassan_app/core/utils/responsive.dart';
+
 import 'device_type.dart';
 
 /// A responsive layout widgets that displays different layouts based on screen size
@@ -74,22 +76,13 @@ class ResponsiveContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get responsive padding based on device type
-    final responsivePadding = context.deviceValue(
-      mobile: const EdgeInsets.symmetric(horizontal: 16),
-      tablet: const EdgeInsets.symmetric(horizontal: 24),
-      desktop: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-    );
+    final EdgeInsets responsivePadding = responsiveShellBodyPadding(context);
 
-    // Combine responsive padding with any additional padding
-    final combinedPadding = padding != null 
-      ? responsivePadding.add(padding!)
-      : responsivePadding;
+    final EdgeInsetsGeometry combinedPadding = padding != null
+        ? responsivePadding.add(padding!)
+        : responsivePadding;
 
-    Widget content = Padding(
-      padding: combinedPadding,
-      child: child,
-    );
+    Widget content = Padding(padding: combinedPadding, child: child);
 
     //! On tablet/desktop (e.g. iPad), constrain content width so UI is not crowded (App Store guideline)
     final effectiveMaxWidth = maxWidth ?? context.maxContentWidth;
@@ -104,15 +97,9 @@ class ResponsiveContainer extends StatelessWidget {
 
     // Center the content if specified
     if (center) {
-      content = Center(
-        widthFactor: widthFactor,
-        child: content,
-      );
+      content = Center(widthFactor: widthFactor, child: content);
     } else if (widthFactor != null) {
-      content = FractionallySizedBox(
-        widthFactor: widthFactor,
-        child: content,
-      );
+      content = FractionallySizedBox(widthFactor: widthFactor, child: content);
     }
 
     return content;
@@ -120,7 +107,8 @@ class ResponsiveContainer extends StatelessWidget {
 }
 
 /// A builder function for creating responsive layouts
-typedef ResponsiveWidgetBuilder = Widget Function(BuildContext context, BoxConstraints constraints);
+typedef ResponsiveWidgetBuilder =
+    Widget Function(BuildContext context, BoxConstraints constraints);
 
 /// A widgets that provides a responsive layout based on constraints
 ///
@@ -131,10 +119,8 @@ class ResponsiveConstrainedBox extends StatelessWidget {
   final ResponsiveWidgetBuilder builder;
 
   /// Create a responsive constrained box
-  const ResponsiveConstrainedBox({
-    Key? key,
-    required this.builder,
-  }) : super(key: key);
+  const ResponsiveConstrainedBox({Key? key, required this.builder})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {

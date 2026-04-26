@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/responsive.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/shared/wdigets/AppScaffold.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
-import '../../../../core/shared/wdigets/app_drawer.dart';
 import '../../../../core/shared/wdigets/ui_status_handling.dart';
 import '../../../../gen/assets.gen.dart';
 import '../widgets/sound_top_bar.dart';
@@ -29,10 +29,10 @@ class _SoundsPageState extends State<SoundsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<SoundLibraryBloc>().add(const FetchHierarchicalCategoriesEvent());
+    context.read<SoundLibraryBloc>().add(
+      const FetchHierarchicalCategoriesEvent(),
+    );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,21 +63,24 @@ class _SoundsPageState extends State<SoundsPage> {
   }
 
   /// Builds the main content of the sound library page
-  Widget _buildContent(BuildContext context, SoundLibraryState state, SoundLibraryBloc bloc) {
+  Widget _buildContent(
+    BuildContext context,
+    SoundLibraryState state,
+    SoundLibraryBloc bloc,
+  ) {
     return CustomScrollView(
       slivers: [
-
         // Main Content
         SliverToBoxAdapter(
           child: Container(
             color: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: responsiveContentHorizontalEdgeInsets(context),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Title with loading indicator
                 Padding(
-                  padding: EdgeInsets.only(right: 20.w, left: 20.w, bottom: 12.h),
+                  padding: EdgeInsets.only(bottom: 12.s),
                   child: Row(
                     children: [
                       Text(
@@ -95,7 +98,9 @@ class _SoundsPageState extends State<SoundsPage> {
                           height: 24.h,
                           child: CircularProgressIndicator(
                             strokeWidth: 2.5,
-                            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              AppColors.primary,
+                            ),
                           ),
                         ),
                       ],
@@ -103,20 +108,15 @@ class _SoundsPageState extends State<SoundsPage> {
                   ),
                 ),
 
-                // Top Bar (always show main categories)
-                Padding(
-                  padding: EdgeInsets.only(right: 8.w),
-                  child: SoundTopBar(
-                    parentCategories: state.level1Categories,
-                    selectedCategory: state.selectedLevel1Category,
-                    onCategorySelected: (category) {
-                      context.read<SoundLibraryBloc>().add(
-                        SelectLevel1CategoryEvent(category: category),
-                      );
-                    },
-                  ),
+                SoundTopBar(
+                  parentCategories: state.level1Categories,
+                  selectedCategory: state.selectedLevel1Category,
+                  onCategorySelected: (category) {
+                    context.read<SoundLibraryBloc>().add(
+                      SelectLevel1CategoryEvent(category: category),
+                    );
+                  },
                 ),
-
 
                 if (bloc.shouldShowSelectedCategory())
                   _buildSelectedCategory(context, state, bloc)
@@ -131,7 +131,11 @@ class _SoundsPageState extends State<SoundsPage> {
   }
 
   /// Builds the selected category content with direct sounds and subcategories
-  Widget _buildSelectedCategory(BuildContext context, SoundLibraryState state, SoundLibraryBloc bloc) {
+  Widget _buildSelectedCategory(
+    BuildContext context,
+    SoundLibraryState state,
+    SoundLibraryBloc bloc,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -143,21 +147,23 @@ class _SoundsPageState extends State<SoundsPage> {
         // Subcategories section
         if (bloc.shouldShowSubcategories())
           ...bloc.getSubcategories().map(
-            (subcategory) => SubcategorySection(
-              subcategory: subcategory,
-              bloc: bloc,
-            ),
+            (subcategory) =>
+                SubcategorySection(subcategory: subcategory, bloc: bloc),
           ),
       ],
     );
   }
 
-  Widget _buildDirectSoundsSection(BuildContext context, SoundLibraryState state, SoundLibraryBloc bloc) {
+  Widget _buildDirectSoundsSection(
+    BuildContext context,
+    SoundLibraryState state,
+    SoundLibraryBloc bloc,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+          padding: EdgeInsets.symmetric(vertical: 12.s),
           child: Row(
             children: [
               Text(
@@ -172,7 +178,10 @@ class _SoundsPageState extends State<SoundsPage> {
               Spacer(),
               if (bloc.shouldShowDirectSoundsAllButton())
                 GestureDetector(
-                  onTap: () => _navigateToDirectSounds(context, state.selectedLevel1Category!),
+                  onTap: () => _navigateToDirectSounds(
+                    context,
+                    state.selectedLevel1Category!,
+                  ),
                   child: Text(
                     "الكل",
                     style: TextStyle(
@@ -188,14 +197,18 @@ class _SoundsPageState extends State<SoundsPage> {
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            children: bloc.getDirectSounds()
-                .take(3) // Show only 3 sounds as preview
-                .map((sound) => Padding(
-                  padding: EdgeInsets.only(right: 12.w),
-                  child: SoundCard(sound: sound),
-                ))
-                .toList(),
+          child: Builder(
+            builder: (context) {
+              final previewSounds = bloc.getDirectSounds().take(3).toList();
+              return Row(
+                children: [
+                  for (var i = 0; i < previewSounds.length; i++) ...[
+                    if (i > 0) SizedBox(width: 12.w),
+                    SoundCard(sound: previewSounds[i]),
+                  ],
+                ],
+              );
+            },
           ),
         ),
         SizedBox(height: 20.h),
@@ -204,7 +217,10 @@ class _SoundsPageState extends State<SoundsPage> {
   }
 
   /// Navigates to direct sounds page
-  void _navigateToDirectSounds(BuildContext context, Level1RootCategory category) {
+  void _navigateToDirectSounds(
+    BuildContext context,
+    Level1RootCategory category,
+  ) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -217,10 +233,15 @@ class _SoundsPageState extends State<SoundsPage> {
   }
 
   /// Builds all categories view with preview of each category
-  Widget _buildAllCategories(BuildContext context, SoundLibraryState state, SoundLibraryBloc bloc) {
+  Widget _buildAllCategories(
+    BuildContext context,
+    SoundLibraryState state,
+    SoundLibraryBloc bloc,
+  ) {
     return Column(
-      children: state.level1Categories.map((category) => CategoryPreview(category: category)).toList(),
+      children: state.level1Categories
+          .map((category) => CategoryPreview(category: category))
+          .toList(),
     );
   }
-
 }

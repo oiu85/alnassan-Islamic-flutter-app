@@ -25,7 +25,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-      HomeBloc(HomeRepositoryImpl(NetworkClient()))..add(const FetchHomeDataEvent()),
+          HomeBloc(HomeRepositoryImpl(NetworkClient()))
+            ..add(const FetchHomeDataEvent()),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           return SimpleLottieHandler(
@@ -34,7 +35,8 @@ class HomePage extends StatelessWidget {
             isEmpty: state.status.isSuccess() && state.homeData == null,
             emptyMessage: 'لا توجد بيانات متاحة',
             loadingMessage: 'جاري تحميل البيانات...',
-            onRetry: () => context.read<HomeBloc>().add(const FetchHomeDataEvent()),
+            onRetry: () =>
+                context.read<HomeBloc>().add(const FetchHomeDataEvent()),
             animationSize: 200,
           );
         },
@@ -51,88 +53,78 @@ class HomePage extends StatelessWidget {
           //* On iPad/tablet, constrain width and center content so UI is not crowded (App Store guideline)
           body: ResponsiveContainer(
             center: true,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 27.w),
-              child: SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: MediaQuery.of(context).size.height -
-                        MediaQuery.of(context).padding.top -
-                        MediaQuery.of(context).padding.bottom,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "أهلا بكم",
-                        style: TextStyle(
-                          fontSize: 25.f,
-                          fontFamily: FontFamily.tajawal,
-                          fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight:
+                      MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      MediaQuery.of(context).padding.bottom,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "أهلا بكم",
+                          style: TextStyle(
+                            fontSize: 25.f,
+                            fontFamily: FontFamily.tajawal,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "فضيلة الشيخ ",
-                            style: TextStyle(
-                              fontFamily: FontFamily.tajawal,
-                              fontSize: 28.f,
-                              fontWeight: FontWeight.bold,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "فضيلة الشيخ ",
+                              style: TextStyle(
+                                fontFamily: FontFamily.tajawal,
+                                fontSize: 28.f,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "أحمد شريف النعسان",
-                            style: TextStyle(
-                              fontSize: 17.f,
-                              fontFamily: FontFamily.tajawal,
+                            Text(
+                              "أحمد شريف النعسان",
+                              style: TextStyle(
+                                fontSize: 17.f,
+                                fontFamily: FontFamily.tajawal,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 27.h),
+                    HomeMainCard(state: state),
+                    SizedBox(height: 24.h),
+                    Text(
+                      "مواضيع هامة:",
+                      style: TextStyle(
+                        fontFamily: FontFamily.tajawal,
+                        fontSize: 24.f,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 27.h),
-                HomeMainCard(state: state,),
-                SizedBox(height: 24.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  child: Text(
-                    "مواضيع هامة:",
-                    style: TextStyle(
-                      fontFamily: FontFamily.tajawal,
-                      fontSize: 24.f,
-                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                ),
-                HomeCarousel(
-                  importantTopics: state.homeData?.data?.importantTopics?.data,
-                ),
-                SizedBox(height: 23.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  child: Text(
-                    "المحتوى",
-                    style: TextStyle(
-                      fontFamily: FontFamily.tajawal,
-                      fontSize: 24.f,
-                      fontWeight: FontWeight.bold,
+                    HomeCarousel(
+                      importantTopics:
+                          state.homeData?.data?.importantTopics?.data,
                     ),
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                BottomCards(),
-                    ],
-                  ),
+                    SizedBox(height: 23.h),
+                    Text(
+                      "المحتوى",
+                      style: TextStyle(
+                        fontFamily: FontFamily.tajawal,
+                        fontSize: 24.f,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    const BottomCards(),
+                  ],
                 ),
               ),
             ),

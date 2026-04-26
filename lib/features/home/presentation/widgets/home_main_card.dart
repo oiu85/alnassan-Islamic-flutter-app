@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nassan_app/config/appconfig/app_colors.dart';
-import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/responsive.dart';
 import 'package:nassan_app/gen/assets.gen.dart';
 import 'package:nassan_app/gen/fonts.gen.dart';
 import 'package:nassan_app/features/html_viewer/presentation/adapters/home_to_html_viewer_adapter.dart';
@@ -17,7 +17,7 @@ class HomeMainCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: context.deviceValue(mobile: 200.h, tablet: 260.h, desktop: 300.h),
+      height: responsiveLayoutValue(context, mobile: 200.h, tablet: 300.h),
       decoration: BoxDecoration(
         color: AppColors.secondary,
         gradient: LinearGradient(
@@ -37,7 +37,7 @@ class HomeMainCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(70.w, 50.h, 70.w, 0),
+            padding: homeMainCardTextPadding(context),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,7 +60,8 @@ class HomeMainCard extends StatelessWidget {
                 // Article title
                 Flexible(
                   child: Text(
-                    state.homeData?.data?.article?.articleTitle ?? 'لا يوجد عنوان متاح',
+                    state.homeData?.data?.article?.articleTitle ??
+                        'لا يوجد عنوان متاح',
                     textAlign: TextAlign.center,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
@@ -77,7 +78,8 @@ class HomeMainCard extends StatelessWidget {
                   onTap: () {
                     try {
                       if (state.homeData?.data?.article != null) {
-                        final articleId = state.homeData?.data?.article?.articleId;
+                        final articleId =
+                            state.homeData?.data?.article?.articleId;
                         if (articleId != null) {
                           HomeToHtmlViewerAdapter.navigateToHtmlViewerFromArticle(
                             context,
@@ -151,7 +153,9 @@ class HomeMainCard extends StatelessWidget {
             bottom: (-16).h,
             left: (-14).w,
             child: ClipRRect(
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(180.r)),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(180.r),
+              ),
               child: Image.asset(
                 Assets.images.circulerZh.path,
                 width: 76.w,

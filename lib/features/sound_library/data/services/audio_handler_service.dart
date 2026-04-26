@@ -45,10 +45,12 @@ class SoundLibraryAudioHandler extends BaseAudioHandler with SeekHandler {
         usageType: AndroidUsageType.media,
         audioFocus: AndroidAudioFocus.gain,
       ),
-      // Required for App Store 2.5.4: explicit playback category so audio continues in background
+      // Playback category for background audio (App Store 2.5.4).
+      // Do not use allowBluetoothA2DP here: iOS only permits it with
+      // playAndRecord, record, or multiRoute (audioplayers assertion).
       iOS: AudioContextIOS(
         category: AVAudioSessionCategory.playback,
-        options: const {AVAudioSessionOptions.allowBluetoothA2DP},
+        options: const <AVAudioSessionOptions>{},
       ),
     ));
 

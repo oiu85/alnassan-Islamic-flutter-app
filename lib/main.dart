@@ -23,28 +23,44 @@ import 'features/splash_screen/presentation/pages/splash_screen.dart';
 // Global audio handler instance
 AudioHandler? _audioHandler;
 
+/// Forces [TextScaler.linear(1)] so system font-size / accessibility scaling
+/// does not change layout (pairs with ScreenUtil `.f` sizing).
+Widget _withLinearTextScaleOne(BuildContext context, Widget child) {
+  return MediaQuery(
+    data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+    child: child,
+  );
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
+  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   // Initialize AudioService before other dependencies
   _audioHandler = await AudioService.init(
     builder: () => SoundLibraryAudioHandler(),
     config: AudioServiceConfig(
       androidNotificationChannelId: 'com.naasan.app.channel.audio',
       androidNotificationChannelName: 'Audio playback',
-      androidNotificationOngoing: false, // Must be false when androidStopForegroundOnPause is false
-      androidStopForegroundOnPause: false, // Keep service running during pause for background playback
+      androidNotificationOngoing:
+          false, // Must be false when androidStopForegroundOnPause is false
+      androidStopForegroundOnPause:
+          false, // Keep service running during pause for background playback
     ),
   );
-  
+
   setupAppDependencies();
-  
+
   // Register audio handler in dependency injection
   if (_audioHandler != null) {
     registerAudioHandler(getIt, _audioHandler!);
   }
   await ScreenUtilRes.initialize();
-  
+
   // Load settings and apply fullscreen mode
   final settingsService = SettingsService();
   await settingsService.initialize();
@@ -53,8 +69,9 @@ Future<void> main() async {
   } else {
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
-  
-  GestureBinding.instance.resamplingEnabled = true; //? this is for prevent mouse from throw errors in flutter stack tree
+
+  GestureBinding.instance.resamplingEnabled =
+      true; //? this is for prevent mouse from throw errors in flutter stack tree
   runApp(const MyApp());
 }
 
@@ -64,56 +81,51 @@ AudioHandler? getAudioHandler() => _audioHandler;
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider<SharedBloc>(create: (context) => SharedBloc()),
-            BlocProvider<BiographyBloc>(
-              create: (context) => getIt<BiographyBloc>(),
-            ),
-            BlocProvider<SoundLibraryBloc>(
-              create: (context) => getIt<SoundLibraryBloc>(),
-            ),
-            BlocProvider<AdvisoryBloc>(
-              create: (context) => getIt<AdvisoryBloc>(),
-            ),
-            BlocProvider<BooksBloc>(
-              create: (context) => getIt<BooksBloc>(),
-            ),
-            BlocProvider<GlobalSearchBloc>(
-              create: (context) => getIt<GlobalSearchBloc>(),
-            ),
-          ],
-          child: MaterialApp(
-            color: Colors.white,
-            title: ' الشيخ احمد النعسان',
-            home: const SplashScreen(),
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
+        return _withLinearTextScaleOne(
+          context,
+          MultiBlocProvider(
+            providers: [
+              BlocProvider<SharedBloc>(create: (context) => SharedBloc()),
+              BlocProvider<BiographyBloc>(
+                create: (context) => getIt<BiographyBloc>(),
+              ),
+              BlocProvider<SoundLibraryBloc>(
+                create: (context) => getIt<SoundLibraryBloc>(),
+              ),
+              BlocProvider<AdvisoryBloc>(
+                create: (context) => getIt<AdvisoryBloc>(),
+              ),
+              BlocProvider<BooksBloc>(create: (context) => getIt<BooksBloc>()),
+              BlocProvider<GlobalSearchBloc>(
+                create: (context) => getIt<GlobalSearchBloc>(),
+              ),
             ],
-            supportedLocales: const [Locale('ar')],
-            locale: const Locale('ar'),
-            builder: (context, widget) {
-              return MediaQuery(
-                data: MediaQuery.of(context).copyWith(
-                  textScaler: TextScaler.linear(1),
-                ),
-                child: GlobalAudioPlayer(
-                  child: widget!,
-                ),
-              );
-            },
+            child: MaterialApp(
+              color: Colors.white,
+              title: ' الشيخ احمد النعسان',
+              home: const SplashScreen(),
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [Locale('ar')],
+              locale: const Locale('ar'),
+              builder: (context, widget) {
+                return _withLinearTextScaleOne(
+                  context,
+                  GlobalAudioPlayer(child: widget!),
+                );
+              },
+            ),
           ),
         );
       },

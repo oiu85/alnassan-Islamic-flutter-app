@@ -1,0 +1,223 @@
+---
+alwaysApply: true
+---
+# Universal AI Coding Agent Rules
+
+This file contains universal rules and guidelines for AI coding assistants that apply across all programming languages, frameworks, and project types. These rules ensure consistent, high-quality code generation and context management.
+
+---
+
+## 🎯 Core Principles
+
+### Context Management
+* **Understand Before Acting:** Always analyze the existing codebase structure, patterns, and conventions before making changes.
+* **Preserve Existing Patterns:** Maintain consistency with the project's established coding style, architecture, and naming conventions.
+* **Scope Awareness:** Understand the full context of changes - consider dependencies, side effects, and impact on other parts of the system.
+* **Incremental Changes:** Make focused, incremental changes rather than large refactorings unless explicitly requested.
+
+### Code Quality
+* **SOLID Principles:** Apply SOLID principles (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion) universally.
+* **DRY (Don't Repeat Yourself):** Eliminate code duplication through abstraction and reuse.
+* **KISS (Keep It Simple, Stupid):** Prefer simple, straightforward solutions over complex ones.
+* **YAGNI (You Aren't Gonna Need It):** Don't add functionality until it's actually needed.
+* **Readability First:** Code should be self-documenting. Write code that is easy to read and understand.
+
+---
+
+## 📋 Interaction Guidelines
+
+### Communication
+* **Clarify Ambiguity:** When requirements are unclear or ambiguous, ask specific questions to understand the intent.
+* **Explain Decisions:** When making architectural or design decisions, briefly explain the reasoning.
+* **Suggest Improvements:** Proactively suggest improvements when you notice potential issues, but don't implement them without approval.
+* **Acknowledge Limitations:** Be honest about limitations, edge cases, and potential issues.
+
+### Request Handling
+* **Understand the Goal:** Focus on what the user wants to achieve, not just what they asked for.
+* **Consider Alternatives:** When appropriate, suggest alternative approaches that might be better.
+* **Validate Assumptions:** Explicitly state assumptions you're making and verify them when possible.
+* **Scope Appropriately:** Break down large requests into smaller, manageable tasks.
+
+---
+
+## 🏗️ Architecture & Design
+
+### General Principles
+* **Separation of Concerns:** Keep business logic, data access, and presentation layers separate.
+* **Dependency Inversion:** Depend on abstractions, not concrete implementations.
+* **Single Responsibility:** Each module, class, or function should have one clear purpose.
+* **Loose Coupling:** Minimize dependencies between components.
+* **High Cohesion:** Related functionality should be grouped together.
+
+### Project Structure
+* **Follow Conventions:** Respect the project's existing structure and organization patterns.
+* **Feature-Based Organization:** When appropriate, organize code by features rather than by technical layers.
+* **Clear Boundaries:** Maintain clear boundaries between different parts of the application.
+* **Modularity:** Design code to be modular and reusable.
+
+---
+
+## 🔒 Security & Best Practices
+
+### Security
+* **Input Validation:** Always validate and sanitize user inputs.
+* **Authentication & Authorization:** Implement proper authentication and authorization checks.
+* **Dependency Security:** Be aware of security vulnerabilities in dependencies.
+
+### Error Handling
+* **Graceful Degradation:** Handle errors gracefully and provide meaningful error messages.
+* **Fail Fast:** Validate inputs and fail early with clear error messages.
+* **Error Recovery:** Where possible, implement recovery mechanisms for transient failures.
+
+---
+
+## ⚡ Performance
+
+### Optimization Principles
+* **Measure First:** Don't optimize prematurely. Profile and measure before optimizing.
+* **Algorithm Efficiency:** Choose appropriate algorithms and data structures for the problem.
+* **Resource Management:** Properly manage resources (memory, connections, files, etc.).
+* **Lazy Loading:** Load data and resources only when needed.
+* **Caching:** Use caching appropriately to improve performance.
+
+### Scalability
+* **Horizontal Scaling:** Design with horizontal scaling in mind when applicable.
+* **Stateless Design:** Prefer stateless designs when possible for better scalability.
+* **Database Optimization:** Write efficient queries and use appropriate indexing.
+
+
+
+## 📚 Documentation & Maintainability
+
+### Documentation
+* **Self-Documenting Code:** Write code that explains itself through clear naming and structure.
+* **API Documentation:** Document public APIs, interfaces, and complex logic.
+* **Comments:** Add comments to explain "why" not "what" - the code should explain what it does.
+
+
+---
+
+## 🛠️ Development Workflow
+
+### Before Making Changes
+1. **Analyze the Codebase:** Understand the existing structure and patterns.
+2. **Identify Dependencies:** Know what will be affected by your changes.
+3. **Plan the Approach:** Think through the implementation before coding.
+4. **Check for Similar Code:** Look for existing patterns or utilities you can reuse.
+
+### During Implementation
+1. **Follow Existing Patterns:** Match the style and patterns of the existing codebase.
+3. **Handle Edge Cases:** Consider and handle edge cases and error scenarios.
+4. **Keep It Simple:** Prefer simple solutions over complex ones.
+
+### After Implementation
+1. **Verify Functionality:** Ensure the code works as intended.
+2. **Check for Side Effects:** Verify no unintended side effects were introduced.
+
+---
+
+## 🎨 Code Style & Conventions
+
+### General Style
+* **Consistency:** Maintain consistency with the existing codebase style.
+* **Readability:** Prioritize readability over cleverness.
+* **Naming:** Use descriptive, intention-revealing names.
+* **Length:** Keep functions, classes, and files focused and reasonably sized.
+
+### Code Organization
+* **Group Related Code:** Keep related functionality together.
+* **Logical Ordering:** Organize code in a logical, easy-to-follow order.
+* **Imports/Includes:** Organize imports/includes consistently.
+* **File Structure:** Follow the project's file and directory structure conventions.
+
+---
+
+## 🚫 Anti-Patterns to Avoid
+* **Magic Numbers/Strings:** Use named constants instead of magic values.
+* **Deep Nesting:** Avoid excessive nesting (functions, conditionals, loops).
+* **Long Functions:** Keep functions focused and reasonably short.
+* **Copy-Paste Programming:** Don't duplicate code; extract common functionality.
+* **Premature Optimization:** Don't optimize before measuring.
+* **Over-Engineering:** Don't add unnecessary complexity.
+* **Ignoring Errors:** Always handle errors appropriately.
+* **Hardcoding:** Avoid hardcoding values that should be configurable.
+
+---
+
+## 🔍 Context-Specific Guidelines
+
+### When Working with Existing Code
+* **Preserve Functionality:** Don't break existing functionality when refactoring.
+* **Maintain API Contracts:** Keep existing public APIs stable unless explicitly changing them.
+* **Respect Conventions:** Follow the project's established conventions and patterns.
+* **Incremental Refactoring:** Refactor incrementally rather than in large batches.
+
+### When Adding New Features
+* **Follow Architecture:** Integrate new features following the project's architecture.
+* **Reuse Existing Code:** Look for existing utilities and patterns to reuse.
+* **Consider Impact:** Think about how new features affect existing functionality..
+
+### When Fixing Bugs
+* **Root Cause Analysis:** Fix the root cause, not just the symptoms.
+* **Verify Fix:** Ensure the fix doesn't introduce new issues.
+
+
+---
+
+## 💡 Proactive Suggestions
+
+### When to Suggest Improvements
+* **Security Issues:** Always point out security vulnerabilities.
+* **Performance Problems:** Suggest optimizations for obvious performance issues.
+* **Code Smells:** Point out code smells and suggest improvements.
+* **Better Patterns:** Suggest better patterns when you see opportunities.
+* **Dependencies:** Suggest dependency updates or alternatives when appropriate.
+
+### How to Suggest
+* **Be Respectful:** Frame suggestions as improvements, not criticisms.
+* **Explain Benefits:** Explain why the suggestion is better.
+* **Provide Examples:** Show examples when helpful.
+* **Respect Decisions:** Accept when the user chooses not to implement suggestions.
+
+---
+
+## 🎓 Learning & Adaptation
+
+### Project-Specific Learning
+* **Study Patterns:** Learn and follow the project's established patterns.
+* **Understand Domain:** Understand the business domain and requirements.
+* **Respect Decisions:** Respect architectural and design decisions made by the team.
+* **Adapt Style:** Adapt to the project's coding style and conventions.
+
+### Continuous Improvement
+* **Reflect on Code:** Consider how code could be improved.
+* **Learn from Codebase:** Learn from existing code patterns and solutions.
+* **Stay Current:** Be aware of best practices and modern approaches.
+* **Balance:** Balance best practices with project constraints and requirements.
+
+---
+
+## ✅ Final Checklist
+
+Before completing any task, ensure:
+- [ ] Code follows project conventions and style
+- [ ] Functionality works as intended
+- [ ] Edge cases and errors are handled
+- [ ] Code is readable and maintainable
+- [ ] Dependencies are appropriate and secure
+- [ ] No breaking changes (unless explicitly requested)
+- [ ] Performance considerations are addressed
+- [ ] Security best practices are followed
+
+---
+
+## 📝 Notes
+
+* These rules are universal and apply to all programming languages and frameworks.
+* Language-specific rules should be added in separate files (e.g., `.cursor/rules/project-rule.mdc`).
+* When language-specific rules conflict with these universal rules, the universal rules take precedence unless explicitly overridden.
+* These rules are meant to guide AI behavior, not replace human judgment and decision-making.
+
+---
+
+**Remember:** The goal is to write code that is correct, maintainable, secure, performant, and aligned with the project's goals and conventions. Always prioritize clarity, simplicity, and the user's needs.

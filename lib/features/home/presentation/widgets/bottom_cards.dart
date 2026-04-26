@@ -6,6 +6,7 @@ import 'package:nassan_app/config/appconfig/app_colors.dart';
 import 'package:nassan_app/core/di/app_dependencies.dart';
 import 'package:nassan_app/core/responsive/device_type.dart';
 import 'package:nassan_app/core/responsive/screen_util_res.dart';
+import 'package:nassan_app/core/utils/responsive.dart';
 import 'package:nassan_app/core/network/network_client.dart';
 import 'package:nassan_app/features/lesson/presentation/bloc/lesson_bloc.dart';
 import 'package:nassan_app/features/lesson/presentation/pages/lessons_page.dart';
@@ -39,7 +40,7 @@ class ContentCard extends StatelessWidget {
     required this.paddingTop,
     required this.paddingRight,
   });
-  
+
   // Using extension methods for easier access
   // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
@@ -48,7 +49,7 @@ class ContentCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: cardColor,
-        borderRadius: BorderRadius.circular(23.r)
+        borderRadius: BorderRadius.circular(23.r),
       ),
       child: Stack(
         fit: StackFit.expand,
@@ -62,7 +63,7 @@ class ContentCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 13.h, left: 34.w, right: 12.w),
+            padding: EdgeInsets.only(top: 13.s, left: 34.p, right: 12.p),
             child: Text(
               title,
               textAlign: TextAlign.center,
@@ -104,25 +105,20 @@ class ContentCard extends StatelessWidget {
 
 class BottomCards extends StatelessWidget {
   const BottomCards({super.key});
-  
+
   // Using extension methods for easier access
   // No need for helper methods - use extensions directly: 25.w, 30.h, 16.f
 
   @override
   Widget build(BuildContext context) {
     // Adjust grid based on device type
-    final crossAxisCount = context.deviceValue(
-      mobile: 2,
-      tablet: 3,
-      desktop: 4,
-    );
-    
+    final crossAxisCount = responsiveLayoutValue(context, mobile: 2, tablet: 3);
+
     return StaggeredGrid.count(
       crossAxisCount: crossAxisCount,
       mainAxisSpacing: 20.h,
       crossAxisSpacing: 20.w,
       children: [
-
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
@@ -131,10 +127,10 @@ class BottomCards extends StatelessWidget {
             desktop: 300.h,
           ),
           child: InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => const AdvisorsPage(),
-              ));
+            onTap: () {
+              Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => const AdvisorsPage()));
             },
             child: ContentCard(
               paddingRight: 60.w,
@@ -150,10 +146,8 @@ class BottomCards extends StatelessWidget {
             ),
           ),
         ),
+
         // cardColor: Color(0xFFE3B260).withOpacity(0.3),
-
-
-
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
@@ -162,15 +156,17 @@ class BottomCards extends StatelessWidget {
             desktop: 300.h,
           ),
           child: InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => BlocProvider(
-                  create: (context) => getIt<LessonBloc>()..add(
-                    FetchLessonsSubCategoriesEvent(catMenus: 21)
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider(
+                    create: (context) =>
+                        getIt<LessonBloc>()
+                          ..add(FetchLessonsSubCategoriesEvent(catMenus: 21)),
+                    child: LessonsPage(),
                   ),
-                  child: LessonsPage(),
                 ),
-              ));
+              );
             },
             child: ContentCard(
               paddingRight: 80.w,
@@ -187,10 +183,6 @@ class BottomCards extends StatelessWidget {
           ),
         ),
 
-
-
-
-
         StaggeredGridTile.extent(
           crossAxisCellCount: 1,
           mainAxisExtent: context.deviceValue(
@@ -199,10 +191,10 @@ class BottomCards extends StatelessWidget {
             desktop: 300.h,
           ),
           child: InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => const VideoPage(),
-              ));
+            onTap: () {
+              Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => const VideoPage()));
             },
             child: ContentCard(
               paddingRight: 79.w,
@@ -226,13 +218,15 @@ class BottomCards extends StatelessWidget {
             desktop: 300.h,
           ),
           child: InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => BlocProvider(
-                  create: (context) => getIt<SoundLibraryBloc>(),
-                  child: SoundsPage(),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider(
+                    create: (context) => getIt<SoundLibraryBloc>(),
+                    child: SoundsPage(),
+                  ),
                 ),
-              ));
+              );
             },
             child: ContentCard(
               paddingRight: 70.w,
@@ -257,15 +251,17 @@ class BottomCards extends StatelessWidget {
             desktop: 300.h,
           ),
           child: InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => BlocProvider(
-                  create: (context) => WordsOnOccasionsBloc(
-                    WordsOnOccasionsRepositoryImpl(NetworkClient())
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider(
+                    create: (context) => WordsOnOccasionsBloc(
+                      WordsOnOccasionsRepositoryImpl(NetworkClient()),
+                    ),
+                    child: WordsOnOccasionsPage(),
                   ),
-                  child: WordsOnOccasionsPage(),
                 ),
-              ));
+              );
             },
             child: ContentCard(
               paddingRight: 60.w,
